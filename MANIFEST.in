@@ -1,0 +1,3 @@
+include ceropath/config/deployment.ini_tmpl
+recursive-include ceropath/public *
+recursive-include ceropath/templates *
