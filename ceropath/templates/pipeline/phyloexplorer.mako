@@ -12,7 +12,8 @@
 
 <big>
 <tt>
-${display_tree(collection=None, list_taxa_collection=taxa_list, d_stats=None, tree=tree, source=source, root=source)}
+${source}
+##${display_tree(collection=None, list_taxa_collection=taxa_list, d_stats=None, tree=tree, source=source, root=source)}
 </tt>
 </big>
 

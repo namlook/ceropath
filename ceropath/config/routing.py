@@ -21,6 +21,8 @@ def make_map(config):
 
     map.connect('pipeline_index', '/pipeline', controller='pipeline', action='index')
     map.connect('pipeline_phyloexplorer', '/pipeline/phyloexplorer', controller='pipeline', action='phyloexplorer')
+    map.connect('pipeline_config', '/pipeline/config', controller='pipeline', action='config')
+    map.connect('pipeline_update_config', '/pipeline/config/update', controller='pipeline', action='update_config')
 
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')
