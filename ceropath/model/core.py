@@ -1,3 +1,4 @@
+from mongokit import Document
 
 class Core(Document):
     structure = {
