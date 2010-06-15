@@ -1,0 +1,154 @@
+ID_individu:
+    dbrsea: _id
+    #dbref: individu
+
+"Head & Body":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+    #filter: float_converter
+
+"Tail":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Foot":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Ear":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Weight":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Skull":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Breadth of Rostrum  (mm) (M1)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Length of rostrum (mm) (M2)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"OccipitoNasal Length (mm) (M3)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Interorbital Breadth (mm) (M4)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Breath of BrainCase (mm) (M5)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Zygomatic Breadth (mm) (M6)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Breadth of Incisive Foramina (mm) (M7)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Breadth of first upper Molar (mm) (M8)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Length of Diastema (mm) (M9)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Lenght of Incisive Foramina (mm) (M10)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Lenght of Bony Palate (mm) (M11)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"PostPalatal Length (mm) (M12)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Length of auditory Bulla (mm) (M13)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Breadth of Mesopterygoid Fossa (mm) (M14)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Breadth of Bony Palate at first  (mm)  (M15)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Crown Length of Maxillary Molar  (mm) (M16)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Breath of Zygomatic Plate (mm) (M17)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Height of Braincase (mm) (M18)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+
+"Spleen weight (mg)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures

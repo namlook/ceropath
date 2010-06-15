@@ -1,3 +1,4 @@
+from core import Core
 
 class SpeciesMeasurement(Core):
     structure = {
@@ -13,3 +14,4 @@ class SpeciesMeasurement(Core):
     indexes = [
         {'fields':['organism_classification', 'pubref', 'type'], 'unique':True},
     ]
+    use_autorefs = True

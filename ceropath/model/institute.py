@@ -1,3 +1,4 @@
+from core import Core
 
 class Institute(Core):
     structure = {
@@ -10,8 +11,9 @@ class Institute(Core):
         'country': unicode, #t_lib_institutes/country
         'phone': unicode, #t_lib_institutes/phone
         'fax': unicode, #t_lib_institutes/fax
-        'email': unicode, #t_lib_institutes/e-mail
+        #'email': unicode, #t_lib_institutes/e-mail
     }
+    use_autorefs = True
     #indexes = [
     #    {'fields':['name', 'acronym'], 'unique':True},
     #]

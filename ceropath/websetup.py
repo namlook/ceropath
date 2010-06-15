@@ -7,6 +7,9 @@ from ceropath.config.environment import load_environment
 
 from ceropath.model import register_models
 from mongokit import *
+import os
+import anyjson
+from pprint import pprint
 
 log = logging.getLogger(__name__)
 
@@ -43,3 +46,13 @@ def setup_app(command, conf, vars):
     ]
     pipeline_config.save()
 
+    for json_file in os.listdir('data/json'):
+        print ">>>>>>>", json_file, "<<<<<<<<<<"
+        objs = anyjson.deserialize(open(os.path.join('data','json','%s' % json_file)).read())
+        for obj in objs:
+            name = os.path.splitext(json_file)[0]
+            DocClass = getattr(db[name], "".join(i.capitalize() for i in name.split('_')))
+            pprint(obj)
+            print
+            doc = DocClass.from_json(anyjson.serialize(obj).decode('utf-8', 'ignore'))
+            doc.save()

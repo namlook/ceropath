@@ -1,0 +1,10 @@
+id_individu:
+    dbrsea: host
+    dbref: mammal
+
+parasite_identification:
+    dbrsea: parasite
+    dbref: parasite
+
+value:
+    dbrsea: quantity

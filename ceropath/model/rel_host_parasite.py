@@ -1,7 +1,10 @@
+from core import Core
 
 class RelHostParasite(Core):
     structure = {
-        'host': unicode, # OrganismClassification id
-        'parasite': unicode, # OrganismClassification id
+        'host': OrganismClassification,
+        'parasite': OrganismClassification, 
+        'quantity': unicode,
         'country': Country,
     }
+    use_autorefs = True

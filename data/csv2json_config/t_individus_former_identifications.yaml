@@ -1,0 +1,21 @@
+id_individu:
+    dbrsea: individu
+    dbref: individu
+
+#Identification:
+#    dbrsea:
+
+Identification_type:
+    dbrsea: type
+
+identification_operator:
+    dbrsea: operator
+    lower: false
+
+date:
+    dbrsea: date
+    filter: date_converter
+
+Identification_remark:
+    dbrsea: remark
+    lower: false
