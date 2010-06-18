@@ -21,6 +21,33 @@ class SpeciesController(BaseController):
 
     def show(self, id):
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
+        if not species:
+            abort(404)
+        if not species['internet_display']:
+            abort(401)
+        return render('species/show.mako', extra_vars={
+            '_id': species['_id'],
+            'author': species['reference']['biblio']['author'],
+            'date': species['reference']['biblio']['date'],
+        })
+
+    def infos(self, id):
+        species = self.db.organism_classification.OrganismClassification.get_from_id(id)
+        if not species:
+            abort(404)
+        if not species['internet_display']:
+            abort(401)
+        return render('species/infos.mako', extra_vars={
+            '_id': species['_id'],
+            'taxonomic_rank': species['taxonomic_rank'],
+            'common_names': species['name']['common'],
+        })
+
+
+    def measurements(self, id):
+        species = self.db.organism_classification.OrganismClassification.get_from_id(id)
+        if not species:
+            abort(404)
         if not species['internet_display']:
             abort(401)
         species_measurements = list(self.db.species_measurement.SpeciesMeasurement.find(
@@ -39,12 +66,13 @@ class SpeciesController(BaseController):
                     if publication['_id'] not in measures_infos[trait]:
                         measures_infos[trait][publication['_id']] = {}
                     measures_infos[trait][publication['_id']][measure['type']] = value
-        return render('species/show.mako', extra_vars={
+        return render('species/measurements.mako', extra_vars={
             '_id': species['_id'],
             'author': species['reference']['biblio']['author'],
             'date': species['reference']['biblio']['date'],
             'measures_infos': measures_infos,
             'publications_list': publications_list,
-            'taxonomic_rank': species['taxonomic_rank'],
-            'common_names': species['name']['common'],
         })
+        
+
+
