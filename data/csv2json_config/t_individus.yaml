@@ -22,11 +22,12 @@ Valid_identification:
 #
 
 #molecular_identification:
-#    dbrsea: 
+#    dbrsea: molecular_indentification
 
 
 Sex:
     dbrsea: sex
+    filter: sex_checker
 
 voucher_barcoding:
     dbrsea: voucher_barcoding
@@ -141,8 +142,8 @@ typo_remark:
     lower: false
 
 ID_site:
-    dbrsea: site
-    dbref: site
+    dbrsea: trapping_informations.site
+    #dbref: site #XXX a remettre
 
 remarks:
     dbrsea: remark

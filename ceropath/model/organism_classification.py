@@ -79,8 +79,8 @@ class OrganismClassification(Core):
     }
     use_autorefs = True
 
-class Mammal(OrganismClassification):
-    default_values = {'type':u'mammal'}
-
-class Parasite(OrganismClassification):
-    default_values = {'type': u'parasite'}
+#class Mammal(OrganismClassification):
+#    default_values = {'type':u'mammal'}
+#
+#class Parasite(OrganismClassification):
+#    default_values = {'type': u'parasite'}

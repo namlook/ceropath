@@ -1,0 +1,41 @@
+# Document sequence
+
+ID_individu:
+    dbrsea: individu
+    dbref: individu
+
+gene:
+    dbrsea: gene
+    dbref: gene
+
+sequence_operator:
+    dbrsea: operator
+    lower: false
+
+forward:
+    dbrsea: primer.forward
+    dbref: primer # ?
+
+reverse:
+    dbrsea: primer.reverse
+    dbref: primer # ?
+
+sequence:
+    dbrsea: sequence
+    lower: false
+
+chromatogram_link:
+    dbrsea: chromatogram_link
+
+remark:
+    dbrsea: remark
+    lower: false
+
+sequence_lengh:
+    dbrsea: length
+    filter: int_converter
+
+"Accession number":
+    dbrsea: accession_number
+
+

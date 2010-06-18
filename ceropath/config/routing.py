@@ -24,6 +24,10 @@ def make_map(config):
     map.connect('pipeline_config', '/pipeline/config', controller='pipeline', action='config')
     map.connect('pipeline_update_config', '/pipeline/config/update', controller='pipeline', action='update_config')
 
+    # species
+    map.connect('species_index', '/species', controller='species', action='index')
+    map.connect('species_show', '/species/show/{id}', controller='species', action='show')
+
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')
 

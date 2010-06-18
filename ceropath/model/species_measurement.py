@@ -1,4 +1,6 @@
+from organism_classification import OrganismClassification
 from core import Core
+from publication import Publication # XXX a enlever, c'est dans le core
 
 class SpeciesMeasurement(Core):
     structure = {
@@ -10,8 +12,13 @@ class SpeciesMeasurement(Core):
             'value': unicode, #t_species_measurements/valeurs des variables de la table
         }],
         'remark': unicode, #t_species_measurements/remark
+        'pubref': [Publication], # XXX a enlever, c'est dans le core
     }
     indexes = [
-        {'fields':['organism_classification', 'pubref', 'type'], 'unique':True},
+        {'fields':[
+            'organism_classification',
+            #'pubref',
+            'type'
+        ], 'unique':True},
     ]
     use_autorefs = True
