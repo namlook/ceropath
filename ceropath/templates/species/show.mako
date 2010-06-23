@@ -1,35 +1,18 @@
 <%inherit file="/root.mako" />
 
-<h1>${_id.capitalize()}</h1>
-<h4>(${author}, ${date})</h4>
+<div class="unit on-6 columns" style="width:1200px;">
+    <h1><i>${_id.capitalize()}</i> <small>(${author}, ${date})</small></h1>
 
+    <div style="padding-bottom:10px;">
+    <a href="#">Home</a> » <a href="${h.url(h.url_for('species_index'))}">Species</a> » ${_id.capitalize()}
+    </div>
 
-<!-- the tabs --> 
-<ul class="tabs"> 
-    <li><a href="${h.url(h.url_for('species_infos', id=_id))}">General Informations</a></li> 
-    <li><a href="${h.url(h.url_for('species_measurements', id=_id))}">Species measurements</a></li> 
-</ul> 
+    <!-- the tabs --> 
+    <ul class="css-tabs"> 
+        <li><a href="${h.url(h.url_for('species_show', id=_id))}">General Informations</a></li> 
+        <li><a href="${h.url(h.url_for('species_measurements', id=_id))}">Species measurements</a></li> 
+    </ul> 
 
-<!-- tab "panes" --> 
-<div class="panes"> 
-    <div style="display:block"></div> 
+    ${self.body()}
+
 </div>
-<%doc>
-    <!--- General Informations -->
-    <div>
-    </div> 
-    <!--- Species measurements -->
-    <div>
-    </div> 
-</div> 
-</%doc>
-
-
-<!-- This JavaScript snippet activates those tabs --> 
-<script> 
-// perform JavaScript after the document is scriptable.
-$(function() {
-    // setup ul.tabs to work as tabs for each div directly under div.panes
-    $("ul.tabs").tabs("div.panes > div", {effect: 'ajax'});//, history: true});
-});
-</script> 

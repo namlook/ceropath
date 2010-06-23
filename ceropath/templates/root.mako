@@ -1,7 +1,11 @@
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/tabs.css" /> 
-    <script src="/js/jquery.tools.min.js"></script>
+    ##<link rel="stylesheet" type="text/css" href="/css/tabs.css" /> 
+    <link rel="stylesheet" type="text/css" href="/css/tabs-no-images.css" /> 
+    ##<link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/elastic.css" />
+    <script src="http://flowplayer.org/tools/download/combine/1.2.3/jquery.tools.min.js?select=full&debug=true"></script>
+    <script type="text/javascript" src="/js/elastic.js" charset="utf-8"></script> 
     <style> 
         /* tab pane styling */
         .panes div {
@@ -15,7 +19,11 @@
     </style> 
 </head>
 <body>
-    <div class="header"><a href="index.php"><img src="/img/header.jpg" width="1200" height="200" alt="Home"/></a></div>
-    ${next.body()}
+    <div class="unit columns">
+        <div class="column">
+            <a href="index.php"><img src="/img/header.jpg" width="1200" alt="Home"/></a>
+        </div>
+        ${next.body()}
+    </div>
 </body>
 </html>

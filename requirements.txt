@@ -2,4 +2,5 @@ mongokit
 pyparing
 pypit
 networkx
+markdown
 

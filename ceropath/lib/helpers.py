@@ -8,3 +8,9 @@ available to Controllers. This module is available to templates as 'h'.
 
 from pylons import url
 from routes import url_for
+
+from webhelpers.html import literal
+from markdown import markdown
+
+def markdownize(text):
+    return markdown(text.decode('utf-8'))

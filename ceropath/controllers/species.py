@@ -4,6 +4,7 @@ from pylons import request, response, session, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
 
 from ceropath.lib.base import BaseController, render
+import os.path
 
 log = logging.getLogger(__name__)
 
@@ -25,22 +26,27 @@ class SpeciesController(BaseController):
             abort(404)
         if not species['internet_display']:
             abort(401)
-        return render('species/show.mako', extra_vars={
-            '_id': species['_id'],
-            'author': species['reference']['biblio']['author'],
-            'date': species['reference']['biblio']['date'],
-        })
-
-    def infos(self, id):
-        species = self.db.organism_classification.OrganismClassification.get_from_id(id)
-        if not species:
-            abort(404)
-        if not species['internet_display']:
-            abort(401)
+        path = os.path.join('data','photos des animaux vivants')
+        file_path =  os.path.join('ceropath', 'public', path)
+        server_path = os.path.join('/', path)
+        capitalized_species_id = species['_id'].capitalize() 
+        ## description
+        description = ""
+        if '%s.txt' % capitalized_species_id in os.listdir(file_path):
+            description = open(os.path.join(file_path, '%s.txt' % capitalized_species_id)).read()
+        ## image
+        image_path = ''
+        if '%s_1.jpg' % capitalized_species_id in os.listdir(file_path):
+            image_path = os.path.join(server_path, '%s_1.jpg' % capitalized_species_id)
         return render('species/infos.mako', extra_vars={
             '_id': species['_id'],
             'taxonomic_rank': species['taxonomic_rank'],
             'common_names': species['name']['common'],
+            'description': description,
+            'image_path': image_path,
+            'author': species['reference']['biblio']['author'],
+            'date': species['reference']['biblio']['date'],
+            'synonyms': set(i['name'] for i in species['synonyms'] if i['name'] != species['_id'])
         })
 
 
