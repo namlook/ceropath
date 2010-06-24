@@ -44,5 +44,9 @@
         </ul>
         </fieldset>
     % endif
+
+    <fieldset style="padding:0px;"><legend>IUCN range map</legend>
+        <img src="http://www.iucnredlist.org/apps/redlist/images/range/maps/${iucn_id}.png" width="390px" />
+    </fieldset>
 </div>
 

@@ -11,6 +11,7 @@ from routes import url_for
 
 from webhelpers.html import literal
 from markdown import markdown
+from ceropath import uimodules as ui
 
 def markdownize(text):
     return markdown(text.decode('utf-8'))
