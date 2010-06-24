@@ -5,25 +5,25 @@ Valid_identification:
     dbrsea: organism_classification
     dbref: organism_classification
 
-#Identification_type:
-#    dbrsea: 
-#
-#
-#identification_operator:
-#    dbrsea: 
-#
-#
-#identification_date:
-#    dbrsea: 
-#
-#
-#Identification_method:
-#    dbrsea: 
-#
+Identification_type:
+    dbrsea: identification.type
 
-#molecular_identification:
-#    dbrsea: molecular_indentification
 
+identification_operator:
+    dbrsea: identification.operator
+
+
+identification_date:
+    dbrsea: identification.date
+    filter: date_converter
+
+
+Identification_method:
+    dbrsea: identification.method
+
+
+molecular_identification:
+    dbrsea: identification.molecular
 
 Sex:
     dbrsea: sex

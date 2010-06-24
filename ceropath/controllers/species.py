@@ -16,7 +16,7 @@ class SpeciesController(BaseController):
     def index(self):
         species_list = self.db.organism_classification.OrganismClassification.find(
           {'internet_display': True, 'type': 'mammal'}
-        )
+        ).sort('_id', 1)
         return render('species/index.mako', extra_vars={
             'species_list':species_list
         })
@@ -117,5 +117,14 @@ class SpeciesController(BaseController):
             'data_path': os.path.join('/', 'data', name),
         })
         
-        
-
+    def individuals(self, id):
+        species = self.db.organism_classification.OrganismClassification.get_from_id(id)
+        if not species:
+            abort(404)
+        individuals_list = self.db.individual.find(
+          {'internet_display': True, 'organism_classification.$id':id}
+        ).sort('_id', 1)
+        return render('individual/list.mako', extra_vars={
+            'individuals_list':individuals_list
+        })
+ 

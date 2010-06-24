@@ -22,7 +22,7 @@ def setup_app(command, conf, vars):
     db_name, host, port = conf.local_conf['db_name'], conf.local_conf['db_host'], conf.local_conf['db_port']
     con = Connection(host=host, port=int(port))
     con.register(register_models)
-    #con.drop_database(db_name)
+    con.drop_database(db_name)
     db = con[db_name]
 
     pipeline_config = db.config.Pipeline()
@@ -51,7 +51,7 @@ def setup_app(command, conf, vars):
         'responsible',
         'organism_classification',
         'species_measurement',
-        'individu',
+        'individual',
         'gene',
         'primer',
         'sequence',

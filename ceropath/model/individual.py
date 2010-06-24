@@ -4,17 +4,24 @@ from datetime import datetime
 from organism_classification import OrganismClassification
 from responsible import Responsible
 
-class Individu(Document):
+class Individual(Document):
     structure = {
         '_id':unicode,#tu l'as appele 'individu' dans les tables que j'ai regarde avant pourquoi canger ?#t_individus/ID_individu
         'organism_classification': OrganismClassification, #t_individus.Valid_identification
         'sex': IS(u'f', u'm'), #t_individus/Sex
-        'adult': IS(u'adult', u'sub adult', u'young', u'unknown'), #t_individus/Adult
+        'adult': IS(u'adult', u'sub adult', u'youg adult', u'young', u'unknown'), #t_individus/Adult
         'voucher_barcoding': bool, #t_individus/voucher_barcoding
         'skull_collection': bool, #t_individus/skull_collection
         'dissection': bool, #t_individus/dissection
         'dissection_date': datetime, #t_individus/dissection
         'origin_remark': unicode, #t_individus/origin_remark
+        'identification':{
+            'operator': unicode,
+            'date': datetime,
+            'type': unicode,
+            'method': unicode,
+            'molecular': unicode,
+        },
         'trapping_informations':{
             'origin_how': unicode, #t_individus/Origin_how
             'trap_accuracy': int, #t_individus/Trap_accuracy

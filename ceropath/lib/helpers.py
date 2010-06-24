@@ -15,3 +15,14 @@ from ceropath import uimodules as ui
 
 def markdownize(text):
     return markdown(text.decode('utf-8'))
+
+import re
+REX_DATE = re.compile('\d{4}')
+
+def author_date_from_citation(citation):
+    author = citation.split(',')[0].strip()
+    date = REX_DATE.findall(citation)
+    if len(date):
+       date = date[0] 
+    return author, date
+    

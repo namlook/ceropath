@@ -9,7 +9,7 @@ from institute import Institute
 from sequence import Sequence
 from gene import Gene
 from primer import Primer
-from individu import Individu
+from individual import Individual
 
 register_models = [
 Pipeline,
@@ -21,6 +21,6 @@ Institute,
 Sequence,
 Gene,
 Primer,
-Individu,
+Individual,
 SpeciesMeasurement,
 ]

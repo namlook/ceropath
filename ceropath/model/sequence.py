@@ -1,11 +1,11 @@
 from core import Core
-from individu import Individu
+from individual import Individual
 from gene import Gene
 from primer import Primer
 
 class Sequence(Core):
     structure = {
-        'individu': Individu,# t_individus_sequences/ID_individu
+        'individu': Individual,# t_individus_sequences/ID_individu
         'gene': Gene,# t_individus_sequences/gene
         'sequence': unicode,# t_individus_sequences/sequence
         'operator': unicode,# t_individus_sequences/operator
