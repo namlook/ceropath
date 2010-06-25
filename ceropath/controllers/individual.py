@@ -53,6 +53,13 @@ class IndividualController(BaseController):
             'dissection_date': str(individual['dissection_date'].date()),
             'measures_infos': measures_infos,
             'publications_list': publications_list,
+            'country': individual['trapping_informations']['site']['country'],
+            'province': individual['trapping_informations']['site']['province'],
+            'region': individual['trapping_informations']['site']['region'],
+            'surrounding_landscape': individual['trapping_informations']['site']['surrounding_landscape'],
+            'lat': individual['trapping_informations']['site']['coord_wgs']['dll_lat'].replace(',', '.'),
+            'long': individual['trapping_informations']['site']['coord_wgs']['dll_long'].replace(',', '.'),
+            'accuracy': individual['trapping_informations']['trap_accuracy'],
         })
 
     def _get_measurements(self, individual_id, species_id):

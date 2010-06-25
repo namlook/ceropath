@@ -10,3 +10,12 @@ class SpeciesMenu(UIModule):
         })
 SpeciesMenu = SpeciesMenu()
 
+class IndividualMenu(UIModule):
+    def render(self, id):
+        modules = os.listdir(os.path.join('ceropath', 'public', 'data'))
+        return render('/uimodules/individual_menu.mako', extra_vars={
+          '_id': id,
+          'modules': modules,
+        })
+IndividualMenu = IndividualMenu()
+

@@ -10,6 +10,7 @@ from sequence import Sequence
 from gene import Gene
 from primer import Primer
 from individual import Individual
+from site import Site
 
 register_models = [
 Pipeline,
@@ -23,4 +24,5 @@ Gene,
 Primer,
 Individual,
 SpeciesMeasurement,
+Site,
 ]

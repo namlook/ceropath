@@ -51,14 +51,16 @@ def setup_app(command, conf, vars):
         'responsible',
         'organism_classification',
         'species_measurement',
+        'site',
         'individual',
         'gene',
         'primer',
         'sequence',
     ]
 
+    print "importing json into the database %s. This may take a while..." % db.name
     for name in documents_list:#['gene', 'primer', 'sequence']:#documents_list:
-        print ">>>>>>>", name, "<<<<<<<<<<"
+        print 'processing :', name
         objs = anyjson.deserialize(open(os.path.join('data','json','%s.json' % name)).read())
         for obj in objs:
             #if name in ['organism_classification', 'species_measurement']:

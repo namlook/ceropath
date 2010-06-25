@@ -3,6 +3,7 @@ from mongokit import Document, IS
 from datetime import datetime
 from organism_classification import OrganismClassification
 from responsible import Responsible
+from site import Site
 
 class Individual(Document):
     structure = {
@@ -25,7 +26,7 @@ class Individual(Document):
         'trapping_informations':{
             'origin_how': unicode, #t_individus/Origin_how
             'trap_accuracy': int, #t_individus/Trap_accuracy
-            'site': unicode, # XXX Site, #t_individus/ID_site
+            'site': Site, # XXX Site, #t_individus/ID_site
             'eco_typology': { #EcoTypology,
                 'remark': unicode,
                 'low': unicode,

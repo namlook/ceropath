@@ -7,7 +7,7 @@
     <a href="#">Home</a> » <a href="${h.url(h.url_for('species_individuals', id=species))}">Individual</a> » ${_id.upper()}
     </div>
 
-    ${h.ui.SpeciesMenu(_id)}
+    ${h.ui.IndividualMenu(_id)}
 
     ${self.body()}
 </div>
