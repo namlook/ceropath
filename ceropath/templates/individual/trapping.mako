@@ -137,7 +137,7 @@ $(window).unload(function() {
 <div class="fixed column">
     <fieldset><legend>Trapping Informations</legend>
         <table style="width:360px;">
-            <tr><th>site id</th><td>${h.format_loc_name(_id.upper())}</td></tr>
+            <tr><th>site id</th><td>${site.upper()}</td></tr>
             <tr><th>region</th><td>${h.format_loc_name(region)}</td></tr>
             <tr><th>country</th><td>${h.format_loc_name(country)}</td></tr>
             <tr><th>province</th><td>${h.format_loc_name(province)}</td></tr>
@@ -154,6 +154,11 @@ $(window).unload(function() {
     </fieldset>
     % if image_paths:
         <fieldset><legend>Trapping Site Photos</legend>
+            % if not site.endswith('b'):
+                <div style="width:360px;color:red;">
+                <center>CAUTION ! <br />The following pictures were not taken during this trapping session.</center>
+                </div>
+            % endif 
             % for index, image_path in enumerate(image_paths):
                 <div><img src="${image_path}" width="360px" rel="#${index}" /></div>
                 <div class="simple_overlay" id="${index}"><img src="${image_path}" /></div>

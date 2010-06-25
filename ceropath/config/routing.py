@@ -28,6 +28,7 @@ def make_map(config):
     map.connect('species_index', '/species', controller='species', action='index')
     map.connect('species_show', '/species/{id}', controller='species', action='show')
     map.connect('species_measurements', '/species/{id}/measurements', controller='species', action='measurements')
+    map.connect('species_sampling_map', '/species/{id}/sampling_map', controller='species', action='sampling_map')
     map.connect('species_vouchers', '/species/{id}/vouchers', controller='species', action='module')
     map.connect('species_individuals', '/species/{id}/individuals', controller='species', action='individuals')
     map.connect('species_module', '/species/{id}/{name}', controller='species', action='module')

@@ -127,4 +127,18 @@ class SpeciesController(BaseController):
         return render('individual/list.mako', extra_vars={
             'individuals_list':individuals_list
         })
+
+    def sampling_map(self, id):
+        species = self.db.organism_classification.OrganismClassification.get_from_id(id)
+        if not species:
+            abort(404)
+        individuals_list = self.db.individual.Individual.find(
+          {'internet_display': True, 'organism_classification.$id':id}
+        ).sort('_id', 1)
+        return render('species/sampling_map.mako', extra_vars={
+            '_id': species['_id'],
+            'author': species['reference']['biblio']['author'],
+            'date': species['reference']['biblio']['date'],
+            'individuals_list':individuals_list
+        })
  
