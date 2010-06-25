@@ -2,92 +2,92 @@ ID_individu:
     dbrsea: _id
     #dbref: individu
 
-"Head & Body":
+"Head & Body (mm)":
     dbrsea: value
     field_name_target: trait
     list: true
     embed: measures
     #filter: float_converter
 
-"Tail":
+"Tail (mm)":
     dbrsea: value
     field_name_target: trait
     list: true
     embed: measures
 
-"Foot":
+"Foot (mm)":
     dbrsea: value
     field_name_target: trait
     list: true
     embed: measures
 
-"Ear":
+"Ear (mm)":
     dbrsea: value
     field_name_target: trait
     list: true
     embed: measures
 
-"Weight":
+"Weight (g)":
     dbrsea: value
     field_name_target: trait
     list: true
     embed: measures
 
-"Skull":
+"Skull  (mm)":
     dbrsea: value
     field_name_target: trait
     list: true
     embed: measures
 
-"Breadth of Rostrum  (mm) (M1)":
+"Breadth of Rostrum  (mm) (M01)":
     dbrsea: value
     field_name_target: trait
     list: true
     embed: measures
 
-"Length of rostrum (mm) (M2)":
+"Length of rostrum (mm) (M02)":
     dbrsea: value
     field_name_target: trait
     list: true
     embed: measures
 
-"OccipitoNasal Length (mm) (M3)":
+"OccipitoNasal Length (mm) (M03)":
     dbrsea: value
     field_name_target: trait
     list: true
     embed: measures
 
-"Interorbital Breadth (mm) (M4)":
+"Interorbital Breadth (mm) (M04)":
     dbrsea: value
     field_name_target: trait
     list: true
     embed: measures
 
-"Breath of BrainCase (mm) (M5)":
+"Breath of BrainCase (mm) (M05)":
     dbrsea: value
     field_name_target: trait
     list: true
     embed: measures
 
-"Zygomatic Breadth (mm) (M6)":
+"Zygomatic Breadth (mm) (M06)":
     dbrsea: value
     field_name_target: trait
     list: true
     embed: measures
 
-"Breadth of Incisive Foramina (mm) (M7)":
+"Breadth of Incisive Foramina (mm) (M07)":
     dbrsea: value
     field_name_target: trait
     list: true
     embed: measures
 
-"Breadth of first upper Molar (mm) (M8)":
+"Breadth of first upper Molar (mm) (M08)":
     dbrsea: value
     field_name_target: trait
     list: true
     embed: measures
 
-"Length of Diastema (mm) (M9)":
+"Length of Diastema (mm) (M09)":
     dbrsea: value
     field_name_target: trait
     list: true

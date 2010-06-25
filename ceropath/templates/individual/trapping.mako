@@ -127,9 +127,11 @@ $(window).unload(function() {
 </style> 
 <div class="column span-4">
     <h2>Site in ${h.format_loc_name(province)} where ${_id.upper()} was trapped</h2>
-    <div class="container" style="padding:10px">
-        <div id="map_canvas" style="width: 780;height:600;"></div>
-    </div>
+    % if latitude and longitude:
+        <div class="container" style="padding:10px">
+            <div id="map_canvas" style="width: 780;height:600;"></div>
+        </div>
+    % endif
 </div>
 
 <div class="fixed column">
@@ -144,8 +146,8 @@ $(window).unload(function() {
             <tr><th>village</th><td>${h.format_loc_name(village)}</td></tr>
             ##<tr><th>surrounding lanscape</th><td>${surrounding_landscape}</td></tr>
             <tr><th>house presence</th><td>${'yes' if house_presence else 'no'}</td></tr>
-            <tr><th>house number</th><td>about ${house_number}</td></tr>
-            <tr><th>house distance</th><td>about ${house_distance}m</td></tr>
+            <tr><th>house number</th><td>${'about %s' % house_number if house_number != 'unknown' else 'unknown'}</td></tr>
+            <tr><th>house distance</th><td>${'about %sm' % house_distance if house_distance != 'unknown' else 'unknown'}</td></tr>
             <tr><th>latitude</th><td>${latitude}</td></tr>
             <tr><th>longitude</th><td>${longitude}</td></tr>
         </table>

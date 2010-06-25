@@ -86,8 +86,8 @@ $(window).unload(function() {
         </tr>
         <%
             # XXX skull -> head
-            first_measures = ['Head & Body (mm)', 'Tail (mm)', 'Foot (mm)', 'Skull', 'Ear (mm)', 'Weight (g)']
-            last_measures = sorted(i for i in measures_infos if i not in first_measures)
+            first_measures = ['Head & Body (mm)', 'Tail (mm)', 'Foot (mm)', 'Skull  (mm)', 'Ear (mm)', 'Weight (g)']
+            last_measures = sorted(i.strip() for i in measures_infos if i not in first_measures)
         %>
         % for trait in first_measures + last_measures:
             <% measure = measures_infos[trait] %>
@@ -147,9 +147,11 @@ $(window).unload(function() {
             <tr><th>region</th><td>${h.format_loc_name(region)}</td></tr>
             <tr><th>surrounding landscape</th><td>${surrounding_landscape}</td></tr>
         </table>
-        <div style="padding-top:10px">
-            <div id="map_canvas" style="width:360px;height:400px;"></div>
-        </div>
+        % if latitude and longitude:
+            <div style="padding-top:10px">
+                <div id="map_canvas" style="width:360px;height:400px;"></div>
+            </div>
+        % endif
     </fieldset>
 
 </div>

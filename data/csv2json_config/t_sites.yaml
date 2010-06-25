@@ -55,9 +55,11 @@ coord_WGS_UTM E:
 
 Coord_WGS_DLL_Lat:
     dbrsea: coord_wgs.dll_lat
+    filter: dll_converter
 
 Coord_WGS_DLL_Long:
     dbrsea: coord_wgs.dll_long
+    filter: dll_converter
 
 coord_WGS_DMS_Lat:
     dbrsea: coord_wgs.dms_lat
