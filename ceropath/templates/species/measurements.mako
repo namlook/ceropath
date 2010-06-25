@@ -10,7 +10,7 @@
     % endfor
     </tr>
     % for trait, measure in measures_infos.iteritems():
-        <tr><td>${trait}</td>
+        <tr><th>${trait}</th>
             % for publication_id in publication_ids:
                 <%
                 m = measure[publication_id]

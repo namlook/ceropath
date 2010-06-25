@@ -5,9 +5,6 @@ table.measurements td{
     border:1px solid #E6E6E6;
     padding:10px;
 }
-table th{
-    background-color: #FD9834;
-}
 </style>
 
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAiClKGB2tpgvoniYI51bh0hT2yXp_ZAY8_ufC3CFXhHIE1NvwkxRn7LzdwWy63Ckj31lQPzz-P6HPXA" type="text/javascript"></script>
@@ -40,12 +37,12 @@ function drawCircle(map)
 
 function initialize() {
     var map = new GMap2(document.getElementById("map_canvas"));
-    var point = new GLatLng(${lat}, ${long});
+    var point = new GLatLng(${latitude}, ${longitude});
     map.setCenter(point, 4);
     var marker = new GMarker(point);
     map.addOverlay(marker);
     GEvent.addListener(marker,'click', function(){
-        marker.openInfoWindowHtml('<strong>${_id.upper()}</strong> (${species.capitalize()})<br />lat : ${lat}  <br /> long : ${long}<br /><a href="#">view more</a>');
+        marker.openInfoWindowHtml('<strong>${_id.upper()}</strong> (${species.capitalize()})<br />lat : ${latitude}  <br /> long : ${longitude}<br /><a href="#">view more</a>');
     });
 
     //map.addControl(new GLargeMapControl());
@@ -128,17 +125,15 @@ $(window).unload(function() {
     (a) The mean plus or minus one standard deviation, number of specimens in parentheses, and observed range are listed for each measurement.
     </p>
     </div>
-
-    <div id="map"> </div> 
 </div>
 
 
 <div class="fixed column">
     % if image_path:
-        <img style="padding-left:10px;padding-bottom:10px;" src="${image_path}" width="390px" />
+        <img style="padding-left:10px;padding-bottom:10px;" src="${image_path}" width="360px" />
     % endif
     <fieldset><legend>General Informations</legend>
-        <table>
+        <table style="width:360px">
             <tr><th>species</th><td><a href="${h.url(h.url_for('species_show', id=species))}">${species.capitalize()}</a></td></tr>
             <tr><th>sex</th><td>${sex}</td></tr>
             <tr><th>age</th><td>${age}</td></tr>
@@ -146,13 +141,15 @@ $(window).unload(function() {
         </table>
     </fieldset>
     <fieldset><legend>Trapping Informations</legend>
-        <table>
-            <tr><th>country</th><td>${country}</td></tr>
-            <tr><th>province</th><td>${province}</td></tr>
-            <tr><th>region</th><td>${region}</td></tr>
+        <table style="width:360px">
+            <tr><th>country</th><td>${h.format_loc_name(country)}</td></tr>
+            <tr><th>province</th><td>${h.format_loc_name(province)}</td></tr>
+            <tr><th>region</th><td>${h.format_loc_name(region)}</td></tr>
             <tr><th>surrounding landscape</th><td>${surrounding_landscape}</td></tr>
         </table>
-        <div id="map_canvas" style="width: 360px;height:400px;"></div>
+        <div style="padding-top:10px">
+            <div id="map_canvas" style="width:360px;height:400px;"></div>
+        </div>
     </fieldset>
 
 </div>

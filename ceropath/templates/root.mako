@@ -16,6 +16,9 @@
             font-size:14px;
             background-color:#fff;
         }
+        table th{
+            background-color: #FD9834;
+        }
     </style> 
 </head>
 <body>

@@ -34,6 +34,7 @@ def make_map(config):
 
     # individuals
     map.connect('individual_show', '/individual/{id}', controller='individual', action='show')
+    map.connect('individual_trapping', '/individual/{id}/trapping', controller='individual', action='trapping')
 
 
     map.connect('/{controller}/{action}')

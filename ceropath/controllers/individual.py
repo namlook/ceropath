@@ -21,47 +21,6 @@ REGX_16S = re.compile('16s')
 
 class IndividualController(BaseController):
 
-    def show(self, id):
-        individual = self.db.individual.Individual.get_from_id(id)
-        if not individual:
-            abort(404)
-        if not individual['internet_display']:
-            abort(401)
-        path = os.path.join('data','morphologie des individus')
-        file_path =  os.path.join('ceropath', 'public', path)
-        server_path = os.path.join('/', path)
-        upper_individual_id = individual['_id'].upper() 
-        ## image
-        image_path = ''
-        for file_name in os.listdir(file_path):
-            if upper_individual_id in file_name and 'side' in file_name.lower():
-                image_path = os.path.join(server_path, file_name)
-        ## sex
-        if individual['sex'] == 'f':
-            sex = 'female'
-        elif individual['sex'] == 'm':
-            sex = 'male'
-        else:
-            sex = 'unknown'
-        measures_infos, publications_list = self._get_measurements(individual['_id'], individual['organism_classification']['_id'])
-        return render('individual/infos.mako', extra_vars={
-            '_id': individual['_id'],
-            'species': individual['organism_classification']['_id'],
-            'image_path':image_path,
-            'sex': sex,
-            'age': individual['adult'],
-            'dissection_date': str(individual['dissection_date'].date()),
-            'measures_infos': measures_infos,
-            'publications_list': publications_list,
-            'country': individual['trapping_informations']['site']['country'],
-            'province': individual['trapping_informations']['site']['province'],
-            'region': individual['trapping_informations']['site']['region'],
-            'surrounding_landscape': individual['trapping_informations']['site']['surrounding_landscape'],
-            'lat': individual['trapping_informations']['site']['coord_wgs']['dll_lat'].replace(',', '.'),
-            'long': individual['trapping_informations']['site']['coord_wgs']['dll_long'].replace(',', '.'),
-            'accuracy': individual['trapping_informations']['trap_accuracy'],
-        })
-
     def _get_measurements(self, individual_id, species_id):
         species_measurements = list(self.db.species_measurement.SpeciesMeasurement.find(
           {'organism_classification.$id': species_id}
@@ -134,3 +93,86 @@ class IndividualController(BaseController):
             measures_infos[trait][species_id]['n'] = nb_individuals
         return measures_infos, publications_list
  
+    def show(self, id):
+        individual = self.db.individual.Individual.get_from_id(id)
+        if not individual:
+            abort(404)
+        if not individual['internet_display']:
+            abort(401)
+        path = os.path.join('data','morphologie des individus')
+        file_path =  os.path.join('ceropath', 'public', path)
+        server_path = os.path.join('/', path)
+        upper_individual_id = individual['_id'].upper() 
+        ## image
+        image_path = ''
+        for file_name in os.listdir(file_path):
+            if upper_individual_id in file_name and 'side' in file_name.lower():
+                image_path = os.path.join(server_path, file_name)
+        ## sex
+        if individual['sex'] == 'f':
+            sex = 'female'
+        elif individual['sex'] == 'm':
+            sex = 'male'
+        else:
+            sex = 'unknown'
+        measures_infos, publications_list = self._get_measurements(individual['_id'], individual['organism_classification']['_id'])
+        return render('individual/infos.mako', extra_vars={
+            '_id': individual['_id'],
+            'species': individual['organism_classification']['_id'],
+            'image_path':image_path,
+            'sex': sex,
+            'age': individual['adult'],
+            'dissection_date': str(individual['dissection_date'].date()),
+            'measures_infos': measures_infos,
+            'publications_list': publications_list,
+            'country': individual['trapping_informations']['site']['country'],
+            'province': individual['trapping_informations']['site']['province'],
+            'region': individual['trapping_informations']['site']['region'],
+            'surrounding_landscape': individual['trapping_informations']['site']['surrounding_landscape'],
+            'latitude': individual['trapping_informations']['site']['coord_wgs']['dll_lat'].replace(',', '.'),
+            'longitude': individual['trapping_informations']['site']['coord_wgs']['dll_long'].replace(',', '.'),
+            'accuracy': individual['trapping_informations']['trap_accuracy'],
+        })
+
+
+    def trapping(self, id):
+        individual = self.db.individual.Individual.get_from_id(id)
+        if not individual:
+            abort(404)
+        if not individual['internet_display']:
+            abort(401)
+        house_number = individual['trapping_informations']['site']['house']['number']
+        if house_number is not None:
+            house_number = math.pow(10, house_number)
+        house_distance = individual['trapping_informations']['site']['house']['distance']
+        if house_distance is not None:
+            house_distance = math.pow(10, house_distance)
+        path = os.path.join('data','photos des lignes')
+        file_path =  os.path.join('ceropath', 'public', path)
+        server_path = os.path.join('/', path)
+        upper_site_id = individual['trapping_informations']['site']['_id'].upper() 
+        image_paths = []
+        for file_name in os.listdir(file_path):
+            if upper_site_id in file_name:
+                image_paths.append(os.path.join(server_path, file_name))
+        return render('individual/trapping.mako', extra_vars={
+            '_id': individual['_id'],
+            'species': individual['organism_classification']['_id'],
+            'region': individual['trapping_informations']['site']['region'],
+            'country': individual['trapping_informations']['site']['country'],
+            'province': individual['trapping_informations']['site']['province'],
+            'district': individual['trapping_informations']['site']['district'],
+            'sub_district': individual['trapping_informations']['site']['sub_district'],
+            'village': individual['trapping_informations']['site']['village'],
+            'surrounding_landscape': individual['trapping_informations']['site']['surrounding_landscape'],
+            'latitude': individual['trapping_informations']['site']['coord_wgs']['dll_lat'].replace(',', '.'),
+            'house_presence': individual['trapping_informations']['site']['house']['presence'],
+            'house_number': int(house_number),
+            'house_distance': int(house_distance),
+            'longitude': individual['trapping_informations']['site']['coord_wgs']['dll_long'].replace(',', '.'),
+            'accuracy': individual['trapping_informations']['trap_accuracy'],
+            'site': individual['trapping_informations']['site']['_id'],
+            'image_paths': image_paths,
+        })
+
+        

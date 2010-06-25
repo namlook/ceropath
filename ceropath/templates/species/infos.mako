@@ -28,7 +28,7 @@
         % for rank in ranks:
             % if taxonomic_rank[rank]:
                 <tr>
-                    <td><b>${rank}</b> </td>
+                    <th>${rank}</th>
                     <td>${taxonomic_rank[rank]}</td>
                 </tr>
             % endif

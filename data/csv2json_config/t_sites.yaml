@@ -1,0 +1,77 @@
+Id_site:
+    dbrsea: _id
+    
+Region:
+    dbrsea: region
+
+Country:
+    dbrsea: country
+    
+Province:
+    dbrsea: province
+
+District:
+    dbrsea: district
+
+Sub_district:
+    dbrsea: sub_district
+
+Village:
+    dbrsea: village
+
+typo_low_resolution:
+    dbrsea: eco_typology.low
+
+typo_medium_resolution:
+    dbrsea: eco_typology.medium 
+
+typo_high_resolution:
+    dbrsea: eco_typology.high
+
+site_comment:
+    dbrsea: remark
+    lower: false
+
+Sourrounding_landscape:
+    dbrsea: surrounding_landscape
+
+House_presence:
+    dbrsea: house.presence
+    filter: bool_converter
+
+House_number:
+    dbrsea: house.number
+    filter: int_converter
+
+House_distance:
+    dbrsea: house.distance
+    filter: int_converter
+
+coord_WGS_UTM N:
+    dbrsea: coord_wgs.utm_n 
+
+coord_WGS_UTM E:
+    dbrsea: coord_wgs.utm_e 
+
+Coord_WGS_DLL_Lat:
+    dbrsea: coord_wgs.dll_lat
+
+Coord_WGS_DLL_Long:
+    dbrsea: coord_wgs.dll_long
+
+coord_WGS_DMS_Lat:
+    dbrsea: coord_wgs.dms_lat
+
+coord_WGS_DMS_Long:
+    dbrsea: coord_wgs.dms_long
+
+Elevation:
+    dbrsea: coord_wgs.elevation
+
+CEROPATH_sites:
+    dbrsea: ceropath_sites
+    filter: bool_converter
+
+ID_correspondance:
+    dbrsea: id_correspondence  
+
