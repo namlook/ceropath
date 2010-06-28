@@ -1,4 +1,5 @@
 <%inherit file="/species/show.mako" />
+<%import math%>
 
 <div class="unit on-4 columns" style="width:1200px;height:600px;">
     <div class="column span-3">
@@ -21,13 +22,25 @@
 var markers = [
     % for individual in individuals_list.rewind():
         % if individual['trapping_informations']['site']['coord_wgs']['dll_lat'] and individual['trapping_informations']['site']['coord_wgs']['dll_long']:
+        <%
+            region = h.format_loc_name(individual['trapping_informations']['site']['region'])
+            country = h.format_loc_name(individual['trapping_informations']['site']['country'])
+            province = h.format_loc_name(individual['trapping_informations']['site']['province'])
+            district = h.format_loc_name(individual['trapping_informations']['site']['district'])
+            sub_district = h.format_loc_name(individual['trapping_informations']['site']['sub_district'])
+            village = h.format_loc_name(individual['trapping_informations']['site']['village'])
+            origin = individual['trapping_informations']['origin_how']
+            accuracy = int(math.pow(10, individual['trapping_informations']['trap_accuracy']))
+            typo = individual['trapping_informations']['site']['eco_typology']['low']
+            surrounding_landscape = individual['trapping_informations']['site']['surrounding_landscape']
+        %>
         {
             'latitude': '${individual['trapping_informations']['site']['coord_wgs']['dll_lat'] or 0}',
             'longitude': '${individual['trapping_informations']['site']['coord_wgs']['dll_long'] or 0}',
             'individu': '${individual['_id'].upper()}',
-            'description': 'Region: South East Asia <br/>Country: Thailand <br/>Province: Kalasin <br/>District: Kamalasai <br/>Tambon: Kamalasai <br/>Village: Ban Polo <br/>Origin How: collected <br/>Accuracy: 1000m',
-            'typo': 'lowland / rice / ',
-            'surrounding': ''
+            'description': 'Region: ${region}<br/>Country: ${country} <br/>Province: ${province} <br/>District: ${district} <br/>Sub-district: ${sub_district} <br/>Village: ${village} <br/>Origin How: ${origin} <br/>Accuracy: ${accuracy}m',
+            'typo': '${typo}',
+            'surrounding': '${surrounding_landscape}'
         },
         % endif
     % endfor

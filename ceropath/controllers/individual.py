@@ -59,15 +59,17 @@ class IndividualController(BaseController):
             for measure in individual['measures']:
                 trait  = measure['trait']
                 if trait not in measures_infos:
+                    measures_infos[trait] = {}
+                if species_id not in measures_infos[trait]:
                     measures_infos[trait][species_id] = {}
                 if trait not in traits_list:
                     traits_list.append(trait)
+                if trait not in species_measurements:
+                    species_measurements[trait] = {'value':0.0, 'max':0, 'min':999999999}
                 try:
                     value = float(measure['value'].replace(',', '.'))
                 except:
                     continue
-                if trait not in species_measurements:
-                    species_measurements[trait] = {'value':0.0, 'max':0, 'min':999999999}
                 species_measurements[trait]['value'] += value
                 species_measurements[trait]['max'] = max(species_measurements[trait]['max'], value)
                 species_measurements[trait]['min'] = min(species_measurements[trait]['min'], value)
@@ -89,8 +91,12 @@ class IndividualController(BaseController):
             measures_infos[trait][species_id]['max'] = species_measurements[trait]['max']
             measures_infos[trait][species_id]['min'] = species_measurements[trait]['min']
             measures_infos[trait][species_id]['min'] = species_measurements[trait]['min']
-            measures_infos[trait][species_id]['sd'] = round(species_measurements[trait]['sd'], 2)
-            measures_infos[trait][species_id]['n'] = nb_individuals
+            if 'sd' in species_measurements[trait]:
+                measures_infos[trait][species_id]['sd'] = round(species_measurements[trait]['sd'], 2)
+                measures_infos[trait][species_id]['n'] = nb_individuals
+            else:
+                measures_infos[trait][species_id]['sd'] = None
+                measures_infos[trait][species_id]['n'] = None
         return measures_infos, publications_list
  
     def show(self, id):
@@ -116,6 +122,7 @@ class IndividualController(BaseController):
         else:
             sex = 'unknown'
         measures_infos, publications_list = self._get_measurements(individual['_id'], individual['organism_classification']['_id'])
+        sequences = dict((i['gene'].id, i) for i in self.db.sequence.find({'individual.$id':id}))
         return render('individual/infos.mako', extra_vars={
             '_id': individual['_id'],
             'species': individual['organism_classification']['_id'],
@@ -132,7 +139,25 @@ class IndividualController(BaseController):
             'latitude': individual['trapping_informations']['site']['coord_wgs']['dll_lat'],
             'longitude': individual['trapping_informations']['site']['coord_wgs']['dll_long'],
             'accuracy': individual['trapping_informations']['trap_accuracy'],
+            'voucher': individual['voucher_barcoding'],
+            'sequences': sequences,
         })
+
+    def sequence(self, id, gene):
+        individual = self.db.individual.Individual.get_from_id(id)
+        if not individual:
+            abort(404)
+        if not individual['internet_display']:
+            abort(401)
+        sequence = self.db.sequence.find_one({'gene.$id':gene.lower(), 'individual.$id':id})
+        if not sequence:
+            abort(404)
+        if not sequence['internet_display']:
+            abort(401)
+        fasta_name = "%s-%s" % ( id, "_".join(individual['organism_classification']['_id'].split()))
+        response.headers['Content-type'] = 'text/x-fasta'
+        response.headers['Content-disposition'] = 'attachment; filename=%s.fasta' % fasta_name
+        return ">%s\n%s\n" % (fasta_name.encode('utf-8'), sequence['sequence'].encode('utf-8'))
 
 
     def trapping(self, id):

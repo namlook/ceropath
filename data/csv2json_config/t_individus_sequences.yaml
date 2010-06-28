@@ -1,8 +1,8 @@
 # Document sequence
 
 ID_individu:
-    dbrsea: individu
-    dbref: individu
+    dbrsea: individual
+    dbref: individual
 
 gene:
     dbrsea: gene
@@ -38,4 +38,6 @@ sequence_lengh:
 "Accession number":
     dbrsea: accession_number
 
-
+internet_display:
+    dbrsea: internet_display
+    filter: bool_converter

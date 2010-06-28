@@ -102,7 +102,6 @@ $(window).unload(function() {
                     %>
                     <td>
                         <center>
-                        <b>
                         % if isinstance(m, dict):
                             % if m['n']:
                                ${m['mean'] or 0} +/- ${m['sd'] or 'NAN'} (${m['n']})
@@ -114,7 +113,6 @@ $(window).unload(function() {
                         % else:
                             ${m or u'ø'}
                         % endif
-                        </b>
                         </center>
                     </td>
                 % endfor
@@ -152,6 +150,26 @@ $(window).unload(function() {
                 <div id="map_canvas" style="width:360px;height:400px;"></div>
             </div>
         % endif
+    </fieldset>
+    <fieldset><legend>Sequences produced by Ceropath</legend>
+        <table style="width:360px">
+            % for gene, seq in sequences.iteritems():
+                <%
+                    seq_disp = 'No'
+                    if seq['sequence']:
+                        seq_disp = 'Yes'
+                %>
+                <tr><th>${gene}</th>
+                    <td>
+                    % if seq['internet_display']:
+                        <a href="${h.url(h.url_for('individual_sequence', id=_id, gene=gene))}">${seq_disp}</a>
+                    % else:
+                        ${seq_disp}
+                    % endif
+                    </td>
+                </tr>
+            % endfor
+        </table>
     </fieldset>
 
 </div>

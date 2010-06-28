@@ -128,6 +128,17 @@ class SpeciesController(BaseController):
             'individuals_list':individuals_list
         })
 
+    def vouchers(self, id):
+        species = self.db.organism_classification.OrganismClassification.get_from_id(id)
+        if not species:
+            abort(404)
+        individuals_list = self.db.individual.Individual.find(
+          {'internet_display': True, 'organism_classification.$id':id, 'voucher_barcoding':True}
+        ).sort('_id', 1)
+        return render('individual/list.mako', extra_vars={
+            'individuals_list':individuals_list
+        })
+
     def sampling_map(self, id):
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
