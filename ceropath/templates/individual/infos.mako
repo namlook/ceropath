@@ -64,7 +64,7 @@ $(window).unload(function() {
 <div class="column span-4">
     <div class="container" style="padding:10px;">
 
-    <%
+     <%
          theaders = [(_id, 'individual'), (species, 'species')]
          theaders.extend((i, 'pubref') for i in publications_list.keys())
      %>
@@ -159,10 +159,10 @@ $(window).unload(function() {
                     if seq['sequence']:
                         seq_disp = 'Yes'
                 %>
-                <tr><th>${gene}</th>
+                <tr><th>${gene.upper()}</th>
                     <td>
                     % if seq['internet_display']:
-                        <a href="${h.url(h.url_for('individual_sequence', id=_id, gene=gene))}">${seq_disp}</a>
+                        ${seq_disp} <a href="${h.url(h.url_for('individual_sequence', id=_id, gene=gene))}">download</a>
                     % else:
                         ${seq_disp}
                     % endif

@@ -11,7 +11,86 @@ log = logging.getLogger(__name__)
 
 from pprint import pprint
 
+import re
+import math
+REGX_COI = re.compile('coi')
+REGX_CYTB = re.compile('cytb')
+REGX_PRIMER = re.compile('primer')
+REGX_16S = re.compile('16s')
+
 class SpeciesController(BaseController):
+
+    def _get_measurements(self, species_id):
+        species_measurements = list(self.db.species_measurement.SpeciesMeasurement.find(
+          {'organism_classification.$id': species_id}
+        ))
+        measures_infos = {}
+        publications_list = {}
+        # species
+        for measure in species_measurements:
+            for pub in measure['pubref']:
+                publications_list[pub['_id']] = pub
+            for m in measure['measures']:
+                trait, value = m['trait'], m['value']
+                if trait not in measures_infos:
+                    measures_infos[trait] = {}
+                for publication in measure['pubref']:
+                    if publication['_id'] not in measures_infos[trait]:
+                        measures_infos[trait][publication['_id']] = {}
+                    measures_infos[trait][publication['_id']][measure['type']] = value
+        # ceropath measurements for species
+        species_measurements = {}
+        individuals = self.db.individual.find({
+            'organism_classification.$id': species_id,
+            'adult':'adult',
+            'identification.type':{'$in':[REGX_COI, REGX_CYTB, REGX_PRIMER, REGX_16S]}
+        })
+        nb_individuals = individuals.count()
+        traits_list = []
+        for individual in individuals:
+            for measure in individual['measures']:
+                trait  = measure['trait']
+                if trait not in measures_infos:
+                    measures_infos[trait] = {}
+                if species_id not in measures_infos[trait]:
+                    measures_infos[trait][species_id] = {}
+                if trait not in traits_list:
+                    traits_list.append(trait)
+                if trait not in species_measurements:
+                    species_measurements[trait] = {'value':0.0, 'max':0, 'min':999999999}
+                try:
+                    value = float(measure['value'].replace(',', '.'))
+                except:
+                    continue
+                species_measurements[trait]['value'] += value
+                species_measurements[trait]['max'] = max(species_measurements[trait]['max'], value)
+                species_measurements[trait]['min'] = min(species_measurements[trait]['min'], value)
+        #publications_list[species_id] = None
+        for individual in individuals.rewind():
+            for measure in individual['measures']:
+                trait = measure['trait']
+                species_measurements[trait]['mean'] = species_measurements[trait]['value']/nb_individuals
+                try:
+                    value = float(measure['value'].replace(',', '.'))
+                except:
+                    continue
+                variance = math.pow(value - species_measurements[trait]['mean'], 2)/(nb_individuals -1)
+                species_measurements[trait]['sd'] = math.sqrt(math.pow(variance,2)/nb_individuals)
+        for trait in traits_list:
+            if species_id not in measures_infos[trait]:
+                measures_infos[trait][species_id] = {}
+            measures_infos[trait][species_id]['mean'] = round(species_measurements[trait]['mean'], 2)
+            measures_infos[trait][species_id]['max'] = species_measurements[trait]['max']
+            measures_infos[trait][species_id]['min'] = species_measurements[trait]['min']
+            measures_infos[trait][species_id]['min'] = species_measurements[trait]['min']
+            if 'sd' in species_measurements[trait]:
+                measures_infos[trait][species_id]['sd'] = round(species_measurements[trait]['sd'], 2)
+                measures_infos[trait][species_id]['n'] = nb_individuals
+            else:
+                measures_infos[trait][species_id]['sd'] = None
+                measures_infos[trait][species_id]['n'] = None
+        return measures_infos, publications_list
+ 
 
     def index(self):
         species_list = self.db.organism_classification.OrganismClassification.find(
@@ -58,22 +137,23 @@ class SpeciesController(BaseController):
             abort(404)
         if not species['internet_display']:
             abort(401)
-        species_measurements = list(self.db.species_measurement.SpeciesMeasurement.find(
-          {'organism_classification.$id': id}
-        ))
-        measures_infos = {}
-        publications_list = {}
-        for measure in species_measurements:
-            for pub in measure['pubref']:
-                publications_list[pub['_id']] = pub
-            for m in measure['measures']:
-                trait, value = m['trait'], m['value']
-                if trait not in measures_infos:
-                    measures_infos[trait] = {}
-                for publication in measure['pubref']:
-                    if publication['_id'] not in measures_infos[trait]:
-                        measures_infos[trait][publication['_id']] = {}
-                    measures_infos[trait][publication['_id']][measure['type']] = value
+#        species_measurements = list(self.db.species_measurement.SpeciesMeasurement.find(
+#          {'organism_classification.$id': id}
+#        ))
+#        measures_infos = {}
+#        publications_list = {}
+#        for measure in species_measurements:
+#            for pub in measure['pubref']:
+#                publications_list[pub['_id']] = pub
+#            for m in measure['measures']:
+#                trait, value = m['trait'], m['value']
+#                if trait not in measures_infos:
+#                    measures_infos[trait] = {}
+#                for publication in measure['pubref']:
+#                    if publication['_id'] not in measures_infos[trait]:
+#                        measures_infos[trait][publication['_id']] = {}
+#                    measures_infos[trait][publication['_id']][measure['type']] = value
+        measures_infos, publications_list = self._get_measurements(id)
         return render('species/measurements.mako', extra_vars={
             '_id': species['_id'],
             'author': species['reference']['biblio']['author'],
