@@ -1,0 +1,14 @@
+Parasite_species_article_name:
+    dbrsea: parasite
+    dbref: organism_classification
+
+Host_species_article_name:
+    dbrsea: host
+    dbref: organism_classification
+
+Country:
+    dbrsea: country
+
+iD_article:
+    dbrsea: pubref
+    dbref: publication
