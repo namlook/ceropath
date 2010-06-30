@@ -21,7 +21,7 @@
 <script>
 var markers = [
     % for _id, (individual, site) in individuals.iteritems():
-        % if site['coord_wgs']['dll_lat'] and site['coord_wgs']['dll_long']:
+        % if site is not None and site['coord_wgs']['dll_lat'] and site['coord_wgs']['dll_long']:
         <%
             region = h.format_loc_name(site['region'])
             country = h.format_loc_name(site['country'])
@@ -30,7 +30,9 @@ var markers = [
             sub_district = h.format_loc_name(site['sub_district'])
             village = h.format_loc_name(site['village'])
             origin = individual['trapping_informations']['origin_how']
-            accuracy = int(math.pow(10, individual['trapping_informations']['trap_accuracy']))
+            accuracy = individual['trapping_informations']['trap_accuracy']
+            if accuracy:
+                accuracy = int(math.pow(10, accuracy))
             typo = site['eco_typology']['low']
             surrounding_landscape = site['surrounding_landscape']
         %>

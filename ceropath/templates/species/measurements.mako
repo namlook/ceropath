@@ -50,7 +50,7 @@
         % for header in theaders:
             % if header[1] == 'pubref':
                 <th style="width:250px;">
-                    Measurements in <a href="" title="${publications_list[header[0]]['reference']}">
+                    Measurements in <a href="${h.url(h.url_for('publication_show', id=publications_list[header[0]]['_id']))}" title="${publications_list[header[0]]['reference']}">
                     ${h.author_date_from_citation(publications_list[header[0]]['reference'])}
                     </a>
                     for ${_id.capitalize()} <small>(a)</small>

@@ -44,6 +44,10 @@ def make_map(config):
     # parasite
     map.connect('parasite_show', '/parasite/{id}', controller='parasite', action='show')
 
+    # publications
+    map.connect('publication_show', '/publication/{id}', controller='publication', action='show')
+
+
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')
 

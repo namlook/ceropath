@@ -18,8 +18,8 @@ td {
                 <tr>
                     <td><a href="${h.url(h.url_for('individual_show', id=individual['_id']))}">${individual['_id'].upper()}</a></td>
                     <td>${(individual['sex'] or '').upper()}</td>
-                    <td>${h.format_loc_name(site['country'])}</td>
-                    <td>${h.format_loc_name(site['province'])}</td>
+                    <td>${h.format_loc_name(site['country'] if site is not None else '')}</td>
+                    <td>${h.format_loc_name(site['province'] if site is not None else '')}</td>
                     <td>${individual['identification']['type']}</td>
                     <td>${individual['identification']['date'].date() if individual['identification']['date'] else ''}</td>
                     <td>${individual['identification']['method']}</td>

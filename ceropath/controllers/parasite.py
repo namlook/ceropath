@@ -28,6 +28,7 @@ class ParasiteController(BaseController):
         if '%s_1.jpg' % capitalized_parasite_id in os.listdir(file_path):
             image_path = os.path.join(server_path, '%s_1.jpg' % capitalized_parasite_id)
         rel_host_parasites = self.db.rel_host_parasite.RelHostParasite.find({'parasite.$id':id})
+        rel_host_parasites = dict(((i['host']['_id'], i['pubref']['_id']), i) for i in rel_host_parasites)
         return render('parasite/show.mako', extra_vars={
             '_id': parasite['_id'],
             'taxonomic_rank': parasite['taxonomic_rank'],

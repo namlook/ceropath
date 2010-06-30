@@ -20,7 +20,8 @@ import re
 REX_DATE = re.compile('\d{4}')
 
 def author_date_from_citation(citation):
-    author = citation.split(',')[0].strip()
+    splitter = "."
+    author = citation.split(splitter)[0].strip()
     date = REX_DATE.findall(citation)
     if len(date):
        date = date[0] 

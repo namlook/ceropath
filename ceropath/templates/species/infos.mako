@@ -40,11 +40,17 @@
     </fieldset>
     % if synonyms:
         <fieldset><legend>Synonyms</legend>
-        <ul>
-        % for synonym in synonyms:
-            <li> ${synonym.capitalize()} </li>
-        % endfor
-        </ul>
+            <table>
+            % for synonym, pubref in synonyms.iteritems():
+                <tr>
+                    <td>${synonym.capitalize()}</td>
+                    <td>
+                    <a href="${h.url(h.url_for('publication_show', id=pubref['_id']))}">
+                    ${h.author_date_from_citation(pubref['reference'])}</a>
+                    </td>
+                </tr>
+            % endfor
+            </table>
         </fieldset>
     % endif
 
