@@ -49,9 +49,10 @@
         <tr><th></th>
         % for header in theaders:
             % if header[1] == 'pubref':
-                <% author, date = h.author_date_from_citation(publications_list[header[0]]['reference']) %>
                 <th style="width:250px;">
-                    Measurements in <a href="" title="${publications_list[header[0]]['reference']}">(${author}, ${date})</a>
+                    Measurements in <a href="" title="${publications_list[header[0]]['reference']}">
+                    ${h.author_date_from_citation(publications_list[header[0]]['reference'])}
+                    </a>
                     for ${_id.capitalize()} <small>(a)</small>
                  </th>
             % elif header[1] == 'species':
