@@ -20,23 +20,23 @@
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAiClKGB2tpgvoniYI51bh0hT2yXp_ZAY8_ufC3CFXhHIE1NvwkxRn7LzdwWy63Ckj31lQPzz-P6HPXA" type="text/javascript"></script>
 <script>
 var markers = [
-    % for individual in individuals_list.rewind():
-        % if individual['trapping_informations']['site']['coord_wgs']['dll_lat'] and individual['trapping_informations']['site']['coord_wgs']['dll_long']:
+    % for _id, (individual, site) in individuals.iteritems():
+        % if site['coord_wgs']['dll_lat'] and site['coord_wgs']['dll_long']:
         <%
-            region = h.format_loc_name(individual['trapping_informations']['site']['region'])
-            country = h.format_loc_name(individual['trapping_informations']['site']['country'])
-            province = h.format_loc_name(individual['trapping_informations']['site']['province'])
-            district = h.format_loc_name(individual['trapping_informations']['site']['district'])
-            sub_district = h.format_loc_name(individual['trapping_informations']['site']['sub_district'])
-            village = h.format_loc_name(individual['trapping_informations']['site']['village'])
+            region = h.format_loc_name(site['region'])
+            country = h.format_loc_name(site['country'])
+            province = h.format_loc_name(site['province'])
+            district = h.format_loc_name(site['district'])
+            sub_district = h.format_loc_name(site['sub_district'])
+            village = h.format_loc_name(site['village'])
             origin = individual['trapping_informations']['origin_how']
             accuracy = int(math.pow(10, individual['trapping_informations']['trap_accuracy']))
-            typo = individual['trapping_informations']['site']['eco_typology']['low']
-            surrounding_landscape = individual['trapping_informations']['site']['surrounding_landscape']
+            typo = site['eco_typology']['low']
+            surrounding_landscape = site['surrounding_landscape']
         %>
         {
-            'latitude': '${individual['trapping_informations']['site']['coord_wgs']['dll_lat'] or 0}',
-            'longitude': '${individual['trapping_informations']['site']['coord_wgs']['dll_long'] or 0}',
+            'latitude': '${site['coord_wgs']['dll_lat'] or 0}',
+            'longitude': '${site['coord_wgs']['dll_long'] or 0}',
             'individu': '${individual['_id'].upper()}',
             'description': 'Region: ${region}<br/>Country: ${country} <br/>Province: ${province} <br/>District: ${district} <br/>Sub-district: ${sub_district} <br/>Village: ${village} <br/>Origin How: ${origin} <br/>Accuracy: ${accuracy}m',
             'typo': '${typo}',

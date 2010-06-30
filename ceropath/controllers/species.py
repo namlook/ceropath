@@ -3,8 +3,6 @@ import logging
 from pylons import request, response, session, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
 
-from pylons.decorators.cache import beaker_cache
-
 from ceropath.lib.base import BaseController, render
 import os.path
 import os
@@ -197,16 +195,18 @@ class SpeciesController(BaseController):
 #            'data_path': os.path.join('/', 'data', name),
         })
         
-    @beaker_cache()
     def individuals(self, id):
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
             abort(404)
-        individuals_list = self.db.individual.Individual.find(
+        individuals_list = self.db.individual.find(
           {'internet_display': True, 'organism_classification.$id':id}
         ).sort('_id', 1)
+        individuals = {}
+        for individual in individuals_list:
+            individuals[individual['_id']] = (individual, self.db.site.get_from_id(individual['trapping_informations']['site'].id))
         return render('individual/list.mako', extra_vars={
-            'individuals_list':individuals_list,
+            'individuals':individuals,
             'species': id,
         })
 
@@ -222,19 +222,21 @@ class SpeciesController(BaseController):
             'individuals_list':individuals_list
         })
 
-    @beaker_cache()
     def sampling_map(self, id):
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
             abort(404)
-        individuals_list = self.db.individual.Individual.find(
+        individuals_list = self.db.individual.find(
           {'internet_display': True, 'organism_classification.$id':id}
         ).sort('_id', 1)
+        individuals = {}
+        for individual in individuals_list:
+            individuals[individual['_id']] = (individual, self.db.site.get_from_id(individual['trapping_informations']['site'].id))
         return render('species/sampling_map.mako', extra_vars={
             '_id': species['_id'],
             'author': species['reference']['biblio']['author'],
             'date': species['reference']['biblio']['date'],
-            'individuals_list':individuals_list
+            'individuals': individuals,
         })
  
     def parasites(self, id):
