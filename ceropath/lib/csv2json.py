@@ -38,7 +38,7 @@ date_converter = lambda x: totimestamp(datetime.strptime(x, "%d/%m/%Y")) if x is
 sex_checker = lambda x: x.lower() if x in ['f', 'm'] else None
 sanitize_article_id = lambda x: x.split(',')[0]
 
-def process(name, delimiter=';'):
+def process(csv_path, yaml_path, name, delimiter=';'):
     config = yaml.load(open(os.path.join(yaml_path, '%s.yaml') % name).read())
     csv_file = csv.reader(open(os.path.join(csv_path, '%s.csv') % name), delimiter=delimiter, quotechar='"')
     legend = csv_file.next()
@@ -88,20 +88,20 @@ def process(name, delimiter=';'):
     
 def csv2json(csv_path, yaml_path, json_path):
     # Publication
-    publications = dict((i['_id'],i) for i in process('t_literature_referens'))
+    publications = dict((i['_id'],i) for i in process(csv_path, yaml_path, 't_literature_referens'))
     open(os.path.join(json_path, 'publication.json'), 'w').write(anyjson.serialize(publications.values()))
 
     # Institutes
-    institutes = dict((i['_id'], i) for i in process('t_lib_institutes'))
+    institutes = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_lib_institutes'))
     open(os.path.join(json_path, 'institute.json'), 'w').write(anyjson.serialize(institutes.values()))
 
     # Responsibles
-    responsibles = dict((i['_id'], i) for i in process('t_lib_responsible'))
+    responsibles = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_lib_responsible'))
     open(os.path.join(json_path, 'responsible.json'), 'w').write(anyjson.serialize(responsibles.values()))
  
     # OrganismClassification
     def get_organisms():
-        organisms = process('t_species_systematic', delimiter='|')
+        organisms = process(csv_path, yaml_path, 't_species_systematic', delimiter='|')
         proceed_organisms = []
         for org in organisms:
             if org['_id'] is None:
@@ -109,7 +109,7 @@ def csv2json(csv_path, yaml_path, json_path):
             proceed_organisms.append(org)
         organisms = dict((i['_id'], i) for i in proceed_organisms)#process('t_species_systematic', delimiter='|'))
         synonyms = {}
-        for i in process('t_species_synonyms'):
+        for i in process(csv_path, yaml_path, 't_species_synonyms'):
             if i['valid_name'] in organisms:
                 if 'synonyms' not in organisms[i['valid_name']]:
                     organisms[i['valid_name']]['synonyms'] = []
@@ -144,14 +144,14 @@ def csv2json(csv_path, yaml_path, json_path):
 #    pprint(organisms['bandicota indica'])
 
     # SpeciesMeasurement
-    species_measurements = list(process('t_species_measurements'))
+    species_measurements = list(process(csv_path, yaml_path, 't_species_measurements'))
     open(os.path.join(json_path, 'species_measurement.json'), 'w').write(anyjson.serialize(species_measurements))
     #for i in species_measurements:
         #if 'bandicota indica' in i['organism_classification']['$id']:
             #pprint(i)
 
     # Individuals
-    individuals = dict((i['_id'], i) for i in process('t_individus'))
+    individuals = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_individus'))
     #pprint(individus['r5415'])
     # add missing fields to individus:
     for _id in individuals:
@@ -166,14 +166,14 @@ def csv2json(csv_path, yaml_path, json_path):
 #            pprint(i)
 
     # Individu measurements
-    for i in process('t_individus_measurements'):
+    for i in process(csv_path, yaml_path, 't_individus_measurements'):
         if i['_id'] in individuals:
             individuals[i['_id']]['measures'] = i['measures']
 #    pprint(individus['c0001'])
 
     # Individu microparasites
-    microparasites = dict((i['_id'], i) for i in process('t_individus_microparasites'))
-    for i in process('t_individus_microparasites'):
+    #microparasites = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_individus_microparasites'))
+    for i in process(csv_path, yaml_path, 't_individus_microparasites'):
         if i['_id'] in individuals:
             individuals[i['_id']]['microparasites'] = i['microparasites']
 #    pprint(individus['c0001'])
@@ -186,29 +186,29 @@ def csv2json(csv_path, yaml_path, json_path):
 
 
     # Gene
-    genes = dict((i['_id'], i) for i in process('t_lib_genes'))
+    genes = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_lib_genes'))
     open(os.path.join(json_path, 'gene.json'), 'w').write(anyjson.serialize(genes.values()))
 
     # Sequence
-    sequences = list(process('t_individus_sequences'))
+    sequences = list(process(csv_path, yaml_path, 't_individus_sequences'))
     open(os.path.join(json_path, 'sequence.json'), 'w').write(anyjson.serialize(sequences))
     #for i in sequences:
     #    if i['individu']['$id'] == 'c0001':
     #        pprint(i)
 
     # Primer
-    primers = dict((i['_id'], i) for i in process('t_lib_primers'))
+    primers = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_lib_primers'))
     for i in primers:
         primers[i]['remark'] = None
     open(os.path.join(json_path, 'primer.json'), 'w').write(anyjson.serialize(primers.values()))
 
     # Site
-    sites = dict((i['_id'], i) for i in process('t_sites'))
+    sites = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_sites'))
     open(os.path.join(json_path, 'site.json'), 'w').write(anyjson.serialize(sites.values()))
 
 
     # Macroparasite
-    _macroparasites = process('t_species_hosts_parasites')
+    _macroparasites = process(csv_path, yaml_path, 't_species_hosts_parasites')
     macroparasites = []
     for macroparasite in _macroparasites:
         macroparasite['remark'] = None
