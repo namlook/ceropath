@@ -56,7 +56,7 @@ $(document).ready(function(){
                 <li><a href="${h.url(h.url_for('species_show', id=species))}">${species.capitalize()}</a> <button class="synonyms-more">show</button>
                 <ul class="synonyms">
                 % for syn in synonyms:
-                    <li>${syn}</li>
+                    <li>${syn.capitalize()}</li>
                 % endfor
                 </ul>
                 </li>
