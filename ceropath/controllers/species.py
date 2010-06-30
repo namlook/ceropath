@@ -3,6 +3,8 @@ import logging
 from pylons import request, response, session, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
 
+from pylons.decorators.cache import beaker_cache
+
 from ceropath.lib.base import BaseController, render
 import os.path
 import os
@@ -195,6 +197,7 @@ class SpeciesController(BaseController):
 #            'data_path': os.path.join('/', 'data', name),
         })
         
+    @beaker_cache()
     def individuals(self, id):
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
@@ -219,6 +222,7 @@ class SpeciesController(BaseController):
             'individuals_list':individuals_list
         })
 
+    @beaker_cache()
     def sampling_map(self, id):
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
