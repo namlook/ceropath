@@ -1,5 +1,7 @@
 
 import csv
+import anyjson
+import sys, os
 import yaml
 from pprint import pprint
 from mongokit import DotExpandedDict, totimestamp
@@ -84,12 +86,7 @@ def process(name, delimiter=';'):
                     doc[config[field_name]['dbrsea']] = value
         yield DotExpandedDict(doc)
     
-if __name__ == "__main__":
-    import anyjson
-    import sys, os
-    csv_path = os.path.abspath(sys.argv[1])
-    yaml_path = os.path.abspath(sys.argv[2])
-    json_path = os.path.abspath(sys.argv[3])
+def csv2json(csv_path, yaml_path, json_path):
     # Publication
     publications = dict((i['_id'],i) for i in process('t_literature_referens'))
     open(os.path.join(json_path, 'publication.json'), 'w').write(anyjson.serialize(publications.values()))
@@ -234,3 +231,8 @@ if __name__ == "__main__":
             macroparasites.append(macroparasite)
     open(os.path.join(json_path, 'rel_host_parasite.json'), 'w').write(anyjson.serialize(macroparasites))
 
+if __name__ == "__main__":
+    csv_path = os.path.abspath(sys.argv[1])
+    yaml_path = os.path.abspath(sys.argv[2])
+    json_path = os.path.abspath(sys.argv[3])
+    csv2json(csv_path, yaml_path, json_path)

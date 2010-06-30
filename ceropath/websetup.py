@@ -10,6 +10,7 @@ from mongokit import *
 import os
 import anyjson
 from pprint import pprint
+from ceropath.lib.csv2json import csv2json
 
 log = logging.getLogger(__name__)
 
@@ -59,10 +60,17 @@ def setup_app(command, conf, vars):
         'rel_host_parasite',
     ]
 
+    
+    print "Convert csv to json. Please wait..."
+    csv_path = os.path.join('data', 'csv')
+    yaml_path = os.path.join('data', 'yaml')
+    json_path = os.path.join('data', 'json')
+    csv2json(csv_path, yaml_path, json_path)
+
     print "importing json into the database %s. This may take a while..." % db.name
     for name in documents_list:#['gene', 'primer', 'sequence']:#documents_list:
         print 'processing :', name
-        objs = anyjson.deserialize(open(os.path.join('data','json','%s.json' % name)).read())
+        objs = anyjson.deserialize(open(os.path.join(json_path,'%s.json' % name)).read())
         for obj in objs:
             #if name in ['organism_classification', 'species_measurement']:
             #    if name == 'species_measurement':
