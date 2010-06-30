@@ -13,6 +13,7 @@ class ParasiteController(BaseController):
 
     def show(self, id):
         species = request.params.get('species')
+        individual = request.params.get('individual')
         parasite = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not parasite:
             abort(404)
@@ -26,6 +27,7 @@ class ParasiteController(BaseController):
         image_path = ''
         if '%s_1.jpg' % capitalized_parasite_id in os.listdir(file_path):
             image_path = os.path.join(server_path, '%s_1.jpg' % capitalized_parasite_id)
+        rel_host_parasites = self.db.rel_host_parasite.RelHostParasite.find({'parasite.$id':id})
         return render('parasite/show.mako', extra_vars={
             '_id': parasite['_id'],
             'taxonomic_rank': parasite['taxonomic_rank'],
@@ -35,5 +37,7 @@ class ParasiteController(BaseController):
             'date': parasite['reference']['biblio']['date'],
             'synonyms': set(i['name'] for i in parasite['synonyms'] if i['name'] != parasite['_id']),
             'species': species,
+            'individual': individual,
+            'rel_host_parasites': rel_host_parasites
         })
 

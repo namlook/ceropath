@@ -24,7 +24,9 @@ def author_date_from_citation(citation):
     date = REX_DATE.findall(citation)
     if len(date):
        date = date[0] 
-    return author, date
+    if date:
+        return "%s (%s)" % (author, date)
+    return author
     
 def format_loc_name(name):
     if name is None:

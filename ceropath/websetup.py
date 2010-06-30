@@ -56,6 +56,7 @@ def setup_app(command, conf, vars):
         'gene',
         'primer',
         'sequence',
+        'rel_host_parasite',
     ]
 
     print "importing json into the database %s. This may take a while..." % db.name

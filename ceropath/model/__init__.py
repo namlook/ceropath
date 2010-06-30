@@ -11,6 +11,7 @@ from gene import Gene
 from primer import Primer
 from individual import Individual
 from site import Site
+from rel_host_parasite import RelHostParasite
 
 register_models = [
 Pipeline,
@@ -25,4 +26,5 @@ Primer,
 Individual,
 SpeciesMeasurement,
 Site,
+RelHostParasite,
 ]

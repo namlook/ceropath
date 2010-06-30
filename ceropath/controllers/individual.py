@@ -105,14 +105,14 @@ class IndividualController(BaseController):
             abort(404)
         if not individual['internet_display']:
             abort(401)
-        path = os.path.join('data','morphologie des individus')
+        path = os.path.join('data','voucher skulls with measures')
         file_path =  os.path.join('ceropath', 'public', path)
         server_path = os.path.join('/', path)
         upper_individual_id = individual['_id'].upper() 
         ## image
         image_path = ''
         for file_name in os.listdir(file_path):
-            if upper_individual_id in file_name and 'side' in file_name.lower():
+            if id in file_name.lower():
                 image_path = os.path.join(server_path, file_name)
         ## sex
         if individual['sex'] == 'f':
@@ -159,7 +159,6 @@ class IndividualController(BaseController):
         response.headers['Content-disposition'] = 'attachment; filename=%s.fasta' % fasta_name
         return ">%s\n%s\n" % (fasta_name.encode('utf-8'), sequence['sequence'].encode('utf-8'))
 
-
     def trapping(self, id):
         individual = self.db.individual.Individual.get_from_id(id)
         if not individual:
@@ -200,4 +199,27 @@ class IndividualController(BaseController):
             'image_paths': image_paths,
         })
 
-        
+    def module(self, id, name):
+        individual = self.db.individual.Individual.get_from_id(id)
+        if not individual:
+            abort(404)
+        if not individual['internet_display']:
+            abort(401)
+        return render('individual/module.mako', extra_vars={
+            '_id': id,
+            'species': individual['organism_classification']['_id'],
+            'name': name,
+        })
+
+    def parasites(self, id):
+        individual = self.db.individual.Individual.get_from_id(id)
+        if not individual:
+            abort(404)
+        if not individual['internet_display']:
+            abort(401)
+        rel_host_parasites = self.db.rel_host_parasite.RelHostParasite.find({'host.$id':individual['organism_classification']['_id']})
+        return render('individual/parasites.mako', extra_vars={
+            'rel_host_parasites':rel_host_parasites,
+            '_id': id,
+        })
+ 

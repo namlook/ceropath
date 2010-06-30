@@ -5,7 +5,9 @@
 
     <div style="padding-bottom:10px;">
         % if species:
-            <a href="#">Home</a> » <a href="${h.url(h.url_for('species_parasite', id=species))}">${species.capitalize()} parasite</a> » ${_id.capitalize()}
+            <a href="#">Home</a> » <a href="${h.url(h.url_for('species_parasites', id=species))}">${species.capitalize()}'s parasites</a> » ${_id.capitalize()}
+        % elif individual:
+            <a href="#">Home</a> » <a href="${h.url(h.url_for('individual_parasites', id=individual))}">${individual.upper()}'s parasites</a> » ${_id.capitalize()}
         % else:
             <a href="#">Home</a> » Parasite » ${_id.capitalize()}
         % endif 
@@ -57,6 +59,17 @@
             </ul>
             </fieldset>
         % endif
+        <fieldset><legend>Species infected</legend>
+            <table>
+            % for rhp in rel_host_parasites:
+                <tr>
+                    <td><a href="${h.url(h.url_for('species_show', id=rhp['host']['_id']))}">${rhp['host']['_id']}</a></td>
+                    <td>${h.author_date_from_citation(rhp['pubref']['reference'])}</td>
+                </tr>
+            % endfor
+            </table>
+        </fieldset>
+
     </div>
 
 </div>

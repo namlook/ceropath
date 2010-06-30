@@ -31,13 +31,18 @@ def make_map(config):
     map.connect('species_sampling_map', '/species/{id}/sampling_map', controller='species', action='sampling_map')
     map.connect('species_vouchers', '/species/{id}/vouchers', controller='species', action='vouchers')
     map.connect('species_individuals', '/species/{id}/individuals', controller='species', action='individuals')
+    map.connect('species_parasites', '/species/{id}/parasites', controller='species', action='parasites')
     map.connect('species_module', '/species/{id}/{name}', controller='species', action='module')
 
     # individuals
     map.connect('individual_show', '/individual/{id}', controller='individual', action='show')
     map.connect('individual_trapping', '/individual/{id}/trapping', controller='individual', action='trapping')
     map.connect('individual_sequence', '/individual/{id}/sequence/{gene}', controller='individual', action='sequence')
+    map.connect('individual_parasites', '/individual/{id}/parasites', controller='individual', action='parasites')
+    map.connect('individual_module', '/individual/{id}/{name}', controller='individual', action='module')
 
+    # parasite
+    map.connect('parasite_show', '/parasite/{id}', controller='parasite', action='show')
 
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')

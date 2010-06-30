@@ -6,6 +6,9 @@ td {
 }
 </style>
 
+<div style="padding-bottom:10px;">
+    <a href="#">Home</a> » <a href="${h.url(h.url_for('species_show', id=species))}">Species</a> » individuals
+</div>
 
 <div class="unit on-1 columns">
     <div class="column">
