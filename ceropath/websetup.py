@@ -67,7 +67,12 @@ def setup_app(command, conf, vars):
     yaml_path = os.path.join('data', 'yaml')
     json_path = os.path.join('data', 'json')
     csv2json(csv_path, yaml_path, json_path)
-    sys.exit()
+
+#    for file_name in os.listdir(json_path):
+#        base, ext = os.path.splitext(file_name)
+#        print "Importing:", base
+#        os.system("mongoimport -d dbrsea -c %s --file %s.json" % (base, os.path.join(json_path, base)))
+#    sys.exit()
 
     print "importing json into the database %s. This may take a while..." % db.name
     for name in documents_list:#['gene', 'primer', 'sequence']:#documents_list:

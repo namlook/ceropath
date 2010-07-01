@@ -36,7 +36,7 @@ class Individual(Document):
             'field_id': unicode, #t_individus/id_field
             'alive': bool, #t_individus/alive
         },
-        'samples_owner': Responsible, #t_individus/Samples_owner
+        'samples_owner': unicode, #t_individus/Samples_owner
         'internet_display': bool, #t_individus/internet_display
         'dna':{
             'CBGP': bool, #t_individus/dNA_CBGP
