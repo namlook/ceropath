@@ -7,6 +7,9 @@ from pprint import pprint
 from mongokit import DotExpandedDict, totimestamp
 from datetime import datetime
 
+def genjson(dict_list):
+    return "\n".join(anyjson.serialize(i) for i in dict_list)
+
 def map_legend(legend, row):
     legend_map = {}
     for index, value in enumerate(row):
@@ -34,7 +37,7 @@ def float_converter(value):
 bool_converter = lambda x: True if x.lower() in ['yes', 'true', '1'] else False
 int_converter = lambda x: int(x) if x is not None else None
 dll_converter = lambda x: x.replace(',', '.') if x is not None else None
-date_converter = lambda x: totimestamp(datetime.strptime(x, "%d/%m/%Y")) if x is not None else None
+date_converter = lambda x: {'$date':totimestamp(datetime.strptime(x, "%d/%m/%Y"))} if x is not None else None
 sex_checker = lambda x: x.lower() if x in ['f', 'm'] else None
 sanitize_article_id = lambda x: x.split(',')[0]
 
@@ -89,15 +92,15 @@ def process(csv_path, yaml_path, name, delimiter=';'):
 def csv2json(csv_path, yaml_path, json_path):
     # Publication
     publications = dict((i['_id'],i) for i in process(csv_path, yaml_path, 't_literature_referens'))
-    open(os.path.join(json_path, 'publication.json'), 'w').write(anyjson.serialize(publications.values()))
+    open(os.path.join(json_path, 'publication.json'), 'w').write(genjson(publications.values()))
 
     # Institutes
     institutes = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_lib_institutes'))
-    open(os.path.join(json_path, 'institute.json'), 'w').write(anyjson.serialize(institutes.values()))
+    open(os.path.join(json_path, 'institute.json'), 'w').write(genjson(institutes.values()))
 
     # Responsibles
     responsibles = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_lib_responsible'))
-    open(os.path.join(json_path, 'responsible.json'), 'w').write(anyjson.serialize(responsibles.values()))
+    open(os.path.join(json_path, 'responsible.json'), 'w').write(genjson(responsibles.values()))
  
     # OrganismClassification
     def get_organisms():
@@ -139,13 +142,13 @@ def csv2json(csv_path, yaml_path, json_path):
             organism_classifications.append(org)
         return organism_classifications, synonyms
     organism_classifications, synonyms = get_organisms()
-    open(os.path.join(json_path, 'organism_classification.json'), 'w').write(anyjson.serialize(organism_classifications))
+    open(os.path.join(json_path, 'organism_classification.json'), 'w').write(genjson(organism_classifications))
     organism_classifications = dict((i['_id'], i) for i in organism_classifications)
 #    pprint(organisms['bandicota indica'])
 
     # SpeciesMeasurement
     species_measurements = list(process(csv_path, yaml_path, 't_species_measurements'))
-    open(os.path.join(json_path, 'species_measurement.json'), 'w').write(anyjson.serialize(species_measurements))
+    open(os.path.join(json_path, 'species_measurement.json'), 'w').write(genjson(species_measurements))
     #for i in species_measurements:
         #if 'bandicota indica' in i['organism_classification']['$id']:
             #pprint(i)
@@ -177,7 +180,7 @@ def csv2json(csv_path, yaml_path, json_path):
         if i['_id'] in individuals:
             individuals[i['_id']]['microparasites'] = i['microparasites']
 #    pprint(individus['c0001'])
-    open(os.path.join(json_path, 'individual.json'), 'w').write(anyjson.serialize(individuals.values()))
+    open(os.path.join(json_path, 'individual.json'), 'w').write(genjson(individuals.values()))
 
     # RelHostParasite
 #    for i in process('t_individus_macroparasites'):
@@ -187,11 +190,11 @@ def csv2json(csv_path, yaml_path, json_path):
 
     # Gene
     genes = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_lib_genes'))
-    open(os.path.join(json_path, 'gene.json'), 'w').write(anyjson.serialize(genes.values()))
+    open(os.path.join(json_path, 'gene.json'), 'w').write(genjson(genes.values()))
 
     # Sequence
     sequences = list(process(csv_path, yaml_path, 't_individus_sequences'))
-    open(os.path.join(json_path, 'sequence.json'), 'w').write(anyjson.serialize(sequences))
+    open(os.path.join(json_path, 'sequence.json'), 'w').write(genjson(sequences))
     #for i in sequences:
     #    if i['individu']['$id'] == 'c0001':
     #        pprint(i)
@@ -200,11 +203,11 @@ def csv2json(csv_path, yaml_path, json_path):
     primers = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_lib_primers'))
     for i in primers:
         primers[i]['remark'] = None
-    open(os.path.join(json_path, 'primer.json'), 'w').write(anyjson.serialize(primers.values()))
+    open(os.path.join(json_path, 'primer.json'), 'w').write(genjson(primers.values()))
 
     # Site
     sites = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_sites'))
-    open(os.path.join(json_path, 'site.json'), 'w').write(anyjson.serialize(sites.values()))
+    open(os.path.join(json_path, 'site.json'), 'w').write(genjson(sites.values()))
 
 
     # Macroparasite
@@ -229,7 +232,7 @@ def csv2json(csv_path, yaml_path, json_path):
                 failed = True
         if not failed:
             macroparasites.append(macroparasite)
-    open(os.path.join(json_path, 'rel_host_parasite.json'), 'w').write(anyjson.serialize(macroparasites))
+    open(os.path.join(json_path, 'rel_host_parasite.json'), 'w').write(genjson(macroparasites))
 
 if __name__ == "__main__":
     csv_path = os.path.abspath(sys.argv[1])

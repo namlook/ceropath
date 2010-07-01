@@ -68,16 +68,17 @@ def setup_app(command, conf, vars):
     json_path = os.path.join('data', 'json')
     csv2json(csv_path, yaml_path, json_path)
 
-#    for file_name in os.listdir(json_path):
-#        base, ext = os.path.splitext(file_name)
-#        print "Importing:", base
-#        os.system("mongoimport -d dbrsea -c %s --file %s.json" % (base, os.path.join(json_path, base)))
-#    sys.exit()
+    for file_name in os.listdir(json_path):
+        base, ext = os.path.splitext(file_name)
+        print "Importing:", base
+        os.system("mongoimport -d dbrsea -c %s --file %s.json" % (base, os.path.join(json_path, base)))
+    sys.exit()
 
     print "importing json into the database %s. This may take a while..." % db.name
     for name in documents_list:#['gene', 'primer', 'sequence']:#documents_list:
         print 'processing :', name
         objs = anyjson.deserialize(open(os.path.join(json_path,'%s.json' % name)).read())
+        DocClass = getattr(db[name], "".join(i.capitalize() for i in name.split('_')))
         for obj in objs:
             #if name in ['organism_classification', 'species_measurement']:
             #    if name == 'species_measurement':
@@ -86,7 +87,6 @@ def setup_app(command, conf, vars):
             #        print
             #        pprint(db.organism_classification.get_from_id(obj['organism_classification']['$id']))
             #        print
-            DocClass = getattr(db[name], "".join(i.capitalize() for i in name.split('_')))
             #pprint(obj)
             doc = DocClass.from_json(anyjson.serialize(obj).decode('utf-8', 'ignore'))
             doc.save()

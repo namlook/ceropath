@@ -206,7 +206,7 @@ class SpeciesController(BaseController):
         for individual in individuals_list:
             site_id = individual['trapping_informations']['site']
             if site_id:
-                site_id = site_id.id
+                site_id = site_id['$id']
             site = self.db.site.get_from_id(site_id)
             individuals[individual['_id']] = (individual, site)
         return render('individual/list.mako', extra_vars={
@@ -225,7 +225,7 @@ class SpeciesController(BaseController):
         for individual in individuals_list:
             site_id = individual['trapping_informations']['site']
             if site_id:
-                site_id = site_id.id
+                site_id = site_id['$id']
             site = self.db.site.get_from_id(site_id)
             individuals[individual['_id']] = (individual, site)
         return render('individual/list.mako', extra_vars={
@@ -244,7 +244,7 @@ class SpeciesController(BaseController):
         for individual in individuals_list:
             site_id = individual['trapping_informations']['site']
             if site_id:
-                site_id = site_id.id
+                site_id = site_id['$id']
             site = self.db.site.get_from_id(site_id)
             individuals[individual['_id']] = (individual, site )
         return render('species/sampling_map.mako', extra_vars={
@@ -255,7 +255,11 @@ class SpeciesController(BaseController):
         })
  
     def parasites(self, id):
-        rel_host_parasites = self.db.rel_host_parasite.RelHostParasite.find({'host.$id':id})
+        rel_host_parasites_list = self.db.rel_host_parasite.find({'host.$id': id})
+        rel_host_parasites = {}
+        for rhp in rel_host_parasites_list:
+            rel_host_parasites[rhp['_id']] = (rhp, self.db.publication.get_from_id(rhp['pubref']['$id']))
+
         return render('species/parasites.mako', extra_vars={
             'rel_host_parasites':rel_host_parasites,
             'species': id,

@@ -17,14 +17,14 @@ class PublicationController(BaseController):
         synonyms_related = {}
         for species in self.db.organism_classification.find({'synonyms.pubref.$id':id}):
             for synonym in species['synonyms']:
-                if synonym['pubref'].id == id:
+                if synonym['pubref']['$id'] == id:
                     if synonym['name'] != species['_id']:
                         if species['_id'] not in synonyms_related:
                             synonyms_related[species['_id']] = []
                         synonyms_related[species['_id']].append(synonym['name'])
         for rhp in rel_host_parasites:
-            hosts_related.add(rhp['host'].id)
-            parasites_related.add(rhp['parasite'].id)
+            hosts_related.add(rhp['host']['$id'])
+            parasites_related.add(rhp['parasite']['$id'])
         return render('publication/show.mako', extra_vars={
             '_id': publication['_id'],
             'source': publication['source'],
