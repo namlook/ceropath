@@ -22,9 +22,9 @@
     </style> 
 </head>
 <body>
-    <div class="unit columns">
+    <div class="unit on-1 columns">
         <div class="column">
-            <a href="index.php"><img src="/img/header.jpg" width="1200" alt="Home"/></a>
+            <a href="${h.url(h.url_for('species_index'))}"><img src="/img/header.jpg" width="1200" alt="Home"/></a>
         </div>
         ${next.body()}
     </div>

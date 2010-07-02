@@ -14,7 +14,7 @@ $(document).ready(function(){
 <div class="unit on-6 columns" style="width:1200px;">
 
     <div style="padding-bottom:10px;">
-        <a href="#">Home</a> » Publications » ${disp}
+        <a href="${h.url(h.url_for('species_index'))}">Home</a> » Publications » ${disp}
         <hr />
     </div>
 

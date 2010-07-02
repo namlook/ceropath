@@ -9,7 +9,7 @@ td {
 <h1> Parasites found on ${species.capitalize()} </h1>
 
 <div style="padding-bottom:10px;">
-    <a href="#">Home</a> » <a href="${h.url(h.url_for('species_show', id=species))}">Species</a> » parasites
+    <a href="${h.url(h.url_for('species_index'))}">Home</a> » <a href="${h.url(h.url_for('species_show', id=species))}">Species</a> » parasites
 </div>
 
 <div class="unit on-1 columns">

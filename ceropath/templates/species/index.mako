@@ -1,5 +1,6 @@
 <%inherit file="/root.mako" />
 
+<div class="column" style="width:1200px;">
 <table>
     <tr><th>Species</th><th>Common name</th><th>Thai Name</th><th>IUCN status</th><th>IUCN trend</th></tr>
     % for species in species_list:
@@ -12,4 +13,5 @@
         </tr>
     % endfor
 </table>
+</div>
 

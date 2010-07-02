@@ -7,14 +7,14 @@ td {
 </style>
 
 <div style="padding-bottom:10px;">
-    <a href="#">Home</a> » <a href="${h.url(h.url_for('species_show', id=species))}">Species</a> » individuals
+    <a href="${h.url(h.url_for('species_index'))}">Home</a> » <a href="${h.url(h.url_for('species_show', id=species))}">Species</a> » individuals
 </div>
 
 <div class="unit on-1 columns">
     <div class="column">
         <table>
             <tr><th>Individu Number</th><th> Sex</th><th> Country</th><th> Province</th><th>Identification Type</th><th>Identification Date</th><th> Remarks about Identification</th><tr>
-            % for _id, (individual, site) in individuals.iteritems():
+            % for _id, (individual, site) in sorted(individuals.items()):
                 <tr>
                     <td><a href="${h.url(h.url_for('individual_show', id=individual['_id']))}">${individual['_id'].upper()}</a></td>
                     <td>${(individual['sex'] or '').upper()}</td>

@@ -5,11 +5,11 @@
 
     <div style="padding-bottom:10px;">
         % if species:
-            <a href="#">Home</a> » <a href="${h.url(h.url_for('species_parasites', id=species))}">${species.capitalize()}'s parasites</a> » ${_id.capitalize()}
+            <a href="${h.url(h.url_for('species_index'))}">Home</a> » <a href="${h.url(h.url_for('species_parasites', id=species))}">${species.capitalize()}'s parasites</a> » ${_id.capitalize()}
         % elif individual:
-            <a href="#">Home</a> » <a href="${h.url(h.url_for('individual_parasites', id=individual))}">${individual.upper()}'s parasites</a> » ${_id.capitalize()}
+            <a href="${h.url(h.url_for('species_index'))}">Home</a> » <a href="${h.url(h.url_for('individual_parasites', id=individual))}">${individual.upper()}'s parasites</a> » ${_id.capitalize()}
         % else:
-            <a href="#">Home</a> » Parasite » ${_id.capitalize()}
+            <a href="${h.url(h.url_for('species_index'))}">Home</a> » Parasite » ${_id.capitalize()}
         % endif 
         <hr />
     </div>
