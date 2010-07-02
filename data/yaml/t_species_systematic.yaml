@@ -143,7 +143,9 @@ author:
 date:
     dbrsea: reference.biblio.date
 
-#AuthorDate:
+AuthorDate:
+    dbrsea: reference.biblio.author_date
+    lower: false
 
 actualDate:
     dbrsea: reference.biblio.actual_date

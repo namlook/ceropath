@@ -38,6 +38,7 @@ class OrganismClassification(Core):
             'biblio':{
                 'author': unicode,
                 'date': unicode,
+                'author_date': unicode,
                 'actual_date': unicode,
                 'citation':{
                     'name': unicode,
