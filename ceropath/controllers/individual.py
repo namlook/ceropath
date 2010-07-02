@@ -3,6 +3,8 @@ import logging
 from pylons import request, response, session, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
 
+from config import google_map_api_key
+
 from ceropath.lib.base import BaseController, render
 
 log = logging.getLogger(__name__)
@@ -141,6 +143,7 @@ class IndividualController(BaseController):
             'accuracy': individual['trapping_informations']['trap_accuracy'],
             'voucher': individual['voucher_barcoding'],
             'sequences': sequences,
+            'api_key': google_map_api_key,
         })
 
     def sequence(self, id, gene):
@@ -197,6 +200,7 @@ class IndividualController(BaseController):
             'accuracy': individual['trapping_informations']['trap_accuracy'],
             'site': individual['trapping_informations']['site']['_id'],
             'image_paths': image_paths,
+            'api_key': google_map_api_key,
         })
 
     def module(self, id, name):

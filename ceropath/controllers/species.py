@@ -3,6 +3,8 @@ import logging
 from pylons import request, response, session, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
 
+from config import google_map_api_key
+
 from ceropath.lib.base import BaseController, render
 import os.path
 import os
@@ -252,6 +254,7 @@ class SpeciesController(BaseController):
             'author': species['reference']['biblio']['author'],
             'date': species['reference']['biblio']['date'],
             'individuals': individuals,
+            'api_key': google_map_api_key,
         })
  
     def parasites(self, id):
