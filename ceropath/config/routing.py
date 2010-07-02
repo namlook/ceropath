@@ -19,10 +19,16 @@ def make_map(config):
 
     # CUSTOM ROUTES HERE
 
+    # pipeline
+
     map.connect('pipeline_index', '/pipeline', controller='pipeline', action='index')
     map.connect('pipeline_phyloexplorer', '/pipeline/phyloexplorer', controller='pipeline', action='phyloexplorer')
     map.connect('pipeline_config', '/pipeline/config', controller='pipeline', action='config')
     map.connect('pipeline_update_config', '/pipeline/config/update', controller='pipeline', action='update_config')
+
+    # query
+    map.connect('query_new', '/query', controller='query', action='new')
+    map.connect('query_completion', '/query/field_completion', controller='query', action='field_completion')
 
     # species
     map.connect('species_index', '/species', controller='species', action='index')

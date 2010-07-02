@@ -4,7 +4,8 @@
     <link rel="stylesheet" type="text/css" href="/css/tabs-no-images.css" /> 
     ##<link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection">
     <link rel="stylesheet" href="/css/elastic.css" />
-    <script src="http://flowplayer.org/tools/download/combine/1.2.3/jquery.tools.min.js?select=full&debug=true"></script>
+    ##<script src="http://flowplayer.org/tools/download/combine/1.2.3/jquery.tools.min.js?select=full&debug=true"></script>
+    <script src="http://cdn.jquerytools.org/1.2.3/jquery.tools.min.js"></script>
     <script type="text/javascript" src="/js/elastic.js" charset="utf-8"></script> 
     <style> 
         /* tab pane styling */
@@ -24,7 +25,7 @@
 <body>
     <div class="unit on-1 columns">
         <div class="column">
-            <a href="${h.url(h.url_for('species_index'))}"><img src="/img/header.jpg" width="1200" alt="Home"/></a>
+            <a href="${h.url(h.url_for('species_index'))}"><img src="/img/header.jpg" width="1200" alt="Home" /></a>
         </div>
         ${next.body()}
     </div>
