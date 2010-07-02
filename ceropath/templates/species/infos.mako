@@ -23,7 +23,9 @@
     </fieldset>
     
     <fieldset style="padding:0px;"><legend>IUCN range map</legend>
+       <a href="http://www.iucnredlist.org/apps/redlist/images/range/maps/${iucn_id}.png" target="_blank">
         <img src="http://www.iucnredlist.org/apps/redlist/images/range/maps/${iucn_id}.png" width="390px" />
+       </a>
     </fieldset>
     <fieldset><legend>Taxonomic ranks</legend>
     <table>
