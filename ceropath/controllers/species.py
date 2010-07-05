@@ -136,6 +136,7 @@ class SpeciesController(BaseController):
         return render('species/infos.mako', extra_vars={
             '_id': species['_id'],
             'iucn_id': species['iucn']['id'],
+            'id_msw3': species['id_msw3'],
             'taxonomic_rank': species['taxonomic_rank'],
             'common_names': species['name']['common'],
             'description': description,

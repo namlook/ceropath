@@ -11,6 +11,10 @@
             % endfor
         </ul>
         ${h.literal(h.markdownize(description))}
+
+        More information about ${_id.capitalize()} on the
+        <a href="http://www.bucknell.edu/msw3/browse.asp?s=y&id=${id_msw3}" target='_blank'>
+        Mammal Species of the World</a> website.
     </div>
 </div>
 
