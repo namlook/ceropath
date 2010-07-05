@@ -30,7 +30,7 @@ ParasiteMenu = ParasiteMenu()
 
 class Module(UIModule):
     def render(self, id, name):
-        module_path = os.path.join('ceropath', 'public', 'data')
+        module_path = os.path.join('ceropath', 'public', 'data', 'dynamic')
         if name not in os.listdir(module_path):
             abort(404)
         # TODO good
@@ -53,15 +53,15 @@ class Module(UIModule):
             '_id': id,
             'files_list': files_list,
             'legends': legends,
-            'data_path': os.path.join('/', 'data', name),
+            'data_path': os.path.join('/', 'data', 'dynamic', name),
         })
 Module = Module()
  
 class ModulesList(UIModule):
     def render(self, id, root): 
         modules_list = set([])
-        for module in os.listdir(os.path.join('ceropath', 'public', 'data')):
-            for file_name in os.listdir(os.path.join('ceropath', 'public', 'data', module)):
+        for module in os.listdir(os.path.join('ceropath', 'public', 'data', 'dynamic')):
+            for file_name in os.listdir(os.path.join('ceropath', 'public', 'data', 'dynamic', module)):
                 if id in file_name.decode('utf-8').lower():
                     base_file_name, ext = os.path.splitext(file_name.lower())
                     if ext in ['.jpg', '.jpeg', '.png']:
