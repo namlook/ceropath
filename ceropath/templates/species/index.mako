@@ -1,5 +1,13 @@
 <%inherit file="/root.mako" />
 
+<style>
+    td{
+        padding-left:5px;
+        padding-right:15px;
+        padding-top:3px;
+    }
+</style>
+
 <div class="column" style="width:1200px;">
 <table>
     <tr><th>Species</th><th>Common name</th><th>Thai Name</th><th>Lao Name</th><th>IUCN status</th><th>IUCN trend</th></tr>
