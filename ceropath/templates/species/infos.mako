@@ -2,7 +2,7 @@
 
 <div class="column span-4">
     <div class="container" style="padding:10px;">
-        Also known as:
+        Common names:
         <ul>
             % for language, name in sorted(common_names.items()):
                 % if name:
