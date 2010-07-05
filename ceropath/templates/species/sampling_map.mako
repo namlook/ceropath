@@ -20,7 +20,8 @@
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=${api_key}" type="text/javascript"></script>
 <script>
 var markers = [
-    % for _id, (individual, site) in individuals.iteritems():
+    % for _id in sorted(individuals):
+        <% individual, site = individuals[_id] %>
         % if site is not None and site['coord_wgs']['dll_lat'] and site['coord_wgs']['dll_long']:
         <%
             region = h.format_loc_name(site['region'])
@@ -62,7 +63,9 @@ function initializePoint(pointData)
         var listItem = document.createElement('li');
         var listItemLink = listItem.appendChild(document.createElement('a'));
         listItemLink.href = "#";
-        listItemLink.innerHTML = '<font color="#000000"><strong>' + pointData.individu + '</strong><br/><span>' + pointData.description + '</span></font>';
+        listItemLink.innerHTML = '<font color="#000000"><strong>' + pointData.individu + '</strong>';
+        var listItemSpan = listItem.appendChild(document.createElement('span'));
+        listItemSpan.innerHTML = '<br/><span>' + pointData.description + '</span></font>';
         
         <!-- Sur l'action du click, on va se pointer à la localisation du marker -->
         var focusPoint = function() 

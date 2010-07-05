@@ -255,7 +255,7 @@ class SpeciesController(BaseController):
             abort(404)
         individuals_list = self.db.individual.find(
           {'internet_display': True, 'organism_classification.$id':id}
-        ).sort('_id', 1)
+        )
         individuals = {}
         for individual in individuals_list:
             site_id = individual['trapping_informations']['site']
