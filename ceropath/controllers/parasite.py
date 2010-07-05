@@ -19,14 +19,16 @@ class ParasiteController(BaseController):
             abort(404)
         if not parasite['internet_display']:
             abort(401)
-        path = os.path.join('data','photos des animaux vivants')
+        path = os.path.join('data','static', 'parasites')
         file_path =  os.path.join('ceropath', 'public', path)
         server_path = os.path.join('/', path)
         capitalized_parasite_id = parasite['_id'].capitalize() 
         ## image
         image_path = ''
-        if '%s_1.jpg' % capitalized_parasite_id in os.listdir(file_path):
-            image_path = os.path.join(server_path, '%s_1.jpg' % capitalized_parasite_id)
+        for file_name in os.listdir(file_path):
+            base, ext = os.path.splitext(file_name)
+            if parasite['_id'] in file_name.lower() and ext.lower() in ['.jpg', '.jpeg', '.png', '.gif']:
+                image_path = os.path.join(server_path, file_name)
         rel_host_parasites = self.db.rel_host_parasite.RelHostParasite.find({'parasite.$id':id})
         rel_host_parasites = dict(((i['host']['_id'], i['pubref']['_id']), i) for i in rel_host_parasites)
         return render('parasite/show.mako', extra_vars={

@@ -107,7 +107,7 @@ class IndividualController(BaseController):
             abort(404)
         if not individual['internet_display']:
             abort(401)
-        path = os.path.join('data','voucher skulls with measures')
+        path = os.path.join('data','static', 'vouchers skull pictures with measurements')
         file_path =  os.path.join('ceropath', 'public', path)
         server_path = os.path.join('/', path)
         upper_individual_id = individual['_id'].upper() 
@@ -174,7 +174,7 @@ class IndividualController(BaseController):
         house_distance = individual['trapping_informations']['site']['house']['distance']
         if house_distance is not None:
             house_distance = math.pow(10, house_distance)
-        path = os.path.join('data','photos des lignes')
+        path = os.path.join('data','static', 'trap lines pictures')
         file_path =  os.path.join('ceropath', 'public', path)
         server_path = os.path.join('/', path)
         upper_site_id = individual['trapping_informations']['site']['_id'].upper() 

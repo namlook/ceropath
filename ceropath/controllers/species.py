@@ -108,7 +108,7 @@ class SpeciesController(BaseController):
             abort(404)
         if not species['internet_display']:
             abort(404)
-        path = os.path.join('data','photos des animaux vivants')
+        path = os.path.join('data','static', 'alive animals')
         file_path =  os.path.join('ceropath', 'public', path)
         server_path = os.path.join('/', path)
         capitalized_species_id = species['_id'].capitalize() 
@@ -118,8 +118,10 @@ class SpeciesController(BaseController):
             description = open(os.path.join(file_path, '%s.txt' % capitalized_species_id)).read()
         ## image
         image_path = ''
-        if '%s_1.jpg' % capitalized_species_id in os.listdir(file_path):
-            image_path = os.path.join(server_path, '%s_1.jpg' % capitalized_species_id)
+        for file_name in os.listdir(file_path):
+            base, ext = os.path.splitext(file_name)
+            if species['_id'] in file_name.lower() and ext.lower() in ['.jpg', '.jpeg', '.png', '.gif']:
+                image_path = os.path.join(server_path, file_name)
         return render('species/infos.mako', extra_vars={
             '_id': species['_id'],
             'iucn_id': species['iucn']['id'],
