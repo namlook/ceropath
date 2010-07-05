@@ -44,7 +44,7 @@
                 % if taxonomic_rank[rank]:
                     <tr>
                         <th>${rank}</th>
-                        <td>${taxonomic_rank[rank]}</td>
+                        <td>${taxonomic_rank[rank].capitalize()}</td>
                     </tr>
                 % endif
             % endfor
