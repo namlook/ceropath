@@ -2,7 +2,7 @@
 
 <div class="column" style="width:1200px;">
 <table>
-    <tr><th>Species</th><th>Common name</th><th>Thai Name</th><th>Lao Name</th><th>Khmer Name</th><th>IUCN status</th><th>IUCN trend</th></tr>
+    <tr><th>Species</th><th>Common name</th><th>Thai Name</th><th>Lao Name</th><th>IUCN status</th><th>IUCN trend</th></tr>
     % for species in species_list:
         <tr>
             <td>
@@ -13,7 +13,6 @@
             <td>${species['name']['common']['english']}</td>
             <td>${species['name']['common']['thai']}</td>
             <td>${species['name']['common']['lao']}</td>
-            <td>${species['name']['common']['khmer']}</td>
             <td>${species['iucn']['status']}</td>
             <td>${species['iucn']['trend']}</td>
         </tr>
