@@ -129,11 +129,13 @@ class SpeciesController(BaseController):
             description = open(os.path.join(file_path, '%s.txt' % capitalized_species_id)).read()
         ## image
         image_path = ''
+        photo_author = ''
         for file_name in os.listdir(file_path):
             base, ext = os.path.splitext(file_name)
             if species['_id'] in file_name.lower() and ext.lower() in ['.jpg', '.jpeg', '.png', '.gif']:
                 image_path = os.path.join(server_path, file_name)
-                photo_author = file_name.split('(')[1].split(')')[0]
+                if len(file_name.split('(')) > 1:
+                    photo_author = file_name.split('(')[1].split(')')[0]
         return render('species/infos.mako', extra_vars={
             '_id': species['_id'],
             'iucn_id': species['iucn']['id'],

@@ -21,10 +21,10 @@
 <div class="fixed column">
     % if image_path:
         <div>
-        <img style="padding-left:10px;padding-bottom:10px;" src="${image_path}" width="390px" />
+            <img style="padding-left:10px;padding-bottom:10px;" src="${image_path}" width="390px" />
         </div>
         <div>
-        <center><small>© ${_id.capitalize()} by ${photo_author}</small></center>
+            <center><small>© ${_id.capitalize()} by ${photo_author}</small></center>
         </div>
     % endif
     <fieldset><legend>Scientific fields</legend>
