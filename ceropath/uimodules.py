@@ -30,9 +30,13 @@ ParasiteMenu = ParasiteMenu()
 
 class Module(UIModule):
     def render(self, id, name):
-        module_path = os.path.join('ceropath', 'public', 'data', 'dynamic')
+        module_type = 'dynamic'
+        module_path = os.path.join('ceropath', 'public', 'data', module_type)
         if name not in os.listdir(module_path):
-            abort(404)
+            module_type = 'static'
+            module_path = os.path.join('ceropath', 'public', 'data', module_type)
+            if name not in os.listdir(module_path):
+                abort(404)
         # TODO good
         #if id not in os.listdir(os.path.join(module_path, name)):
         #    abort(404)
@@ -53,20 +57,21 @@ class Module(UIModule):
             '_id': id,
             'files_list': files_list,
             'legends': legends,
-            'data_path': os.path.join('/', 'data', 'dynamic', name),
+            'data_path': os.path.join('/', 'data', module_type, name),
         })
 Module = Module()
  
 class ModulesList(UIModule):
     def render(self, id, root): 
         modules_list = set([])
-        for module in os.listdir(os.path.join('ceropath', 'public', 'data', 'dynamic')):
-            for file_name in os.listdir(os.path.join('ceropath', 'public', 'data', 'dynamic', module)):
-                if id in file_name.decode('utf-8').lower():
-                    base_file_name, ext = os.path.splitext(file_name.lower())
-                    if ext in ['.jpg', '.jpeg', '.png']:
-                        modules_list.add(module)
-                        break
+        for module_type in ['dynamic', 'static']:
+            for module in os.listdir(os.path.join('ceropath', 'public', 'data', module_type)):
+                for file_name in os.listdir(os.path.join('ceropath', 'public', 'data', module_type, module)):
+                    if id in file_name.decode('utf-8').lower():
+                        base_file_name, ext = os.path.splitext(file_name.lower())
+                        if ext in ['.jpg', '.jpeg', '.png']:
+                            modules_list.add(module)
+                            break
         return render('/uimodules/modules_list.mako', extra_vars={
             '_id': id,
             'modules_list': modules_list,
