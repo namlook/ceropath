@@ -42,7 +42,7 @@ var markers = [
             'longitude': '${site['coord_wgs']['dll_long'] or 0}',
             'individu': '${individual['_id'].upper()}',
             'description': 'Region: ${region}<br/>Country: ${country} <br/>Province: ${province} <br/>District: ${district} <br/>Sub-district: ${sub_district} <br/>Village: ${village} <br/>Origin How: ${origin} <br/>Accuracy: ${accuracy}m',
-            'typo': '<ul><li>${typo['high']}</li><li>${typo['medium']}</li><li>${typo['low']}</li></ul>',
+            'typo': '<ul><li>${typo['low']}</li><li>${typo['medium']}</li><li>${typo['high']}</li></ul>',
             'surrounding': '${surrounding_landscape}'
         },
         % endif

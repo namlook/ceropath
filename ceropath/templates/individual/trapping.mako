@@ -35,7 +35,7 @@ function initialize() {
     var marker = new GMarker(point);
     map.addOverlay(marker);
     GEvent.addListener(marker,'click', function(){
-        marker.openInfoWindowHtml('<strong>${_id.upper()}</strong> (${species.capitalize()})<br /><br /><strong>Landscape at the sampling point</strong>:<br /> <ul><li>${eco_typology["high"]}</li><li>${eco_typology["medium"]}</li><li>${eco_typology["low"]}</li></ul><strong>Surrounding landscape</strong>:<br />${surrounding_landscape if surrounding_landscape else "unknown"}');
+        marker.openInfoWindowHtml('<strong>${_id.upper()}</strong> (${species.capitalize()})<br /><br /><strong>Landscape at the sampling point</strong>:<br /> <ul><li>${eco_typology["low"]}</li><li>${eco_typology["medium"]}</li><li>${eco_typology["high"]}</li></ul><strong>Surrounding landscape</strong>:<br />${surrounding_landscape if surrounding_landscape else "unknown"}');
     });
 
     //map.addControl(new GLargeMapControl());
