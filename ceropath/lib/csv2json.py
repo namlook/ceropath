@@ -91,14 +91,17 @@ def process(csv_path, yaml_path, name, delimiter=';'):
     
 def csv2json(csv_path, yaml_path, json_path):
     # Publication
+    print "generating publications..."
     publications = dict((i['_id'],i) for i in process(csv_path, yaml_path, 't_literature_referens'))
     open(os.path.join(json_path, 'publication.json'), 'w').write(genjson(publications.values()))
 
     # Institutes
+    print "generating institutes..."
     institutes = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_lib_institutes'))
     open(os.path.join(json_path, 'institute.json'), 'w').write(genjson(institutes.values()))
 
     # Responsibles
+    print "generating responsibles..."
     responsibles = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_lib_responsible'))
     open(os.path.join(json_path, 'responsible.json'), 'w').write(genjson(responsibles.values()))
  
@@ -142,12 +145,14 @@ def csv2json(csv_path, yaml_path, json_path):
             organism_classifications.append(org)
         return organism_classifications, synonyms
     organism_classifications, synonyms = get_organisms()
+    print "generating organism classifications..."
     open(os.path.join(json_path, 'organism_classification.json'), 'w').write(genjson(organism_classifications))
     organism_classifications = dict((i['_id'], i) for i in organism_classifications)
 #    pprint(organisms['bandicota indica'])
 
     # SpeciesMeasurement
     species_measurements = list(process(csv_path, yaml_path, 't_species_measurements'))
+    print "generating species measurements..."
     open(os.path.join(json_path, 'species_measurement.json'), 'w').write(genjson(species_measurements))
     #for i in species_measurements:
         #if 'bandicota indica' in i['organism_classification']['$id']:
@@ -180,6 +185,7 @@ def csv2json(csv_path, yaml_path, json_path):
         if i['_id'] in individuals:
             individuals[i['_id']]['microparasites'] = i['microparasites']
 #    pprint(individus['c0001'])
+    print "generating individuals..."
     open(os.path.join(json_path, 'individual.json'), 'w').write(genjson(individuals.values()))
 
     # RelHostParasite
@@ -189,10 +195,12 @@ def csv2json(csv_path, yaml_path, json_path):
 
 
     # Gene
+    print "generating genes..."
     genes = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_lib_genes'))
     open(os.path.join(json_path, 'gene.json'), 'w').write(genjson(genes.values()))
 
     # Sequence
+    print "generating sequences..."
     sequences = list(process(csv_path, yaml_path, 't_individus_sequences'))
     open(os.path.join(json_path, 'sequence.json'), 'w').write(genjson(sequences))
     #for i in sequences:
@@ -203,9 +211,11 @@ def csv2json(csv_path, yaml_path, json_path):
     primers = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_lib_primers'))
     for i in primers:
         primers[i]['remark'] = None
+    print "generating primers..."
     open(os.path.join(json_path, 'primer.json'), 'w').write(genjson(primers.values()))
 
     # Site
+    print "generating sites..."
     sites = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_sites'))
     open(os.path.join(json_path, 'site.json'), 'w').write(genjson(sites.values()))
 
@@ -232,6 +242,7 @@ def csv2json(csv_path, yaml_path, json_path):
                 failed = True
         if not failed:
             macroparasites.append(macroparasite)
+    print "generating rel host parasites..."
     open(os.path.join(json_path, 'rel_host_parasite.json'), 'w').write(genjson(macroparasites))
 
 if __name__ == "__main__":
