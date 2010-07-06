@@ -34,7 +34,7 @@ var markers = [
             accuracy = individual['trapping_informations']['trap_accuracy']
             if accuracy:
                 accuracy = int(math.pow(10, accuracy))
-            typo = site['eco_typology']['low']
+            typo = site['eco_typology']
             surrounding_landscape = site['surrounding_landscape']
         %>
         {
@@ -42,7 +42,7 @@ var markers = [
             'longitude': '${site['coord_wgs']['dll_long'] or 0}',
             'individu': '${individual['_id'].upper()}',
             'description': 'Region: ${region}<br/>Country: ${country} <br/>Province: ${province} <br/>District: ${district} <br/>Sub-district: ${sub_district} <br/>Village: ${village} <br/>Origin How: ${origin} <br/>Accuracy: ${accuracy}m',
-            'typo': '${typo}',
+            'typo': '<ul><li>${typo['high']}</li><li>${typo['medium']}</li><li>${typo['low']}</li></ul>',
             'surrounding': '${surrounding_landscape}'
         },
         % endif
@@ -61,6 +61,7 @@ function initializePoint(pointData)
         var marker = new GMarker(point);
         <!-- On crée la liste sur le volet droit on sera affiché tous les points et leur description -->
         var listItem = document.createElement('li');
+        listItem.id = pointData.individu;
         var listItemLink = listItem.appendChild(document.createElement('a'));
         listItemLink.href = "#";
         listItemLink.innerHTML = '<font color="#000000"><strong>' + pointData.individu + '</strong>';
@@ -70,7 +71,7 @@ function initializePoint(pointData)
         <!-- Sur l'action du click, on va se pointer à la localisation du marker -->
         var focusPoint = function() 
         {
-                marker.openInfoWindowHtml(pointData.individu + '<br/><strong>Landscape at the sampling point:</strong><br/>' + pointData.typo + '<br/><strong>Surrounding Landscape:</strong><br/>' + pointData.surrounding);
+                marker.openInfoWindowHtml('<strong>'+pointData.individu + '</strong><br/><strong>Landscape at the sampling point:</strong>' + pointData.typo + '<strong>Surrounding Landscape:</strong><br/>' + pointData.surrounding+'<br/> <a href="#'+pointData.individu+'">view more</a>');
                 map.panTo(point);
                 return false;
         }
