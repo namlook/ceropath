@@ -33,8 +33,7 @@ table.measurements td{
         % endfor
         </tr>
         <%
-            # XXX skull -> head
-            first_measures = ['Head & Body (mm)', 'Tail (mm)', 'Foot (mm)', 'Skull  (mm)', 'Ear (mm)', 'Weight (g)']
+            first_measures = ['Head & Body (mm)', 'Tail (mm)', 'Foot (mm)', 'Head (mm)', 'Ear (mm)', 'Weight (g)']
             last_measures = sorted(i.strip() for i in measures_infos if i not in first_measures)
         %>
         % for trait in first_measures + last_measures:
