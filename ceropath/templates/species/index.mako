@@ -16,7 +16,6 @@ $('document').ready(function(){
     $("input[type=text]").autoSuggest("${h.url(h.url_for('species_filter'))}", {
         minChars: 2,
         matchCase: false,
-        /*resultClick: function(data){ alert(data[0]); },*/
         selectionAdded: function(elem){$('form').submit();},
         selectedItemProp: 'name',
         asHtmlID: 'filter',
