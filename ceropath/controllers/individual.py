@@ -157,7 +157,7 @@ class IndividualController(BaseController):
             abort(404)
         if not sequence['internet_display']:
             abort(401)
-        fasta_name = "%s-%s" % ( id, "_".join(individual['organism_classification']['_id'].split()))
+        fasta_name = "%s-%s" % ( id.upper(), "_".join(individual['organism_classification']['_id'].capitalize().split()))
         response.headers['Content-type'] = 'text/x-fasta'
         response.headers['Content-disposition'] = 'attachment; filename=%s.fasta' % fasta_name
         return ">%s\n%s\n" % (fasta_name.encode('utf-8'), sequence['sequence'].encode('utf-8'))

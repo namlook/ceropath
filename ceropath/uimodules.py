@@ -82,3 +82,18 @@ class ParasitesList(UIModule):
         })
 ParasitesList = ParasitesList()
 
+class ChromatogramList(UIModule):
+    def render(self, individual_id, gene):
+        chromatograms = []
+        path = os.path.join('ceropath', 'public', 'data', 'static', 'chromatogram', gene.lower())
+        web_path = os.path.join('/', 'data', 'static', 'chromatogram', gene.lower())
+        for file_name in os.listdir(path):
+            if individual_id in file_name.lower():
+                chromatograms.append(file_name)
+        return render('/uimodules/chromatogram_list.mako', extra_vars={
+            'path':web_path,
+            'chromatograms': chromatograms,
+        })
+ChromatogramList = ChromatogramList()
+            
+        

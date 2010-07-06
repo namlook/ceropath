@@ -127,10 +127,13 @@ table.measurements td{
                 %>
                 <tr><th>${gene.upper()}</th>
                     <td>
+                    ${seq_disp}
                     % if seq['internet_display']:
-                        ${seq_disp} <a href="${h.url(h.url_for('individual_sequence', id=_id, gene=gene))}">download</a>
-                    % else:
-                        ${seq_disp}
+                        <button onclick="javascript:$(this).parent().find('.download-list').toggle();">download</button>
+                        <ul class="download-list" style="list-style:none;">
+                            <li> <a href="${h.url(h.url_for('individual_sequence', id=_id, gene=gene))}">consensus sequence</a></li>
+                            ${h.ui.ChromatogramList(individual_id=_id, gene=gene.lower())}
+                        </ul>
                     % endif
                     </td>
                 </tr>
@@ -187,6 +190,7 @@ function initialize() {
 
 $('document').ready(function(){
     initialize();
+    $('.download-list').hide();
 });
 $(window).unload(function() {
     GUnload();
