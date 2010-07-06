@@ -26,9 +26,9 @@ table.measurements td{
                     for ${species.capitalize()} <small>(a)</small>
                  </th>
             % elif header[1] == 'species':
-                <th>Ceropath Measurements for ${header[0].capitalize()} <small>(a)</small></th>
+                <th>Ceropath measurements for ${header[0].capitalize()} <small>(a)</small></th>
             % else:
-                <th>Measurements for ${header[0].upper()} ${age}</th>
+                <th>Measurements for ${header[0].upper()} (${age})</th>
             % endif
         % endfor
         </tr>
@@ -110,7 +110,6 @@ table.measurements td{
             <tr><th>country</th><td>${h.format_loc_name(country)}</td></tr>
             <tr><th>province</th><td>${h.format_loc_name(province)}</td></tr>
             <tr><th>region</th><td>${h.format_loc_name(region)}</td></tr>
-            <tr><th>surrounding landscape</th><td>${surrounding_landscape}</td></tr>
         </table>
         % if latitude and longitude:
             <div style="padding-top:10px">
@@ -175,7 +174,7 @@ function initialize() {
     var marker = new GMarker(point);
     map.addOverlay(marker);
     GEvent.addListener(marker,'click', function(){
-        marker.openInfoWindowHtml('<strong>${_id.upper()}</strong> (${species.capitalize()})<br />lat : ${latitude}  <br /> long : ${longitude}<br /><a href="#">view more</a>');
+        marker.openInfoWindowHtml('<strong>${_id.upper()}</strong> (${species.capitalize()})<br />lat : ${latitude}  <br /> long : ${longitude}<br /><a href="${h.url(h.url_for('individual_trapping', id=_id))}">view more</a>');
     });
 
     //map.addControl(new GLargeMapControl());
