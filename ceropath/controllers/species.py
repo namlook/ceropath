@@ -133,6 +133,7 @@ class SpeciesController(BaseController):
             base, ext = os.path.splitext(file_name)
             if species['_id'] in file_name.lower() and ext.lower() in ['.jpg', '.jpeg', '.png', '.gif']:
                 image_path = os.path.join(server_path, file_name)
+                photo_author = file_name.split('(')[1].split(')')[0]
         return render('species/infos.mako', extra_vars={
             '_id': species['_id'],
             'iucn_id': species['iucn']['id'],
@@ -141,6 +142,7 @@ class SpeciesController(BaseController):
             'common_names': species['name']['common'],
             'description': description,
             'image_path': image_path,
+            'photo_author': photo_author,
             'author': species['reference']['biblio']['author'],
             'date': species['reference']['biblio']['date'],
             'synonyms': dict((i['name'], i['pubref']) for i in species['synonyms'] if i['name'] != species['_id']),
