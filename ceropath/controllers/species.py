@@ -288,7 +288,7 @@ class SpeciesController(BaseController):
 
     def filter(self):
         q = request.params.get('q')
-        search_pattern = re.compile(q)
+        search_pattern = re.compile(q.lower())
         results = []
         for rank in ['family', 'genus', 'tribe', 'class', 'order']:
             dbres = self.db.organism_classification.find(
