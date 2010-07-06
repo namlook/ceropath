@@ -35,7 +35,7 @@ function initialize() {
     var marker = new GMarker(point);
     map.addOverlay(marker);
     GEvent.addListener(marker,'click', function(){
-        marker.openInfoWindowHtml('<strong>${_id.upper()}</strong> (${species.capitalize()})<br />lat : ${latitude}  <br /> long : ${longitude}<br /><a href="#">view more</a>');
+        marker.openInfoWindowHtml('<strong>${_id.upper()}</strong> (${species.capitalize()})<br /><br /><strong>Landscape at the sampling point</strong>:<br /> <ul><li>${eco_typology["high"]}</li><li>${eco_typology["medium"]}</li><li>${eco_typology["low"]}</li></ul><strong>Surrounding landscape</strong>:<br />${surrounding_landscape if surrounding_landscape else "unknown"}');
     });
 
     //map.addControl(new GLargeMapControl());
@@ -126,7 +126,7 @@ $(window).unload(function() {
 
 </style> 
 <div class="column span-4">
-    <h2>Site in ${h.format_loc_name(province)} where ${_id.upper()} was trapped</h2>
+    <h2> ${_id.upper()} trapping location in ${h.format_loc_name(province)} province (${h.format_loc_name(country)})</h2>
     % if latitude and longitude:
         <div class="container" style="padding:10px">
             <div id="map_canvas" style="width: 780;height:600;"></div>

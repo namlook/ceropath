@@ -199,6 +199,7 @@ class IndividualController(BaseController):
             'house_distance': 'unknown' if house_distance is None else int(house_distance),
             'accuracy': individual['trapping_informations']['trap_accuracy'],
             'site': individual['trapping_informations']['site']['_id'],
+            'eco_typology': individual['trapping_informations']['eco_typology'],
             'image_paths': image_paths,
             'api_key': google_map_api_key,
         })
