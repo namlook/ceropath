@@ -8,7 +8,7 @@
     % endif
 
     <div style="padding-bottom:10px;">
-    <a href="${h.url(h.url_for('species_index'))}">Home</a> » <a href="${h.url(h.url_for('species_individuals', id=species))}">${species.capitalize()}'s individuals</a> » ${_id.upper()}
+        <a href="${h.url(h.url_for('species_index'))}">Home</a> » <a href="${h.url(h.url_for('species_individuals', id=species))}">${species.capitalize()}'s individuals</a> » ${_id.upper()}
     </div>
 
     ${h.ui.IndividualMenu(_id)}
