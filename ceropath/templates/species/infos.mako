@@ -14,7 +14,9 @@
 
         More information about ${_id.capitalize()} on the
         <a href="http://www.bucknell.edu/msw3/browse.asp?s=y&id=${id_msw3}" target='_blank'>
-        Mammal Species of the World</a> website.
+        Mammal Species of the World</a> or 
+        <a href="http://www.iucnredlist.org/apps/redlist/details/${iucn_id}" target="_blank">IUCN</a>
+        website.
     </div>
 </div>
 
@@ -31,7 +33,7 @@
         ${h.ui.ModulesList(_id, root="species")}
     </fieldset>
     
-    <fieldset style="padding:0px;"><legend><a href="http://www.iucnredlist.org/apps/redlist/details/${iucn_id}" target="_blank">IUCN range map</a></legend>
+    <fieldset style="padding:0px;"><legend>IUCN range map</legend>
        <a href="http://www.iucnredlist.org/apps/redlist/images/range/maps/${iucn_id}.png" target="_blank">
         <img src="http://www.iucnredlist.org/apps/redlist/images/range/maps/${iucn_id}.png" width="385px" />
        </a>
