@@ -46,11 +46,13 @@
         ${h.ui.ModulesList(_id, root="species")}
     </fieldset>
     
-    <fieldset style="padding:0px;"><legend>IUCN range map</legend>
-       <a href="http://www.iucnredlist.org/apps/redlist/images/range/maps/${iucn_id}.png" target="_blank">
-        <img src="http://www.iucnredlist.org/apps/redlist/images/range/maps/${iucn_id}.png" width="385px" />
-       </a>
-    </fieldset>
+    % if iucn_web_path:
+        <fieldset style="padding:0px;"><legend>IUCN range map</legend>
+           <a href="${iucn_web_path}/${iucn_id}.png" target="_blank">
+            <img src="${iucn_web_path}/${iucn_id}.png" width="385px" />
+           </a>
+        </fieldset>
+    % endif
     <fieldset><legend>Taxonomic ranks</legend>
     <table>
         <%ranks = ['kingdom', 'phylum', 'class', 'order', 'superfamily', 'family', 'subfamily', 'tribe', 'genus', 'subgenus']%>

@@ -8,6 +8,7 @@ from config import google_map_api_key
 from ceropath.lib.base import BaseController, render
 import os.path
 import os
+import urllib2
 
 log = logging.getLogger(__name__)
 
@@ -148,6 +149,17 @@ class SpeciesController(BaseController):
                     if genus in _d_citations.get(cit['pubref']['_id'], ''):
                         genus_citations['citations'].remove(cit)
             citations.extend(genus_citations['citations'])
+        iucn_map_path = os.path.join('ceropath', 'public', 'iucn')
+        iucn_web_path = os.path.join('/', 'iucn')
+        iucn_id = species['iucn']['id']
+        if not '%s.png' % iucn_id in os.listdir(iucn_map_path):
+            try:
+                open(os.path.join(iucn_map_path, '%s.png' % iucn_id), 'w').write(
+                  urllib2.urlopen('http://www.iucnredlist.org/apps/redlist/images/range/maps/%s.png' % iucn_id).read()
+                )
+            except:
+                print "cannot fetch %s" % iucn_id
+                iucn_web_path = None
         return render('species/infos.mako', extra_vars={
             '_id': species['_id'],
             'iucn_id': species['iucn']['id'],
@@ -162,6 +174,7 @@ class SpeciesController(BaseController):
             'synonyms': species['synonyms'],
             'citations': citations,
             'internet_display': species['internet_display'],
+            'iucn_web_path': iucn_web_path, 
         })
 
     def measurements(self, id):
