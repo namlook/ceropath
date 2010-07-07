@@ -50,13 +50,40 @@
             % endfor
         </table>
         </fieldset>
+        % if citations:
+            <fieldset><legend>Recorded in</legend>
+                <table>
+                % for cit in citations:
+                    <tr>
+                        <td>
+                        <a href="${h.url(h.url_for('publication_show', id=cit['pubref']['_id']))}">
+                            ${h.author_date_from_citation(cit['pubref']['reference'])}</a>
+                        </td>
+                        <td>as ${cit['name'].capitalize()}</td>
+                    </tr>
+                % endfor
+                </table>
+            </fieldset>
+        % endif
+
         % if synonyms:
             <fieldset><legend>Synonyms</legend>
-            <ul>
-            % for synonym in synonyms:
-                <li> ${synonym.capitalize()} </li>
-            % endfor
-            </ul>
+                <table>
+                % for syn in synonyms:
+                    <tr>
+                        <% name = syn['name'].split() %>
+                        % if len(name) > 1:
+                            <td>${" ".join(name).capitalize()}</td>
+                        % else:
+                            <td>${name[0]}</td>
+                        % endif
+                        <td>
+                        <a href="${h.url(h.url_for('publication_show', id=syn['pubref']['_id']))}">
+                            ${h.author_date_from_citation(syn['pubref']['reference'])}</a>
+                        </td>
+                    </tr>
+                % endfor
+                </table>
             </fieldset>
         % endif
         <fieldset><legend>Species infected</legend>

@@ -115,7 +115,8 @@
  
 <!-- tab panes --> 
 <div id="panes"> 
-    % for file_name in files_list:
+    % for file_name in sorted(files_list):
+        <% print file_name %>
  
     <div>
         <a href="${data_path}/${file_name}" target="_blank">

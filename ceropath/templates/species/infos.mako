@@ -1,5 +1,8 @@
 <%inherit file="/species/show.mako" />
 
+<script type="text/javascript" src="/fancybox/jquery.fancybox-1.3.1.pack.js"></script>
+<link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.1.css" type="text/css" media="screen" />
+
 <div class="column span-4">
     <div class="container" style="padding:10px;">
         Common names:
@@ -10,7 +13,11 @@
                 % endif
             % endfor
         </ul>
-        ${h.literal(h.markdownize(description))}
+        % if not internet_display:
+            <p style="color:red;">This species wasn't sampling by Ceropath project </p>
+        % else:
+            ${h.literal(h.markdownize(description))}
+        % endif
 
         More information about ${_id.capitalize()} on the
         <a href="http://www.bucknell.edu/msw3/browse.asp?s=y&id=${id_msw3}" target='_blank'>
@@ -21,12 +28,18 @@
 </div>
 
 <div class="fixed column">
-    % if image_path:
-        <div>
-            <img style="padding-left:10px;padding-bottom:10px;" src="${image_path}" width="390px" />
-        </div>
-        <div>
-            <center><small>© ${_id.capitalize()} by ${photo_author}</small></center>
+    % if image_paths:
+        <div id="images">
+        <% i=0 %>
+        % for image_path, photo_author in image_paths:
+            % if i: 
+                <% hidden = "hidden" %>
+            % else:
+                <% hidden = "" %>
+            % endif
+                <a id="image" rel="group" class="group ${hidden}" title="© ${_id.capitalize()} by ${photo_author}" href="${image_path}"><img style="padding-left:10px;padding-bottom:10px;" src="${image_path}" width="390px" /></a>
+            <% i+=1 %>
+        % endfor
         </div>
     % endif
     <fieldset><legend>Scientific fields</legend>
@@ -90,3 +103,16 @@
 
 </div>
 
+<script>
+$('document').ready(function(){
+    $('.hidden').hide();
+    $("a.group").fancybox({
+        'titlePosition'  : 'over',
+        'transitionIn'  :   'elastic',
+        'transitionOut' :   'elastic',
+        'speedIn'       :   600, 
+        'speedOut'      :   200, 
+        'overlayShow'   :   true,
+    });
+});
+</script>

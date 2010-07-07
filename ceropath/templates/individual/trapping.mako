@@ -1,6 +1,8 @@
 <%inherit file="/individual/show.mako" />
 
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=${api_key}" type="text/javascript"></script>
+<script type="text/javascript" src="/fancybox/jquery.fancybox-1.3.1.pack.js"></script>
+<link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.1.css" type="text/css" media="screen" />
 
 <script>
 
@@ -49,7 +51,6 @@ function initialize() {
 
 $('document').ready(function(){
     initialize();
-    $("img[rel]").overlay({mask: '#789'});
 });
 $(window).unload(function() {
     GUnload();
@@ -150,6 +151,7 @@ $(window).unload(function() {
             <tr><th>house distance</th><td>${'about %sm' % house_distance if house_distance != 'unknown' else 'unknown'}</td></tr>
             <tr><th>latitude</th><td>${latitude}</td></tr>
             <tr><th>longitude</th><td>${longitude}</td></tr>
+            <tr><th>trap accuracy</th><td>(yellow circle on map)</td></tr>
         </table>
     </fieldset>
     % if image_paths:
@@ -160,9 +162,25 @@ $(window).unload(function() {
                 </div>
             % endif 
             % for index, image_path in enumerate(image_paths):
-                <div><img src="${image_path}" width="360px" rel="#${index}" /></div>
-                <div class="simple_overlay" id="${index}"><img src="${image_path}" /></div>
+                <div>
+                <a href="${image_path}" class="group" rel="group1"><img src="${image_path}" width="360px" rel="#${index}" /></a>
+                </div>
+                ##<div class="simple_overlay" id="${index}"><img src="${image_path}" /></div>
             % endfor
         </fieldset>
     % endif
 </div>
+
+
+
+<script>
+$('document').ready(function(){
+    $("a.group").fancybox({
+        'transitionIn'  :   'elastic',
+        'transitionOut' :   'elastic',
+        'speedIn'       :   600,
+        'speedOut'      :   200,
+        'overlayShow'   :   true,
+    });
+});
+</script>

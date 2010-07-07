@@ -117,8 +117,6 @@ class SpeciesController(BaseController):
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
             abort(404)
-        if not species['internet_display']:
-            abort(404)
         path = os.path.join('data','static', 'alive animals')
         file_path =  os.path.join('ceropath', 'public', path)
         server_path = os.path.join('/', path)
@@ -128,14 +126,16 @@ class SpeciesController(BaseController):
         if '%s.txt' % capitalized_species_id in os.listdir(file_path):
             description = open(os.path.join(file_path, '%s.txt' % capitalized_species_id)).read()
         ## image
-        image_path = ''
-        photo_author = ''
+        image_paths = []
         for file_name in os.listdir(file_path):
+            image_path = ''
+            photo_author = ''
             base, ext = os.path.splitext(file_name)
             if species['_id'] in file_name.lower() and ext.lower() in ['.jpg', '.jpeg', '.png', '.gif']:
                 image_path = os.path.join(server_path, file_name)
                 if len(file_name.split('(')) > 1:
                     photo_author = file_name.split('(')[1].split(')')[0]
+                image_paths.append((image_path, photo_author))
         citations = species['citations']
         genus_citations = self.db.organism_classification.OrganismClassification.find_one(
             { '_id':'%s sp.' % species['taxonomic_rank']['genus'] }
@@ -155,12 +155,13 @@ class SpeciesController(BaseController):
             'taxonomic_rank': species['taxonomic_rank'],
             'common_names': species['name']['common'],
             'description': description,
-            'image_path': image_path,
+            'image_paths': image_paths,
             'photo_author': photo_author,
             'author': species['reference']['biblio']['author'],
             'date': species['reference']['biblio']['date'],
             'synonyms': species['synonyms'],
             'citations': citations,
+            'internet_display': species['internet_display'],
         })
 
     def measurements(self, id):
