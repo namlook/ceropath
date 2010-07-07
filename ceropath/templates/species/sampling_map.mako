@@ -71,7 +71,7 @@ function initializePoint(pointData)
         <!-- Sur l'action du click, on va se pointer à la localisation du marker -->
         var focusPoint = function() 
         {
-                marker.openInfoWindowHtml('<strong><a href="/individual/'+pointData.individu.toLowerCase()+'">'+pointData.individu + '</a></strong><br/><strong>Landscape at the sampling point:</strong>' + pointData.typo + '<strong>Surrounding Landscape:</strong><br/>' + pointData.surrounding+'<br/> <a href="#'+pointData.individu+'">show in list more</a>');
+                marker.openInfoWindowHtml('<strong><a href="/individual/'+pointData.individu.toLowerCase()+'">'+pointData.individu + '</a></strong><br/><strong>Landscape at the sampling point:</strong>' + pointData.typo + '<strong>Surrounding Landscape:</strong><br/>' + pointData.surrounding+'<br/> <a href="#'+pointData.individu+'">set up to top of list</a>');
                 map.panTo(point);
                 return false;
         }
