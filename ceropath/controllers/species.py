@@ -147,7 +147,7 @@ class SpeciesController(BaseController):
             'photo_author': photo_author,
             'author': species['reference']['biblio']['author'],
             'date': species['reference']['biblio']['date'],
-            'synonyms': species['msw3']['synonyms'],
+            'synonyms': species['synonyms'],
             'citations': species['citations'],
         })
 

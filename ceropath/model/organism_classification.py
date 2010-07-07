@@ -63,7 +63,7 @@ class OrganismClassification(Core):
             'sort_order': unicode, #t_species_systematic/
             'display_order': unicode, #t_species_systematic/
             'status': unicode,
-            'synonyms': [unicode], # not used, usefull for footprint.#t_species_systematic/
+            #'synonyms': [unicode], # not used TODO remove, usefull for footprint.#t_species_systematic/
         },
         'internet_display': bool,#t_species_systematic/
         #'function': unicode, # permet de distinguer le parasite ou l'hote.
@@ -75,6 +75,9 @@ class OrganismClassification(Core):
             'id': unicode, #t_species_systematic/
         },
         'citations': [
+            {'pubref': Publication, 'name':unicode},
+        ],
+        'synonyms': [
             {'pubref': Publication, 'name':unicode},
         ],
     }

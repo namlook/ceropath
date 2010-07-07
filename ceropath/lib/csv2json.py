@@ -117,32 +117,38 @@ def csv2json(csv_path, yaml_path, json_path):
         synonyms = {}
         for i in process(csv_path, yaml_path, 't_species_synonyms'):
             if i['valid_name'] in organisms:
-                if 'citation' not in organisms[i['valid_name']]:
+                if 'citations' not in organisms[i['valid_name']]:
                     organisms[i['valid_name']]['citations'] = []
+                if 'synonyms' not in organisms[i['valid_name']]:
+                    organisms[i['valid_name']]['synonyms'] = []
                 organisms[i['valid_name']]['citations'].append({
-                 'pubref': i['id_article'],#{'$id': i['id_article'], '$ref':u'publication'},
+                 'pubref': i['id_article'],
                   'name': i['species_article_name']
                 })
                 if i['species_article_name'] != i['valid_name']:
+                    organisms[i['valid_name']]['synonyms'].append({
+                     'pubref': i['id_article'],
+                      'name': i['species_article_name']
+                    })
                     synonyms[(i['species_article_name'], i['id_article']['$id'])] = i['valid_name']
             else:
                 print "WARNING:", i['valid_name']
         organism_classifications = []
         for name, org in organisms.iteritems():
             if org['_id'] is None: continue
-            if org['type'] == 'parasite':
-                if not 'citations' in org:
-                    org['citations'] = []
-            else:
-                if not 'citations' in org:
-                    org['citations'] = []
+            if not 'citations' in org:
+                org['citations'] = []
+            if not 'synonyms' in org:
+                org['synonyms'] = []
+            if org['type'] != 'parasite':
                 org['type'] = u'mammal'
             for syn in org['msw3']['synonyms']:
                 if syn == name:
                     org['citations'].append({'name':syn, 'pubref':{'$db': 'dbrsea', '$id': '50999553', '$ref': 'publication'}})
                 else:
+                    org['synonyms'].append({'name':syn, 'pubref':{'$db': 'dbrsea', '$id': '50999553', '$ref': 'publication'}})
                     synonyms[(syn, '50999553')] = name
-            #del org['msw3']['synonyms']
+            del org['msw3']['synonyms']
             organism_classifications.append(org)
         return organism_classifications, synonyms
     organism_classifications, synonyms = get_organisms()

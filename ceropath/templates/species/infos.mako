@@ -66,11 +66,20 @@
     % endif
 
     % if synonyms:
-        <fieldset><legend>Synonyms from Mammals Species Of The World</legend>
+        <fieldset><legend>Synonyms</legend>
             <table>
             % for syn in synonyms:
                 <tr>
-                    <td>${syn.capitalize()}</td>
+                    <% name = syn['name'].split() %>
+                    % if len(name) > 1:
+                        <td>${" ".join(name).capitalize()}</td>
+                    % else:
+                        <td>${name[0]}</td>
+                    % endif
+                    <td>
+                    <a href="${h.url(h.url_for('publication_show', id=syn['pubref']['_id']))}">
+                        ${h.author_date_from_citation(syn['pubref']['reference'])}</a>
+                    </td>
                 </tr>
             % endfor
             </table>
