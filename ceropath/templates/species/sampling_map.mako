@@ -34,7 +34,7 @@ var markers = [
             accuracy = individual['trapping_informations']['trap_accuracy']
             if accuracy:
                 accuracy = int(math.pow(10, accuracy))
-            typo = site['eco_typology']
+            typo = individual['trapping_informations']['eco_typology']
             surrounding_landscape = site['surrounding_landscape']
         %>
         {
