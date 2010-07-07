@@ -19,7 +19,7 @@ $('document').ready(function(){
         selectionAdded: function(elem){$('form').submit();},
         selectedItemProp: 'name',
         asHtmlID: 'filter',
-        startText: 'enter a taxonomic rank to filter this result...',
+        startText: 'enter a taxonomic rank...',
         formatList: function(data, elem){
             return elem.html(data.name);
         },
@@ -27,10 +27,14 @@ $('document').ready(function(){
 });
 </script>
 
-<div class="column" style="width:1200px;">
+<div class="column" style="padding-top:10px;width:1200px;">
+<div style="width:1200px;">
 <form action="${h.url(h.url_for('species_index'))}" method="post">
+<fieldset><legend>Sort the list by typing a taxonomic rank...</legend>
 <input class="suggest" type="text" style="width:1200px;"/>
+</fieldset>
 </form>
+</div>
 % if enable_back:
     <a href="${h.url(h.url_for('species_index'))}">back to full list</a>
 % endif
@@ -48,7 +52,7 @@ $('document').ready(function(){
             <td>${species['name']['common']['lao']}</td>
             <td>${species['iucn']['status']}</td>
             <td>${species['iucn']['trend']}</td>
-            <td>${species['iucn']['red_list_criteria_version']}</td>
+            <td style="text-align:center">${species['iucn']['red_list_criteria_version']}</td>
         </tr>
     % endfor
 </table>
