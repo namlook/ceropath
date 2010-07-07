@@ -1,4 +1,5 @@
 <%inherit file="/individual/show.mako" />
+<% import math %>
 
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=${api_key}" type="text/javascript"></script>
 <script type="text/javascript" src="/fancybox/jquery.fancybox-1.3.1.pack.js"></script>
@@ -151,7 +152,13 @@ $(window).unload(function() {
             <tr><th>house distance</th><td>${'about %sm' % house_distance if house_distance != 'unknown' else 'unknown'}</td></tr>
             <tr><th>latitude</th><td>${latitude}</td></tr>
             <tr><th>longitude</th><td>${longitude}</td></tr>
-            <tr><th>trap accuracy</th><td>(yellow circle on map)</td></tr>
+            <tr><th>trap accuracy</th><td>
+            % if accuracy:
+                ${int(math.pow(10,accuracy))}m (yellow circle on map)
+            % else:
+                unknown
+            % endif
+            </td></tr>
         </table>
     </fieldset>
     % if image_paths:
