@@ -15,7 +15,7 @@ class PublicationController(BaseController):
         hosts_related = set([])
         parasites_related = set([])
         synonyms_related = {}
-        for species in self.db.organism_classification.find({'synonyms.pubref.$id':id}):
+        for species in self.db.organism_classification.find({'synonyms.pubref.$id':id, 'internet_display':True}):
             for synonym in species['synonyms']:
                 if synonym['pubref']['$id'] == id:
                     if synonym['name'] != species['_id']:

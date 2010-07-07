@@ -50,13 +50,18 @@ $(document).ready(function(){
         </fieldset>
         % endif
         % if synonyms_related:
-            <fieldset><legend>Names used in the publication for :</legend>
+            <fieldset><legend>Species presented in this reference and interesting Ceropath project.</legend>
             <ul>
-            % for species, synonyms in synonyms_related.iteritems():
-                <li><a href="${h.url(h.url_for('species_show', id=species))}">${species.capitalize()}</a> <button class="synonyms-more">show</button>
+            % for species, synonyms in sorted(synonyms_related.items()):
+                <li><a href="${h.url(h.url_for('species_show', id=species))}">${species.capitalize()}</a> <button class="synonyms-more">names in reference</button>
                 <ul class="synonyms">
                 % for syn in synonyms:
-                    <li>${syn.capitalize()}</li>
+                    <% name = syn.split() %>
+                    % if len(name) > 1:
+                        <li>${" ".join(name).capitalize()}</li>
+                    % else:
+                        <li>${name[0]}</li>
+                    % endif
                 % endfor
                 </ul>
                 </li>
