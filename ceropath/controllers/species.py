@@ -136,6 +136,18 @@ class SpeciesController(BaseController):
                 image_path = os.path.join(server_path, file_name)
                 if len(file_name.split('(')) > 1:
                     photo_author = file_name.split('(')[1].split(')')[0]
+        citations = species['citations']
+        genus_citations = self.db.organism_classification.OrganismClassification.find_one(
+            { '_id':'%s sp.' % species['taxonomic_rank']['genus'] }
+        )
+        _d_citations = dict((i['pubref']['_id'], i['name']) for i in citations)
+        if genus_citations:
+            for cit in genus_citations['citations']:
+                if 'sp.' in cit['name']:
+                    genus = cit['name'].split()[0]
+                    if genus in _d_citations.get(cit['pubref']['_id'], ''):
+                        genus_citations['citations'].remove(cit)
+            citations.extend(genus_citations['citations'])
         return render('species/infos.mako', extra_vars={
             '_id': species['_id'],
             'iucn_id': species['iucn']['id'],
@@ -148,7 +160,7 @@ class SpeciesController(BaseController):
             'author': species['reference']['biblio']['author'],
             'date': species['reference']['biblio']['date'],
             'synonyms': species['synonyms'],
-            'citations': species['citations'],
+            'citations': citations,
         })
 
     def measurements(self, id):
