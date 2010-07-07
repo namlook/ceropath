@@ -147,7 +147,8 @@ class SpeciesController(BaseController):
             'photo_author': photo_author,
             'author': species['reference']['biblio']['author'],
             'date': species['reference']['biblio']['date'],
-            'synonyms': dict((i['name'], i['pubref']) for i in species['synonyms'] if i['name'] != species['_id']),
+            'synonyms': species['msw3']['synonyms'],
+            'citations': species['citations'],
         })
 
     def measurements(self, id):

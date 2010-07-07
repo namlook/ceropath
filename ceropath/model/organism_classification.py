@@ -74,7 +74,7 @@ class OrganismClassification(Core):
             'trend': unicode, #t_species_systematic/
             'id': unicode, #t_species_systematic/
         },
-        'synonyms': [
+        'citations': [
             {'pubref': Publication, 'name':unicode},
         ],
     }

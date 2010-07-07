@@ -49,16 +49,28 @@
         % endfor
     </table>
     </fieldset>
-    % if synonyms:
-        <fieldset><legend>Synonyms</legend>
+    % if citations:
+        <fieldset><legend>Recorded in</legend>
             <table>
-            % for synonym, pubref in synonyms.iteritems():
+            % for cit in citations:
                 <tr>
-                    <td>${synonym.capitalize()}</td>
                     <td>
-                    <a href="${h.url(h.url_for('publication_show', id=pubref['_id']))}">
-                    ${h.author_date_from_citation(pubref['reference'])}</a>
+                    <a href="${h.url(h.url_for('publication_show', id=cit['pubref']['_id']))}">
+                        ${h.author_date_from_citation(cit['pubref']['reference'])}</a>
                     </td>
+                    <td>as ${cit['name'].capitalize()}</td>
+                </tr>
+            % endfor
+            </table>
+        </fieldset>
+    % endif
+
+    % if synonyms:
+        <fieldset><legend>Synonyms from Mammals Species Of The World</legend>
+            <table>
+            % for syn in synonyms:
+                <tr>
+                    <td>${syn.capitalize()}</td>
                 </tr>
             % endfor
             </table>

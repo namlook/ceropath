@@ -117,9 +117,9 @@ def csv2json(csv_path, yaml_path, json_path):
         synonyms = {}
         for i in process(csv_path, yaml_path, 't_species_synonyms'):
             if i['valid_name'] in organisms:
-                if 'synonyms' not in organisms[i['valid_name']]:
-                    organisms[i['valid_name']]['synonyms'] = []
-                organisms[i['valid_name']]['synonyms'].append({
+                if 'citation' not in organisms[i['valid_name']]:
+                    organisms[i['valid_name']]['citations'] = []
+                organisms[i['valid_name']]['citations'].append({
                  'pubref': i['id_article'],#{'$id': i['id_article'], '$ref':u'publication'},
                   'name': i['species_article_name']
                 })
@@ -131,17 +131,18 @@ def csv2json(csv_path, yaml_path, json_path):
         for name, org in organisms.iteritems():
             if org['_id'] is None: continue
             if org['type'] == 'parasite':
-                if not 'synonyms' in org:
-                    org['synonyms'] = []
+                if not 'citations' in org:
+                    org['citations'] = []
             else:
-                if not 'synonyms' in org:
-                    org['synonyms'] = []
+                if not 'citations' in org:
+                    org['citations'] = []
                 org['type'] = u'mammal'
             for syn in org['msw3']['synonyms']:
-                org['synonyms'].append({'name':syn, 'pubref':{'$db': 'dbrsea', '$id': '50999553', '$ref': 'publication'}})
-                if syn != name:
+                if syn == name:
+                    org['citations'].append({'name':syn, 'pubref':{'$db': 'dbrsea', '$id': '50999553', '$ref': 'publication'}})
+                else:
                     synonyms[(syn, '50999553')] = name
-            del org['msw3']['synonyms']
+            #del org['msw3']['synonyms']
             organism_classifications.append(org)
         return organism_classifications, synonyms
     organism_classifications, synonyms = get_organisms()
