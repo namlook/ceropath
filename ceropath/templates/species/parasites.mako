@@ -1,21 +1,15 @@
-<%inherit file="/root.mako" />
+<%inherit file="/species/show.mako" />
 
-<style>
-td {
-    text-align:center;
-}
-</style>
-
-<h1> Parasites found on ${species.capitalize()} </h1>
-
-<div style="padding-bottom:10px;">
-    <a href="${h.url(h.url_for('species_index'))}">Home</a> » <a href="${h.url(h.url_for('species_show', id=species))}">${species.capitalize()}</a> » parasites
-</div>
-
-<div class="unit on-1 columns">
-    <div class="column">
-        ${h.ui.ParasitesList(rel_host_parasites, species=species)}
-    </div>
+<div class="span-30" style="padding-top:10px;">
+        <table>
+        <tr><th>Parasites</th><th>Publications</th><tr>
+        % for rhp_id, (rhp, pubref) in rel_host_parasites.iteritems():
+            <tr>
+                <td><i><a href="${h.url(h.url_for('parasite_show', id=rhp['parasite']['$id']))}">${rhp['parasite']['$id'].capitalize()}</i></a></td>
+                <td><a href="${h.url(h.url_for('publication_show', id=pubref['_id']))}">${h.author_date_from_citation(pubref['reference'])}</a></td>
+            </tr>
+        % endfor
+    </table>
 </div>
 
 

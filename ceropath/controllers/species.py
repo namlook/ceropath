@@ -3,6 +3,8 @@ import logging
 from pylons import request, response, session, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
 
+from pylons.decorators.cache import beaker_cache
+
 from config import google_map_api_key
 
 from ceropath.lib.base import BaseController, render
@@ -24,8 +26,6 @@ REGX_16S = re.compile('16s')
 
 
 class SpeciesController(BaseController):
-
-    NB_INDIVIDUAL_TRAIT = {}
 
     def _get_measurements(self, species_id):
         species_measurements = list(self.db.species_measurement.SpeciesMeasurement.find(
@@ -73,15 +73,16 @@ class SpeciesController(BaseController):
                 species_measurements[trait]['max'] = max(species_measurements[trait]['max'], value)
                 species_measurements[trait]['min'] = min(species_measurements[trait]['min'], value)
         REGEXP_NUMBER = re.compile('^[\d\.,]+$')
+        nb_individuals = {}
         for individual in individuals.rewind():
             for measure in individual['measures']:
                 trait = measure['trait']
                 query['measures'] = {'$elemMatch':{'trait': trait, 'value': REGEXP_NUMBER}}
-                if not trait in self.NB_INDIVIDUAL_TRAIT.get(individual['_id'], []): 
-                    if individual['_id'] not in self.NB_INDIVIDUAL_TRAIT:
-                        self.NB_INDIVIDUAL_TRAIT[individual['_id']] = {}
-                    self.NB_INDIVIDUAL_TRAIT[individual['_id']][trait] = self.db.individual.find(query).count()
-                nb_individual = self.NB_INDIVIDUAL_TRAIT[individual['_id']][trait]
+                if not trait in nb_individuals.get(individual['_id'], []): 
+                    if individual['_id'] not in nb_individuals:
+                        nb_individuals[individual['_id']] = {}
+                    nb_individuals[individual['_id']][trait] = self.db.individual.find(query).count()
+                nb_individual = nb_individuals[individual['_id']][trait]
                 if nb_individual:
                     species_measurements[trait]['mean'] = species_measurements[trait]['value']/nb_individual
                     try:
@@ -98,7 +99,7 @@ class SpeciesController(BaseController):
                 measures_infos[trait][species_id]['max'] = species_measurements[trait]['max']
                 measures_infos[trait][species_id]['min'] = species_measurements[trait]['min']
                 measures_infos[trait][species_id]['sd'] = round(species_measurements[trait]['sd'], 2)
-                measures_infos[trait][species_id]['n'] = self.NB_INDIVIDUAL_TRAIT[individual['_id']][trait]
+                measures_infos[trait][species_id]['n'] = nb_individuals[individual['_id']][trait]
             else:
                 measures_infos[trait][species_id]['mean'] = None
                 measures_infos[trait][species_id]['max'] = None
@@ -188,6 +189,7 @@ class SpeciesController(BaseController):
             'iucn_web_path': iucn_web_path, 
         })
 
+    @beaker_cache(type='memory', query_args=True)
     def measurements(self, id):
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
@@ -267,9 +269,11 @@ class SpeciesController(BaseController):
                 site_id = site_id['$id']
             site = self.db.site.get_from_id(site_id)
             individuals[individual['_id']] = (individual, site)
-        return render('individual/list.mako', extra_vars={
+        return render('species/individuals.mako', extra_vars={
+            '_id': id,
+            'author': species['reference']['biblio']['author'],
+            'date': species['reference']['biblio']['date'],
             'individuals':individuals,
-            'species': id,
         })
 
     def vouchers(self, id):
@@ -286,8 +290,10 @@ class SpeciesController(BaseController):
                 site_id = site_id['$id']
             site = self.db.site.get_from_id(site_id)
             individuals[individual['_id']] = (individual, site)
-        return render('individual/list.mako', extra_vars={
-            'species': id,
+        return render('species/vouchers.mako', extra_vars={
+            '_id': id,
+            'author': species['reference']['biblio']['author'],
+            'date': species['reference']['biblio']['date'],
             'individuals':individuals,
         })
 
@@ -314,14 +320,18 @@ class SpeciesController(BaseController):
         })
  
     def parasites(self, id):
+        species = self.db.organism_classification.OrganismClassification.get_from_id(id)
+        if not species:
+            abort(404)
         rel_host_parasites_list = self.db.rel_host_parasite.find({'host.$id': id})
         rel_host_parasites = {}
         for rhp in rel_host_parasites_list:
             rel_host_parasites[rhp['_id']] = (rhp, self.db.publication.get_from_id(rhp['pubref']['$id']))
-
         return render('species/parasites.mako', extra_vars={
+            '_id': id,
+            'author': species['reference']['biblio']['author'],
+            'date': species['reference']['biblio']['date'],
             'rel_host_parasites':rel_host_parasites,
-            'species': id,
         })
 
     def filter(self):
