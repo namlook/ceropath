@@ -16,7 +16,7 @@
 
     <div class="column span-4">
         <div class="container" style="padding:10px;">
-
+            ${h.ui.Module(_id, 'parasites', width=800)}
         </div>
     </div>
 

@@ -217,6 +217,7 @@ class IndividualController(BaseController):
         })
 
     def parasites(self, id):
+        # XXX false
         individual = self.db.individual.Individual.get_from_id(id)
         if not individual:
             abort(404)

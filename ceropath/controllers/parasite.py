@@ -19,16 +19,16 @@ class ParasiteController(BaseController):
             abort(404)
         if not parasite['internet_display']:
             abort(401)
-        path = os.path.join('data','static', 'parasites')
-        file_path =  os.path.join('ceropath', 'public', path)
-        server_path = os.path.join('/', path)
-        capitalized_parasite_id = parasite['_id'].capitalize() 
+        #path = os.path.join('data','static', 'parasites')
+        #file_path =  os.path.join('ceropath', 'public', path)
+        #server_path = os.path.join('/', path)
+        #capitalized_parasite_id = parasite['_id'].capitalize() 
         ## image
-        image_path = ''
-        for file_name in os.listdir(file_path):
-            base, ext = os.path.splitext(file_name)
-            if parasite['_id'] in file_name.lower() and ext.lower() in ['.jpg', '.jpeg', '.png', '.gif']:
-                image_path = os.path.join(server_path, file_name)
+        #image_path = ''
+        #for file_name in os.listdir(file_path):
+        #    base, ext = os.path.splitext(file_name)
+        #    if parasite['_id'] in file_name.lower() and ext.lower() in ['.jpg', '.jpeg', '.png', '.gif']:
+        #        image_path = os.path.join(server_path, file_name)
         rel_host_parasites = self.db.rel_host_parasite.RelHostParasite.find({'parasite.$id':id})
         rel_host_parasites = dict(((i['host']['_id'], i['pubref']['_id']), i) for i in rel_host_parasites)
         citations = parasite['citations']
@@ -47,7 +47,7 @@ class ParasiteController(BaseController):
             '_id': parasite['_id'],
             'taxonomic_rank': parasite['taxonomic_rank'],
             'common_names': parasite['name']['common'],
-            'image_path': image_path,
+            #'image_path': image_path,
             'author': parasite['reference']['biblio']['author'],
             'date': parasite['reference']['biblio']['date'],
             'synonyms': parasite['synonyms'],#set(i['name'] for i in parasite['synonyms'] if i['name'] != parasite['_id']),
