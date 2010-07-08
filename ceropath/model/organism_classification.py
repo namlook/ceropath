@@ -6,6 +6,8 @@ class OrganismClassification(Core):
         '_id': unicode, # bandicota indica #t_species_systematic/
         'id_msw3': unicode, # 100023 #t_species_systematic/
         'type': unicode, # mammal or parasite ? t_species_systematic/(host, typehost
+        'internet_display': bool,#t_species_systematic/
+        'display_only_mol_identif': bool,
         'taxonomic_rank':{
             'kingdom': unicode, #t_species_systematic/
             'phylum': unicode, #t_species_systematic/
@@ -65,7 +67,6 @@ class OrganismClassification(Core):
             'status': unicode,
             #'synonyms': [unicode], # not used TODO remove, usefull for footprint.#t_species_systematic/
         },
-        'internet_display': bool,#t_species_systematic/
         #'function': unicode, # permet de distinguer le parasite ou l'hote.
         'iucn':{
             'status': unicode, #t_species_systematic/

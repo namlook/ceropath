@@ -178,3 +178,7 @@ typeSpecies:
 
 typeLocality:
     dbrsea: reference.type.locality
+
+display_only_mol_identif:
+    dbrsea: display_only_mol_identif
+    filter: bool_converter
