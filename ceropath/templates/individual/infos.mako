@@ -106,9 +106,9 @@ table.measurements td{
     </fieldset>
     <fieldset><legend>Trapping Informations</legend>
         <table style="width:360px">
+            <tr><th>region</th><td>${h.format_loc_name(region)}</td></tr>
             <tr><th>country</th><td>${h.format_loc_name(country)}</td></tr>
             <tr><th>province</th><td>${h.format_loc_name(province)}</td></tr>
-            <tr><th>region</th><td>${h.format_loc_name(region)}</td></tr>
         </table>
         % if latitude and longitude:
             <div style="padding-top:10px">
