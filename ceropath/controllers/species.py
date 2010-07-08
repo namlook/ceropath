@@ -77,6 +77,8 @@ class SpeciesController(BaseController):
         for individual in individuals.rewind():
             for measure in individual['measures']:
                 trait = measure['trait']
+                if not 'variance' in species_measurements[trait]:
+                    species_measurements[trait]['variance'] = 0
                 query['measures'] = {'$elemMatch':{'trait': trait, 'value': REGEXP_NUMBER}}
                 if not trait in nb_individuals.get(individual['_id'], []): 
                     if individual['_id'] not in nb_individuals:
@@ -89,8 +91,8 @@ class SpeciesController(BaseController):
                         value = float(measure['value'].replace(',', '.'))
                     except:
                         continue
-                    variance = math.pow(value - species_measurements[trait]['mean'], 2)/(nb_individual -1)
-                    species_measurements[trait]['sd'] = math.sqrt(math.pow(variance,2)/nb_individual)
+                    species_measurements[trait]['variance'] += math.pow(value - species_measurements[trait]['mean'], 2)
+                    species_measurements[trait]['sd'] = math.sqrt((species_measurements[trait]['variance']/(nb_individual -1))/nb_individual)
         for trait in traits_list:
             if species_id not in measures_infos[trait]:
                 measures_infos[trait][species_id] = {}
