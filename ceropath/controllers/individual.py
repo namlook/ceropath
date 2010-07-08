@@ -76,27 +76,34 @@ class IndividualController(BaseController):
                 species_measurements[trait]['max'] = max(species_measurements[trait]['max'], value)
                 species_measurements[trait]['min'] = min(species_measurements[trait]['min'], value)
         #publications_list[species_id] = None
+        REGEXP_NUMBER = re.compile('^[\d\.,]+$')
+        nb_individuals = {}
         for individual in individuals.rewind():
             for measure in individual['measures']:
                 trait = measure['trait']
-                species_measurements[trait]['mean'] = species_measurements[trait]['value']/nb_individuals
-                try:
-                    value = float(measure['value'].replace(',', '.'))
-                except:
-                    continue
-                variance = math.pow(value - species_measurements[trait]['mean'], 2)/(nb_individuals -1)
-                species_measurements[trait]['sd'] = math.sqrt(math.pow(variance,2)/nb_individuals)
+                query['measures'] = {'$elemMatch':{'trait': trait, 'value': REGEXP_NUMBER}}
+                nb_individuals[trait] = self.db.individual.find(query).count()
+                if nb_individuals[trait]:
+                    species_measurements[trait]['mean'] = species_measurements[trait]['value']/nb_individuals
+                    try:
+                        value = float(measure['value'].replace(',', '.'))
+                    except:
+                        continue
+                    variance = math.pow(value - species_measurements[trait]['mean'], 2)/(nb_individuals -1)
+                    species_measurements[trait]['sd'] = math.sqrt(math.pow(variance,2)/nb_individuals)
         for trait in traits_list:
             if species_id not in measures_infos[trait]:
                 measures_infos[trait][species_id] = {}
-            measures_infos[trait][species_id]['mean'] = round(species_measurements[trait]['mean'], 2)
-            measures_infos[trait][species_id]['max'] = species_measurements[trait]['max']
-            measures_infos[trait][species_id]['min'] = species_measurements[trait]['min']
-            measures_infos[trait][species_id]['min'] = species_measurements[trait]['min']
             if 'sd' in species_measurements[trait]:
+                measures_infos[trait][species_id]['mean'] = round(species_measurements[trait]['mean'], 2)
+                measures_infos[trait][species_id]['max'] = species_measurements[trait]['max']
+                measures_infos[trait][species_id]['min'] = species_measurements[trait]['min']
                 measures_infos[trait][species_id]['sd'] = round(species_measurements[trait]['sd'], 2)
                 measures_infos[trait][species_id]['n'] = nb_individuals
             else:
+                measures_infos[trait][species_id]['mean'] = None
+                measures_infos[trait][species_id]['max'] = None
+                measures_infos[trait][species_id]['min'] = None
                 measures_infos[trait][species_id]['sd'] = None
                 measures_infos[trait][species_id]['n'] = None
         return measures_infos, publications_list
