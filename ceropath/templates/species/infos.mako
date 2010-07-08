@@ -37,7 +37,7 @@
             % else:
                 <% hidden = "" %>
             % endif
-                <a id="image" rel="group" class="group ${hidden}" title="© ${_id.capitalize()} by ${photo_author}" href="${image_path}"><img style="padding-left:10px;padding-bottom:10px;" src="${image_path}" width="390px" /></a>
+                <a id="image" rel="group" class="group ${hidden}" title="© ${_id.capitalize()} by ${photo_author}" href="${image_path}"><img style="padding-bottom:10px;" src="${image_path}" width="390px" /></a>
             <% i+=1 %>
         % endfor
         </div>
