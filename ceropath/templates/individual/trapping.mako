@@ -146,10 +146,10 @@ $(window).unload(function() {
             <tr><th>district</th><td>${h.format_loc_name(district)}</td></tr>
             <tr><th>sub distict</th><td>${h.format_loc_name(sub_district)}</td></tr>
             <tr><th>village</th><td>${h.format_loc_name(village)}</td></tr>
-            <tr><th>surrounding lanscape</th><td>${surrounding_landscape if surrounding_landscape else "unknown"}</td></tr>
-            <tr><th>low resolution</th><td>${eco_typology['low']}</td></tr>
-            <tr><th>medium resolution</th><td>${eco_typology['medium']}</td></tr>
-            <tr><th>high resolution</th><td>${eco_typology['high']}</td></tr>
+            ##<tr><th>surrounding lanscape</th><td>${surrounding_landscape if surrounding_landscape else "unknown"}</td></tr>
+            ##<tr><th>low resolution</th><td>${eco_typology['low']}</td></tr>
+            ##<tr><th>medium resolution</th><td>${eco_typology['medium']}</td></tr>
+            ##<tr><th>high resolution</th><td>${eco_typology['high']}</td></tr>
             <tr><th>latitude</th><td>${latitude}</td></tr>
             <tr><th>longitude</th><td>${longitude}</td></tr>
             <tr><th>trap accuracy</th><td>
