@@ -2,16 +2,16 @@
     /* navigation */
     #nav {
         /*background:#ddd url(http://static.flowplayer.org/img/global/gradient/h300_reverse.png);*/
-        border-bottom:1px solid #CCCCCC;
+        /*border-bottom:1px solid #CCCCCC;*/
         height:156px;   
-        width:1200;
+        width:${width}px;
     }
     
     #nav ul {   
         overflow-x:hidden;
         overflow-y:scroll;
         height:170px;
-        width:1200px;
+        width:${width}px;
         margin:0 auto;  
     }
     
@@ -55,7 +55,7 @@
     /* panes */
     #panes {
         /*background:#fff url(http://static.flowplayer.org/img/global/gradient/h300_reverse.png) repeat scroll 0 0;*/
-        width:1200;    
+        width:${width}px;
         height:255px;
         margin-bottom:-20px;
         padding-bottom:20px;
@@ -72,7 +72,7 @@
         left:20px;
         font-size:13px;
         color:#444; 
-        width:1150px; 
+        width:${width-50}px;
         text-align:center;
     }
     
@@ -119,6 +119,7 @@
         <% print file_name %>
  
     <div>
+        <hr />
         <a href="${data_path}/${file_name}" target="_blank">
             <img src="${data_path}/${file_name}" style="max-width:1150px;" />        
         </a>

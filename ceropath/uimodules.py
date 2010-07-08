@@ -29,7 +29,7 @@ class ParasiteMenu(UIModule):
 ParasiteMenu = ParasiteMenu()
 
 class Module(UIModule):
-    def render(self, id, name):
+    def render(self, id, name,  width=1200):
         module_path = os.path.join('ceropath', 'public', 'data', 'dynamic')
         if name not in os.listdir(module_path):
             abort(404)
@@ -52,6 +52,7 @@ class Module(UIModule):
         return render('/uimodules/module.mako', extra_vars={
             '_id': id,
             'files_list': files_list,
+            'width': width,
             'legends': legends,
             'data_path': os.path.join('/', 'data', 'dynamic', name),
         })
