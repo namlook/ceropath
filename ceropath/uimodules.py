@@ -75,14 +75,6 @@ class ModulesList(UIModule):
         })
 ModulesList = ModulesList()
 
-class ParasitesList(UIModule):
-    def render(self, rel_host_parasites, **options):
-        return render('/uimodules/parasites_list.mako', extra_vars={
-            'rel_host_parasites': rel_host_parasites,
-            'options': options,
-        })
-ParasitesList = ParasitesList()
-
 class ChromatogramList(UIModule):
     def render(self, individual_id, gene):
         chromatograms = []
