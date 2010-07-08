@@ -3,8 +3,7 @@
 <script type="text/javascript" src="/fancybox/jquery.fancybox-1.3.1.pack.js"></script>
 <link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.1.css" type="text/css" media="screen" />
 
-<div class="column span-4">
-    <div class="container" style="padding:10px;">
+<div class="span-20">
         Common names:
         <ul>
             % for language, name in sorted(common_names.items()):
@@ -24,11 +23,11 @@
         Mammal Species of the World</a> or 
         <a href="http://www.iucnredlist.org/apps/redlist/details/${iucn_id}" target="_blank">IUCN</a>
         website.
-    </div>
 </div>
 
-<div class="fixed column">
+<div class="span-10 last">
     % if image_paths:
+        <fieldset class="span-10">
         <div id="images">
         <% i=0 %>
         % for image_path, photo_author in image_paths:
@@ -41,19 +40,20 @@
             <% i+=1 %>
         % endfor
         </div>
+        </fieldset>
     % endif
-    <fieldset><legend>Scientific fields</legend>
+    <fieldset class="span-10"><legend>Scientific fields</legend>
         ${h.ui.ModulesList(_id, root="species")}
     </fieldset>
     
     % if iucn_web_path:
-        <fieldset style="padding:0px;"><legend>IUCN range map</legend>
+        <fieldset class="span-10"><legend>IUCN range map</legend>
            <a href="${iucn_web_path}/${iucn_id}.png" target="_blank">
             <img src="${iucn_web_path}/${iucn_id}.png" width="385px" />
            </a>
         </fieldset>
     % endif
-    <fieldset><legend>Taxonomic ranks</legend>
+    <fieldset class="span-10"><legend>Taxonomic ranks</legend>
     <table>
         <%ranks = ['kingdom', 'phylum', 'class', 'order', 'superfamily', 'family', 'subfamily', 'tribe', 'genus', 'subgenus']%>
         % for rank in ranks:
@@ -67,7 +67,7 @@
     </table>
     </fieldset>
     % if citations:
-        <fieldset><legend>Recorded in</legend>
+        <fieldset class="span-10"><legend>Recorded in</legend>
             <table>
             % for cit in citations:
                 <tr>
@@ -83,7 +83,7 @@
     % endif
 
     % if synonyms:
-        <fieldset><legend>Synonyms</legend>
+        <fieldset class="span-10"><legend>Synonyms</legend>
             <table>
             % for syn in synonyms:
                 <tr>

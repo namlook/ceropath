@@ -1,6 +1,6 @@
 <%inherit file="/root.mako" />
 
-<div class="unit on-6 columns" style="width:1200px;">
+<div class="span-30 last">
     <h1><i>${_id.capitalize()}</i> <small>(${author.split(',')[0]}, ${date})</small></h1>
 
     <div style="padding-bottom:10px;">
@@ -8,7 +8,7 @@
     </div>
 
     ${h.ui.SpeciesMenu(_id)}
+</div>
 
     ${self.body()}
 
-</div>

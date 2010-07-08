@@ -1,6 +1,6 @@
 <%inherit file="/root.mako" />
 
-<div class="unit on-6 columns" style="width:1200px;">
+<div class="span-30">
     <h1><i>${_id.capitalize()}</i> <small>(${author}, ${date})</small></h1>
 
     <div style="padding-bottom:10px;">
@@ -13,18 +13,14 @@
         % endif 
         <hr />
     </div>
+</div>
 
-    <div class="column span-4">
-        <div class="container" style="padding:10px;">
-            ${h.ui.Module(_id, 'parasites', width=800)}
-        </div>
+    <div class="span-21">
+        ${h.ui.Module(_id, 'parasites', width=860)}
     </div>
 
 
-    <div class="fixed column" style="width:390px;">
-        % if image_path:
-            <img style="padding-left:10px;padding-bottom:10px;" src="${image_path}" width="390px" />
-        % endif
+    <div class="span-8 last push-1">
         % if [i for i in common_names.values() if i is not None]:
             <fieldset><legend>Also known as</legend>
             <ul>
@@ -101,4 +97,3 @@
 
     </div>
 
-</div>

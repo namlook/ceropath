@@ -7,9 +7,7 @@ table.measurements td{
 }
 </style>
 
-<div class="column span-4">
-    <div class="container" style="padding:10px;">
-
+<div class="span-20">
      <%
          theaders = [(_id, 'individual'), (species, 'species')]
          theaders.extend((i, 'pubref') for i in publications_list.keys())
@@ -84,14 +82,15 @@ table.measurements td{
     <p>
     (a) The mean plus or minus one standard deviation, number of specimens in parentheses, and observed range are listed for each measurement.
     </p>
-    </div>
 </div>
 
 
-<div class="fixed column">
+<div class="span-8 last">
     % if image_path:
-        <a href="${image_path}" target="_blank"> <img style="padding-left:10px;padding-bottom:10px;" src="${image_path}" width="360px" /> </a>
+        <fieldset>
+        <a href="${image_path}" target="_blank"> <img style="padding-bottom:10px;" src="${image_path}" width="360px" /> </a>
         <p style="text-align:center;margin:0px;padding:0px;"><small>Click on the image to see skull measurments</small></p>
+        </fieldset>
     % endif
     <fieldset><legend>General Informations</legend>
         <table style="width:360px">
@@ -101,11 +100,11 @@ table.measurements td{
             <tr><th>dissection date</th><td>${dissection_date}</td></tr>
         </table>
     </fieldset>
-    <fieldset><legend>Scientific fields</legend>
+    <fieldset style="width:360px;"><legend>Scientific fields</legend>
         ${h.ui.ModulesList(_id, root="individual")}
     </fieldset>
     <fieldset><legend>Trapping Informations</legend>
-        <table style="width:360px">
+        <table>
             <tr><th>region</th><td>${h.format_loc_name(region)}</td></tr>
             <tr><th>country</th><td>${h.format_loc_name(country)}</td></tr>
             <tr><th>province</th><td>${h.format_loc_name(province)}</td></tr>

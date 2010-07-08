@@ -102,13 +102,15 @@
 <!-- navigator --> 
 <div id="nav"> 
     <ul> 
+        <% i = 1 %>
         % for file_name in files_list:
         <li> 
-            <a href="#1"> 
+            <a href="#${i}"> 
                 <img src="${data_path}/${file_name}" style="width:100px;" />        
                 <strong>${files_list[file_name]}</strong> 
             </a> 
         </li> 
+        <% i+= 1 %>
         % endfor
     </ul> 
 </div> 
@@ -126,11 +128,13 @@
         
         <h3>${files_list[file_name]}</h3> 
  
+        <br />
         <p> 
             ${legends}
         </p>
     </div> 
     % endfor
+</div>
     
 <br clear="all" /> 
  

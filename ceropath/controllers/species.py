@@ -25,6 +25,8 @@ REGX_16S = re.compile('16s')
 
 class SpeciesController(BaseController):
 
+    NB_INDIVIDUAL_TRAIT = {}
+
     def _get_measurements(self, species_id):
         species_measurements = list(self.db.species_measurement.SpeciesMeasurement.find(
           {'organism_classification.$id': species_id}
@@ -51,7 +53,6 @@ class SpeciesController(BaseController):
             'identification.type':{'$in':[REGX_COI, REGX_CYTB, REGX_PRIMER, REGX_16S]}
         }
         individuals = self.db.individual.find(query)
-        nb_individuals = individuals.count()
         traits_list = []
         for individual in individuals:
             for measure in individual['measures']:
@@ -72,20 +73,23 @@ class SpeciesController(BaseController):
                 species_measurements[trait]['max'] = max(species_measurements[trait]['max'], value)
                 species_measurements[trait]['min'] = min(species_measurements[trait]['min'], value)
         REGEXP_NUMBER = re.compile('^[\d\.,]+$')
-        nb_individuals = {}
         for individual in individuals.rewind():
             for measure in individual['measures']:
                 trait = measure['trait']
                 query['measures'] = {'$elemMatch':{'trait': trait, 'value': REGEXP_NUMBER}}
-                nb_individuals[trait] = self.db.individual.find(query).count()
-                if nb_individuals[trait]:
-                    species_measurements[trait]['mean'] = species_measurements[trait]['value']/nb_individuals[trait]
+                if not trait in self.NB_INDIVIDUAL_TRAIT.get(individual['_id'], []): 
+                    if individual['_id'] not in self.NB_INDIVIDUAL_TRAIT:
+                        self.NB_INDIVIDUAL_TRAIT[individual['_id']] = {}
+                    self.NB_INDIVIDUAL_TRAIT[individual['_id']][trait] = self.db.individual.find(query).count()
+                nb_individual = self.NB_INDIVIDUAL_TRAIT[individual['_id']][trait]
+                if nb_individual:
+                    species_measurements[trait]['mean'] = species_measurements[trait]['value']/nb_individual
                     try:
                         value = float(measure['value'].replace(',', '.'))
                     except:
                         continue
-                    variance = math.pow(value - species_measurements[trait]['mean'], 2)/(nb_individuals[trait] -1)
-                    species_measurements[trait]['sd'] = math.sqrt(math.pow(variance,2)/nb_individuals[trait])
+                    variance = math.pow(value - species_measurements[trait]['mean'], 2)/(nb_individual -1)
+                    species_measurements[trait]['sd'] = math.sqrt(math.pow(variance,2)/nb_individual)
         for trait in traits_list:
             if species_id not in measures_infos[trait]:
                 measures_infos[trait][species_id] = {}
@@ -94,7 +98,7 @@ class SpeciesController(BaseController):
                 measures_infos[trait][species_id]['max'] = species_measurements[trait]['max']
                 measures_infos[trait][species_id]['min'] = species_measurements[trait]['min']
                 measures_infos[trait][species_id]['sd'] = round(species_measurements[trait]['sd'], 2)
-                measures_infos[trait][species_id]['n'] = nb_individuals[trait]
+                measures_infos[trait][species_id]['n'] = self.NB_INDIVIDUAL_TRAIT[individual['_id']][trait]
             else:
                 measures_infos[trait][species_id]['mean'] = None
                 measures_infos[trait][species_id]['max'] = None

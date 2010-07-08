@@ -1,6 +1,6 @@
 <%inherit file="/root.mako" />
 
-<div class="unit on-6 columns" style="width:1200px;">
+<div class="span-30">
     % if voucher:
         <h1><i>${_id.upper()}</i> <small>is a barcoding voucher for <i><a href="${h.url(h.url_for('species_show', id=species))}">${species.capitalize()}</a></i></small></h1>
     % else:
@@ -12,6 +12,6 @@
     </div>
 
     ${h.ui.IndividualMenu(_id)}
+</div>
 
     ${self.body()}
-</div>

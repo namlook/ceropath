@@ -1,19 +1,15 @@
 <%inherit file="/species/show.mako" />
 <%import math%>
 
-<div class="unit on-4 columns" style="width:1200px;height:600px;">
-    <div class="column span-3">
-        <div id="map-wrapper"> 
-            <div id="map" style="width:900px;height:600px;"></div> 
-        </div> 
+<div class="span-23">
+    <div id="map-wrapper"> 
+        <div id="map" style="height:600px;"></div> 
     </div> 
-    <div class="container" style="height:600px;overflow-y:scroll;">
-    <div class="fixed column">
-        <div id="sidebar">
-            <ul id="sidebar-list">
-         </div>  
-    </div>
-    </div>
+</div>
+<div class="span-7 last" style="height:600px;overflow-y:scroll;">
+    <div id="sidebar">
+        <ul id="sidebar-list">
+     </div>  
 </div>
 
 

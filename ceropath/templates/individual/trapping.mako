@@ -127,8 +127,10 @@ $(window).unload(function() {
 }
 
 </style> 
-<div class="column span-4">
+<div class="span-30 alt">
     <h2> ${_id.upper()} trapping location in ${h.format_loc_name(province)} province (${h.format_loc_name(country)})</h2>
+</div>
+<div class="span-20">
     % if latitude and longitude:
         <div class="container" style="padding:10px">
             <div id="map_canvas" style="width: 780;height:600;"></div>
@@ -136,7 +138,7 @@ $(window).unload(function() {
     % endif
 </div>
 
-<div class="fixed column">
+<div class="span-8">
     <fieldset><legend>Trapping Informations</legend>
         <table style="width:360px;">
             <tr><th>site id</th><td>${site.upper()}</td></tr>
