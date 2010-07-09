@@ -10,8 +10,9 @@ a img{
 </style>
 
 <div class="span-20">
+    <div class="span-7">
+    &nbsp;
     % if image_paths:
-        <div class="span-7">
         <% i=0 %>
         % for image_path, photo_author in image_paths:
             % if i: 
@@ -22,10 +23,16 @@ a img{
                 <a id="image" rel="group" class="group ${hidden}" title="© ${_id.capitalize()} by ${photo_author}" href="${image_path}"><img align="righ" style="padding-bottom:10px;padding-top:10px;" src="${image_path}" width="250px" /></a>
             <% i+=1 %>
         % endfor
-        </div>
     % endif
+    </div>
 
-        <div class="span-13 last" style="text-align:right;">
+    <div class="span-7 colborder" style="padding-top:20px;">
+        <fieldset><legend><h3>Scientific fields</h3></legend>
+            ${h.ui.ModulesList(_id, root="species")}
+        </fieldset>
+    </div>
+
+        <div class="span-4 last" style="text-align:right;">
         <h3>Common names:</h3>
             % for language, name in sorted(common_names.items()):
                 % if name:
@@ -33,7 +40,9 @@ a img{
                 % endif
             % endfor
         </div>
+
         <div class="span-20">
+        <br />
         % if not internet_display:
             <p style="color:red;">This species wasn't sampling by Ceropath project </p>
         % else:
@@ -48,6 +57,24 @@ a img{
         <br />
         <br />
         </div>
+           % if citations:
+           <div class="span-20">
+            <fieldset class="span-10"><legend>Recorded in</legend>
+                <table>
+                % for cit in citations:
+                    <tr>
+                        <td>
+                        <a href="${h.url(h.url_for('publication_show', id=cit['pubref']['_id']))}">
+                            ${h.author_date_from_citation(cit['pubref']['reference'])}</a>
+                        </td>
+                        <td>as ${cit['name'].capitalize()}</td>
+                    </tr>
+                % endfor
+                </table>
+            </fieldset>
+            </div>
+        % endif
+ 
 </div>
 
 <div class="span-10 last">
@@ -83,26 +110,8 @@ a img{
             </table>
             </fieldset>
 
-    <fieldset class="span-10"><legend>Scientific fields</legend>
-        ${h.ui.ModulesList(_id, root="species")}
-    </fieldset>
 
-           % if citations:
-            <fieldset class="span-10"><legend>Recorded in</legend>
-                <table>
-                % for cit in citations:
-                    <tr>
-                        <td>
-                        <a href="${h.url(h.url_for('publication_show', id=cit['pubref']['_id']))}">
-                            ${h.author_date_from_citation(cit['pubref']['reference'])}</a>
-                        </td>
-                        <td>as ${cit['name'].capitalize()}</td>
-                    </tr>
-                % endfor
-                </table>
-            </fieldset>
-        % endif
- 
+
     % if iucn_web_path and iucn_id:
         <fieldset class="span-10"><legend>IUCN range map</legend>
            <a href="${iucn_web_path}/${iucn_id}.png" target="_blank">
