@@ -3,4 +3,5 @@ pyparing
 pypit
 networkx
 markdown
+statlib
 
