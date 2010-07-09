@@ -73,7 +73,6 @@
         font-size:13px;
         color:#444; 
         width:${width-50}px;
-        text-align:center;
     }
     
     #panes img {
@@ -122,15 +121,21 @@
  
     <div>
         <hr />
+        <p style="text-align:center;">
         <a href="${data_path}/${file_name}" target="_blank">
             <img src="${data_path}/${file_name}" style="max-width:1150px;" />        
         </a>
+        </p>
         
         <h3>${files_list[file_name]}</h3> 
  
         <br />
         <p> 
-            ${legends}
+            ${h.literal(h.markdownize(legends.get(file_name, legends.get(_id))))}
+            % if bibliography:
+                <h2>Bibliography</h2>
+                ${h.literal(h.markdownize(bibliography))}
+            % endif
         </p>
     </div> 
     % endfor

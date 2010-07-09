@@ -1,6 +1,7 @@
 from ceropath.lib.uimodules import *
 from pylons.controllers.util import abort
 import os
+import codecs
 
 class SpeciesMenu(UIModule):
     def render(self, id):
@@ -34,27 +35,34 @@ class Module(UIModule):
         module_path = os.path.join('ceropath', 'public', 'data', 'dynamic')
         if name not in os.listdir(module_path):
             abort(404)
-        # TODO good
-        #if id not in os.listdir(os.path.join(module_path, name)):
-        #    abort(404)
-        # XXX a supprimer
         files_list = {}
         legends = {}
+        bibliography = ""
         for file_name in os.listdir(os.path.join(module_path, name)):
             if id in file_name.lower():
                 base_file_name, ext = os.path.splitext(file_name)
-                if ext.lower() == '.txt':
-                    if id in base_file_name.lower():
-                    #if '%s.txt' % base_file_name in os.listdir(module_path):
-                        legend_file = os.path.join(module_path, name, '%s.txt' % base_file_name)
-                        legends[file_name] = open(legend_file).read()
                 if ext.lower() in ['.jpg', '.jpeg', '.png']:
                     files_list[file_name] = base_file_name
+                    if '%s.txt' % base_file_name in os.listdir(os.path.join(module_path, name)):
+                        legend_file = os.path.join(module_path, name, '%s.txt' % base_file_name)
+                    else:
+                        legend_file = None
+                    if legend_file:
+                        legends[file_name] = open(legend_file).read()
+                if 'bibliography' in file_name.lower():
+                    bibliography = open(os.path.join(module_path, name, file_name)).read()
+        if '%s.txt' % id.capitalize() in os.listdir(os.path.join(module_path, name)):
+            legend_file = os.path.join(module_path, name, '%s.txt' % id.capitalize())
+            legends[id] = open(legend_file).read()
+        if not bibliography:
+            if 'Bibliography.txt' in os.listdir(os.path.join(module_path, name)):
+                bibliography = codecs.open(os.path.join(module_path, name, 'Bibliography.txt'), encoding='utf-8', errors='ignore').read()
         return render('/uimodules/module.mako', extra_vars={
             '_id': id,
             'files_list': files_list,
             'width': width,
             'legends': legends,
+            'bibliography': bibliography,
             'data_path': os.path.join('/', 'data', 'dynamic', name),
         })
 Module = Module()
