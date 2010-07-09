@@ -48,12 +48,12 @@ class Module(UIModule):
                     else:
                         legend_file = None
                     if legend_file:
-                        legends[file_name] = open(legend_file).read()
+                        legends[file_name] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
                 if 'bibliography' in file_name.lower():
-                    bibliography = open(os.path.join(module_path, name, file_name)).read()
+                    bibliography = codecs.open(os.path.join(module_path, name, file_name), encoding='utf-8', errors='ignore').read()
         if '%s.txt' % id.capitalize() in os.listdir(os.path.join(module_path, name)):
             legend_file = os.path.join(module_path, name, '%s.txt' % id.capitalize())
-            legends[id] = open(legend_file).read()
+            legends[id] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
         if not bibliography:
             if 'Bibliography.txt' in os.listdir(os.path.join(module_path, name)):
                 bibliography = codecs.open(os.path.join(module_path, name, 'Bibliography.txt'), encoding='utf-8', errors='ignore').read()
