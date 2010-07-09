@@ -4,8 +4,8 @@
 <link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.1.css" type="text/css" media="screen" />
 
 <style>
-a{
-    border:none;
+a img{
+    border:0px solid;
 }
 </style>
 
