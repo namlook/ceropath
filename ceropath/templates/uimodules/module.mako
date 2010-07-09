@@ -127,11 +127,16 @@
         </a>
         </p>
         
-        <h3>${files_list[file_name]}</h3> 
+        <h3 style="text-align:center;">${files_list[file_name]}</h3> 
  
         <br />
         <p> 
-            ${h.literal(h.markdownize(legends.get(file_name, legends.get(_id))))}
+            <%
+                legend = legends.get(file_name, legends.get(_id))
+            %>
+            % if legend:
+                ${h.literal(h.markdownize(legend))}
+            % endif
             % if bibliography:
                 <h2>Bibliography</h2>
                 ${h.literal(h.markdownize(bibliography))}
