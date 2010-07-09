@@ -209,12 +209,14 @@ class SpeciesController(BaseController):
                 if (pubref, origin) not in measures_infos[trait]:
                     measures_infos[trait][(pubref, origin)] = {}
                 measures_infos[trait][(pubref, origin)] = measure['measures'][trait]
+        traits = dict((int(i['_id']), i) for i in self.db.trait.find())
         return render('species/measurements.mako', extra_vars={
             '_id': species['_id'],
             'author': species['reference']['biblio']['author'],
             'date': species['reference']['biblio']['date'],
             'measures_infos': measures_infos,
             'publications_list': publications_list,
+            'traits': traits,
         })
         
     def module(self, id, name):

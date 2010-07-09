@@ -155,6 +155,7 @@ class IndividualController(BaseController):
                 if (pubref, origin) not in measures_infos[trait]:
                     measures_infos[trait][(pubref, origin)] = {}
                 measures_infos[trait][(pubref, origin)] = measure['measures'][trait]
+        traits = dict((int(i['_id']), i) for i in self.db.trait.find())
         #measures_infos, publications_list = self._get_measurements(individual['_id'], individual['organism_classification']['_id'])
         sequences = dict((i['gene']['$id'], i) for i in self.db.sequence.find({'individual.$id':id}))
         return render('individual/infos.mako', extra_vars={
@@ -176,6 +177,7 @@ class IndividualController(BaseController):
             'voucher': individual['voucher_barcoding'],
             'sequences': sequences,
             'api_key': google_map_api_key,
+            'traits': traits,
         })
 
     def sequence(self, id, gene):

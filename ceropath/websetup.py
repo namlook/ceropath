@@ -72,6 +72,8 @@ def generate_species_measurements(db, species_id):
             trait = measure['trait']
             if not trait in results[key]:
                 results[key][trait] = {}
+            if measure['value'] is not None:
+                measure['value'] = float(measure['value'].replace(',', '.'))
             results[key][trait][species_measurement['type']] = measure['value']
     return results
 
@@ -111,6 +113,7 @@ def setup_app(command, conf, vars):
         'publication',
         'institute',
         'responsible',
+        'trait',
         'organism_classification',
         'species_measurement',
         'site',

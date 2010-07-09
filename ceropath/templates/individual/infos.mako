@@ -30,43 +30,72 @@ table.measurements td{
             first_measures = ['Head & Body (mm)', 'Tail (mm)', 'Foot (mm)', 'Head (mm)', 'Ear (mm)', 'Weight (g)']
             last_measures = sorted(i.strip() for i in measures_infos if i not in first_measures)
         %>
-        % for trait in first_measures + last_measures:
-            <% measure = measures_infos[trait] %>
-            <tr><th>${trait}</th>
-                % for publication_id in publications_list:
+        % for trait_id in sorted(traits):
+            <%
+                trait = traits[trait_id]
+                measure = measures_infos.get(trait['name'])
+                if not measure:
+                    continue
+            %>
+            <tr><th>${trait['name']}</th>
+                % for key in publications_list:
                     <%
-                        m = measure.get(publication_id)
+                        m = measure.get(key)
                         if isinstance(m, dict):
                             if isinstance(m['n'], basestring):
                                 m['n'] = int(float(m['n'].replace(',', '.'))) if m['n'] else 0
-                            # measure shoud match the round of the measure. The
-                            # measure of the individu is taken as root_measure
-                            root_measure =  measures_infos[trait].get(_id)
-                            if m['mean'] is not None and root_measure is not None:
-                                if isinstance(m['mean'], unicode):
-                                    m['mean'] = float(m['mean'].replace(',', '.'))
-                                if ',' not in root_measure:
-                                    m['mean'] = int(m['mean'])
-                                else:
-                                    splited_root = root_measure.split(',')
-                                    if len(splited_root) < 2:
-                                        round_number = 0
-                                    else:
-                                        round_number = len(splited_root[1])
-                                    m['mean'] = round(m['mean'], round_number)
                     %>
                     <td>
                         <center>
-                        % if isinstance(m, dict):
+                        % if m and isinstance(m, dict):
                             % if m['n']:
-                               ${m['mean'] or 0} +/- ${m['sd'] or 'NAN'} (${m['n']})
+                                % if m['mean']:
+                                    % if trait['measurement_accuracy']:
+                                        ${round(float(m['mean']), trait['measurement_accuracy'])}
+                                    % else:
+                                        ${int(m['mean'])}
+                                    % endif
+                                % else:
+                                    0
+                                % endif
+                                +/-
+                                % if m['sd']:
+                                    % if trait['measurement_accuracy']:
+                                        ${round(float(m['sd']), trait['measurement_accuracy'])}
+                                    % else:
+                                        ${int(m['sd'])}
+                                    % endif
+                                % else:
+                                    NAN
+                                % endif
+                                (${m['n']})
                                <br />
-                               ${m['min'] or 0} - ${m['max'] or 0}
+                                % if m['min']:
+                                    % if trait['measurement_accuracy']:
+                                        ${round(float(m['min']), trait['measurement_accuracy'])}
+                                    % else:
+                                        ${int(m['min'])}
+                                    % endif
+                                % else:
+                                    0
+                                % endif
+                                -
+                                % if m['max']:
+                                    % if trait['measurement_accuracy']:
+                                        ${round(float(m['max']), trait['measurement_accuracy'])}
+                                    % else:
+                                        ${int(m['max'])}
+                                    % endif
+                                % else:
+                                    0
+                                % endif
                             % else:
                                 ø
                             % endif
+                        % elif m:
+                            ${m}
                         % else:
-                            ${m or u'ø'}
+                            ø
                         % endif
                         </center>
                     </td>

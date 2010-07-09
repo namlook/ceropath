@@ -40,6 +40,7 @@ dll_converter = lambda x: x.replace(',', '.') if x is not None else None
 date_converter = lambda x: {'$date':totimestamp(datetime.strptime(x, "%d/%m/%Y"))} if x is not None else None
 sex_checker = lambda x: x.lower() if x in ['f', 'm'] else None
 sanitize_article_id = lambda x: x.split(',')[0]
+filter_measurement_accuracy = lambda x: len(x.split(',')[1]) if len(x.split(',')) > 1 else 0
 
 def process(csv_path, yaml_path, name, delimiter=';'):
     config = yaml.load(open(os.path.join(yaml_path, '%s.yaml') % name).read())
@@ -104,6 +105,11 @@ def csv2json(csv_path, yaml_path, json_path):
     print "generating responsibles..."
     responsibles = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_lib_responsible'))
     open(os.path.join(json_path, 'responsible.json'), 'w').write(genjson(responsibles.values()))
+
+    # Traits
+    print "generating traits..."
+    traits = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_lib_traits'))
+    open(os.path.join(json_path, 'trait.json'), 'w').write(genjson(traits.values()))
  
     # OrganismClassification
     def get_organisms():
