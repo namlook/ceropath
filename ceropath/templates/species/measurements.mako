@@ -64,7 +64,7 @@
                                 % else:
                                     NAN
                                 % endif
-                                (${m['n']})
+                                (${int(m['n'])})
                                <br />
                                 % if m['min']:
                                     % if trait['measurement_accuracy']:
