@@ -17,16 +17,16 @@ td{
             <th>Family</th>
             <th>Genus</th>
         <tr>
-        % for rhp_id, (rhp, pubref) in rel_host_parasites.iteritems():
+        % for rhp_id, (rhp, host, pubref) in rel_host_parasites.iteritems():
             <%
-                phylum = rhp['parasite']['taxonomic_rank']['phylum']
-                _class = rhp['parasite']['taxonomic_rank']['class']
-                order = rhp['parasite']['taxonomic_rank']['order']
-                family = rhp['parasite']['taxonomic_rank']['family']
-                genus = rhp['parasite']['taxonomic_rank']['genus']
+                phylum = host['taxonomic_rank']['phylum']
+                _class = host['taxonomic_rank']['class']
+                order = host['taxonomic_rank']['order']
+                family = host['taxonomic_rank']['family']
+                genus = host['taxonomic_rank']['genus']
             %>
             <tr>
-                <td><i><a href="${h.url(h.url_for('parasite_show', id=rhp['parasite']['_id']))}">${rhp['parasite']['_id'].capitalize()}</i></a></td>
+                <td><i><a href="${h.url(h.url_for('parasite_show', id=rhp['parasite']['$id'], species=_id))}">${rhp['parasite']['$id'].capitalize()}</i></a></td>
                 <td><a href="${h.url(h.url_for('publication_show', id=pubref['_id']))}">${h.author_date_from_citation(pubref['reference'])}</a></td>
                 <td>${phylum.capitalize() if phylum else "unknown"}</td>
                 <td>${_class.capitalize() if _class else "unknown"}</td>

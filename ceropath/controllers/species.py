@@ -321,10 +321,14 @@ class SpeciesController(BaseController):
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
             abort(404)
-        rel_host_parasites_list = self.db.rel_host_parasite.RelHostParasite.find({'host.$id': id})
+        rel_host_parasites_list = self.db.rel_host_parasite.find({'host.$id':id}).sort('host.$id', 1)
         rel_host_parasites = {}
         for rhp in rel_host_parasites_list:
-            rel_host_parasites[rhp['_id']] = (rhp, self.db.publication.get_from_id(rhp['pubref']['_id']))
+            host_id = rhp['host']
+            if host_id:
+                host_id = host_id['$id']
+            host = self.db.organism_classification.get_from_id(host_id)
+            rel_host_parasites[rhp['_id']] = (rhp, host,self.db.publication.get_from_id(rhp['pubref']['$id']))
         return render('species/parasites.mako', extra_vars={
             '_id': id,
             'author': species['reference']['biblio']['author'],

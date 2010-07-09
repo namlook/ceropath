@@ -1,4 +1,5 @@
 from ceropath.lib.uimodules import *
+from pylons.controllers.util import abort
 import os
 
 class SpeciesMenu(UIModule):
