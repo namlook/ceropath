@@ -27,88 +27,88 @@ REGX_16S = re.compile('16s')
 
 class SpeciesController(BaseController):
 
-    def _get_measurements(self, species_id):
-        species_measurements = list(self.db.species_measurement.SpeciesMeasurement.find(
-          {'organism_classification.$id': species_id}
-        ))
-        measures_infos = {}
-        publications_list = {}
-        # species
-        for measure in species_measurements:
-            for pub in measure['pubref']:
-                publications_list[pub['_id']] = pub
-            for m in measure['measures']:
-                trait, value = m['trait'], m['value']
-                if trait not in measures_infos:
-                    measures_infos[trait] = {}
-                for publication in measure['pubref']:
-                    if publication['_id'] not in measures_infos[trait]:
-                        measures_infos[trait][publication['_id']] = {}
-                    measures_infos[trait][publication['_id']][measure['type']] = value
-        # ceropath measurements for species
-        species_measurements = {}
-        query = {
-            'organism_classification.$id': species_id,
-            'adult':'adult',
-            'identification.type':{'$in':[REGX_COI, REGX_CYTB, REGX_PRIMER, REGX_16S]}
-        }
-        individuals = self.db.individual.find(query)
-        traits_list = []
-        for individual in individuals:
-            for measure in individual['measures']:
-                trait  = measure['trait']
-                if trait not in measures_infos:
-                    measures_infos[trait] = {}
-                if species_id not in measures_infos[trait]:
-                    measures_infos[trait][species_id] = {}
-                if trait not in traits_list:
-                    traits_list.append(trait)
-                if trait not in species_measurements:
-                    species_measurements[trait] = {'value':0.0, 'max':0, 'min':999999999}
-                try:
-                    value = float(measure['value'].replace(',', '.'))
-                except:
-                    continue
-                species_measurements[trait]['value'] += value
-                species_measurements[trait]['max'] = max(species_measurements[trait]['max'], value)
-                species_measurements[trait]['min'] = min(species_measurements[trait]['min'], value)
-        REGEXP_NUMBER = re.compile('^[\d\.,]+$')
-        nb_individuals = {}
-        for individual in individuals.rewind():
-            for measure in individual['measures']:
-                trait = measure['trait']
-                if not 'variance' in species_measurements[trait]:
-                    species_measurements[trait]['variance'] = 0
-                query['measures'] = {'$elemMatch':{'trait': trait, 'value': REGEXP_NUMBER}}
-                if not trait in nb_individuals.get(individual['_id'], []): 
-                    if individual['_id'] not in nb_individuals:
-                        nb_individuals[individual['_id']] = {}
-                    nb_individuals[individual['_id']][trait] = self.db.individual.find(query).count()
-                nb_individual = nb_individuals[individual['_id']][trait]
-                if nb_individual:
-                    species_measurements[trait]['mean'] = species_measurements[trait]['value']/nb_individual
-                    try:
-                        value = float(measure['value'].replace(',', '.'))
-                    except:
-                        continue
-                    species_measurements[trait]['variance'] += math.pow(value - species_measurements[trait]['mean'], 2)
-                    species_measurements[trait]['sd'] = math.sqrt((species_measurements[trait]['variance']/(nb_individual -1))/nb_individual)
-        for trait in traits_list:
-            if species_id not in measures_infos[trait]:
-                measures_infos[trait][species_id] = {}
-            if 'sd' in species_measurements[trait]:
-                measures_infos[trait][species_id]['mean'] = round(species_measurements[trait]['mean'], 2)
-                measures_infos[trait][species_id]['max'] = species_measurements[trait]['max']
-                measures_infos[trait][species_id]['min'] = species_measurements[trait]['min']
-                measures_infos[trait][species_id]['sd'] = round(species_measurements[trait]['sd'], 2)
-                measures_infos[trait][species_id]['n'] = nb_individuals[individual['_id']][trait]
-            else:
-                measures_infos[trait][species_id]['mean'] = None
-                measures_infos[trait][species_id]['max'] = None
-                measures_infos[trait][species_id]['min'] = None
-                measures_infos[trait][species_id]['sd'] = None
-                measures_infos[trait][species_id]['n'] = None
-        return measures_infos, publications_list
+#    def _get_measurements(self, species_id):
+#        species_measurements = list(self.db.species_measurement.SpeciesMeasurement.find(
+#          {'organism_classification.$id': species_id}
+#        ))
+#        measures_infos = {}
+#        publications_list = {}
+#        # species
+#        for measure in species_measurements:
+#            for pub in measure['pubref']:
+#                publications_list[pub['_id']] = pub
+#            for m in measure['measures']:
+#                trait, value = m['trait'], m['value']
+#                if trait not in measures_infos:
+#                    measures_infos[trait] = {}
+#                for publication in measure['pubref']:
+#                    if publication['_id'] not in measures_infos[trait]:
+#                        measures_infos[trait][publication['_id']] = {}
+#                    measures_infos[trait][publication['_id']][measure['type']] = value
+#        # ceropath measurements for species
+#        species_measurements = {}
+#        query = {
+#            'organism_classification.$id': species_id,
+#            'adult':'adult',
+#            'identification.type':{'$in':[REGX_COI, REGX_CYTB, REGX_PRIMER, REGX_16S]}
+#        }
+#        individuals = self.db.individual.find(query)
+#        traits_list = []
+#        for individual in individuals:
+#            for measure in individual['measures']:
+#                trait  = measure['trait']
+#                if trait not in measures_infos:
+#                    measures_infos[trait] = {}
+#                if species_id not in measures_infos[trait]:
+#                    measures_infos[trait][species_id] = {}
+#                if trait not in traits_list:
+#                    traits_list.append(trait)
+#                if trait not in species_measurements:
+#                    species_measurements[trait] = {'value':0.0, 'max':0, 'min':999999999}
+#                try:
+#                    value = float(measure['value'].replace(',', '.'))
+#                except:
+#                    continue
+#                species_measurements[trait]['value'] += value
+#                species_measurements[trait]['max'] = max(species_measurements[trait]['max'], value)
+#                species_measurements[trait]['min'] = min(species_measurements[trait]['min'], value)
+#        REGEXP_NUMBER = re.compile('^[\d\.,]+$')
+#        nb_individuals = {}
+#        for individual in individuals.rewind():
+#            for measure in individual['measures']:
+#                trait = measure['trait']
+#                if not 'variance' in species_measurements[trait]:
+#                    species_measurements[trait]['variance'] = 0
+#                query['measures'] = {'$elemMatch':{'trait': trait, 'value': REGEXP_NUMBER}}
+#                if not trait in nb_individuals.get(individual['_id'], []): 
+#                    if individual['_id'] not in nb_individuals:
+#                        nb_individuals[individual['_id']] = {}
+#                    nb_individuals[individual['_id']][trait] = self.db.individual.find(query).count()
+#                nb_individual = nb_individuals[individual['_id']][trait]
+#                if nb_individual:
+#                    species_measurements[trait]['mean'] = species_measurements[trait]['value']/nb_individual
+#                    try:
+#                        value = float(measure['value'].replace(',', '.'))
+#                    except:
+#                        continue
+#                    species_measurements[trait]['variance'] += math.pow(value - species_measurements[trait]['mean'], 2)
+#                    species_measurements[trait]['sd'] = math.sqrt((species_measurements[trait]['variance']/(nb_individual -1))/nb_individual)
+#        for trait in traits_list:
+#            if species_id not in measures_infos[trait]:
+#                measures_infos[trait][species_id] = {}
+#            if 'sd' in species_measurements[trait]:
+#                measures_infos[trait][species_id]['mean'] = round(species_measurements[trait]['mean'], 2)
+#                measures_infos[trait][species_id]['max'] = species_measurements[trait]['max']
+#                measures_infos[trait][species_id]['min'] = species_measurements[trait]['min']
+#                measures_infos[trait][species_id]['sd'] = round(species_measurements[trait]['sd'], 2)
+#                measures_infos[trait][species_id]['n'] = nb_individuals[individual['_id']][trait]
+#            else:
+#                measures_infos[trait][species_id]['mean'] = None
+#                measures_infos[trait][species_id]['max'] = None
+#                measures_infos[trait][species_id]['min'] = None
+#                measures_infos[trait][species_id]['sd'] = None
+#                measures_infos[trait][species_id]['n'] = None
+#        return measures_infos, publications_list
  
 
     def index(self):
@@ -191,30 +191,24 @@ class SpeciesController(BaseController):
             'iucn_web_path': iucn_web_path, 
         })
 
-    @beaker_cache(type='memory', query_args=True)
     def measurements(self, id):
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
             abort(404)
         if not species['internet_display']:
             abort(401)
-#        species_measurements = list(self.db.species_measurement.SpeciesMeasurement.find(
-#          {'organism_classification.$id': id}
-#        ))
-#        measures_infos = {}
-#        publications_list = {}
-#        for measure in species_measurements:
-#            for pub in measure['pubref']:
-#                publications_list[pub['_id']] = pub
-#            for m in measure['measures']:
-#                trait, value = m['trait'], m['value']
-#                if trait not in measures_infos:
-#                    measures_infos[trait] = {}
-#                for publication in measure['pubref']:
-#                    if publication['_id'] not in measures_infos[trait]:
-#                        measures_infos[trait][publication['_id']] = {}
-#                    measures_infos[trait][publication['_id']][measure['type']] = value
-        measures_infos, publications_list = self._get_measurements(id)
+        measures_infos = {}
+        publications_list = []
+        for measure in species['measures_stats']:
+            pubref = measure['pubref']
+            origin = measure['origin']
+            publications_list.append((pubref, origin))
+            for trait in measure['measures']:
+                if trait not in measures_infos:
+                    measures_infos[trait] = {}
+                if (pubref, origin) not in measures_infos[trait]:
+                    measures_infos[trait][(pubref, origin)] = {}
+                measures_infos[trait][(pubref, origin)] = measure['measures'][trait]
         return render('species/measurements.mako', extra_vars={
             '_id': species['_id'],
             'author': species['reference']['biblio']['author'],
@@ -325,10 +319,10 @@ class SpeciesController(BaseController):
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
             abort(404)
-        rel_host_parasites_list = self.db.rel_host_parasite.find({'host.$id': id})
+        rel_host_parasites_list = self.db.rel_host_parasite.RelHostParasite.find({'host.$id': id})
         rel_host_parasites = {}
         for rhp in rel_host_parasites_list:
-            rel_host_parasites[rhp['_id']] = (rhp, self.db.publication.get_from_id(rhp['pubref']['$id']))
+            rel_host_parasites[rhp['_id']] = (rhp, self.db.publication.get_from_id(rhp['pubref']['_id']))
         return render('species/parasites.mako', extra_vars={
             '_id': id,
             'author': species['reference']['biblio']['author'],

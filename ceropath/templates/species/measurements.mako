@@ -5,26 +5,20 @@
 </div>
 
 <div class="span-30">
-     <%
-         theaders = [(_id, 'species')]
-         theaders.extend((i, 'pubref') for i in publications_list.keys())
-     %>
     <table class="measurements">
         <tr><th></th>
-        % for header in theaders:
-            % if header[1] == 'pubref':
+        % for pub, origin in publications_list:
+            % if pub is not None:
                 <th style="width:250px;">
-                    Measurements in <a href="${h.url(h.url_for('publication_show', id=publications_list[header[0]]['_id']))}" title="${publications_list[header[0]]['reference']}">
-                    ${h.author_date_from_citation(publications_list[header[0]]['reference'])}
+                    Measurements in <a href="${h.url(h.url_for('publication_show', id=pub['_id']))}" title="${pub['reference']}">
+                    ${h.author_date_from_citation(pub['reference'])}
                     </a>
-                    for ${_id.capitalize()} <small>(a)</small>
+                    for ${_id.capitalize()} in ${origin} <small>(a)</small>
                  </th>
-            % elif header[1] == 'species':
-                <th style="width:250px;">
-                    Ceropath Measurements for ${header[0].capitalize()} <small>(a)</small>
-                </th>
             % else:
-                <th>Measurements for ${header[0].upper()} ${age}</th>
+                <th style="width:250px;">
+                    Ceropath Measurements for ${_id.capitalize()} <small>(a)</small>
+                </th>
             % endif
         % endfor
         </tr>
@@ -35,10 +29,9 @@
         % for trait in first_measures + last_measures:
             <% measure = measures_infos[trait] %>
             <tr><th>${trait}</th>
-                % for publication_id in theaders:
+                % for key in publications_list:
                     <%
-                        publication_id = publication_id[0]
-                        m = measure.get(publication_id)
+                        m = measure.get(key)
                         if isinstance(m, dict):
                             if isinstance(m['n'], basestring):
                                 m['n'] = int(float(m['n'].replace(',', '.'))) if m['n'] else 0

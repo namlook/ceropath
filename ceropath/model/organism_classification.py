@@ -81,6 +81,11 @@ class OrganismClassification(Core):
         'synonyms': [
             {'pubref': Publication, 'name':unicode},
         ],
+        'measures_stats':[{
+            'pubref': Publication,
+            'origin': unicode,
+            'measures':dict,# (mean +/- sd (nb_individu)) / (min - max)
+        }],
     }
     use_autorefs = True
 

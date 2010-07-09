@@ -15,6 +15,66 @@ from ceropath.lib.csv2json import csv2json
 
 log = logging.getLogger(__name__)
 
+import re
+import math
+REGX_COI = re.compile('coi')
+REGX_CYTB = re.compile('cytb')
+REGX_PRIMER = re.compile('primer')
+REGX_16S = re.compile('16s')
+REGEXP_NUMBER = re.compile('^[\d\.,]+$')
+
+from statlib import stats
+
+def precalculate_ceropath_measurements(db, species_id):
+    query = {
+        'organism_classification.$id': species_id,
+        'adult':'adult',
+        'identification.type':{'$in':[REGX_COI, REGX_CYTB, REGX_PRIMER, REGX_16S]}
+    }
+    individuals = db.individual.find(query)
+    traits = {}
+    for individual in individuals:
+        for measure in individual['measures']:
+            trait = measure['trait']
+            if trait not in traits:
+                traits[trait] = []
+            if measure['value']:
+                traits[trait].append(measure['value'])
+    results = {}
+    for trait in traits:
+        values_list = [float(i.replace(',','.')) for i in traits[trait] if REGEXP_NUMBER.search(i)]
+        if trait not in results:
+            results[trait] = {}
+        if len(values_list) > 1:
+            results[trait]['mean'] = stats.mean(values_list)
+            results[trait]['sd'] = stats.sterr(values_list)
+            results[trait]['n'] = len(values_list)
+            results[trait]['min'] = min(values_list)
+            results[trait]['max'] = max(values_list)
+        else:
+            results[trait]['mean'] = None
+            results[trait]['sd'] = None
+            results[trait]['n'] = None
+            results[trait]['min'] = None
+            results[trait]['max'] = None
+    return results
+
+def generate_species_measurements(db, species_id):
+    species_measurements = db.species_measurement.find(
+      {'organism_classification.$id': species_id}
+    )
+    results = {}
+    for species_measurement in species_measurements:
+        key = (species_measurement['pubref']['$id'], species_measurement['origin'])
+        if key not in results:
+            results[key] = {}
+        for measure in species_measurement['measures']:
+            trait = measure['trait']
+            if not trait in results[key]:
+                results[key][trait] = {}
+            results[key][trait][species_measurement['type']] = measure['value']
+    return results
+
 def setup_app(command, conf, vars):
     """Place any commands to setup ceropath here"""
     # Don't reload the app if it was loaded under the testing environment
@@ -73,8 +133,39 @@ def setup_app(command, conf, vars):
         base, ext = os.path.splitext(file_name)
         print "Importing:", base
         os.system("mongoimport -d dbrsea -c %s --file %s.json" % (base, os.path.join(json_path, base)))
-    sys.exit()
 
+    print "pre-calculating measurements..."
+    # XXX to remove
+    try:
+        db.organism_classification.OrganismClassification.find_one({'type':'mammal', 'internet_display':True})
+    except:
+        pass
+    try:
+        db.organism_classification.OrganismClassification.find_one({'type':'mammal', 'internet_display':True})
+    except:
+        pass
+
+    for species in db.organism_classification.OrganismClassification.find({'type':'mammal', 'internet_display':True}):
+        res = precalculate_ceropath_measurements(db, species['_id'])
+        measures_stats = {
+                'pubref': None,
+                'origin': None,
+                'measures':{}
+        }
+        for trait in res:
+            measures_stats['measures'][trait] = res[trait]
+        if res:
+            species['measures_stats'].append(measures_stats)
+        res = generate_species_measurements(db, species['_id'])
+        for (pubref, origin), values in res.iteritems():
+            species['measures_stats'].append({
+                'pubref': db.publication.Publication.get_from_id(pubref),
+                'origin': origin,
+                'measures': values,
+            })
+        species.save()
+    print "...done"
+    sys.exit()
     print "importing json into the database %s. This may take a while..." % db.name
     for name in documents_list:#['gene', 'primer', 'sequence']:#documents_list:
         print 'processing :', name

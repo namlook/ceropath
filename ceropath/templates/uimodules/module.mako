@@ -103,7 +103,7 @@
 <div id="nav"> 
     <ul> 
         <% i = 1 %>
-        % for file_name in files_list:
+        % for file_name in sorted(files_list):
         <li> 
             <a href="#${i}"> 
                 <img src="${data_path}/${file_name}" style="width:100px;" />        

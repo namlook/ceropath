@@ -16,7 +16,7 @@
 </div>
 
     <div class="span-21">
-        ${h.ui.Module(_id, 'parasites', width=860)}
+        ${h.ui.Module(_id, 'parasites', width=830)}
     </div>
 
 

@@ -12,7 +12,7 @@ class SpeciesMeasurement(Core):
             'value': unicode, #t_species_measurements/valeurs des variables de la table
         }],
         'remark': unicode, #t_species_measurements/remark
-        'pubref': [Publication], # XXX a enlever, c'est dans le core
+        'pubref': Publication, # XXX a enlever, c'est dans le core
     }
     indexes = [
         {'fields':[

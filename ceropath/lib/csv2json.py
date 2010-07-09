@@ -149,6 +149,7 @@ def csv2json(csv_path, yaml_path, json_path):
                     org['synonyms'].append({'name':syn, 'pubref':{'$db': 'dbrsea', '$id': '50999553', '$ref': 'publication'}})
                     synonyms[(syn, '50999553')] = name
             del org['msw3']['synonyms']
+            org['measures_stats'] = []
             organism_classifications.append(org)
         return organism_classifications, synonyms
     organism_classifications, synonyms = get_organisms()

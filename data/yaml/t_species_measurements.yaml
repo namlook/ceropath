@@ -2,7 +2,6 @@ id_article:
     dbrsea: pubref
     filter: sanitize_article_id
     dbref: publication
-    list: true
     
 #species_article_name:
 
