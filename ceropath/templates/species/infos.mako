@@ -3,6 +3,12 @@
 <script type="text/javascript" src="/fancybox/jquery.fancybox-1.3.1.pack.js"></script>
 <link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.1.css" type="text/css" media="screen" />
 
+<style>
+a{
+    border:none;
+}
+</style>
+
 <div class="span-20">
     % if image_paths:
         <div class="span-7">
@@ -97,7 +103,7 @@
             </fieldset>
         % endif
  
-    % if iucn_web_path:
+    % if iucn_web_path and iucn_id:
         <fieldset class="span-10"><legend>IUCN range map</legend>
            <a href="${iucn_web_path}/${iucn_id}.png" target="_blank">
             <img src="${iucn_web_path}/${iucn_id}.png" width="385px" />
