@@ -8,6 +8,7 @@ Host_species_article_name:
 
 Country:
     dbrsea: country
+    lower: false
 
 iD_article:
     dbrsea: pubref

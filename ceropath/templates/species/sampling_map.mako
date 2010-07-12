@@ -20,12 +20,12 @@ var markers = [
         <% individual, site = individuals[_id] %>
         % if site is not None and site['coord_wgs']['dll_lat'] and site['coord_wgs']['dll_long']:
         <%
-            region = h.format_loc_name(site['region'])
-            country = h.format_loc_name(site['country'])
-            province = h.format_loc_name(site['province'])
-            district = h.format_loc_name(site['district'])
-            sub_district = h.format_loc_name(site['sub_district'])
-            village = h.format_loc_name(site['village'])
+            region = site['region']
+            country = site['country']
+            province = site['province']
+            district = site['district']
+            sub_district = site['sub_district']
+            village = site['village']
             origin = individual['trapping_informations']['origin_how']
             accuracy = individual['trapping_informations']['trap_accuracy']
             if accuracy:

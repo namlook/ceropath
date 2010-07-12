@@ -324,11 +324,11 @@ class SpeciesController(BaseController):
         rel_host_parasites_list = self.db.rel_host_parasite.find({'host.$id':id}).sort('host.$id', 1)
         rel_host_parasites = {}
         for rhp in rel_host_parasites_list:
-            host_id = rhp['host']
-            if host_id:
-                host_id = host_id['$id']
-            host = self.db.organism_classification.get_from_id(host_id)
-            rel_host_parasites[rhp['_id']] = (rhp, host,self.db.publication.get_from_id(rhp['pubref']['$id']))
+            parasite_id = rhp['parasite']
+            if parasite_id:
+                parasite_id = parasite_id['$id']
+            parasite = self.db.organism_classification.get_from_id(parasite_id)
+            rel_host_parasites[rhp['_id']] = (rhp, parasite, self.db.publication.get_from_id(rhp['pubref']['$id']))
         return render('species/parasites.mako', extra_vars={
             '_id': id,
             'author': species['reference']['biblio']['author'],

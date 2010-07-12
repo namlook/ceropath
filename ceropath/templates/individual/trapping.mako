@@ -128,7 +128,7 @@ $(window).unload(function() {
 
 </style> 
 <div class="span-30 alt">
-    <h2> ${_id.upper()} trapping location in ${h.format_loc_name(province)} province (${h.format_loc_name(country)})</h2>
+    <h2> ${_id.upper()} trapping location in ${province} province (${country})</h2>
 </div>
 <div class="span-20">
     % if latitude and longitude:
@@ -142,12 +142,12 @@ $(window).unload(function() {
     <fieldset><legend>Trapping Informations</legend>
         <table style="width:360px;">
             <tr><th>site id</th><td>${site.upper()}</td></tr>
-            <tr><th>region</th><td>${h.format_loc_name(region)}</td></tr>
-            <tr><th>country</th><td>${h.format_loc_name(country)}</td></tr>
-            <tr><th>province</th><td>${h.format_loc_name(province)}</td></tr>
-            <tr><th>district</th><td>${h.format_loc_name(district)}</td></tr>
-            <tr><th>sub distict</th><td>${h.format_loc_name(sub_district)}</td></tr>
-            <tr><th>village</th><td>${h.format_loc_name(village)}</td></tr>
+            <tr><th>region</th><td>${region}</td></tr>
+            <tr><th>country</th><td>${country}</td></tr>
+            <tr><th>province</th><td>${province}</td></tr>
+            <tr><th>district</th><td>${district}</td></tr>
+            <tr><th>sub distict</th><td>${sub_district}</td></tr>
+            <tr><th>village</th><td>${village}</td></tr>
             ##<tr><th>surrounding lanscape</th><td>${surrounding_landscape if surrounding_landscape else "unknown"}</td></tr>
             ##<tr><th>low resolution</th><td>${eco_typology['low']}</td></tr>
             ##<tr><th>medium resolution</th><td>${eco_typology['medium']}</td></tr>

@@ -3,21 +3,27 @@ Id_site:
     
 Region:
     dbrsea: region
+    lower: false
 
 Country:
     dbrsea: country
+    lower: false
     
 Province:
     dbrsea: province
+    lower: false
 
 District:
     dbrsea: district
+    lower: false
 
 Sub_district:
     dbrsea: sub_district
+    lower: false
 
 Village:
     dbrsea: village
+    lower: false
 
 typo_low_resolution:
     dbrsea: eco_typology.low

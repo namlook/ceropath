@@ -29,7 +29,3 @@ def author_date_from_citation(citation):
         return "%s (%s)" % (author, date)
     return author
     
-def format_loc_name(name):
-    if name is None:
-        return ''
-    return ' '.join(i.capitalize() for i in name.split())
