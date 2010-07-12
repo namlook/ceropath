@@ -1,4 +1,6 @@
 <%inherit file="/individual/show.mako" />
 
-${h.ui.Module(_id, name)}
+<div class="span-30">
+    ${h.ui.Module(_id, name)}
+</div>
 
