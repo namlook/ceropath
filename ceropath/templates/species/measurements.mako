@@ -27,7 +27,7 @@
         </tr>
         <%
             traits_list = sorted(traits)
-            traits_list.insert(1, '0')
+            traits_list.insert(2, '0')
             traits['0'] = {u'remark': None, u'_id': u'0', u'measurement_accuracy': 0, u'name': "Tail / Head & Body (%)"}
         %>
         % for trait_id in traits_list:
