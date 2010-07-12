@@ -7,7 +7,7 @@
 
 <div class="span-30">
     <table>
-        <tr><th>Individu Number</th><th> Sex</th><th> Country</th><th> Province</th><th>Identification Type</th><th>Identification Date</th><th> Remarks about Identification</th><tr>
+        <tr><th>Individual ID</th><th> Sex</th><th> Country</th><th> Province</th><th>Identification Type</th><th>Identification Date</th><th> Remarks about Identification</th><tr>
         % for _id, (individual, site) in sorted(individuals.items()):
             <tr>
                 <td><a href="${h.url(h.url_for('individual_show', id=individual['_id']))}">${individual['_id'].upper()}</a></td>

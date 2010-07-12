@@ -36,7 +36,7 @@ var markers = [
         {
             'latitude': '${site['coord_wgs']['dll_lat'] or 0}',
             'longitude': '${site['coord_wgs']['dll_long'] or 0}',
-            'individu': '${individual['_id'].upper()}',
+            'individual': '${individual['_id'].upper()}',
             'description': 'Region: ${region}<br/>Country: ${country} <br/>Province: ${province} <br/>District: ${district} <br/>Sub-district: ${sub_district} <br/>Village: ${village} <br/>Origin How: ${origin} <br/>Accuracy: ${accuracy}m',
             'typo': '<ul><li>${typo['low']}</li><li>${typo['medium']}</li><li>${typo['high']}</li></ul>',
             'surrounding': '${surrounding_landscape}'
@@ -57,17 +57,17 @@ function initializePoint(pointData)
         var marker = new GMarker(point);
         <!-- On crée la liste sur le volet droit on sera affiché tous les points et leur description -->
         var listItem = document.createElement('li');
-        listItem.id = pointData.individu;
+        listItem.id = pointData.individual;
         var listItemLink = listItem.appendChild(document.createElement('a'));
         listItemLink.href = "#";
-        listItemLink.innerHTML = '<font color="#000000"><strong>' + pointData.individu + '</strong>';
+        listItemLink.innerHTML = '<font color="#000000"><strong>' + pointData.individual + '</strong>';
         var listItemSpan = listItem.appendChild(document.createElement('span'));
         listItemSpan.innerHTML = '<br/><span>' + pointData.description + '</span></font>';
         
         <!-- Sur l'action du click, on va se pointer à la localisation du marker -->
         var focusPoint = function() 
         {
-                marker.openInfoWindowHtml('<strong><a href="/individual/'+pointData.individu.toLowerCase()+'">'+pointData.individu + '</a></strong><br/><strong>Landscape at the sampling point:</strong>' + pointData.typo + '<strong>Surrounding Landscape:</strong><br/>' + pointData.surrounding+'<br/> <a href="#'+pointData.individu+'">set up to top of list</a>');
+                marker.openInfoWindowHtml('<strong><a href="/individual/'+pointData.individual.toLowerCase()+'">'+pointData.individual + '</a></strong><br/><strong>Landscape at the sampling point:</strong>' + pointData.typo + '<strong>Surrounding Landscape:</strong><br/>' + pointData.surrounding+'<br/> <a href="#'+pointData.individual+'">set up to top of list</a>');
                 map.panTo(point);
                 return false;
         }
