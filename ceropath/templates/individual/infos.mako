@@ -12,7 +12,6 @@ table.measurements td{
         <tr><th></th>
         % for pub, origin in publications_list:
             % if pub is not None:
-                ##<% author, date = h.author_date_from_citation(publications_list[header[0]]['reference']) %>
                 <th>
                     Measurements in <a href="${h.url(h.url_for('publication_show', id=pub['_id']))}" title="${pub['reference']}">
                     ${h.author_date_from_citation(pub['reference'])}

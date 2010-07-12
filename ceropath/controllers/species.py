@@ -185,8 +185,7 @@ class SpeciesController(BaseController):
             'description': description,
             'image_paths': image_paths,
             'photo_author': photo_author,
-            'author': species['reference']['biblio']['author'],
-            'date': species['reference']['biblio']['date'],
+            'author_date': species['reference']['biblio']['author_date'],
             'synonyms': species['synonyms'],
             'citations': citations,
             'internet_display': species['internet_display'],
@@ -221,8 +220,7 @@ class SpeciesController(BaseController):
             image_paths.append(os.path.join(server_path, file_name))
         return render('species/measurements.mako', extra_vars={
             '_id': species['_id'],
-            'author': species['reference']['biblio']['author'],
-            'date': species['reference']['biblio']['date'],
+            'author_date': species['reference']['biblio']['author_date'],
             'measures_infos': measures_infos,
             'publications_list': publications_list,
             'traits': traits,
@@ -256,8 +254,7 @@ class SpeciesController(BaseController):
         return render('species/module.mako', extra_vars={
             '_id': species['_id'],
             'name': name,
-            'author': species['reference']['biblio']['author'],
-            'date': species['reference']['biblio']['date'],
+            'author_date': species['reference']['biblio']['author_date'],
 #            'files_list': files_list,
 #            'legends': legends,
 #            'data_path': os.path.join('/', 'data', name),
@@ -279,8 +276,7 @@ class SpeciesController(BaseController):
             individuals[individual['_id']] = (individual, site)
         return render('species/individuals.mako', extra_vars={
             '_id': id,
-            'author': species['reference']['biblio']['author'],
-            'date': species['reference']['biblio']['date'],
+            'author_date': species['reference']['biblio']['author_date'],
             'individuals':individuals,
         })
 
@@ -300,8 +296,7 @@ class SpeciesController(BaseController):
             individuals[individual['_id']] = (individual, site)
         return render('species/vouchers.mako', extra_vars={
             '_id': id,
-            'author': species['reference']['biblio']['author'],
-            'date': species['reference']['biblio']['date'],
+            'author_date': species['reference']['biblio']['author_date'],
             'individuals':individuals,
         })
 
@@ -321,8 +316,7 @@ class SpeciesController(BaseController):
             individuals[individual['_id']] = (individual, site )
         return render('species/sampling_map.mako', extra_vars={
             '_id': species['_id'],
-            'author': species['reference']['biblio']['author'],
-            'date': species['reference']['biblio']['date'],
+            'author_date': species['reference']['biblio']['author_date'],
             'individuals': individuals,
             'api_key': google_map_api_key,
         })
@@ -347,8 +341,7 @@ class SpeciesController(BaseController):
             rel_host_parasites[kingdom][_class].append((rhp, parasite, self.db.publication.get_from_id(rhp['pubref']['$id'])))
         return render('species/parasites.mako', extra_vars={
             '_id': id,
-            'author': species['reference']['biblio']['author'],
-            'date': species['reference']['biblio']['date'],
+            'author_date': species['reference']['biblio']['author_date'],
             'rel_host_parasites':rel_host_parasites,
         })
 

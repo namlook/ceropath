@@ -85,6 +85,7 @@ class ParasiteController(BaseController):
             'citations': citations,
             'species': species,
             'individual': individual,
+            'author_date': parasite['reference']['biblio']['author_date'],
             'rel_host_parasites': rel_host_parasites
         })
 

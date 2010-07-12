@@ -46,8 +46,7 @@ $('document').ready(function(){
             <tr>
                 <td>
                     <i><a href="${h.url(h.url_for('species_show', id=species['_id']))}">${species['_id'].capitalize()}</a></i>
-                    (${species['reference']['biblio']['author'].split(',')[0]}, ${species['reference']['biblio']['date']})
-                    ##${species['reference']['biblio']['author_date']}
+                    ${species['reference']['biblio']['author_date']}
                 </td>
                 <td>${species['name']['common']['english']}</td>
                 <td>${species['name']['common']['thai']}</td>

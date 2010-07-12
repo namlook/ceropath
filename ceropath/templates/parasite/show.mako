@@ -1,7 +1,7 @@
 <%inherit file="/root.mako" />
 
 <div class="span-30">
-    <h1><i>${_id.capitalize()}</i> <small>(${author}, ${date})</small></h1>
+    <h1><i>${_id.capitalize()}</i> <small>${author_date}</small></h1>
 
     <div style="padding-bottom:10px;">
         % if species:
