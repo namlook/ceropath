@@ -87,7 +87,7 @@
             % for (host_id, pubref_id), rhp in sorted(rel_host_parasites.items()):
                 <tr>
                     % if rhp['host']['internet_display']:
-                        <td><a href="${h.url(h.url_for('species_show', id=rhp['host']['_id']))}">${rhp['host']['_id']}</a></td>
+                        <td><a href="${h.url(h.url_for('species_show', id=rhp['host']['_id']))}">${rhp['host']['_id'].capitalize()}</a></td>
                         <td> <a href="${h.url(h.url_for('publication_show', id=rhp['pubref']['_id']))}">${h.author_date_from_citation(rhp['pubref']['reference'])}</a></td>
                     % endif
                 </tr>
