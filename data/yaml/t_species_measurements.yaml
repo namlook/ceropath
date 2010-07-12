@@ -187,3 +187,9 @@ type:
     list: true
     embed: measures
 
+"Spleen Weight (mg)":
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
+

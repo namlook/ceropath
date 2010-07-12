@@ -147,7 +147,7 @@ ID_individu:
     list: true
     embed: measures
 
-"Spleen weight (mg)":
+"Spleen Weight (mg)":
     dbrsea: value
     field_name_target: trait
     list: true

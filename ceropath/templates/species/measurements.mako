@@ -24,14 +24,15 @@
         </tr>
         <%
             traits_list = sorted(traits)
-            traits_list.insert(1, "Tail / Head & Body (%)")
-            traits["Tail / Head & Body (%)"] = {u'remark': None, u'_id': u'0', u'measurement_accuracy': 0, u'name': "Tail / Head & Body (%)"}
+            traits_list.insert(1, '0')
+            traits['0'] = {u'remark': None, u'_id': u'0', u'measurement_accuracy': 0, u'name': "Tail / Head & Body (%)"}
         %>
         % for trait_id in traits_list:
             <%
                 trait = traits[trait_id]
                 measure = measures_infos.get(trait['name'])
                 if not measure:
+                    print trait['name'] == 'Spleen weight (mg)', "|"+trait['name']+"|"
                     continue
             %>
             <tr><th>${trait['name']}</th>
