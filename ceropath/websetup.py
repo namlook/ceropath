@@ -60,7 +60,7 @@ def precalculate_ceropath_measurements(db, species_id):
             results[trait]['n'] = None
             results[trait]['min'] = None
             results[trait]['max'] = None
-    results["Tail / Head & Body (%)"] = {}
+    results["Tail / Head & Body (%)"] = {'mean':0, 'n':0, 'sd':0, 'min':0, 'max':0}
     if traits:
         headnbody_values = [float(i.replace(',','.')) for i in traits["Head & Body (mm)"] if REGEXP_NUMBER.search(i)]
         tail_values = [float(i.replace(',','.')) for i in traits["Tail (mm)"] if REGEXP_NUMBER.search(i)]
