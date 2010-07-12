@@ -10,6 +10,30 @@
 
 <div class="span-20">
     ${reference}
+    <br />
+    <br />
+    <div class="span-9 colborder">
+    % if hosts_related:
+        <h3>Host related interesting Ceropath project</h3>
+        <ul>
+        % for species in hosts_related:
+            <li><a href="${h.url(h.url_for('species_show', id=species))}">${species.capitalize()}</a></li>
+        % endfor
+        </ul>
+        </fieldset>
+    % endif
+    </div>
+    <div class="span-9 last">
+    % if parasites_related:
+    <h3>Parasites related interesting Ceropath project</h3>
+        <ul>
+        % for parasite in parasites_related:
+            <li><a href="${h.url(h.url_for('parasite_show', id=parasite))}">${parasite.capitalize()}</a></li>
+        % endfor
+        </ul>
+    </fieldset>
+    % endif
+    </div>
 </div>
 
 <div class="span-10 last">
@@ -19,24 +43,6 @@
         <tr> <th>source</th><td>${source}</td> </tr>
     </table>
     </fieldset>
-    % if hosts_related:
-        <fieldset><legend>Host related interesting Ceropath project</legend>
-        <ul>
-        % for species in hosts_related:
-            <li><a href="${h.url(h.url_for('species_show', id=species))}">${species.capitalize()}</a></li>
-        % endfor
-        </ul>
-        </fieldset>
-    % endif
-    % if parasites_related:
-    <fieldset><legend>Parasites related interesting Ceropath project</legend>
-        <ul>
-        % for parasite in parasites_related:
-            <li><a href="${h.url(h.url_for('parasite_show', id=parasite))}">${parasite.capitalize()}</a></li>
-        % endfor
-        </ul>
-    </fieldset>
-    % endif
     % if host_synonyms_related:
         <fieldset><legend>Host synonyms in this publication</legend>
         <ul>
