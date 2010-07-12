@@ -1,10 +1,13 @@
 <%inherit file="/species/show.mako" />
 
+<script type="text/javascript" src="/fancybox/jquery.fancybox-1.3.1.pack.js"></script>
+<link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.1.css" type="text/css" media="screen" />
+
 <div class="span-30 alt">
     <h2> Species measurements in literature</h2>
 </div>
 
-<div class="span-30">
+<div class="span-23">
     <table class="measurements">
         <tr><th></th>
         % for pub, origin in publications_list:
@@ -32,7 +35,6 @@
                 trait = traits[trait_id]
                 measure = measures_infos.get(trait['name'])
                 if not measure:
-                    print trait['name'] == 'Spleen weight (mg)', "|"+trait['name']+"|"
                     continue
             %>
             <tr><th>${trait['name']}</th>
@@ -105,3 +107,27 @@
     (a) The mean plus or minus one standard deviation, number of specimens in parentheses, and observed range are listed for each measurement.
     </p>
 </div>
+
+<div class="span-7 last">
+&nbsp;
+% if image_paths:
+    % for image_path in image_paths:
+        <div>
+            <a class="image" href="${image_path}"><img align="righ" style="padding-bottom:10px;padding-top:10px;" src="${image_path}" width="250px" /></a>
+        </div>
+    % endfor
+% endif
+</div>
+
+<script>
+$('document').ready(function(){
+    $("a.image").fancybox({
+        'titlePosition'  : 'over',
+        'transitionIn'  :   'elastic',
+        'transitionOut' :   'elastic',
+        'speedIn'       :   600, 
+        'speedOut'      :   200, 
+        'overlayShow'   :   true,
+    });
+});
+</script>

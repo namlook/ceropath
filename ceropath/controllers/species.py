@@ -151,6 +151,7 @@ class SpeciesController(BaseController):
                 if len(file_name.split('(')) > 1:
                     photo_author = file_name.split('(')[1].split(')')[0]
                 image_paths.append((image_path, photo_author))
+        # citations
         citations = species['citations']
         genus_citations = self.db.organism_classification.OrganismClassification.find_one(
             { '_id':'%s sp.' % species['taxonomic_rank']['genus'] }
@@ -163,6 +164,7 @@ class SpeciesController(BaseController):
                     if genus in _d_citations.get(cit['pubref']['_id'], ''):
                         genus_citations['citations'].remove(cit)
             citations.extend(genus_citations['citations'])
+        # iucn
         iucn_map_path = os.path.join('ceropath', 'public', 'iucn')
         iucn_web_path = os.path.join('/', 'iucn')
         iucn_id = species['iucn']['id']
@@ -210,6 +212,13 @@ class SpeciesController(BaseController):
                     measures_infos[trait][(pubref, origin)] = {}
                 measures_infos[trait][(pubref, origin)] = measure['measures'][trait]
         traits = dict((int(i['_id']), i) for i in self.db.trait.find())
+        ## image
+        path = os.path.join('data','static', 'measurements')
+        file_path =  os.path.join('ceropath', 'public', path)
+        server_path = os.path.join('/', path)
+        image_paths = []
+        for file_name in os.listdir(file_path):
+            image_paths.append(os.path.join(server_path, file_name))
         return render('species/measurements.mako', extra_vars={
             '_id': species['_id'],
             'author': species['reference']['biblio']['author'],
@@ -217,6 +226,7 @@ class SpeciesController(BaseController):
             'measures_infos': measures_infos,
             'publications_list': publications_list,
             'traits': traits,
+            'image_paths': image_paths,
         })
         
     def module(self, id, name):
