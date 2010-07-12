@@ -37,10 +37,10 @@
         </ul>
     </fieldset>
     % endif
-    % if synonyms_related:
-        <fieldset><legend>Species presented in this reference and interesting Ceropath project.</legend>
+    % if host_synonyms_related:
+        <fieldset><legend>Host presented in this reference and interesting Ceropath project.</legend>
         <ul>
-        % for species, synonyms in sorted(synonyms_related.items()):
+        % for species, synonyms in sorted(host_synonyms_related.items()):
             <li><a href="${h.url(h.url_for('species_show', id=species))}">${species.capitalize()}</a> <button class="synonyms-more">names in reference</button>
             <ul class="synonyms">
             % for syn in synonyms:
@@ -57,6 +57,27 @@
         </ul>
         </fieldset>
     % endif
+    % if parasite_synonyms_related:
+        <fieldset><legend>Species presented in this reference and interesting Ceropath project.</legend>
+        <ul>
+        % for parasite, synonyms in sorted(parasite_synonyms_related.items()):
+            <li><a href="${h.url(h.url_for('parasite_show', id=parasite))}">${parasite.capitalize()}</a> <button class="synonyms-more">names in reference</button>
+            <ul class="synonyms">
+            % for syn in synonyms:
+                <% name = syn.split() %>
+                % if len(name) > 1:
+                    <li>${" ".join(name).capitalize()}</li>
+                % else:
+                    <li>${name[0]}</li>
+                % endif
+            % endfor
+            </ul>
+            </li>
+        % endfor
+        </ul>
+        </fieldset>
+    % endif
+
 </div>
 
 <script>

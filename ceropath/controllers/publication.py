@@ -14,14 +14,25 @@ class PublicationController(BaseController):
         rel_host_parasites = self.db.rel_host_parasite.find({'pubref.$id':id})
         hosts_related = set([])
         parasites_related = set([])
-        synonyms_related = {}
-        for species in self.db.organism_classification.find({'synonyms.pubref.$id':id, 'internet_display':True}):
+        # parasite synonyms related
+        parasite_synonyms_related = {}
+        for parasite in self.db.organism_classification.find({'synonyms.pubref.$id':id, 'internet_display':True, 'type':'parasite'}):
+            for synonym in parasite['synonyms']:
+                if synonym['pubref']['$id'] == id: # XXX why $id ?
+                    if synonym['name'] != parasite['_id']:
+                        if parasite['_id'] not in parasite_synonyms_related:
+                            parasite_synonyms_related[parasite['_id']] = []
+                        parasite_synonyms_related[parasite['_id']].append(synonym['name'])
+        # host synonyms related
+        host_synonyms_related = {}
+        for species in self.db.organism_classification.find({'synonyms.pubref.$id':id, 'internet_display':True, 'type':'mammal'}):
             for synonym in species['synonyms']:
-                if synonym['pubref']['$id'] == id:
+                is_ok = False
+                if synonym['pubref'].id == id:
                     if synonym['name'] != species['_id']:
-                        if species['_id'] not in synonyms_related:
-                            synonyms_related[species['_id']] = []
-                        synonyms_related[species['_id']].append(synonym['name'])
+                        if species['_id'] not in host_synonyms_related:
+                            host_synonyms_related[species['_id']] = []
+                        host_synonyms_related[species['_id']].append(synonym['name'])
         for rhp in rel_host_parasites:
             hosts_related.add(rhp['host']['$id'])
             parasites_related.add(rhp['parasite']['$id'])
@@ -31,5 +42,6 @@ class PublicationController(BaseController):
             'reference': publication['reference'],
             'parasites_related': sorted(parasites_related),
             'hosts_related': sorted(hosts_related),
-            'synonyms_related': synonyms_related,
+            'host_synonyms_related': host_synonyms_related,
+            'parasite_synonyms_related': parasite_synonyms_related,
         })
