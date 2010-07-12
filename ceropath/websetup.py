@@ -45,9 +45,12 @@ def precalculate_ceropath_measurements(db, species_id):
         values_list = [float(i.replace(',','.')) for i in traits[trait] if REGEXP_NUMBER.search(i)]
         if trait not in results:
             results[trait] = {}
-        if len(values_list) > 1:
+        if len(values_list) > 0:
             results[trait]['mean'] = stats.mean(values_list)
-            results[trait]['sd'] = stats.sterr(values_list)
+            if len(values_list) == 1:
+                results[trait]['sd'] = 0
+            else:
+                results[trait]['sd'] = stats.sterr(values_list)
             results[trait]['n'] = len(values_list)
             results[trait]['min'] = min(values_list)
             results[trait]['max'] = max(values_list)
@@ -57,6 +60,24 @@ def precalculate_ceropath_measurements(db, species_id):
             results[trait]['n'] = None
             results[trait]['min'] = None
             results[trait]['max'] = None
+    results["Tail / Head & Body (%)"] = {}
+    if traits:
+        headnbody_values = [float(i.replace(',','.')) for i in traits["Head & Body (mm)"] if REGEXP_NUMBER.search(i)]
+        tail_values = [float(i.replace(',','.')) for i in traits["Tail (mm)"] if REGEXP_NUMBER.search(i)]
+        if len(headnbody_values) == len(tail_values):
+            headnbody_on_tail = 0
+            headnbody_on_tails = []
+            for index, val in enumerate(headnbody_values):
+                value = float(tail_values[index]) / float(headnbody_values[index])
+                headnbody_on_tails.append(value)
+                headnbody_on_tail += value
+            results["Tail / Head & Body (%)"]['mean'] = int((headnbody_on_tail/len(headnbody_values))*100)
+            results["Tail / Head & Body (%)"]['sd'] = 0
+            results["Tail / Head & Body (%)"]['n'] = len(headnbody_values)
+            results["Tail / Head & Body (%)"]['min'] = min(headnbody_on_tails)*100
+            results["Tail / Head & Body (%)"]['max'] = max(headnbody_on_tails)*100
+        else:
+            print species_id
     return results
 
 def generate_species_measurements(db, species_id):

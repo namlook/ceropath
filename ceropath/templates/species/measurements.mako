@@ -23,10 +23,11 @@
         % endfor
         </tr>
         <%
-            first_measures = ['Head & Body (mm)', 'Tail (mm)', 'Foot (mm)', 'Head (mm)', 'Ear (mm)', 'Weight (g)']
-            last_measures = sorted(i.strip() for i in measures_infos if i not in first_measures)
+            traits_list = sorted(traits)
+            traits_list.insert(1, "Tail / Head & Body (%)")
+            traits["Tail / Head & Body (%)"] = {u'remark': None, u'_id': u'0', u'measurement_accuracy': 0, u'name': "Tail / Head & Body (%)"}
         %>
-        % for trait_id in sorted(traits):
+        % for trait_id in traits_list:
             <%
                 trait = traits[trait_id]
                 measure = measures_infos.get(trait['name'])
@@ -43,7 +44,7 @@
                     %>
                     <td>
                         <center>
-                        % if m:
+                        % if m and isinstance(m, dict):
                             % if m['n']:
                                 % if m['mean']:
                                     % if trait['measurement_accuracy']:
@@ -88,6 +89,8 @@
                             % else:
                                 ø
                             % endif
+                        % elif m:
+                            ${m}
                         % else:
                             ø
                         % endif

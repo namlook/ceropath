@@ -137,6 +137,7 @@ class IndividualController(BaseController):
         else:
             sex = 'unknown'
         species = individual['organism_classification']
+        ###### measures #######
         measures_infos = {}
         publications_list = []
         # one individual
@@ -156,7 +157,6 @@ class IndividualController(BaseController):
                     measures_infos[trait][(pubref, origin)] = {}
                 measures_infos[trait][(pubref, origin)] = measure['measures'][trait]
         traits = dict((int(i['_id']), i) for i in self.db.trait.find())
-        #measures_infos, publications_list = self._get_measurements(individual['_id'], individual['organism_classification']['_id'])
         sequences = dict((i['gene']['$id'], i) for i in self.db.sequence.find({'individual.$id':id}))
         return render('individual/infos.mako', extra_vars={
             '_id': individual['_id'],
