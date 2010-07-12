@@ -123,7 +123,7 @@ ID_individu:
     list: true
     embed: measures
 
-"Breadth of Bony Palate at first  (mm)  (M15)":
+"Breadth of Bony Palate at first  (mm) (M15)":
     dbrsea: value
     field_name_target: trait
     list: true
