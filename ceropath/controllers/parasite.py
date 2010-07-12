@@ -6,10 +6,41 @@ from pylons.controllers.util import abort, redirect
 from ceropath.lib.base import BaseController, render
 
 import os
+import re
+import anyjson
+
+REGX_COI = re.compile('coi')
+REGX_CYTB = re.compile('cytb')
+REGX_PRIMER = re.compile('primer')
+REGX_16S = re.compile('16s')
 
 log = logging.getLogger(__name__)
 
 class ParasiteController(BaseController):
+
+    def index(self):
+        query = {'internet_display': True, 'type': 'parasite'}
+        filter = request.params.get('as_values_filter')
+        enable_back = False
+        if filter:
+            enable_back = True
+            pattern, field = filter.strip(',').split('|')
+            search_pattern = re.compile(pattern)
+            query['taxonomic_rank.%s' % field] = search_pattern
+        parasites_list = self.db.organism_classification.find(
+            query
+        ).sort('taxonomic_rank.class', 1)
+        parasites = {}
+        for parasite in parasites_list:
+            kingdom = parasite['taxonomic_rank']['kingdom']
+            if kingdom not in parasites:
+                parasites[kingdom] = []
+            parasites[kingdom].append(parasite)
+        return render('parasite/index.mako', extra_vars={
+            'parasites': parasites,
+            'enable_back': enable_back,
+        })
+
 
     def show(self, id):
         species = request.params.get('species')
@@ -57,3 +88,21 @@ class ParasiteController(BaseController):
             'rel_host_parasites': rel_host_parasites
         })
 
+    def filter(self):
+        q = request.params.get('q')
+        search_pattern = re.compile(q.lower())
+        results = []
+        for rank in ['family', 'genus', 'tribe', 'class', 'order']:
+            dbres = self.db.organism_classification.find(
+              {'type':'parasite', 'taxonomic_rank.%s' % rank:search_pattern},
+              fields=['taxonomic_rank.%s'%rank]
+            )
+            for res in dbres:
+                line = {
+                  'name':"%s (%s)" % (res['taxonomic_rank'][rank], rank),
+                  'value': "%s|%s" % (res['taxonomic_rank'][rank], rank),
+                }
+                if line not in results:
+                    results.append(line)
+        response.headers['Content-type'] = 'application/json'
+        return anyjson.serialize(results)

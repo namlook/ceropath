@@ -331,14 +331,20 @@ class SpeciesController(BaseController):
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
             abort(404)
-        rel_host_parasites_list = self.db.rel_host_parasite.find({'host.$id':id}).sort('host.$id', 1)
+        rel_host_parasites_list = self.db.rel_host_parasite.find({'host.$id':id}).sort('parasite.$id')#taxonomic_rank.class', 1)
         rel_host_parasites = {}
         for rhp in rel_host_parasites_list:
             parasite_id = rhp['parasite']
             if parasite_id:
                 parasite_id = parasite_id['$id']
             parasite = self.db.organism_classification.get_from_id(parasite_id)
-            rel_host_parasites[rhp['_id']] = (rhp, parasite, self.db.publication.get_from_id(rhp['pubref']['$id']))
+            kingdom = parasite['taxonomic_rank']['kingdom']
+            _class = parasite['taxonomic_rank']['class']
+            if kingdom not in rel_host_parasites:
+                rel_host_parasites[kingdom] = {}
+            if not _class in rel_host_parasites[kingdom]:
+                rel_host_parasites[kingdom][_class] = []
+            rel_host_parasites[kingdom][_class].append((rhp, parasite, self.db.publication.get_from_id(rhp['pubref']['$id'])))
         return render('species/parasites.mako', extra_vars={
             '_id': id,
             'author': species['reference']['biblio']['author'],
@@ -352,7 +358,7 @@ class SpeciesController(BaseController):
         results = []
         for rank in ['family', 'genus', 'tribe', 'class', 'order']:
             dbres = self.db.organism_classification.find(
-              {'taxonomic_rank.%s' % rank:search_pattern},
+              {'type':'mammal', 'taxonomic_rank.%s' % rank:search_pattern},
               fields=['taxonomic_rank.%s'%rank]
             )
             for res in dbres:

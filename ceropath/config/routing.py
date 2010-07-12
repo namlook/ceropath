@@ -49,6 +49,8 @@ def make_map(config):
     map.connect('individual_module', '/individual/{id}/{name}', controller='individual', action='module')
 
     # parasite
+    map.connect('parasite_index', '/parasites', controller='parasite', action='index')
+    map.connect('parasite_filter', '/parasite/filter', controller='parasite', action='filter')
     map.connect('parasite_show', '/parasite/{id}', controller='parasite', action='show')
 
     # publications
