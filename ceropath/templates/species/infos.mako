@@ -98,7 +98,7 @@ a img{
     </%doc>
             <fieldset class="span-10"><legend>Taxonomic ranks</legend>
             <table>
-                <%ranks = ['kingdom', 'phylum', 'class', 'order', 'superfamily', 'family', 'subfamily', 'tribe', 'genus', 'subgenus']%>
+                <%ranks = ['kingdom', 'phylum', 'class', 'order', 'superfamily', 'family', 'subfamily', 'tribe', 'division', 'genus', 'subgenus']%>
                 % for rank in ranks:
                     % if taxonomic_rank[rank]:
                         <tr>
