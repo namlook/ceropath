@@ -17,7 +17,7 @@ $('document').ready(function(){
         selectionAdded: function(elem){$('form').submit();},
         selectedItemProp: 'name',
         asHtmlID: 'filter',
-        startText: 'enter a taxonomic rank...',
+        startText: 'enter a rank...',
         formatList: function(data, elem){
             return elem.html(data.name);
         },
