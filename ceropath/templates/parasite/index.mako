@@ -8,6 +8,7 @@
 
 <script type="text/javascript" src="/js/jquery.autoSuggest.packed.js"></script>
 <link rel="stylesheet" href="/css/autoSuggest.css"> 
+<script type="text/javascript" language="javascript" src="/js/jquery.dataTables.js"></script> 
 
 <script>
 $('document').ready(function(){
@@ -21,6 +22,12 @@ $('document').ready(function(){
         formatList: function(data, elem){
             return elem.html(data.name);
         },
+    });
+    $('.dyntable').dataTable({
+      "bPaginate": false,  
+      "oLanguage": {
+        "sSearch": "Search by all other values:  ",
+      }
     });
 });
 </script>
@@ -54,7 +61,8 @@ fieldset{
 
     % for kingdom in sorted(parasites):
         <fieldset><legend><h2>${kingdom.capitalize()}</h2></legend>
-        <table class="span-29">
+        <table class="span-29 dyntable">
+        <thead>
         <tr>
             <th>Phylum</th>
             <th>Class</th>
@@ -63,6 +71,8 @@ fieldset{
             <th>Genus</th>
             <th>Parasites</th>
         <tr>
+        </thead>
+        <tbody>
         % for parasite in sorted(parasites[kingdom]):
             <%
                 phylum = parasite['taxonomic_rank']['phylum']
@@ -80,6 +90,7 @@ fieldset{
                 <td><i><a href="${h.url(h.url_for('parasite_show', id=parasite['_id']))}">${parasite['_id'].capitalize()}</a></i></td>
             </tr>
         % endfor
+        </tbody>
         </table>
         </fieldset>
     % endfor

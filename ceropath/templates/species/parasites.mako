@@ -11,10 +11,25 @@ fieldset{
 }
 </style>
 
+<script type="text/javascript" language="javascript" src="/js/jquery.dataTables.js"></script> 
+
+<script>
+$('document').ready(function(){
+    $('.dyntable').dataTable({
+      "bPaginate": false,  
+      "oLanguage": {
+        "sSearch": "Search by all other values:  ",
+      }
+    });
+});
+</script>
+
+
 <div class="span-30" style="padding-top:10px;">
     % for kingdom in sorted(rel_host_parasites):
         <fieldset><legend><h2>${kingdom.capitalize()}</h2></legend>
-        <table class="span-29">
+        <table class="span-29 dyntable">
+        <thead>
         <tr>
             <th>Phylum</th>
             <th>Class</th>
@@ -25,6 +40,8 @@ fieldset{
             <th>Publications</th>
             <th>Origin</th>
         <tr>
+        </thead>
+        <tbody>
         % for _class in sorted(rel_host_parasites[kingdom]):
             % for rhp, parasite, pubref in rel_host_parasites[kingdom][_class]:
                 <%
@@ -46,6 +63,7 @@ fieldset{
                 </tr>
             % endfor
         % endfor
+        </tbody>
         </table>
         </fieldset>
     % endfor
