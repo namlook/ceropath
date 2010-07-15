@@ -10,7 +10,7 @@
 }
 </style>
 
-<object type="image/svg+xml" data="${svg_path}" class="span-30" style="height:800px;">
+<object type="image/svg+xml" data="${svg_path}" class="span-30" style="height:600px;">
     Your browser don't support svg. Please use a compatible browser like Firefox or Google Chrome.
 </object>
 
