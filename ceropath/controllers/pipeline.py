@@ -29,7 +29,7 @@ class PipelineController(BaseController):
     
     def update_config(self):
         order = []
-        field_names = ['path', 'name', 'shell', 'input', 'output', 'options']
+        field_names = ['name', 'cmd', 'output_ext', 'use_stdin']
         for i in request.POST:
             index = i.split('-')[0]
             if index not in order:
@@ -39,7 +39,7 @@ class PipelineController(BaseController):
             program = {}
             for field_name in field_names:
                 program[field_name] = request.POST.get('%s-%s' % (index, field_name), None)
-                if field_name == 'shell':
+                if field_name == 'use_stdin':
                     program[field_name] = bool(program[field_name])
             programs.append(program)
         pipeline = self.db.config.Pipeline.get_from_id('pipeline')
@@ -57,18 +57,20 @@ class PipelineController(BaseController):
         pipeline_config = self.db.config.get_from_id('pipeline')['programs']
         pypit = Pypit(pipeline_config)
         uid = uuid1()
-        file_name = os.path.join('data', 'sequence-%s.txt' % uid)
-        open(file_name, 'w').write(user_input)
-        input_file = open(file_name, 'r')
-        tree = pypit.run(input_file=input_file)
-        os.remove(file_name)
+        file_name = 'sequence-%s.fas' % uid
+        file_path = os.path.join('data', 'pipeline', file_name)
+        open(file_path, 'w').write(user_input)
+        tree = pypit.run(file_name='sequence-%s.fas' % uid, cwd=os.path.join('data', 'pipeline'))
+        svg_path = os.path.join('ceropath', 'public', 'usrdata', file_name+".afa.phy.mat.nwk.svg")
+        open(svg_path, 'w').write(h.clickify_svg(tree, self.db))
         #tree = phylogelib.removeBootStraps(tree)
         #graph = phylogelib.getGraph(tree)
         #taxa_list = phylogelib.getTaxa(tree)
         return render('pipeline/phyloexplorer.mako', extra_vars = {
-          'tree':'',#graph
+          'tree':'',#graph,
+          'svg_path': os.path.join('/', 'usrdata', file_name+".afa.phy.mat.nwk.svg"),
           'source':tree,
-          'taxa_list':''#taxa_list,
+          'taxa_list':'',#taxa_list,
         })
 
     

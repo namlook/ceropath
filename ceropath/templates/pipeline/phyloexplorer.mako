@@ -10,14 +10,18 @@
 }
 </style>
 
-<big>
-<tt>
-${source}
-##${display_tree(collection=None, list_taxa_collection=taxa_list, d_stats=None, tree=tree, source=source, root=source)}
-</tt>
-</big>
+<object type="image/svg+xml" data="${svg_path}" class="span-30" style="height:800px;">
+    Your browser don't support svg. Please use a compatible browser like Firefox or Google Chrome.
+</object>
 
-<%def name="display_tree( collection, list_taxa_collection, d_stats, source, tree, root = '',  mydepth = 0, lastnode = 'root', blockname = '', show_nb_trees = True, progress=True )">
+<%doc>
+<tt>
+${display_tree(collection=None, list_taxa_collection=taxa_list, d_stats=None, tree=tree, source=source, root=source)}
+</tt>
+</%doc>
+
+
+<%def name="display_tree( collection, list_taxa_collection, d_stats, source, tree, root = '',  mydepth = 0, lastnode = 'R5241_Cann', blockname = '', show_nb_trees = True, progress=True )">
         ## Create root node display
         % if root == source:
             <span class="treeline">|</span><br />

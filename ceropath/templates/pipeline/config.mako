@@ -37,32 +37,20 @@ label {
     <ul id="programs" class="sortable" style="list-style-type: none;">
     % for no, program in enumerate(programs):
         <li>
-        <fieldset style="background:#fff;"><legend>${program['name']}</legend>
+        <fieldset style="background:#fff;"><legend><input type="text" name="${no}-name" value="${program['name']}" /></legend>
             <div style="float:right;text-align:right;"><a href="#" class="liveremove">remove</a></div>
             <div style="float:left;padding-right:50px">
                 <p>
-                    <label>shell</label>
-                    <input type="checkbox" name="${no}-shell" ${'required="required"' if program['shell'] else ''} />
+                    <label>cmd</label>
+                    <textarea type="text" name="${no}-cmd" style="width:800px;height:100px;" > ${program['cmd']} </textarea>
                 </p>
                 <p>
-                    <label>path</label>
-                    <input type="text" name="${no}-path" value="${program['path']}" />
+                    <label>output extension</label>
+                    <input type="text" name="${no}-output_ext" value="${program['output_ext']}" />
                 </p>
                 <p>
-                    <label>name</label>
-                    <input type="text" name="${no}-name" value="${program['name']}" />
-                </p>
-                <p>
-                    <label>input</label>
-                    <input type="text" name="${no}-input" value="${program['input']}" />
-                </p>
-                <p>
-                    <label>output</label>
-                    <input type="text" name="${no}-ouput" value="${program['output']}" />
-                </p>
-                <p>
-                    <label>options</label>
-                    <input type="text" name="${no}-options" value="${program['options']}" />
+                    <label>use stdin</label>
+                    <input type="checkbox" name="${no}-use_stdin" ${'checked="checked"' if program['use_stdin'] else ''} />
                 </p>
             </div>
         </fieldset>
@@ -84,7 +72,7 @@ $(".sortable").sortable({
 index = ${no};
 $('#add-prog').click(function(){
     index += 1;
-    $('#programs').append('<li><fieldset style="background:#fff;"><legend>new program</legend> <div style="float:right;text-align:right;"><a href="#" class="liveremove">remove</a></div><div style="float:left;padding-right:50px"><p> <label>shell</label> <input type="checkbox" name="'+index+'-shell" /> </p> <p> <label>path</label> <input type="text" name="'+index+'-path" /> </p> <p> <label>name</label> <input type="text" name="'+index+'-name" /> </p> <p> <label>input</label> <input type="text" name="'+index+'-input" /> </p> <p> <label>output</label> <input type="text" name="'+index+'-ouput" /> </p> <p> <label>options</label> <input type="text" name="'+index+'-options" /> </p></div> </fieldset></li>' );
+    $('#programs').append('<li><fieldset style="background:#fff;"><legend><input type="text" name="'+index+'-name" /></legend> <div style="float:right;text-align:right;"><a href="#" class="liveremove">remove</a></div><div style="float:left;padding-right:50px"> <p> <label>cmd</label> <input type="text" name="'+index+'-cmd" /> </p> <p> <label>output extension</label> <input type="text" name="'+index+'-output_ext" /> </p><p> <label>use stdin</label> <input type="checkbox" name="'+index+'-use_stdin" /> </p></div> </fieldset></li>' );
 });
 $('.liveremove').live('click', function(){
     $(this).parent().parent().parent().remove();

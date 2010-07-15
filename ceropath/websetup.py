@@ -113,23 +113,50 @@ def setup_app(command, conf, vars):
     pipeline_config = db.config.Pipeline()
     pipeline_config['programs'] = [
         {
-            "path": u"/usr/bin",
-            "name": u"sort",
-            "input": u"STDIN",
-            "options": u"-r",
-            "output": None,
-            "shell": False,
+            'name': u'Musle',
+            "cmd": u"muscle -in {{input}} -out {{output}}",
+            'output_ext': u'afa',
+            'use_stdin': False,
         },
         {
-            "path": u"/usr/bin",
-            "name": u"tr",
-            "input": u"STDIN",
-            "options": u"A-Z a-z",
-            "output": None,
-            "shell": False,
+            'name': u'Musle 2',
+            "cmd": u"muscle -profile -in1 coi_cbgp.afa -in2 {{input}} -phyiout {{output}} -maxiters 1 -diags",
+            'output_ext': u'phy',
+            'use_stdin': False,
+        },
+        {
+            'name': u'Dnadist options',
+            "cmd": u'echo "{{cwd}}/{{input}}\\nF\\n{{cwd}}/{{output}}\\nD\\nY\\n"',
+            'output_ext': u'mat',
+            'use_stdin': False,
+        },
+        {
+            'name': u'Dnadist',
+            "cmd": u'/usr/lib/phylip/bin/dnadist >> /tmp/log',
+            'output_ext': None,
+            "use_stdin": True,
+        },
+        {
+            'name': u'BioNJ',
+            "cmd": u'/home/namlook/Documents/projets/pypit/BIONJ_linux {{input}} {{output}} >> /tmp/log',
+            'output_ext': u'nwk',
+            'use_stdin': False,
+        },
+        {
+            'name': u'nwk2svg',
+            "cmd": u'/home/namlook/Documents/projets/pypit/nwk2svg.r {{input}} >> /tmp/log',
+            'output_ext': u'svg',
+            'use_stdin': False,
+        },
+        {
+            'name': u'Return result',
+            "cmd": u"cat {{input}}",
+            'use_stdin': False,
+            'output_ext': None,
         }
     ]
     pipeline_config.save()
+    open(os.path.join('data', 'pipeline', 'outfile'), 'w').write(' ')
     documents_list = [
         'publication',
         'institute',
