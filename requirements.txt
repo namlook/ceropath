@@ -1,7 +1,19 @@
+Python module requirements:
+--------------------------
+
 mongokit
 pyparing
 pypit
 networkx
 markdown
 statlib
+
+Programs requirements:
+----------------------
+
+muscle (apt-get install muscle)
+dnadist (apt-get install phylip)
+BIONJ_linux http://www.atgc-montpellier.fr/bionj/ (provided with CERoPath)
+R (apt-get install r-base r-base-core r-base-dev) and the R modules : ape, RSVGTipsDevice
+
 
