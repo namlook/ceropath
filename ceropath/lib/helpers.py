@@ -39,15 +39,15 @@ def clickify_svg(svg, db=None):
     root = ElementTree.fromstring(svg)
     root.attrib['xmlns:xlink'] = "http://www.w3.org/1999/xlink"
     individuals_list = [child.text.split()[0].lower() for child in root if child.tag == '{http://www.w3.org/2000/svg}text']
-    species = dict((i['_id'], {'species_id':i['organism_classification']['$id'],'internet_display':i['internet_display']}) for i in db.individual.find(
+    species = dict((i['_id'], {'species_id':i['organism_classification']['$id'],'voucher_barcoding':i['voucher_barcoding']}) for i in db.individual.find(
       {'_id':{'$in':individuals_list}},
-      fields=['organism_classification.$id', 'internet_display']
+      fields=['organism_classification.$id', 'voucher_barcoding']
     ))
     for child in root:
         if child.tag == '{http://www.w3.org/2000/svg}text':
             individual_id = child.text.split()[0].lower()
             if species.get(individual_id):
-                if species[individual_id]['internet_display']:
+                if species[individual_id]['voucher_barcoding']:
                     individual_link = root.makeelement('ns0:a', {'target':'_blank', 'fill': '#1139E5', 'xlink:href':"/individual/%s" % individual_id })
                     individual_link.text = individual_id.upper()
                     child.append(individual_link)
