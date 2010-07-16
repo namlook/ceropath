@@ -10,9 +10,15 @@
 }
 </style>
 
-<object type="image/svg+xml" data="${svg_path}" class="span-30" style="height:600px;">
-    Your browser don't support svg. Please use a compatible browser like Firefox or Google Chrome.
-</object>
+<div class="span-30">
+% if last_output_ext == 'svg':
+    <object type="image/svg+xml" data="${svg_path}" class="span-30" style="height:600px;">
+        Your browser don't support svg. Please use a compatible browser like Firefox or Google Chrome.
+    </object>
+% else:
+    <pre>${source}</pre>
+% endif
+</div>
 
 <%doc>
 <tt>

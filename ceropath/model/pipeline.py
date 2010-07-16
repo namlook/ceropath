@@ -3,7 +3,7 @@ from mongokit import Document, IS
 
 class Pipeline(Document):
     structure = {
-        "_id":IS(u'pipeline'),
+        "_id": unicode,
         "programs":[{
             "name": unicode,
             "use_stdin": bool,
@@ -11,5 +11,10 @@ class Pipeline(Document):
             "output_ext": unicode,
         }]
     }
-    default_values = {'_id':u'pipeline'}
+    def save(self, *args, **kwargs):
+        if self['programs']:
+            for prog in self['programs']:
+                assert prog.get('name'), 'program name is required'
+                assert prog.get('cmd'), 'cmd is required'
+        super(Pipeline, self).save(*args, **kwargs)
 

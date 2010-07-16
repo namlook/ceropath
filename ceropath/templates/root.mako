@@ -29,6 +29,18 @@
         <div class="span-30">
             <a href="${h.url(h.url_for('species_index'))}"><img src="/img/header.jpg" width="1200" alt="Home" /></a>
         </div>
+        <div class="flash-message">
+            <%
+                message = h.failure_flash.pop_messages()
+                flash_color = "red"
+                if not message:
+                    message = h.success_flash.pop_messages()
+                    flash_color = "green"
+            %>
+            % if message:
+                <div style="text-decoration:bold;color:${flash_color}">${message[0]}</div>
+            % endif
+        </div>
         ${next.body()}
     </div>
 </body>

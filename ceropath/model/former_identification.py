@@ -2,6 +2,7 @@ from core import Core
 
 class FormerIdentification(Core):
     # embed in individu
+    # XXX Not used
     structure = {
         'individu': Individu,#t_individus_former_identifications/id_individu
         'organism_classification': OrganismClassification,#t_individus_former_identifications/Identification

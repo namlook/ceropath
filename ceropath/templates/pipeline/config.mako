@@ -33,7 +33,7 @@ label {
 
 <h1> Pipeline configuration </h1>
 
-<form action="${h.url(h.url_for('pipeline_update_config'))}" method="post">
+<form action="${h.url(h.url_for('pipeline_update', id=_id))}" method="post">
     <ul id="programs" class="sortable" style="list-style-type: none;">
     % for no, program in enumerate(programs):
         <li>
@@ -42,7 +42,7 @@ label {
             <div style="float:left;padding-right:50px">
                 <p>
                     <label>cmd</label>
-                    <textarea type="text" name="${no}-cmd" style="width:800px;height:100px;" > ${program['cmd']} </textarea>
+                    <textarea type="text" name="${no}-cmd" style="width:800px;height:100px;">${program['cmd']}</textarea>
                 </p>
                 <p>
                     <label>output extension</label>
@@ -60,6 +60,7 @@ label {
     <p><a href="#" id="add-prog">Add a program</a></p>
     <div>
     <input type="submit" />
+    <a href="${h.url(h.url_for('pipeline_delete', id=_id))}"><button>delete</button></a>
     </div>
 </form>
 

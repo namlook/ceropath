@@ -22,34 +22,51 @@
     <fieldset>
         <legend>Choose the file containing a sequence (fasta format)...</legend>
         <form action="${h.url(h.url_for('pipeline_phyloexplorer'))}" method="post" enctype="multipart/form-data">
-            <br/>
-            <b>Filename:</b> <input type="file" name="file" class="button" /><br />
+            <div><b>Filename:</b> <input type="file" name="file" class="button" /></div>
+            <div>
+            select a pipeline : 
+            <select name="pipeline_id">
+                % for pipeline in pipelines:
+                    <option>${pipeline['_id']}</option>
+                % endfor
+            </select>
+            </div>
+            <div>
             <input type="reset" class="button" value="Reset" />
             <input type="submit" />
             ## class="button" blockui="wait_progress" value="Upload & explore" />
+            </div>
         </form>
     </fieldset>
     <br />
     <fieldset>
         <legend>... OR paste your sequence...</legend>
         <form action="${h.url(h.url_for('pipeline_phyloexplorer'))}" method="post" enctype="multipart/form-data">
+            <div>
             <textarea rows="10" cols="80" name="paste" value=""></textarea><br />
+            </div>
 
-            ##<span class="example_button" id="nexus">nexus example </span> &nbsp
-            ##<span class="example_button" id="newick"> newick example </span><br/><br/>
+            <div>
+                select a pipeline : 
+                <select name="pipeline_id">
+                    % for pipeline in pipelines:
+                        <option>${pipeline['_id']}</option>
+                    % endfor
+                </select>
+            </div>
+            <div>
             <input type="button" class="button" value="Reset" id="badreset"/>
             <input type="submit" />
             ##class="button" blockui="wait_progress" value="Upload & explore" />
-        </form>
-        <div style="text-align:center;color:#FF9934;" >
-            <span>© CBGP 2010
+            <span style="text-align:center;color:#FF9934;" >© CBGP 2010
                 <% date = datetime.date.today().year %>
                 % if date != 2010:
                     - ${date}
                 % endif
             </span>
-        </div>
-    </fieldset>
+            </div>
+        </form>
+        </fieldset>
     </div>
 
     <div class="image" style="float:right;">

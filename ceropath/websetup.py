@@ -110,7 +110,8 @@ def setup_app(command, conf, vars):
     con.drop_database(db_name)
     db = con[db_name]
 
-    pipeline_config = db.config.Pipeline()
+    pipeline_config = db.pipeline.Pipeline()
+    pipeline_config['_id'] = u'Assigment in CERoPath reference tree'
     pipeline_config['programs'] = [
         {
             'name': u'Musle',
@@ -126,7 +127,7 @@ def setup_app(command, conf, vars):
         },
         {
             'name': u'Dnadist options',
-            "cmd": u'echo "{{cwd}}/{{input}}\\nF\\n{{cwd}}/{{output}}\\nD\\nY\\n"',
+            "cmd": u'echo "{{input}}\\nF\\n{{output}}\\nD\\nY\\n"',
             'output_ext': u'mat',
             'use_stdin': False,
         },
@@ -138,13 +139,13 @@ def setup_app(command, conf, vars):
         },
         {
             'name': u'BioNJ',
-            "cmd": u'/home/namlook/Documents/projets/pypit/BIONJ_linux {{input}} {{output}} >> /tmp/log',
+            "cmd": u'/home/namlook/Documents/projets/ceropath/bin/BIONJ_linux {{input}} {{output}} >> /tmp/log',
             'output_ext': u'nwk',
             'use_stdin': False,
         },
         {
             'name': u'nwk2svg',
-            "cmd": u'/home/namlook/Documents/projets/pypit/nwk2svg.r {{input}} >> /tmp/log',
+            "cmd": u'/home/namlook/Documents/projets/ceropath/bin/nwk2svg.r {{input}} >> /tmp/log',
             'output_ext': u'svg',
             'use_stdin': False,
         },

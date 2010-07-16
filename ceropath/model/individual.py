@@ -65,3 +65,6 @@ class Individual(Document):
 	#t_lib_responsibles/Responsible_name
     use_autorefs = True
 
+    indexes = [
+        {'fields':['organism_classification.$id'], 'check':False},
+    ]

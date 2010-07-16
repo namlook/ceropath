@@ -13,6 +13,10 @@ from webhelpers.html import literal
 from markdown import markdown
 from ceropath import uimodules as ui
 
+from webhelpers.pylonslib import Flash as _Flash
+success_flash = _Flash('success')
+failure_flash = _Flash('failure')
+
 def markdownize(text):
     return markdown(text.decode('utf-8'))
 
