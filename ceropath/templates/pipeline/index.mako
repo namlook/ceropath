@@ -24,12 +24,13 @@
         <form action="${h.url(h.url_for('pipeline_phyloexplorer'))}" method="post" enctype="multipart/form-data">
             <div><b>Filename:</b> <input type="file" name="file" class="button" /></div>
             <div>
-            select a pipeline : 
-            <select name="pipeline_id">
-                % for pipeline in pipelines:
-                    <option>${pipeline['_id']}</option>
-                % endfor
-            </select>
+                select a pipeline : 
+                <select class="pipeline-selection" name="pipeline_id">
+                    % for pipeline in pipelines:
+                        <option>${pipeline['_id']}</option>
+                    % endfor
+                </select>
+                <a href="#" class="pipeline-infos">more infos</a>
             </div>
             <div>
             <input type="reset" class="button" value="Reset" />
@@ -47,12 +48,13 @@
             </div>
 
             <div>
-                select a pipeline : 
-                <select name="pipeline_id">
+                select a pipeline :
+                <select class="pipeline-selection" name="pipeline_id">
                     % for pipeline in pipelines:
                         <option>${pipeline['_id']}</option>
                     % endfor
                 </select>
+                <a href="#" class="pipeline-infos">more infos</a>
             </div>
             <div>
             <input type="button" class="button" value="Reset" id="badreset"/>
@@ -72,3 +74,10 @@
     <div class="image" style="float:right;">
         <img src="/img/cadre_blast.png" />
     </div>
+
+<script>
+$('.pipeline-infos').click(function(){
+    var pipeline_name = $(this).parent().parent().find('.pipeline-selection :selected').text();
+    $(this).attr('href', '/data/pipeline/'+pipeline_name+'.html');
+});
+</script>
