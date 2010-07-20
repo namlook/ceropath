@@ -9,6 +9,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script src="http://cdn.jquerytools.org/1.2.3/jquery.tools.min.js"></script>
     ##<script type="text/javascript" src="/js/elastic.js" charset="utf-8"></script> 
+    <link rel="stylesheet" href="/css/demo_table.css" />
     <style> 
         /* tab pane styling */
         .panes div {

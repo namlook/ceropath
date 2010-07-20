@@ -3,7 +3,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 5
-_modified_time = 1279281319.0226021
+_modified_time = 1279543192.077049
 _template_filename='/home/namlook/Documents/projets/ceropath/ceropath/templates/root.mako'
 _template_uri='/root.mako'
 _template_cache=cache.Cache(__name__, _modified_time)
@@ -28,11 +28,11 @@ def render_body(context,**pageargs):
         # SOURCE LINE 9
         __M_writer(u'    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>\n    <script src="http://cdn.jquerytools.org/1.2.3/jquery.tools.min.js"></script>\n')
         # SOURCE LINE 12
-        __M_writer(u'    <style> \n        /* tab pane styling */\n        .panes div {\n            display:none;       \n            padding:15px 10px;\n            border-top:0;\n            height:100px;\n            font-size:14px;\n            background-color:#fff;\n        }\n        table th{\n            background-color: #FD9834;\n        }\n    </style> \n</head>\n<body>\n    <div class="container">\n        <div class="span-30">\n            <a href="')
-        # SOURCE LINE 30
+        __M_writer(u'    <link rel="stylesheet" href="/css/demo_table.css" />\n    <style> \n        /* tab pane styling */\n        .panes div {\n            display:none;       \n            padding:15px 10px;\n            border-top:0;\n            height:100px;\n            font-size:14px;\n            background-color:#fff;\n        }\n        table th{\n            background-color: #FD9834;\n        }\n    </style> \n</head>\n<body>\n    <div class="container">\n        <div class="span-30">\n            <a href="')
+        # SOURCE LINE 31
         __M_writer(escape(h.url(h.url_for('species_index'))))
         __M_writer(u'"><img src="/img/header.jpg" width="1200" alt="Home" /></a>\n        </div>\n        <div class="flash-message">\n            ')
-        # SOURCE LINE 33
+        # SOURCE LINE 34
 
         message = h.failure_flash.pop_messages()
         flash_color = "red"
@@ -42,19 +42,19 @@ def render_body(context,**pageargs):
                     
         
         __M_locals.update(__M_dict_builtin([(__M_key, __M_locals_builtin()[__M_key]) for __M_key in ['flash_color','message'] if __M_key in __M_locals_builtin()]))
-        # SOURCE LINE 39
-        __M_writer(u'\n')
         # SOURCE LINE 40
+        __M_writer(u'\n')
+        # SOURCE LINE 41
         if message:
-            # SOURCE LINE 41
+            # SOURCE LINE 42
             __M_writer(u'                <div style="text-decoration:bold;color:')
             __M_writer(escape(flash_color))
             __M_writer(u'">')
             __M_writer(escape(message[0]))
             __M_writer(u'</div>\n')
-        # SOURCE LINE 43
-        __M_writer(u'        </div>\n        ')
         # SOURCE LINE 44
+        __M_writer(u'        </div>\n        ')
+        # SOURCE LINE 45
         __M_writer(escape(next.body()))
         __M_writer(u'\n    </div>\n</body>\n</html>\n')
         return ''
