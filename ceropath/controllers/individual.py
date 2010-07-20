@@ -119,6 +119,8 @@ class IndividualController(BaseController):
         if not individual:
             abort(404)
         if not individual['internet_display']:
+            abort(404)
+        if not individual['voucher_barcoding'] and 'user' not in session:
             abort(401)
         path = os.path.join('data','static', 'vouchers skull pictures with measurements')
         file_path =  os.path.join('ceropath', 'public', path)
@@ -185,12 +187,12 @@ class IndividualController(BaseController):
         if not individual:
             abort(404)
         if not individual['internet_display']:
-            abort(401)
+            abort(404)
         sequence = self.db.sequence.find_one({'gene.$id':gene.lower(), 'individual.$id':id})
         if not sequence:
             abort(404)
         if not sequence['internet_display']:
-            abort(401)
+            abort(404)
         fasta_name = "%s-%s" % ( id.upper(), "_".join(individual['organism_classification']['_id'].capitalize().split()))
         response.headers['Content-type'] = 'text/x-fasta'
         response.headers['Content-disposition'] = 'attachment; filename=%s.fasta' % fasta_name
@@ -201,7 +203,7 @@ class IndividualController(BaseController):
         if not individual:
             abort(404)
         if not individual['internet_display']:
-            abort(401)
+            abort(404)
         house_number = individual['trapping_informations']['site']['house']['number']
         if house_number is not None:
             house_number = math.pow(10, house_number)
@@ -243,7 +245,7 @@ class IndividualController(BaseController):
         if not individual:
             abort(404)
         if not individual['internet_display']:
-            abort(401)
+            abort(404)
         return render('individual/module.mako', extra_vars={
             '_id': id,
             'species': individual['organism_classification']['_id'],
@@ -256,7 +258,7 @@ class IndividualController(BaseController):
         if not individual:
             abort(404)
         if not individual['internet_display']:
-            abort(401)
+            abort(404)
         rel_host_parasites_list = self.db.rel_host_parasite.find({'host.$id':individual['organism_classification']['_id']})
         rel_host_parasites = {}
         for rhp in rel_host_parasites_list:

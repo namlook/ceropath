@@ -1,12 +1,12 @@
 import cgi
 
 from paste.urlparser import PkgResourcesParser
-from pylons import request
+from pylons import request, response, session, tmpl_context as c, url
 from pylons.controllers.util import forward
 from pylons.middleware import error_document_template
 from webhelpers.html.builder import literal
 
-from ceropath.lib.base import BaseController
+from ceropath.lib.base import BaseController, render
 
 class ErrorController(BaseController):
 
@@ -23,6 +23,10 @@ class ErrorController(BaseController):
     def document(self):
         """Render the error document"""
         resp = request.environ.get('pylons.original_response')
+        if resp.status_int == 401:
+            return render('login/show.mako')
+        if resp.status_int == 404:
+            return render('error/404.mako')
         content = literal(resp.body) or cgi.escape(request.GET.get('message', ''))
         page = error_document_template % \
             dict(prefix=request.environ.get('SCRIPT_NAME', ''),

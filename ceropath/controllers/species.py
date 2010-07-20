@@ -27,6 +27,9 @@ REGX_16S = re.compile('16s')
 
 class SpeciesController(BaseController):
 
+    # actions which require a login are listed below
+    requires_auth_actions = ['individuals']
+
 #    def _get_measurements(self, species_id):
 #        species_measurements = list(self.db.species_measurement.SpeciesMeasurement.find(
 #          {'organism_classification.$id': species_id}
@@ -197,7 +200,7 @@ class SpeciesController(BaseController):
         if not species:
             abort(404)
         if not species['internet_display']:
-            abort(401)
+            abort(404)
         measures_infos = {}
         publications_list = []
         for measure in species['measures_stats']:
@@ -232,7 +235,7 @@ class SpeciesController(BaseController):
         if not species:
             abort(404)
         if not species['internet_display']:
-            abort(401)
+            abort(404)
 #        module_path = os.path.join('ceropath', 'public', 'data')
 #        if name not in os.listdir(module_path):
 #            abort(404)

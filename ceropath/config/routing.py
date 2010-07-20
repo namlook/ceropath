@@ -19,8 +19,12 @@ def make_map(config):
 
     # CUSTOM ROUTES HERE
 
-    # pipeline
+    # login
+    map.connect('login_show', '/login', controller='login', action='show')
+    map.connect('login_submit', '/login/submit', controller='login', action='submit')
+    map.connect('login_logout', '/logout', controller='login', action='logout')
 
+    # pipeline
     map.connect('pipeline_index', '/pipeline', controller='pipeline', action='index')
     map.connect('pipeline_phyloexplorer', '/pipeline/phyloexplorer', controller='pipeline', action='phyloexplorer')
     map.connect('pipeline_new', '/pipeline/config/new', controller='pipeline', action='new')
@@ -50,6 +54,7 @@ def make_map(config):
     map.connect('individual_trapping', '/individual/{id}/trapping', controller='individual', action='trapping')
     map.connect('individual_sequence', '/individual/{id}/sequence/{gene}', controller='individual', action='sequence')
     map.connect('individual_parasites', '/individual/{id}/parasites', controller='individual', action='parasites')
+    map.connect('individual_samples', '/individual/{id}/samples', controller='individual', action='samples')
     map.connect('individual_module', '/individual/{id}/{name}', controller='individual', action='module')
 
     # parasite
