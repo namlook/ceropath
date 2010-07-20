@@ -42,9 +42,18 @@
     <br />
     <fieldset>
         <legend>... OR paste your sequence...</legend>
-        <form action="${h.url(h.url_for('pipeline_phyloexplorer'))}" method="post" enctype="multipart/form-data">
+            <a href="#" id="show-example">paste an example</a>
+            <form action="${h.url(h.url_for('pipeline_phyloexplorer'))}" method="post" enctype="multipart/form-data">
+            <div id="example">>user1
+CAAATCTACAATGTAATTGTCACAGCCCATGCATTCGTAATAATTTTCTTTATAGTTATGCCAATAATGATTGGTGGTTTCGGAAACTGATTAGTCCCCTTAATAATTGGAGCCCCTGATATAGCATTTCCACGAATAAATAATATAAGCTTTTGACTCCTTCCACCATCATTCCTTCTTCTGTTAGCATCTTCTATGGTAGAAGCCGGAGCAGGAACAGGATGAACAGTATACCCACCATTAGCTGGAAATTTAGCCCACGCTGGAGCATCAGTAGACCTAACCATTTTCTCCCTCCACCTGGCTGGGGTATCCTCTATTTTAGGGGCTATTAACTTTATTACTACTATTATTAATATGAAACCACCCGCTATAACTCTATGG
+>user2
+GGACAACCAGGTGCACTTCTAGGAGATGACCAAATTTATAATGTTATTGTAACTGCCCATGCATTCGTAATAATTTTTTTTATAGTTATACCAATAATAATTGGAGGCTTCGGAAACTGACTTGTACCACTAATAATTGGAGCCCCAGATATAGCATTTCCACGAATAAATAATATAAGCTTTTGACTACTTCCCCCATCTTTCCTCCTTCTTCTAGCATCATCTATAGTAGAAGCAGGAGCAGGAACGGGATGAACAGTTTACCCCCCTCTAGCTGGAAATTTAGCTCATGCAGGAGCATCAGTAGACCTAACAATTTTCTCCCTCCATTTAGCTGGTGTTTCATCTATTCTAGGTGCAATCAACTTTATTACTACAATTATTAACATAAAACCCCCAGCTATAACTCAATATCAAACCCCGCTATTTGTTTGATCAGTACTAATTACTGCCGTATTACTTTTACTATCCCTACCAGTTCTAGCTGCAGGAATTACTATACTGCTAACAGACCGTAACCTTAATACAACTTTCTTTG
+>user3
+GGACAGCCAGGCGCACTACTAGGAGATGACCAAATTTATAATGTTATTGTTACCGCCCATGCATTTGTTATAATCTTTTTTATAGTAATGCCAATAATAATCGGAGGTTTCGGAAACTGACTTGTACCACTAATAATTGGAGCCCCAGATATAGCATTCCCACGAATAAATAATATAAGTTTTTGACTACTTCCCCCATCATTTCTTCTCCTATTAGCATCATCAATAGTAGAAGCTGGGGCAGGAACAGGATGAACAGTCTACCCACCTCTAGCCGGAAATTTAGCCCATGCAGGAGCATCTGTAGATTTAACAATTTTTTCTCTACATTTAGCCGGTGTCTCATCTATTTTAGGTGCAATCAACTTTATTACAACAATTATTAATATAAAACCCCCAGCTATAACTCAGTATCAAACCCCACTATTTGTCTGATCCGTATTAATTACAGCTGTATTACTTTTATTATCACTGCCGGTATTAGCTGCAGGAATTACTATACTATTAACAGACCGAAATCTTAATACAACTTTCTTTG
+            </div>
+
             <div>
-            <textarea rows="10" cols="80" name="paste" value=""></textarea><br />
+            <textarea rows="10" cols="80" name="paste" id="sequence"></textarea><br />
             </div>
 
             <div>
@@ -57,7 +66,7 @@
                 <a href="#" class="pipeline-infos">more infos</a>
             </div>
             <div>
-            <input type="button" class="button" value="Reset" id="badreset"/>
+            <input type="reset" />
             <input type="submit" />
             ##class="button" blockui="wait_progress" value="Upload & explore" />
             <span style="text-align:center;color:#FF9934;" >© CBGP 2010
@@ -76,8 +85,14 @@
     </div>
 
 <script>
-$('.pipeline-infos').click(function(){
-    var pipeline_name = $(this).parent().parent().find('.pipeline-selection :selected').text();
-    $(this).attr('href', '/data/pipeline/'+pipeline_name+'.html');
+$(document).ready(function(){
+    $('#example').hide();
+    $('.pipeline-infos').click(function(){
+        var pipeline_name = $(this).parent().parent().find('.pipeline-selection :selected').text();
+        $(this).attr('href', '/data/pipeline/'+pipeline_name+'.html');
+    });
+    $('#show-example').click(function(){
+        $('#sequence').text($('#example').text());
+    });
 });
 </script>
