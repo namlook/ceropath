@@ -3,7 +3,8 @@ id_article:
     filter: sanitize_article_id
     dbref: publication
     
-#species_article_name:
+species_article_name:
+    dbrsea: species_article_name
 
 origin:
     dbrsea: origin
@@ -12,10 +13,6 @@ origin:
 remark:
     dbrsea: remark
     lower: false
-
-valid_name:
-    dbrsea: organism_classification
-    dbref: organism_classification
 
 type:
     dbrsea: type

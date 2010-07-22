@@ -174,7 +174,20 @@ def csv2json(csv_path, yaml_path, json_path):
 #    pprint(organisms['bandicota indica'])
 
     # SpeciesMeasurement
-    species_measurements = list(process(csv_path, yaml_path, 't_species_measurements'))
+    species_synonyms = dict(((i['id_article']['$id'], i['species_article_name']), i) for i in process(csv_path, yaml_path, 't_species_synonyms'))
+    #species_measurements = list(process(csv_path, yaml_path, 't_species_measurements'))
+    species_measurements = []
+    for measurement in process(csv_path, yaml_path, 't_species_measurements'):
+        if species_synonyms.get((measurement['pubref']['$id'], measurement['species_article_name'])):
+            measurement['organism_classification'] = {
+              '$db': 'dbrsea',
+              '$id': species_synonyms[(measurement['pubref']['$id'], measurement['species_article_name'])]['valid_name'],
+              '$ref': 'organism_classification'
+            }
+            del measurement['species_article_name']
+            species_measurements.append(measurement)
+        else:
+            print "++++===", (measurement['pubref']['$id'], measurement['species_article_name'])
     print "generating species measurements..."
     open(os.path.join(json_path, 'species_measurement.json'), 'w').write(genjson(species_measurements))
     #for i in species_measurements:
@@ -247,9 +260,6 @@ def csv2json(csv_path, yaml_path, json_path):
                 if sample['institute']:
                     s = samples[sample['name']].get(sample['institute']['$id'])
                     if s:
-                        print i['_id']
-                        print '-'*len(i['_id'])
-                        print s
                         individuals[i['_id']]['samples'].append(s)
     print "generating individuals..."
     open(os.path.join(json_path, 'individual.json'), 'w').write(genjson(individuals.values()))
