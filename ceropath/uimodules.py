@@ -39,7 +39,7 @@ class Module(UIModule):
         legends = {}
         bibliography = ""
         for file_name in os.listdir(os.path.join(module_path, name)):
-            if id in file_name.lower():
+            if id in file_name.lower() or id.split()[0].lower() in file_name.lower():
                 base_file_name, ext = os.path.splitext(file_name)
                 if ext.lower() in ['.jpg', '.jpeg', '.png']:
                     files_list[file_name] = base_file_name
