@@ -1,0 +1,12 @@
+    
+sample:
+    dbrsea: sample
+    lower: false
+
+conservation_methods:
+    dbrsea: conservation method
+    lower: false
+
+remark:
+    dbrsea: remark
+    lower: false

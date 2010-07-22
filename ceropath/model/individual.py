@@ -2,6 +2,7 @@
 from mongokit import Document, IS
 from datetime import datetime
 from organism_classification import OrganismClassification
+from institute import Institute
 from responsible import Responsible
 from site import Site
 
@@ -53,7 +54,14 @@ class Individual(Document):
             'number': int, #t_individus/mission_number
             'remark': unicode, #t_individus/mission_remark
         },
-        #'samples':[{'type':Sample, 'responsible':Responsible}], TODO
+        'samples':[{
+            'name':unicode,
+            'conservation_method': unicode,
+            'responsible': [Responsible],
+            'institute':[Institute],
+            'project_responsible': [Responsible],
+            'project_institute':[Institute],
+        }],
         'measures':[
             {'trait': unicode, 'value': unicode},
         ],

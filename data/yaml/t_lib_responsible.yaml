@@ -1,8 +1,5 @@
-id_responsible:
-    dbrsea: _id
-
 Responsible_name:
-    dbrsea: name
+    dbrsea: _id
     lower: false
 
 Responsible_password:
@@ -27,6 +24,7 @@ Responsible_fax:
 Id_institute:
    dbrsea: affiliation 
    dbref: institute
+   lower: false
 
 remark:
     dbrsea: remark

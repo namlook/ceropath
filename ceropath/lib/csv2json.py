@@ -6,6 +6,7 @@ import yaml
 from pprint import pprint
 from mongokit import DotExpandedDict, totimestamp
 from datetime import datetime
+import codecs
 
 def genjson(dict_list):
     return "\n".join(anyjson.serialize(i) for i in dict_list)
@@ -41,14 +42,21 @@ date_converter = lambda x: {'$date':totimestamp(datetime.strptime(x, "%d/%m/%Y")
 sex_checker = lambda x: x.lower() if x in ['f', 'm'] else None
 sanitize_article_id = lambda x: x.split(',')[0]
 filter_measurement_accuracy = lambda x: len(x.split(',')[1]) if len(x.split(',')) > 1 else 0
+sample_no_converter = lambda x: None if x.lower() == 'no' else x
 
-def process(csv_path, yaml_path, name, delimiter=';'):
+def process(csv_path, yaml_path, name, delimiter=';', quotechar='"'):
     config = yaml.load(open(os.path.join(yaml_path, '%s.yaml') % name).read())
-    csv_file = csv.reader(open(os.path.join(csv_path, '%s.csv') % name), delimiter=delimiter, quotechar='"')
-    legend = csv_file.next()
-    for row in csv_file:
+    print name
+    csv_lines = csv.reader(open(os.path.join(csv_path, '%s.csv') % name), delimiter=delimiter, quotechar='"')
+    #csv_file = codecs.open(os.path.join(csv_path, '%s.csv') % name, 'r', 'utf-8').readlines()
+    #csv_lines = ([j.strip(quotechar) for j in i.split(delimiter)] for i in csv_file)
+    #csv_file = codecs.open(os.path.join(csv_path, '%s.csv') % name, 'r', 'utf-8')
+    #csv_lines = UnicodeReader(csv_file, delimiter=delimiter)
+    legend = csv_lines.next()
+    for row in csv_lines:
         doc = {}
         for index, value in enumerate(row):
+            assert len(legend) == len(row)
             field_name = legend[index]
             if field_name in config:
                 value = value.strip() or None
@@ -60,7 +68,8 @@ def process(csv_path, yaml_path, name, delimiter=';'):
                     if 'filter' in config[field_name]:
                         value = eval(config[field_name]['filter'])(value)
                     if 'dbref' in config[field_name]:
-                        value = {'$id':value, '$ref':config[field_name]['dbref'], '$db':'dbrsea'}
+                        if value is not None:
+                            value = {'$id':value, '$ref':config[field_name]['dbref'], '$db':'dbrsea'}
                     if isinstance(value, str):
                         value = value.decode('utf-8', 'replace')
                 if 'field_name_target' in config[field_name]:
@@ -93,7 +102,7 @@ def process(csv_path, yaml_path, name, delimiter=';'):
 def csv2json(csv_path, yaml_path, json_path):
     # Publication
     print "generating publications..."
-    publications = dict((i['_id'],i) for i in process(csv_path, yaml_path, 't_literature_referens'))
+    publications = dict((i['_id'],i) for i in process(csv_path, yaml_path, 't_literature_referens', delimiter=';'))
     open(os.path.join(json_path, 'publication.json'), 'w').write(genjson(publications.values()))
 
     # Institutes
@@ -199,6 +208,49 @@ def csv2json(csv_path, yaml_path, json_path):
         if i['_id'] in individuals:
             individuals[i['_id']]['microparasites'] = i['microparasites']
 #    pprint(individus['c0001'])
+
+    # Individual samples
+    samples = dict((i['sample'], {'conservation_method': i['conservation method']}) for i in process(csv_path, yaml_path, 't_lib_samples'))
+    #samples = dict((i['sample'], {'conservation_method': None}) for i in process(csv_path, yaml_path, 't_lib_samples'))
+    pprint(samples)
+    for sample in process(csv_path, yaml_path, 't_samples_collection_management'):
+        if sample['sample_name'] in samples:
+            sample_name = sample['sample_name']
+            if sample['institute']:
+                sample_institute = sample['institute']['$id']
+                if not sample_institute in samples[sample_name]:
+                    samples[sample_name][sample_institute] = {}
+                samples[sample_name][sample_institute]['name'] = sample_name
+                samples[sample_name][sample_institute]['conservation_method'] = samples[sample_name]['conservation_method']
+                if not 'responsible' in samples[sample_name][sample_institute]:
+                    samples[sample_name][sample_institute]['responsible'] = []
+                if sample['responsible'] not in samples[sample_name][sample_institute]['responsible']:
+                    samples[sample_name][sample_institute]['responsible'].append(sample['responsible'])
+                if not 'institute' in samples[sample_name][sample_institute]:
+                    samples[sample_name][sample_institute]['institute'] = []
+                if sample['institute'] not in samples[sample_name][sample_institute]['institute']:
+                    samples[sample_name][sample_institute]['institute'].append(sample['institute'])
+                if not 'project_responsible' in samples[sample_name][sample_institute]:
+                    samples[sample_name][sample_institute]['project_responsible'] = []
+                if sample['project_responsible'] not in samples[sample_name][sample_institute]['project_responsible']:
+                    samples[sample_name][sample_institute]['project_responsible'].append(sample['project_responsible'])
+                if not 'project_institute' in samples[sample_name][sample_institute]:
+                    samples[sample_name][sample_institute]['project_institute'] = []
+                if sample['project_institute'] not in samples[sample_name][sample_institute]['project_institute']:
+                    samples[sample_name][sample_institute]['project_institute'].append(sample['project_institute'])
+        else:
+            print "----", sample
+    for i in process(csv_path, yaml_path, 't_individus_samples'):
+        if i['_id'] in individuals:
+            individuals[i['_id']]['samples'] = []
+            for sample in i['samples']:
+                if sample['institute']:
+                    s = samples[sample['name']].get(sample['institute']['$id'])
+                    if s:
+                        print i['_id']
+                        print '-'*len(i['_id'])
+                        print s
+                        individuals[i['_id']]['samples'].append(s)
     print "generating individuals..."
     open(os.path.join(json_path, 'individual.json'), 'w').write(genjson(individuals.values()))
 

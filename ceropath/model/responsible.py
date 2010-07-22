@@ -3,7 +3,8 @@ from core import Core
 
 class Responsible(Core):
     structure = {
-        'name': unicode, #t_lib_responsibles/Responsible_name
+        '_id': unicode, # name
+        #'name': unicode, #t_lib_responsibles/Responsible_name
         'password': unicode, #t_lib_responsibles/Responsible_password
         'email': unicode, #t_lib_responsibles/Responsible_email
 		'office': unicode, #t_lib_responsibles/responsible_office

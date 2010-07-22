@@ -268,3 +268,16 @@ class IndividualController(BaseController):
             '_id': id,
         })
  
+    def samples(self, id):
+        individual = self.db.individual.Individual.get_from_id(id)
+        if not individual:
+            abort(404)
+        if not individual['internet_display']:
+            abort(404)
+        return render('individual/samples.mako', extra_vars={
+            '_id': id,
+            'species': individual['organism_classification']['_id'],
+            'samples': individual['samples'],
+            'samples_owner': individual['samples_owner'],
+        })
+

@@ -38,6 +38,9 @@ def make_map(config):
     map.connect('query_new', '/query', controller='query', action='new')
     map.connect('query_completion', '/query/field_completion', controller='query', action='field_completion')
 
+    # institute
+    map.connect('institute_show', '/institute/{id}', controller='institute', action='show')
+
     # species
     map.connect('species_index', '/species', controller='species', action='index')
     map.connect('species_filter', '/species/filter', controller='species', action='filter')

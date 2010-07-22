@@ -1,0 +1,393 @@
+
+"Id_individu":
+    dbrsea: _id
+
+"Whole blood":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Serum 1":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Serum 2":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Serum 3":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Blood blue":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Blood red":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Blood purple":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Lung frozen 1":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Lung frozen 2":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Lung RNA 1":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Lung RNA 2":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Liver alcohol 1":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Liver alcohol 2":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Spleen frozen 1":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Spleen frozen 2":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Spleen RNA 1":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Spleen RNA 2":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Kidney frozen 1":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Kidney frozen 2":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Kidney RNA 1":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Kidney RNA 2":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Tissue":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Diaphragm":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Gut":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    dbref: institute
+    filter: sample_no_converter
+    lower: false
+
+
+"Body+Skull":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Skull alone":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Skull dry":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Chiggers frozen":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Chiggers alcohol":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Fleas alcohol":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Lice alcohol":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Ticks alcohol":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Mites alcohol":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Cysts alcohol":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Endoparasite alcohol":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Genital tracks formalin":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Sperm formalin":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Urine":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+
+
+"Orthopox sampling":
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter
+

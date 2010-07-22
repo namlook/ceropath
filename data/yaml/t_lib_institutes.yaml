@@ -1,14 +1,11 @@
-id_institute:
+Acronym:
     dbrsea: _id
+    lower: false
 
 Institute_name:
     dbrsea: name
     lower: false
 
-Acronym:
-    dbrsea: acronym
-    lower: false
-    
 Institute_country:
     dbrsea: country
     lower: false
