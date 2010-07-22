@@ -1,64 +1,10 @@
 
 id_individu:
     dbrsea: _id
+    last: true
 
-"Hantavirus_Western_Blot":
+_dynamic:
     dbrsea: status
     field_name_target: method
     list: true
     embed: microparasites
-
-"Hantavirus_PCR_L":
-    dbrsea: status
-    field_name_target: method
-    list: true
-    embed: microparasites
-
-"Hantavirus_PCR_S":
-    dbrsea: status
-    field_name_target: method
-    list: true
-    embed: microparasites
-
-"Arenavirus_PCR_L":
-    dbrsea: status
-    field_name_target: method
-    list: true
-    embed: microparasites
-
-"Ortopoxvirus_FP":
-    dbrsea: status
-    field_name_target: method
-    list: true
-    embed: microparasites
-
-"Leptospirosis_PCR":
-    dbrsea: status
-    field_name_target: method
-    list: true
-    embed: microparasites
-
-"Scrub_Thyphus_RTPCR":
-    dbrsea: status
-    field_name_target: method
-    list: true
-    embed: microparasites
-
-"Ortopoxvirus_qPCR":
-    dbrsea: status
-    field_name_target: method
-    list: true
-    embed: microparasites
-
-"Pneumosystis_PCR":
-    dbrsea: status
-    field_name_target: method
-    list: true
-    embed: microparasites
-
-"Tripanosome":
-    dbrsea: status
-    field_name_target: method
-    list: true
-    embed: microparasites
-

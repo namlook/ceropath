@@ -46,7 +46,6 @@ sample_no_converter = lambda x: None if x.lower() == 'no' else x
 
 def process(csv_path, yaml_path, name, delimiter=';', quotechar='"'):
     config = yaml.load(open(os.path.join(yaml_path, '%s.yaml') % name).read())
-    print name
     csv_lines = csv.reader(open(os.path.join(csv_path, '%s.csv') % name), delimiter=delimiter, quotechar='"')
     #csv_file = codecs.open(os.path.join(csv_path, '%s.csv') % name, 'r', 'utf-8').readlines()
     #csv_lines = ([j.strip(quotechar) for j in i.split(delimiter)] for i in csv_file)
@@ -55,9 +54,13 @@ def process(csv_path, yaml_path, name, delimiter=';', quotechar='"'):
     legend = csv_lines.next()
     for row in csv_lines:
         doc = {}
+        dynamic_row = False
         for index, value in enumerate(row):
             assert len(legend) == len(row)
             field_name = legend[index]
+            if dynamic_row:
+                _field_name = field_name
+                field_name = '_dynamic'
             if field_name in config:
                 value = value.strip() or None
                 if value:
@@ -72,23 +75,23 @@ def process(csv_path, yaml_path, name, delimiter=';', quotechar='"'):
                             value = {'$id':value, '$ref':config[field_name]['dbref'], '$db':'dbrsea'}
                     if isinstance(value, str):
                         value = value.decode('utf-8', 'replace')
-                if 'field_name_target' in config[field_name]:
-                    target = config[field_name]['field_name_target']
-                    if 'embed' in config[field_name]:
-                        embed = config[field_name]['embed']
-                        if 'list' in config[field_name] and config[field_name]['list']:
+                if dynamic_row:# and 'field_name_target' in config[field_name]:
+                    target = config['_dynamic']['field_name_target']
+                    if 'embed' in config['_dynamic']:
+                        embed = config['_dynamic']['embed']
+                        if 'list' in config['_dynamic'] and config['_dynamic']['list']:
                             if not embed in doc:
                                 doc[embed] = []
                             doc[embed].append({
-                              config[field_name]['dbrsea']: value,
-                              config[field_name]['field_name_target']: field_name
+                              config['_dynamic']['dbrsea']: value,
+                              config['_dynamic']['field_name_target']: _field_name
                             })
                         else:
-                            doc['%s.%s' % (embed, config[field_name]['dbrsea'])] = value
-                            doc['%s.%s' % (embed, config[field_name]['field_name_target'])] = field_name
+                            doc['%s.%s' % (embed, config['_dynamic']['dbrsea'])] = value
+                            doc['%s.%s' % (embed, config['_dynamic']['field_name_target'])] = _field_name
                     else:
-                        doc[config[field_name]['field_name_target']] = field_name
-                        doc[config[field_name]['dbrsea']] = value
+                        doc[config['_dynamic']['field_name_target']] = field_name
+                        doc[config['_dynamic']['dbrsea']] = value
                 else:
                     if 'list' in config[field_name] and config[field_name]['list']:
                         if value is None:
@@ -97,6 +100,9 @@ def process(csv_path, yaml_path, name, delimiter=';', quotechar='"'):
                             if not isinstance(value, list):
                                 value = [value]
                     doc[config[field_name]['dbrsea']] = value
+                if 'last' in config[field_name]:
+                    if config[field_name]['last']:
+                        dynamic_row = True
         yield DotExpandedDict(doc)
     
 def csv2json(csv_path, yaml_path, json_path):
@@ -122,7 +128,7 @@ def csv2json(csv_path, yaml_path, json_path):
  
     # OrganismClassification
     def get_organisms():
-        organisms = process(csv_path, yaml_path, 't_species_systematic', delimiter='|')
+        organisms = process(csv_path, yaml_path, 't_species_systematic', delimiter=';')
         proceed_organisms = []
         for org in organisms:
             if org['_id'] is None:
@@ -177,6 +183,7 @@ def csv2json(csv_path, yaml_path, json_path):
     species_synonyms = dict(((i['id_article']['$id'], i['species_article_name']), i) for i in process(csv_path, yaml_path, 't_species_synonyms'))
     #species_measurements = list(process(csv_path, yaml_path, 't_species_measurements'))
     species_measurements = []
+    #pprint(list(process(csv_path, yaml_path, 't_species_measurements')))
     for measurement in process(csv_path, yaml_path, 't_species_measurements'):
         if species_synonyms.get((measurement['pubref']['$id'], measurement['species_article_name'])):
             measurement['organism_classification'] = {
