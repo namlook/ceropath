@@ -1,4 +1,6 @@
 
+# XXX not used
+
 class Sample(Core):
     structure = {
         '_id': unicode,#t_lib_samples/sample

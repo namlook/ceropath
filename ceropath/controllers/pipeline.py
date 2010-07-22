@@ -132,4 +132,3 @@ class PipelineController(BaseController):
           'last_output_ext': pypit.last_output_ext,
         })
 
-    

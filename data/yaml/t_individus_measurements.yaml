@@ -2,6 +2,9 @@ ID_individu:
     dbrsea: _id
     #dbref: individu
 
+remark:
+    dbrsea: remark
+
 "Head & Body (mm)":
     dbrsea: value
     field_name_target: trait
