@@ -72,7 +72,7 @@ class ModulesList(UIModule):
         modules_list = set([])
         for module in os.listdir(os.path.join('ceropath', 'public', 'data', 'dynamic')):
             for file_name in os.listdir(os.path.join('ceropath', 'public', 'data', 'dynamic', module)):
-                if id in file_name.decode('utf-8').lower():
+                if id in file_name.decode('utf-8').lower() or id.split()[0].lower() in file_name.decode('utf-8').lower():
                     base_file_name, ext = os.path.splitext(file_name.lower())
                     if ext in ['.jpg', '.jpeg', '.png']:
                         modules_list.add(module)
