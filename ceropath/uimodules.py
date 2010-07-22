@@ -55,8 +55,8 @@ class Module(UIModule):
             legend_file = os.path.join(module_path, name, '%s.txt' % id.capitalize())
             legends[id] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
         if not bibliography:
-            if 'Bibliography.txt' in os.listdir(os.path.join(module_path, name)):
-                bibliography = codecs.open(os.path.join(module_path, name, 'Bibliography.txt'), encoding='utf-8', errors='ignore').read()
+            if 'bibliography.txt' in os.listdir(os.path.join(module_path, name)):
+                bibliography = codecs.open(os.path.join(module_path, name, 'bibliography.txt'), encoding='utf-8', errors='ignore').read()
         return render('/uimodules/module.mako', extra_vars={
             '_id': id,
             'files_list': files_list,
