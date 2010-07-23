@@ -24,6 +24,11 @@ def make_map(config):
     map.connect('login_submit', '/login/submit', controller='login', action='submit')
     map.connect('login_logout', '/logout', controller='login', action='logout')
 
+    # database
+    map.connect('database_index', '/db', controller='database', action='index')
+    map.connect('database_load', '/db/load', controller='database', action='load')
+    map.connect('database_status', '/db/status', controller='database', action='status')
+
     # pipeline
     map.connect('pipeline_index', '/pipeline', controller='pipeline', action='index')
     map.connect('pipeline_phyloexplorer', '/pipeline/phyloexplorer', controller='pipeline', action='phyloexplorer')

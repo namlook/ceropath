@@ -158,21 +158,7 @@ def setup_app(command, conf, vars):
     ]
     pipeline_config.save()
     open(os.path.join('data', 'pipeline', 'outfile'), 'w').write(' ')
-    documents_list = [
-        'publication',
-        'institute',
-        'responsible',
-        'trait',
-        'organism_classification',
-        'species_measurement',
-        'site',
-        'individual',
-        'gene',
-        'primer',
-        'sequence',
-        'rel_host_parasite',
-    ]
-
+    from config import json_allowed
     
     print "Convert csv to json. Please wait..."
     csv_path = os.path.join('data', 'csv')
@@ -219,7 +205,7 @@ def setup_app(command, conf, vars):
     print "...done"
     sys.exit()
     print "importing json into the database %s. This may take a while..." % db.name
-    for name in documents_list:#['gene', 'primer', 'sequence']:#documents_list:
+    for name in json_allowed:
         print 'processing :', name
         objs = anyjson.deserialize(open(os.path.join(json_path,'%s.json' % name)).read())
         DocClass = getattr(db[name], "".join(i.capitalize() for i in name.split('_')))
