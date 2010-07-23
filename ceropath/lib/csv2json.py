@@ -208,8 +208,9 @@ def csv2json(csv_path, yaml_path, json_path):
     for _id in individuals:
         individuals[_id]['measures'] = []
         individuals[_id]['microparasites'] = []
+        individuals[_id]['macroparasites'] = []
 
-    # Individu measurements
+    # Individual measurements
     for i in process(csv_path, yaml_path, 't_individus_measurements'):
         if i['_id'] in individuals:
             individuals[i['_id']]['measures'] = i['measures']
@@ -217,7 +218,7 @@ def csv2json(csv_path, yaml_path, json_path):
             print "Error:", i['_id'], "not found in t_individus but found in t_individus_measurements"
 #    pprint(individus['c0001'])
 
-    # Individu microparasites
+    # Individual microparasites
     #microparasites = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_individus_microparasites'))
     for i in process(csv_path, yaml_path, 't_individus_microparasites'):
         if i['_id'] in individuals:
@@ -225,6 +226,16 @@ def csv2json(csv_path, yaml_path, json_path):
         else:
             print "Error:", i['_id'], "not found in t_individus but found in t_individus_microparasites"
 #    pprint(individus['c0001'])
+
+    # Individual macroparasites
+    for macroparasite in process(csv_path, yaml_path, 't_individus_macroparasites'):
+        _id = macroparasite['individual_id']
+        if _id in individuals:
+            if not 'macroparasites' in individuals[_id]:
+                individuals[_id]['macroparasites'] = []
+            individuals[_id]['macroparasites'].append({'name':macroparasite['parasite'], 'quantity': macroparasite['quantity']})
+        else:
+            print "Error:", i['_id'], "not found in t_individus but found in t_individus_macroparasites"
 
     # Individual samples
     samples = dict((i['sample'], {'conservation_method': i['conservation method']}) for i in process(csv_path, yaml_path, 't_lib_samples'))
@@ -271,8 +282,7 @@ def csv2json(csv_path, yaml_path, json_path):
     for feature in process(csv_path, yaml_path, 't_individus_physiologic_features'):#physiologic_features:
         _id = feature['individual_id']
         if _id in individuals:
-            if not 'physiologic_features' in individuals[_id]:
-                individuals[_id]['physiologic_features'] = []
+            individuals[_id]['physiologic_features'] = []
             individuals[_id]['physiologic_features'] = feature['physiologic_features']
         else:
             print "Error:", _id, "not found in t_indivivus but found in t_individus_physiologic_features"
@@ -294,7 +304,7 @@ def csv2json(csv_path, yaml_path, json_path):
     former_identifications = list(process(csv_path, yaml_path, 't_individus_former_identifications'))
     open(os.path.join(json_path, 'former_identification.json'), 'w').write(genjson(former_identifications))
 
-    # RelHostParasite
+    # Microparasite
 #    for i in process('t_individus_macroparasites'):
 #        if i['host']['$id'] == 'r4499':
 #            pprint(i)

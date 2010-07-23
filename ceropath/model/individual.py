@@ -62,6 +62,9 @@ class Individual(Document):
         'microparasites':[
             {'method': unicode, 'status': IS(u'positive', u'negative', u'undone')},
         ],
+        'macroparasites':[
+            {'name': unicode, 'quantity': unicode},
+        ],
         'physiologic_features':[
             {'type': unicode, 'value': unicode},
         ],
