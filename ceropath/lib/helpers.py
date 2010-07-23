@@ -18,7 +18,8 @@ success_flash = _Flash('success')
 failure_flash = _Flash('failure')
 
 def markdownize(text):
-    return markdown(text.decode('utf-8'))
+    # wants unicode
+    return markdown(text)
 
 import re
 REX_DATE = re.compile('\d{4}')

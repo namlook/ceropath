@@ -16,6 +16,7 @@ log = logging.getLogger(__name__)
 
 from pprint import pprint
 import anyjson
+import codecs
 
 import re
 import math
@@ -142,7 +143,7 @@ class SpeciesController(BaseController):
         ## description
         description = ""
         if '%s.txt' % capitalized_species_id in os.listdir(file_path):
-            description = open(os.path.join(file_path, '%s.txt' % capitalized_species_id)).read()
+            description = codecs.open(os.path.join(file_path, '%s.txt' % capitalized_species_id), 'r', 'utf-8', errors='ignore').read()
         ## image
         image_paths = []
         for file_name in os.listdir(file_path):
