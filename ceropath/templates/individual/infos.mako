@@ -162,6 +162,13 @@ table.measurements td{
             % endfor
         </table>
     </fieldset>
+    <fieldset><legend>Physiologic features</legend>
+        <table style="width:360px">
+            % for feature in physiologic_features:
+                <tr><th>${feature['type']}</th><td>${feature['value'] or 'unknown'}</td></tr>
+            % endfor
+        </table>
+    </fieldset>
 
 </div>
 

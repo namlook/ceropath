@@ -180,6 +180,7 @@ class IndividualController(BaseController):
             'sequences': sequences,
             'api_key': google_map_api_key,
             'traits': traits,
+            'physiologic_features': individual['physiologic_features'],
         })
 
     def sequence(self, id, gene):
