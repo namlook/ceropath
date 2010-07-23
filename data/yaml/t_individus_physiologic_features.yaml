@@ -1,0 +1,11 @@
+
+"ID_individu":
+    dbrsea: individual_id
+    last: true
+
+_dynamic:
+    dbrsea: value
+    field_name_target: type
+    list: true
+    embed: physiologic_features
+
