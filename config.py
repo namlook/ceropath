@@ -17,5 +17,6 @@ json_allowed = [
     'primer',
     'sequence',
     'rel_host_parasite',
+    'former_identification',
 ]
 
