@@ -1,4 +1,6 @@
 
+admin_password = ""
+
 username = ""
 password = ""
 

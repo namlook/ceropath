@@ -27,12 +27,16 @@ class LoginController(BaseController):
 
         # There is only one user so we don't need to get it from database
         # the usename and password are describes in config.py
-        if username != config.username:
+        if username != 'admin' and username != config.username:
            h.failure_flash('wrong username or password')
            return render('login/show.mako')
 
         # We don't care much about security here so no need to salt password
-        if password != config.password:
+        if username == 'admin':
+            if password != config.admin_password:
+               h.failure_flash('wrong username or password')
+               return render('login/show.mako')
+        elif password != config.password:
            h.failure_flash('wrong username or password')
            return render('login/show.mako')
 

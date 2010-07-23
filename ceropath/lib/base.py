@@ -16,10 +16,16 @@ class BaseController(WSGIController):
     # actions which require a login are listed below
     requires_auth_actions = []
 
+    # idem but for admin
+    admin_requires_auth_actions = []
+
     def __before__(self, action):
         if self.__class__.__name__ not in ['LoginController', 'ErrorController']:
             session['path_before_login'] = request.path_info
             session.save()
+        if action in self.admin_requires_auth_actions:
+            if 'user' not in session or session['user'] != 'admin':
+                return redirect(url_for('login_show'))
         if action in self.requires_auth_actions:
             if 'user' not in session:
                 return redirect(url_for('login_show'))

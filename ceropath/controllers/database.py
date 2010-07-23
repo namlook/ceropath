@@ -16,6 +16,8 @@ log = logging.getLogger(__name__)
 
 class DatabaseController(BaseController):
 
+    admin_requires_auth_actions = ['index', 'load', 'status']
+
     def index(self):
         return render('database/index.mako')
 
