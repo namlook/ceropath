@@ -221,7 +221,7 @@ def csv2json(csv_path, yaml_path, json_path):
         if i['_id'] in individuals:
             individuals[i['_id']]['measures'] = i['measures']
         else:
-            print "Error:", i['_id'], "not found in t_individus"
+            print "Error:", i['_id'], "not found in t_individus but found in t_individus_measurements"
 #    pprint(individus['c0001'])
 
     # Individu microparasites
@@ -230,7 +230,7 @@ def csv2json(csv_path, yaml_path, json_path):
         if i['_id'] in individuals:
             individuals[i['_id']]['microparasites'] = i['microparasites']
         else:
-            print "Error:", i['_id'], "not found in t_individus"
+            print "Error:", i['_id'], "not found in t_individus but found in t_individus_microparasites"
 #    pprint(individus['c0001'])
 
     # Individual samples
@@ -273,8 +273,7 @@ def csv2json(csv_path, yaml_path, json_path):
                     if s:
                         individuals[i['_id']]['samples'].append(s)
         else:
-            print "Error:", i['_id'], "not found in t_individus"
-    print "generating individuals..."
+            print "Error:", i['_id'], "not found in t_individus but found in t_individus_samples"
 
     # Individual physiologic features
     for feature in process(csv_path, yaml_path, 't_individus_physiologic_features'):#physiologic_features:
@@ -284,7 +283,18 @@ def csv2json(csv_path, yaml_path, json_path):
                 individuals[_id]['physiologic_features'] = []
             individuals[_id]['physiologic_features'] = feature['physiologic_features']
         else:
-            print "Error:", _id, "not found in t_indivivus"
+            print "Error:", _id, "not found in t_indivivus but found in t_individus_physiologic_features"
+
+    for genotyping in process(csv_path, yaml_path, 't_individus_genotyping'):
+        _id = genotyping['individual_id']
+        if _id in individuals:
+            if not 'genotyping' in individuals[_id]:
+                individuals[_id]['genotypes'] = {}
+            individuals[_id]['genotypes'][genotyping['genotype']] = genotyping['value']
+        else:
+            print "Error:", _id, "not found in t_indivivus but found in t_individus_genotyping"
+
+    print "generating individuals..."
     open(os.path.join(json_path, 'individual.json'), 'w').write(genjson(individuals.values()))
 
     # RelHostParasite

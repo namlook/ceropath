@@ -13,6 +13,7 @@ import anyjson
 from pprint import pprint
 from ceropath.lib.csv2json import csv2json
 
+
 log = logging.getLogger(__name__)
 
 import re
@@ -158,7 +159,6 @@ def setup_app(command, conf, vars):
     ]
     pipeline_config.save()
     open(os.path.join('data', 'pipeline', 'outfile'), 'w').write(' ')
-    from config import json_allowed
     
     print "Convert csv to json. Please wait..."
     csv_path = os.path.join('data', 'csv')

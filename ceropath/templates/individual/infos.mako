@@ -169,6 +169,14 @@ table.measurements td{
             % endfor
         </table>
     </fieldset>
+    <fieldset><legend>Genotypes</legend>
+        <table style="width:360px">
+            % for name, value in genotypes.iteritems():
+                <tr><th>${name}</th><td>${value}</td></tr>
+            % endfor
+        </table>
+    </fieldset>
+
 
 </div>
 

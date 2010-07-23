@@ -44,12 +44,6 @@ class Individual(Document):
             'extraction': bool, #t_individus/dNA_extraction
             'extraction_CBGP': bool, #t_individus/dNA_extraction_CBGP
         },
-        #'genotypage':{
-            # XXX TODO
-            #'genotype': Genotyping, #j'ai cree une table t_lib_genotyping pour permettre de rajouter des genotypages avec des types different (bol ou integer ou unicode...)
-            ##'microsat_nbmicrosat': du coup je supprime ca
-			#'value': 
-        #},
         'mission':{
             'number': int, #t_individus/mission_number
             'remark': unicode, #t_individus/mission_remark
@@ -71,6 +65,7 @@ class Individual(Document):
         'physiologic_features':[
             {'type': unicode, 'value': unicode},
         ],
+        'genotyping':{unicode:unicode},
         'remark': unicode,
     }#t_lib_samples/sample
 	#t_lib_responsibles/Responsible_name
