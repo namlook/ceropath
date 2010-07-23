@@ -209,13 +209,6 @@ def csv2json(csv_path, yaml_path, json_path):
         individuals[_id]['measures'] = []
         individuals[_id]['microparasites'] = []
 
-    # Former Identifications
-    # XXX embed this in Individu ?
-#    former_identifications = process('t_individus_former_identifications')
-#    for i in former_identifications:
-#        if i['individu']['$id'] == 'c0001':
-#            pprint(i)
-
     # Individu measurements
     for i in process(csv_path, yaml_path, 't_individus_measurements'):
         if i['_id'] in individuals:
@@ -236,7 +229,6 @@ def csv2json(csv_path, yaml_path, json_path):
     # Individual samples
     samples = dict((i['sample'], {'conservation_method': i['conservation method']}) for i in process(csv_path, yaml_path, 't_lib_samples'))
     #samples = dict((i['sample'], {'conservation_method': None}) for i in process(csv_path, yaml_path, 't_lib_samples'))
-    pprint(samples)
     for sample in process(csv_path, yaml_path, 't_samples_collection_management'):
         if sample['sample_name'] in samples:
             sample_name = sample['sample_name']
@@ -285,6 +277,7 @@ def csv2json(csv_path, yaml_path, json_path):
         else:
             print "Error:", _id, "not found in t_indivivus but found in t_individus_physiologic_features"
 
+    # Individual genotyping
     for genotyping in process(csv_path, yaml_path, 't_individus_genotyping'):
         _id = genotyping['individual_id']
         if _id in individuals:
@@ -296,6 +289,10 @@ def csv2json(csv_path, yaml_path, json_path):
 
     print "generating individuals..."
     open(os.path.join(json_path, 'individual.json'), 'w').write(genjson(individuals.values()))
+
+    # Former Identifications
+    former_identifications = list(process(csv_path, yaml_path, 't_individus_former_identifications'))
+    open(os.path.join(json_path, 'former_identification.json'), 'w').write(genjson(former_identifications))
 
     # RelHostParasite
 #    for i in process('t_individus_macroparasites'):

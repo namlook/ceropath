@@ -12,6 +12,7 @@ from primer import Primer
 from individual import Individual
 from site import Site
 from rel_host_parasite import RelHostParasite
+from former_identification import FormerIdentification
 
 register_models = [
     Pipeline,
@@ -27,4 +28,5 @@ register_models = [
     SpeciesMeasurement,
     Site,
     RelHostParasite,
+    FormerIdentification,
 ]

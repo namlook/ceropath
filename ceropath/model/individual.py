@@ -65,7 +65,7 @@ class Individual(Document):
         'physiologic_features':[
             {'type': unicode, 'value': unicode},
         ],
-        'genotyping':{unicode:unicode},
+        'genotypes':{unicode:unicode},
         'remark': unicode,
     }#t_lib_samples/sample
 	#t_lib_responsibles/Responsible_name

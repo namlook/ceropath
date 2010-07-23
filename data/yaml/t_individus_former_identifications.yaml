@@ -1,9 +1,10 @@
 id_individu:
-    dbrsea: individu
-    dbref: individu
+    dbrsea: individual
+    dbref: individual
 
-#Identification:
-#    dbrsea:
+Identification:
+    dbrsea: organism_classification
+    dbref: organism_classification
 
 Identification_type:
     dbrsea: type
