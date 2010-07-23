@@ -1,0 +1,12 @@
+
+"Id_individu":
+    dbrsea: individual_id
+
+"type":
+    dbrsea: genotype
+    lower: false
+
+"value":
+    dbrsea: value
+
+
