@@ -170,27 +170,25 @@ def setup_app(command, conf, vars):
 #    print "...done"
 #
     if 'data' not in os.path.join('ceropath', 'public'):
-        os.mkdir(os.path.join('ceropath', 'public', 'data')
+        os.mkdir(os.path.join('ceropath', 'public', 'data'))
     if 'static' not in os.path.join('ceropath', 'public', 'data'):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static')
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static'))
     if 'alive animals' not in os.path.join('ceropath', 'public', 'data'):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'alive animals')
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'alive animals'))
     if 'chromatogram' not in os.path.join('ceropath', 'public', 'data'):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'chromatogram')
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'chromatogram'))
     if 'measurements' not in os.path.join('ceropath', 'public', 'data'):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'measurements')
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'measurements'))
     if 'primers' not in os.path.join('ceropath', 'public', 'data'):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'primers')
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'primers'))
     if 'trap lines pictures' not in os.path.join('ceropath', 'public', 'data'):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'trap lines pictures')
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'trap lines pictures'))
     if 'vouchers skull pictures with measurements' not in os.path.join('ceropath', 'public', 'data'):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'vouchers skull pictures with measurements')
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'vouchers skull pictures with measurements'))
 
     if 'dynamic' not in os.path.join('ceropath', 'public', 'data'):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'dynamic')
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'dynamic'))
         
-        /data/static/alive animals'
-
     if not 'json' in os.listdir('data'):
         os.mkdir(os.path.join('data', 'json'))
     for file_name in os.listdir(json_path):
