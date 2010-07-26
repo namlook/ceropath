@@ -158,7 +158,10 @@ class IndividualController(BaseController):
                     measures_infos[trait][(pubref, origin)] = {}
                 measures_infos[trait][(pubref, origin)] = measure['measures'][trait]
         traits = dict((int(i['_id']), i) for i in self.db.trait.find())
-        sequences = dict((i['gene']['$id'], i) for i in self.db.sequence.find({'individual.$id':id}))
+        try:
+            sequences = dict((i['gene']['$id'], i) for i in self.db.sequence.find({'individual.$id':id}))
+        except:
+            sequences = dict((i['gene'].id, i) for i in self.db.sequence.find({'individual.$id':id}))
         return render('individual/infos.mako', extra_vars={
             '_id': individual['_id'],
             'species': individual['organism_classification']['_id'],
@@ -271,7 +274,10 @@ class IndividualController(BaseController):
         rel_host_parasites_list = self.db.rel_host_parasite.find({'host.$id':individual['organism_classification']['_id']})
         rel_host_parasites = {}
         for rhp in rel_host_parasites_list:
-            rel_host_parasites[rhp['_id']] = (rhp, self.db.publication.get_from_id(rhp['pubref']['$id']))
+            try:
+                rel_host_parasites[rhp['_id']] = (rhp, self.db.publication.get_from_id(rhp['pubref']['$id']))
+            except:
+                rel_host_parasites[rhp['_id']] = (rhp, self.db.publication.get_from_id(rhp['pubref'].id))
         return render('individual/parasites.mako', extra_vars={
             'rel_host_parasites':rel_host_parasites,
             '_id': id,

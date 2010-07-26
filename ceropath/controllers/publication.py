@@ -18,7 +18,11 @@ class PublicationController(BaseController):
         parasite_synonyms_related = {}
         for parasite in self.db.organism_classification.find({'synonyms.pubref.$id':id, 'internet_display':True, 'type':'parasite'}):
             for synonym in parasite['synonyms']:
-                if synonym['pubref']['$id'] == id: # XXX why $id ?
+                try:
+                    is_ok = synonym['pubref']['$id'] == id # XXX why $id ?
+                except:
+                    is_ok = synonym['pubref'].id == id
+                if is_ok:
                     if synonym['name'] != parasite['_id']:
                         if parasite['_id'] not in parasite_synonyms_related:
                             parasite_synonyms_related[parasite['_id']] = []
@@ -34,8 +38,12 @@ class PublicationController(BaseController):
                             host_synonyms_related[species['_id']] = []
                         host_synonyms_related[species['_id']].append(synonym['name'])
         for rhp in rel_host_parasites:
-            hosts_related.add(rhp['host']['$id'])
-            parasites_related.add(rhp['parasite']['$id'])
+            try:
+                hosts_related.add(rhp['host']['$id'])
+                parasites_related.add(rhp['parasite']['$id'])
+            except:
+                hosts_related.add(rhp['host'].id)
+                parasites_related.add(rhp['parasite'].id)
         return render('publication/show.mako', extra_vars={
             '_id': publication['_id'],
             'source': publication['source'],
