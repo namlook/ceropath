@@ -69,7 +69,10 @@ def _generate_species_measurements(db, species_id):
     )
     results = {}
     for species_measurement in species_measurements:
-        key = (species_measurement['pubref']['$id'], species_measurement['origin'])
+        try:
+            key = (species_measurement['pubref']['$id'], species_measurement['origin'])
+        except:
+            key = (species_measurement['pubref'].id, species_measurement['origin'])
         if key not in results:
             results[key] = {}
         for measure in species_measurement['measures']:

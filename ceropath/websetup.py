@@ -15,89 +15,89 @@ from ceropath.lib.csv2json import csv2json
 
 
 log = logging.getLogger(__name__)
-
-import re
-import math
-REGX_COI = re.compile('coi')
-REGX_CYTB = re.compile('cytb')
-REGX_PRIMER = re.compile('primer')
-REGX_16S = re.compile('16s')
-REGEXP_NUMBER = re.compile('^[\d\.,]+$')
-
-from statlib import stats
-
-def precalculate_ceropath_measurements(db, species_id):
-    query = {
-        'organism_classification.$id': species_id,
-        'adult':'adult',
-        'identification.type':{'$in':[REGX_COI, REGX_CYTB, REGX_PRIMER, REGX_16S]}
-    }
-    individuals = db.individual.find(query)
-    traits = {}
-    for individual in individuals:
-        for measure in individual['measures']:
-            trait = measure['trait']
-            if trait not in traits:
-                traits[trait] = []
-            if measure['value']:
-                traits[trait].append(measure['value'])
-    results = {}
-    for trait in traits:
-        values_list = [float(i.replace(',','.')) for i in traits[trait] if REGEXP_NUMBER.search(i)]
-        if trait not in results:
-            results[trait] = {}
-        if len(values_list) > 0:
-            results[trait]['mean'] = stats.mean(values_list)
-            if len(values_list) == 1:
-                results[trait]['sd'] = 0
-            else:
-                results[trait]['sd'] = stats.sterr(values_list)
-            results[trait]['n'] = len(values_list)
-            results[trait]['min'] = min(values_list)
-            results[trait]['max'] = max(values_list)
-        else:
-            results[trait]['mean'] = None
-            results[trait]['sd'] = None
-            results[trait]['n'] = None
-            results[trait]['min'] = None
-            results[trait]['max'] = None
-    results["Tail / Head & Body (%)"] = {'mean':0, 'n':0, 'sd':0, 'min':0, 'max':0}
-    if traits:
-        headnbody_values = [float(i.replace(',','.')) for i in traits["Head & Body (mm)"] if REGEXP_NUMBER.search(i)]
-        tail_values = [float(i.replace(',','.')) for i in traits["Tail (mm)"] if REGEXP_NUMBER.search(i)]
-        if len(headnbody_values) == len(tail_values):
-            headnbody_on_tail = 0
-            headnbody_on_tails = []
-            for index, val in enumerate(headnbody_values):
-                value = float(tail_values[index]) / float(headnbody_values[index])
-                headnbody_on_tails.append(value)
-                headnbody_on_tail += value
-            results["Tail / Head & Body (%)"]['mean'] = int((headnbody_on_tail/len(headnbody_values))*100)
-            results["Tail / Head & Body (%)"]['sd'] = 0
-            results["Tail / Head & Body (%)"]['n'] = len(headnbody_values)
-            results["Tail / Head & Body (%)"]['min'] = min(headnbody_on_tails)*100
-            results["Tail / Head & Body (%)"]['max'] = max(headnbody_on_tails)*100
-        else:
-            print species_id
-    return results
-
-def generate_species_measurements(db, species_id):
-    species_measurements = db.species_measurement.find(
-      {'organism_classification.$id': species_id}
-    )
-    results = {}
-    for species_measurement in species_measurements:
-        key = (species_measurement['pubref']['$id'], species_measurement['origin'])
-        if key not in results:
-            results[key] = {}
-        for measure in species_measurement['measures']:
-            trait = measure['trait']
-            if not trait in results[key]:
-                results[key][trait] = {}
-            if measure['value'] is not None:
-                measure['value'] = float(measure['value'].replace(',', '.'))
-            results[key][trait][species_measurement['type']] = measure['value']
-    return results
+#
+#import re
+#import math
+#REGX_COI = re.compile('coi')
+#REGX_CYTB = re.compile('cytb')
+#REGX_PRIMER = re.compile('primer')
+#REGX_16S = re.compile('16s')
+#REGEXP_NUMBER = re.compile('^[\d\.,]+$')
+#
+#from statlib import stats
+#
+#def precalculate_ceropath_measurements(db, species_id):
+#    query = {
+#        'organism_classification.$id': species_id,
+#        'adult':'adult',
+#        'identification.type':{'$in':[REGX_COI, REGX_CYTB, REGX_PRIMER, REGX_16S]}
+#    }
+#    individuals = db.individual.find(query)
+#    traits = {}
+#    for individual in individuals:
+#        for measure in individual['measures']:
+#            trait = measure['trait']
+#            if trait not in traits:
+#                traits[trait] = []
+#            if measure['value']:
+#                traits[trait].append(measure['value'])
+#    results = {}
+#    for trait in traits:
+#        values_list = [float(i.replace(',','.')) for i in traits[trait] if REGEXP_NUMBER.search(i)]
+#        if trait not in results:
+#            results[trait] = {}
+#        if len(values_list) > 0:
+#            results[trait]['mean'] = stats.mean(values_list)
+#            if len(values_list) == 1:
+#                results[trait]['sd'] = 0
+#            else:
+#                results[trait]['sd'] = stats.sterr(values_list)
+#            results[trait]['n'] = len(values_list)
+#            results[trait]['min'] = min(values_list)
+#            results[trait]['max'] = max(values_list)
+#        else:
+#            results[trait]['mean'] = None
+#            results[trait]['sd'] = None
+#            results[trait]['n'] = None
+#            results[trait]['min'] = None
+#            results[trait]['max'] = None
+#    results["Tail / Head & Body (%)"] = {'mean':0, 'n':0, 'sd':0, 'min':0, 'max':0}
+#    if traits:
+#        headnbody_values = [float(i.replace(',','.')) for i in traits["Head & Body (mm)"] if REGEXP_NUMBER.search(i)]
+#        tail_values = [float(i.replace(',','.')) for i in traits["Tail (mm)"] if REGEXP_NUMBER.search(i)]
+#        if len(headnbody_values) == len(tail_values):
+#            headnbody_on_tail = 0
+#            headnbody_on_tails = []
+#            for index, val in enumerate(headnbody_values):
+#                value = float(tail_values[index]) / float(headnbody_values[index])
+#                headnbody_on_tails.append(value)
+#                headnbody_on_tail += value
+#            results["Tail / Head & Body (%)"]['mean'] = int((headnbody_on_tail/len(headnbody_values))*100)
+#            results["Tail / Head & Body (%)"]['sd'] = 0
+#            results["Tail / Head & Body (%)"]['n'] = len(headnbody_values)
+#            results["Tail / Head & Body (%)"]['min'] = min(headnbody_on_tails)*100
+#            results["Tail / Head & Body (%)"]['max'] = max(headnbody_on_tails)*100
+#        else:
+#            print species_id
+#    return results
+#
+#def generate_species_measurements(db, species_id):
+#    species_measurements = db.species_measurement.find(
+#      {'organism_classification.$id': species_id}
+#    )
+#    results = {}
+#    for species_measurement in species_measurements:
+#        key = (species_measurement['pubref']['$id'], species_measurement['origin'])
+#        if key not in results:
+#            results[key] = {}
+#        for measure in species_measurement['measures']:
+#            trait = measure['trait']
+#            if not trait in results[key]:
+#                results[key][trait] = {}
+#            if measure['value'] is not None:
+#                measure['value'] = float(measure['value'].replace(',', '.'))
+#            results[key][trait][species_measurement['type']] = measure['value']
+#    return results
 
 from ceropath.lib.precalculatemeasurments import pre_calculate_measurements
 
@@ -169,6 +169,28 @@ def setup_app(command, conf, vars):
 #    csv2json(csv_path, yaml_path, json_path)
 #    print "...done"
 #
+    if 'data' not in os.path.join('ceropath', 'public'):
+        os.mkdir(os.path.join('ceropath', 'public', 'data')
+    if 'static' not in os.path.join('ceropath', 'public', 'data'):
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static')
+    if 'alive animals' not in os.path.join('ceropath', 'public', 'data'):
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'alive animals')
+    if 'chromatogram' not in os.path.join('ceropath', 'public', 'data'):
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'chromatogram')
+    if 'measurements' not in os.path.join('ceropath', 'public', 'data'):
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'measurements')
+    if 'primers' not in os.path.join('ceropath', 'public', 'data'):
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'primers')
+    if 'trap lines pictures' not in os.path.join('ceropath', 'public', 'data'):
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'trap lines pictures')
+    if 'vouchers skull pictures with measurements' not in os.path.join('ceropath', 'public', 'data'):
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'vouchers skull pictures with measurements')
+
+    if 'dynamic' not in os.path.join('ceropath', 'public', 'data'):
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'dynamic')
+        
+        /data/static/alive animals'
+
     if not 'json' in os.listdir('data'):
         os.mkdir(os.path.join('data', 'json'))
     for file_name in os.listdir(json_path):
