@@ -169,6 +169,9 @@ def setup_app(command, conf, vars):
 #    csv2json(csv_path, yaml_path, json_path)
 #    print "...done"
 #
+    if 'iucn' not in os.listdir(os.path.join('ceropath', 'public')):
+        os.mkdir(os.path.join('ceropath', 'public', 'iucn'))
+
     if 'data' not in os.listdir(os.path.join('ceropath', 'public')):
         os.mkdir(os.path.join('ceropath', 'public', 'data'))
     if 'static' not in os.listdir(os.path.join('ceropath', 'public', 'data')):
