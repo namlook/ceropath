@@ -113,5 +113,6 @@ def pre_calculate_measurements(db):
                 'measures': values,
             })
         species.save()
+    print "...done"
     #### end pre-caclulation #####
 

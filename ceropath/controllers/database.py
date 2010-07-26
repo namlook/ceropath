@@ -35,8 +35,8 @@ class DatabaseController(BaseController):
                     os.mkdir(os.path.join('data', 'json'))
                 open(os.path.join('data', 'json', field_storage.filename), 'w+b').write(field_storage.file.read())
                 print "Importing:", base
-                file_path = os.path.join('data', 'usrjson', field_storage.filename)
-                os.system("mongoimport --drop -d %s -c %s --file %s ; rm %s" % (config['db_name'], base, file_path, file_path))
+                file_path = os.path.join('data', 'json', field_storage.filename)
+                os.system("mongoimport --drop -d %s -c %s --file %s" % (config['db_name'], base, file_path, file_path))
         pre_calculate_measurements(self.db)
         if not_allowed_files:
             h.failure_flash("Following files are not allowed : %s" % ', '.join(not_allowed_files))
