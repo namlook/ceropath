@@ -7,7 +7,7 @@ except ImportError:
 
 setup(
     name='ceropath',
-    version='0.1',
+    version='1.0',
     description='',
     author='',
     author_email='',
@@ -19,6 +19,7 @@ setup(
         "pypit",
         "markdown",
         "statlib",
+        "pyparsing",
     ],
     setup_requires=["PasteScript>=1.6.3"],
     packages=find_packages(exclude=['ez_setup']),
