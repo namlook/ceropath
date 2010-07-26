@@ -35,14 +35,39 @@ def float_converter(value):
             value = value.replace(',', '.')
         return float(value)
 
-bool_converter = lambda x: True if x.lower() in ['yes', 'true', '1'] else False
-int_converter = lambda x: int(x) if x is not None else None
-dll_converter = lambda x: x.replace(',', '.') if x is not None else None
-date_converter = lambda x: {'$date':totimestamp(datetime.strptime(x, "%d/%m/%Y"))} if x is not None else None
-sex_checker = lambda x: x.lower() if x in ['f', 'm'] else None
-sanitize_article_id = lambda x: x.split(',')[0]
-filter_measurement_accuracy = lambda x: len(x.split(',')[1]) if len(x.split(',')) > 1 else 0
-sample_no_converter = lambda x: None if x.lower() == 'no' else x
+def bool_converter(value):
+    if value.lower() in ['yes', 'true', '1', 1]:
+        return True
+    return False
+
+def int_converter(value):
+    if value is not None:
+        return int(value)
+
+def dll_converter(value):
+    if value is not None:
+        return value.replace(',', '.')
+
+def date_converter(value):
+    if value is not None:
+        return {'$date':totimestamp(datetime.strptime(value, "%d/%m/%Y"))}
+
+def sex_checker(value):
+    if value.lower() in ['f', 'm']:
+        return value.lower()
+
+def sanitize_article_id(value):
+    return value.split(',')[0]
+
+def filter_measurement_accuracy(value):
+    if len(value.split(',')) > 1:
+        return len(value.split(',')[1])
+    return 0
+
+def sample_no_converter(value):
+    if value.lower() == 'no':
+        return None
+    return value
 
 def process(csv_path, yaml_path, name, delimiter=';', quotechar='"'):
     config = yaml.load(open(os.path.join(yaml_path, '%s.yaml') % name).read())
