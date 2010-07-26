@@ -14,6 +14,11 @@ setup(
     url='',
     install_requires=[
         "Pylons>=0.9.7",
+        "uuid",
+        "mongokit",
+        "pypit",
+        "markdown",
+        "statlib",
     ],
     setup_requires=["PasteScript>=1.6.3"],
     packages=find_packages(exclude=['ez_setup']),
