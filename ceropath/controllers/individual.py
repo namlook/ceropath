@@ -13,7 +13,6 @@ from pprint import pprint
 import os.path
 import math
 import os
-from collections import defaultdict
 import re
 
 REGX_COI = re.compile('coi')
