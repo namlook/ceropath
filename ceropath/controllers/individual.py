@@ -223,11 +223,11 @@ class IndividualController(BaseController):
             if upper_site_id in file_name:
                 image_paths.append(os.path.join(server_path, file_name))
         if house_number is None:
-           house_number = 'unknown'
+            house_number = 'unknown'
         else:
             house_number = int(house_number)
         if house_distance is None:
-           house_distance = 'unknown'
+            house_distance = 'unknown'
         else:
             house_distance = int(house_distance)
         return render('individual/trapping.mako', extra_vars={

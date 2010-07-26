@@ -33,7 +33,9 @@ function drawCircle(map)
 
 <%
 if not surrounding_landscape:
-    surrounding_landscape = 'unknown'
+    landscape = 'unknown'
+else:
+    landscape = surrounding_landscape
 %>
 function initialize() {
     var map = new GMap2(document.getElementById("map_canvas"));
@@ -42,7 +44,7 @@ function initialize() {
     var marker = new GMarker(point);
     map.addOverlay(marker);
     GEvent.addListener(marker,'click', function(){
-        marker.openInfoWindowHtml('<strong>${_id.upper()}</strong> (${species.capitalize()})<br /><br /><strong>Landscape at the sampling point</strong>:<br /> <ul><li>${eco_typology["low"]}</li><li>${eco_typology["medium"]}</li><li>${eco_typology["high"]}</li></ul><strong>Surrounding landscape</strong>:<br />${surrounding_landscape}');
+        marker.openInfoWindowHtml('<strong>${_id.upper()}</strong> (${species.capitalize()})<br /><br /><strong>Landscape at the sampling point</strong>:<br /> <ul><li>${eco_typology["low"]}</li><li>${eco_typology["medium"]}</li><li>${eco_typology["high"]}</li></ul><strong>Surrounding landscape</strong>:<br />${landscape}');
     });
 
     //map.addControl(new GLargeMapControl());
