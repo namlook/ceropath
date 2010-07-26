@@ -31,7 +31,7 @@ class DatabaseController(BaseController):
                 if base not in json_allowed:
                     not_allowed_files.append(field_storage.filename)
                     continue
-                if 'usrjson' not in not os.listdir('data'):
+                if 'usrjson' not in os.listdir('data'):
                     os.mkdir(os.path.join('data', 'json'))
                 open(os.path.join('data', 'json', field_storage.filename), 'w+b').write(field_storage.file.read())
                 print "Importing:", base
