@@ -7,6 +7,7 @@ from ceropath.lib.base import BaseController, render
 from routes import url_for
 from ceropath.lib import helpers as h
 from ceropath.lib.precalculatemeasurments import pre_calculate_measurements
+from ceropath.lib.unzip import unzip
 from config import json_allowed
 
 from pprint import pprint, pformat
@@ -25,18 +26,20 @@ class DatabaseController(BaseController):
     def load(self):
         pprint( request.POST)
         not_allowed_files = []
-        for name, field_storage in request.POST.iteritems():
-            if hasattr(field_storage, 'filename'):
-                base, ext = os.path.splitext(field_storage.filename)
-                if base not in json_allowed:
-                    not_allowed_files.append(field_storage.filename)
-                    continue
-                if 'json' not in os.listdir('data'):
-                    os.mkdir(os.path.join('data', 'json'))
-                open(os.path.join('data', 'json', field_storage.filename), 'w+b').write(field_storage.file.read())
-                print "Importing:", base
-                file_path = os.path.join('data', 'json', field_storage.filename)
-                os.system("mongoimport --drop -d %s -c %s --file %s" % (config['db_name'], base, file_path))
+        if not 'jsonzip' in request.POST:
+            h.failure_flash("You must provide a jsons zip archive")
+            redirect(url_for('database_index'))
+        open(os.path.join('data', 'json.zip'), 'w').write(request.POST['jsonzip'].file.read())
+        zip = unzip()
+        zip.extract(os.path.join('data', 'json.zip'), os.path.join('data', 'json'))
+        for filename in os.listdir(os.path.join('data', 'json')):
+            base, ext = os.path.splitext(filename)
+            if base not in json_allowed:
+                not_allowed_files.append(filename)
+                continue
+            print "Importing:", base
+            file_path = os.path.join('data', 'json', filename)
+            os.system("mongoimport --drop -d %s -c %s --file %s" % (config['db_name'], base, file_path))
         pre_calculate_measurements(self.db)
         if not_allowed_files:
             h.failure_flash("Following files are not allowed : %s" % ', '.join(not_allowed_files))

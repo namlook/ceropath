@@ -4,12 +4,7 @@
 <center>
     <p>Use this form to upload all json files</p>
     <form action="${h.url(h.url_for('database_load'))}" method="post" enctype="multipart/form-data">
-        <table id="files">
-        <tr><td></td><td><a href="#" id="addfile">Add file</a></td></tr>
-        <tr>
-            <td><a href="#" class="removefile">remove</a> <input type="file" name="file" /></td><td></td>
-        </tr>
-        </table>
+        <input type="file" name="jsonzip" />
         <input type="submit" />
     </form>
 </center>
@@ -35,14 +30,3 @@
 </ul>
 </div>
 
-<script>
-$(document).ready(function(){
-    $('#newinput').hide();
-    $('#addfile').click(function(){
-        $('#files').append('<tr><td><a href="#" class="removefile">remove</a> <input type="file" name="file" /></td><td></td></tr>');
-    });
-    $('.removefile').live('click', function(){
-        $(this).parent().parent().remove();
-    });
-});
-</script>
