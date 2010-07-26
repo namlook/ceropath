@@ -45,6 +45,10 @@ $('document').ready(function(){
         % for _class in sorted(rel_host_parasites[kingdom]):
             % for rhp, parasite, pubref in rel_host_parasites[kingdom][_class]:
                 <%
+                    try:
+                        parasite_id = rhp['parasite']['$id']
+                    except:
+                        parasite_id = rhp['parasite'].id
                     phylum = parasite['taxonomic_rank']['phylum']
                     _class = parasite['taxonomic_rank']['class']
                     order = parasite['taxonomic_rank']['order']
@@ -87,7 +91,7 @@ $('document').ready(function(){
                             unknown
                         % endif
                     </td>
-                    <td><i><a href="${h.url(h.url_for('parasite_show', id=rhp['parasite']['$id'], species=_id))}">${rhp['parasite']['$id'].capitalize()}</a></i></td>
+                    <td><i><a href="${h.url(h.url_for('parasite_show', id=parasite_id, species=_id))}">${parasite_id.capitalize()}</a></i></td>
                     <td><a href="${h.url(h.url_for('publication_show', id=pubref['_id']))}">${h.author_date_from_citation(pubref['reference'])}</a></td>
                     <td>${rhp['country']}</td>
                 </tr>
