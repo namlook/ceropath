@@ -274,7 +274,10 @@ class SpeciesController(BaseController):
         for individual in individuals_list:
             site_id = individual['trapping_informations']['site']
             if site_id:
-                site_id = site_id['$id']
+                try:
+                    site_id = site_id['$id'] # fix weirness (should be fixed with python 2.5)
+                except:
+                    site_id = site_id.id
             site = self.db.site.get_from_id(site_id)
             individuals[individual['_id']] = (individual, site)
         return render('species/individuals.mako', extra_vars={
@@ -294,7 +297,10 @@ class SpeciesController(BaseController):
         for individual in individuals_list:
             site_id = individual['trapping_informations']['site']
             if site_id:
-                site_id = site_id['$id']
+                try:
+                    site_id = site_id['$id']
+                except:
+                    site_id = site_id.id
             site = self.db.site.get_from_id(site_id)
             individuals[individual['_id']] = (individual, site)
         return render('species/vouchers.mako', extra_vars={
@@ -314,7 +320,10 @@ class SpeciesController(BaseController):
         for individual in individuals_list:
             site_id = individual['trapping_informations']['site']
             if site_id:
-                site_id = site_id['$id']
+                try:
+                    site_id = site_id['$id']
+                except:
+                    site_id = site_id.id
             site = self.db.site.get_from_id(site_id)
             individuals[individual['_id']] = (individual, site )
         return render('species/sampling_map.mako', extra_vars={
@@ -333,7 +342,10 @@ class SpeciesController(BaseController):
         for rhp in rel_host_parasites_list:
             parasite_id = rhp['parasite']
             if parasite_id:
-                parasite_id = parasite_id['$id']
+                try:
+                    parasite_id = parasite_id['$id']
+                except:
+                    parasite_id = parasite_id.id
             parasite = self.db.organism_classification.get_from_id(parasite_id)
             kingdom = parasite['taxonomic_rank']['kingdom']
             _class = parasite['taxonomic_rank']['class']
@@ -341,7 +353,10 @@ class SpeciesController(BaseController):
                 rel_host_parasites[kingdom] = {}
             if not _class in rel_host_parasites[kingdom]:
                 rel_host_parasites[kingdom][_class] = []
-            rel_host_parasites[kingdom][_class].append((rhp, parasite, self.db.publication.get_from_id(rhp['pubref']['$id'])))
+            try:
+                rel_host_parasites[kingdom][_class].append((rhp, parasite, self.db.publication.get_from_id(rhp['pubref']['$id'])))
+            except:
+                rel_host_parasites[kingdom][_class].append((rhp, parasite, self.db.publication.get_from_id(rhp['pubref'].id)))
         return render('species/parasites.mako', extra_vars={
             '_id': id,
             'author_date': species['reference']['biblio']['author_date'],
