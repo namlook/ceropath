@@ -99,6 +99,8 @@ def generate_species_measurements(db, species_id):
             results[key][trait][species_measurement['type']] = measure['value']
     return results
 
+from ceropath.lib.precalculatemeasurments import pre_calculate_measurements
+
 def setup_app(command, conf, vars):
     """Place any commands to setup ceropath here"""
     # Don't reload the app if it was loaded under the testing environment
@@ -111,112 +113,116 @@ def setup_app(command, conf, vars):
     con.drop_database(db_name)
     db = con[db_name]
 
-    pipeline_config = db.pipeline.Pipeline()
-    pipeline_config['_id'] = u'Assigment in CERoPath reference tree'
-    pipeline_config['programs'] = [
-        {
-            'name': u'Musle',
-            "cmd": u"muscle -in {{input}} -out {{output}}",
-            'output_ext': u'afa',
-            'use_stdin': False,
-        },
-        {
-            'name': u'Musle 2',
-            "cmd": u"muscle -profile -in1 coi_cbgp.afa -in2 {{input}} -phyiout {{output}} -maxiters 1 -diags",
-            'output_ext': u'phy',
-            'use_stdin': False,
-        },
-        {
-            'name': u'Dnadist options',
-            "cmd": u'echo "{{input}}\\nF\\n{{output}}\\nD\\nY\\n"',
-            'output_ext': u'mat',
-            'use_stdin': False,
-        },
-        {
-            'name': u'Dnadist',
-            "cmd": u'/usr/lib/phylip/bin/dnadist >> /tmp/log',
-            'output_ext': None,
-            "use_stdin": True,
-        },
-        {
-            'name': u'BioNJ',
-            "cmd": u'/home/namlook/Documents/projets/ceropath/bin/BIONJ_linux {{input}} {{output}} >> /tmp/log',
-            'output_ext': u'nwk',
-            'use_stdin': False,
-        },
-        {
-            'name': u'nwk2svg',
-            "cmd": u'/home/namlook/Documents/projets/ceropath/bin/nwk2svg.r {{input}} >> /tmp/log',
-            'output_ext': u'svg',
-            'use_stdin': False,
-        },
-        {
-            'name': u'Return result',
-            "cmd": u"cat {{input}}",
-            'use_stdin': False,
-            'output_ext': None,
-        }
-    ]
-    pipeline_config.save()
-    open(os.path.join('data', 'pipeline', 'outfile'), 'w').write(' ')
+#    pipeline_config = db.pipeline.Pipeline()
+#    pipeline_config['_id'] = u'Assigment in CERoPath reference tree'
+#    pipeline_config['programs'] = [
+#        {
+#            'name': u'Musle',
+#            "cmd": u"muscle -in {{input}} -out {{output}}",
+#            'output_ext': u'afa',
+#            'use_stdin': False,
+#        },
+#        {
+#            'name': u'Musle 2',
+#            "cmd": u"muscle -profile -in1 coi_cbgp.afa -in2 {{input}} -phyiout {{output}} -maxiters 1 -diags",
+#            'output_ext': u'phy',
+#            'use_stdin': False,
+#        },
+#        {
+#            'name': u'Dnadist options',
+#            "cmd": u'echo "{{input}}\\nF\\n{{output}}\\nD\\nY\\n"',
+#            'output_ext': u'mat',
+#            'use_stdin': False,
+#        },
+#        {
+#            'name': u'Dnadist',
+#            "cmd": u'/usr/lib/phylip/bin/dnadist >> /tmp/log',
+#            'output_ext': None,
+#            "use_stdin": True,
+#        },
+#        {
+#            'name': u'BioNJ',
+#            "cmd": u'/home/namlook/Documents/projets/ceropath/bin/BIONJ_linux {{input}} {{output}} >> /tmp/log',
+#            'output_ext': u'nwk',
+#            'use_stdin': False,
+#        },
+#        {
+#            'name': u'nwk2svg',
+#            "cmd": u'/home/namlook/Documents/projets/ceropath/bin/nwk2svg.r {{input}} >> /tmp/log',
+#            'output_ext': u'svg',
+#            'use_stdin': False,
+#        },
+#        {
+#            'name': u'Return result',
+#            "cmd": u"cat {{input}}",
+#            'use_stdin': False,
+#            'output_ext': None,
+#        }
+#    ]
+#    pipeline_config.save()
+#    open(os.path.join('data', 'pipeline', 'outfile'), 'w').write(' ')
     
-    print "Convert csv to json. Please wait..."
-    csv_path = os.path.join('data', 'csv')
-    yaml_path = os.path.join('data', 'yaml')
+#    print "Convert csv to json. Please wait..."
+#    csv_path = os.path.join('data', 'csv')
+#    yaml_path = os.path.join('data', 'yaml')
     json_path = os.path.join('data', 'json')
-    csv2json(csv_path, yaml_path, json_path)
-    print "...done"
-
+#    csv2json(csv_path, yaml_path, json_path)
+#    print "...done"
+#
+    if not 'json' in os.listdir('data'):
+        os.mkdir(os.path.join('data', 'json'))
     for file_name in os.listdir(json_path):
         base, ext = os.path.splitext(file_name)
         print "Importing:", base
         os.system("mongoimport -d dbrsea -c %s --file %s.json" % (base, os.path.join(json_path, base)))
 
-    print "pre-calculating measurements..."
-    # XXX to remove
-    try:
-        db.organism_classification.OrganismClassification.find_one({'type':'mammal', 'internet_display':True})
-    except:
-        pass
-    try:
-        db.organism_classification.OrganismClassification.find_one({'type':'mammal', 'internet_display':True})
-    except:
-        pass
 
-    for species in db.organism_classification.OrganismClassification.find({'type':'mammal', 'internet_display':True}):
-        res = precalculate_ceropath_measurements(db, species['_id'])
-        measures_stats = {
-                'pubref': None,
-                'origin': None,
-                'measures':{}
-        }
-        for trait in res:
-            measures_stats['measures'][trait] = res[trait]
-        if res:
-            species['measures_stats'].append(measures_stats)
-        res = generate_species_measurements(db, species['_id'])
-        for (pubref, origin), values in res.iteritems():
-            species['measures_stats'].append({
-                'pubref': db.publication.Publication.get_from_id(pubref),
-                'origin': origin,
-                'measures': values,
-            })
-        species.save()
-    print "...done"
-    sys.exit()
-    print "importing json into the database %s. This may take a while..." % db.name
-    for name in json_allowed:
-        print 'processing :', name
-        objs = anyjson.deserialize(open(os.path.join(json_path,'%s.json' % name)).read())
-        DocClass = getattr(db[name], "".join(i.capitalize() for i in name.split('_')))
-        for obj in objs:
-            #if name in ['organism_classification', 'species_measurement']:
-            #    if name == 'species_measurement':
-            #        pass
-            #        pprint(obj)
-            #        print
-            #        pprint(db.organism_classification.get_from_id(obj['organism_classification']['$id']))
-            #        print
-            #pprint(obj)
-            doc = DocClass.from_json(anyjson.serialize(obj).decode('utf-8', 'ignore'))
-            doc.save()
+    print "pre-calculating measurements..."
+    pre_calculate_measurements(db)
+#    # XXX to remove
+#    try:
+#        db.organism_classification.OrganismClassification.find_one({'type':'mammal', 'internet_display':True})
+#    except:
+#        pass
+#    try:
+#        db.organism_classification.OrganismClassification.find_one({'type':'mammal', 'internet_display':True})
+#    except:
+#        pass
+#
+#    for species in db.organism_classification.OrganismClassification.find({'type':'mammal', 'internet_display':True}):
+#        res = precalculate_ceropath_measurements(db, species['_id'])
+#        measures_stats = {
+#                'pubref': None,
+#                'origin': None,
+#                'measures':{}
+#        }
+#        for trait in res:
+#            measures_stats['measures'][trait] = res[trait]
+#        if res:
+#            species['measures_stats'].append(measures_stats)
+#        res = generate_species_measurements(db, species['_id'])
+#        for (pubref, origin), values in res.iteritems():
+#            species['measures_stats'].append({
+#                'pubref': db.publication.Publication.get_from_id(pubref),
+#                'origin': origin,
+#                'measures': values,
+#            })
+#        species.save()
+#    print "...done"
+#    sys.exit()
+#    print "importing json into the database %s. This may take a while..." % db.name
+#    for name in json_allowed:
+#        print 'processing :', name
+#        objs = anyjson.deserialize(open(os.path.join(json_path,'%s.json' % name)).read())
+#        DocClass = getattr(db[name], "".join(i.capitalize() for i in name.split('_')))
+#        for obj in objs:
+#            #if name in ['organism_classification', 'species_measurement']:
+#            #    if name == 'species_measurement':
+#            #        pass
+#            #        pprint(obj)
+#            #        print
+#            #        pprint(db.organism_classification.get_from_id(obj['organism_classification']['$id']))
+#            #        print
+#            #pprint(obj)
+#            doc = DocClass.from_json(anyjson.serialize(obj).decode('utf-8', 'ignore'))
+#            doc.save()
