@@ -188,7 +188,6 @@ class SpeciesController(BaseController):
             'common_names': species['name']['common'],
             'description': description,
             'image_paths': image_paths,
-            'photo_author': photo_author,
             'author_date': species['reference']['biblio']['author_date'],
             'synonyms': species['synonyms'],
             'citations': citations,

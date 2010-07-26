@@ -169,24 +169,24 @@ def setup_app(command, conf, vars):
 #    csv2json(csv_path, yaml_path, json_path)
 #    print "...done"
 #
-    if 'data' not in os.path.join('ceropath', 'public'):
+    if 'data' not in os.listdir(os.path.join('ceropath', 'public')):
         os.mkdir(os.path.join('ceropath', 'public', 'data'))
-    if 'static' not in os.path.join('ceropath', 'public', 'data'):
+    if 'static' not in os.listdir(os.path.join('ceropath', 'public', 'data')):
         os.mkdir(os.path.join('ceropath', 'public', 'data', 'static'))
-    if 'alive animals' not in os.path.join('ceropath', 'public', 'data'):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'alive animals'))
-    if 'chromatogram' not in os.path.join('ceropath', 'public', 'data'):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'chromatogram'))
-    if 'measurements' not in os.path.join('ceropath', 'public', 'data'):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'measurements'))
-    if 'primers' not in os.path.join('ceropath', 'public', 'data'):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'primers'))
-    if 'trap lines pictures' not in os.path.join('ceropath', 'public', 'data'):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'trap lines pictures'))
-    if 'vouchers skull pictures with measurements' not in os.path.join('ceropath', 'public', 'data'):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'vouchers skull pictures with measurements'))
+    if 'alive animals' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'alive animals'))
+    if 'chromatogram' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'chromatogram'))
+    if 'measurements' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'measurements'))
+    if 'primers' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'primers'))
+    if 'trap lines pictures' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'trap lines pictures'))
+    if 'vouchers skull pictures with measurements' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'vouchers skull pictures with measurements'))
 
-    if 'dynamic' not in os.path.join('ceropath', 'public', 'data'):
+    if 'dynamic' not in os.listdir(os.path.join('ceropath', 'public', 'data')):
         os.mkdir(os.path.join('ceropath', 'public', 'data', 'dynamic'))
         
     if not 'json' in os.listdir('data'):
