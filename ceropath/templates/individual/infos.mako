@@ -43,7 +43,10 @@ table.measurements td{
                         m = measure.get(key)
                         if isinstance(m, dict):
                             if isinstance(m['n'], basestring):
-                                m['n'] = int(float(m['n'].replace(',', '.'))) if m['n'] else 0
+                                if m['n']:
+                                    m['n'] = int(float(m['n'].replace(',', '.')))
+                                else:
+                                    m['n'] = 0
                     %>
                     <td>
                         <center>

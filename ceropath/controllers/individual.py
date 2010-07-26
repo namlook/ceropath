@@ -220,6 +220,14 @@ class IndividualController(BaseController):
         for file_name in os.listdir(file_path):
             if upper_site_id in file_name:
                 image_paths.append(os.path.join(server_path, file_name))
+        if house_number is None:
+           house_number = 'unknown'
+        else:
+            house_number = int(house_number)
+        if house_distance is None:
+           house_distance = 'unknown'
+        else:
+            house_distance = int(house_distance)
         return render('individual/trapping.mako', extra_vars={
             '_id': individual['_id'],
             'species': individual['organism_classification']['_id'],
@@ -233,8 +241,8 @@ class IndividualController(BaseController):
             'latitude': individual['trapping_informations']['site']['coord_wgs']['dll_lat'],
             'longitude': individual['trapping_informations']['site']['coord_wgs']['dll_long'],
             'house_presence': individual['trapping_informations']['site']['house']['presence'],
-            'house_number': 'unknown' if house_number is None else int(house_number),
-            'house_distance': 'unknown' if house_distance is None else int(house_distance),
+            'house_number': house_number,
+            'house_distance': house_distance,
             'accuracy': individual['trapping_informations']['trap_accuracy'],
             'site': individual['trapping_informations']['site']['_id'],
             'eco_typology': individual['trapping_informations']['eco_typology'],

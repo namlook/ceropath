@@ -31,6 +31,10 @@ function drawCircle(map)
     map.addOverlay(circlePolygon);
 }
 
+<%
+if not surrounding_landscape:
+    surrounding_landscape = 'unknown'
+%>
 function initialize() {
     var map = new GMap2(document.getElementById("map_canvas"));
     var point = new GLatLng(${latitude}, ${longitude});
@@ -38,7 +42,7 @@ function initialize() {
     var marker = new GMarker(point);
     map.addOverlay(marker);
     GEvent.addListener(marker,'click', function(){
-        marker.openInfoWindowHtml('<strong>${_id.upper()}</strong> (${species.capitalize()})<br /><br /><strong>Landscape at the sampling point</strong>:<br /> <ul><li>${eco_typology["low"]}</li><li>${eco_typology["medium"]}</li><li>${eco_typology["high"]}</li></ul><strong>Surrounding landscape</strong>:<br />${surrounding_landscape if surrounding_landscape else "unknown"}');
+        marker.openInfoWindowHtml('<strong>${_id.upper()}</strong> (${species.capitalize()})<br /><br /><strong>Landscape at the sampling point</strong>:<br /> <ul><li>${eco_typology["low"]}</li><li>${eco_typology["medium"]}</li><li>${eco_typology["high"]}</li></ul><strong>Surrounding landscape</strong>:<br />${surrounding_landscape}');
     });
 
     //map.addControl(new GLargeMapControl());
@@ -148,10 +152,6 @@ $(window).unload(function() {
             <tr><th>district</th><td>${district}</td></tr>
             <tr><th>sub distict</th><td>${sub_district}</td></tr>
             <tr><th>village</th><td>${village}</td></tr>
-            ##<tr><th>surrounding lanscape</th><td>${surrounding_landscape if surrounding_landscape else "unknown"}</td></tr>
-            ##<tr><th>low resolution</th><td>${eco_typology['low']}</td></tr>
-            ##<tr><th>medium resolution</th><td>${eco_typology['medium']}</td></tr>
-            ##<tr><th>high resolution</th><td>${eco_typology['high']}</td></tr>
             <tr><th>latitude</th><td>${latitude}</td></tr>
             <tr><th>longitude</th><td>${longitude}</td></tr>
             <tr><th>trap accuracy</th><td>

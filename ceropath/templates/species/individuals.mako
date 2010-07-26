@@ -24,10 +24,22 @@ $('document').ready(function(){
             <tr>
                 <td><a href="${h.url(h.url_for('individual_show', id=individual['_id']))}">${individual['_id'].upper()}</a></td>
                 <td>${(individual['sex'] or '').upper()}</td>
-                <td>${site['country'] if site is not None else ''}</td>
-                <td>${site['province'] if site is not None else ''}</td>
+                <td>
+                    % if site is not None:
+                        ${site['country']}
+                    % endif
+                </td>
+                <td>
+                    % if site is not None:
+                        ${site['province']}
+                    % endif
+                </td>
                 <td>${individual['identification']['type']}</td>
-                <td>${individual['identification']['date'].date() if individual['identification']['date'] else ''}</td>
+                <td>
+                    % if individual['identification']['date']:
+                        ${individual['identification']['date'].date()}
+                    % endif
+                </td>
                 <td>${individual['identification']['method']}</td>
             </tr>
         % endfor

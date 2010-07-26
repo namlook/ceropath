@@ -34,7 +34,7 @@ class Module(UIModule):
     def render(self, id, name,  width=1200):
         module_path = os.path.join('ceropath', 'public', 'data', 'dynamic')
         if name not in os.listdir(module_path):
-            abort(404)
+            return "module not found"
         files_list = {}
         legends = {}
         bibliography = ""

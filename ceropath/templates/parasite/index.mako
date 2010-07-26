@@ -75,18 +75,18 @@ fieldset{
         <tbody>
         % for parasite in sorted(parasites[kingdom]):
             <%
-                phylum = parasite['taxonomic_rank']['phylum']
-                _class = parasite['taxonomic_rank']['class']
-                order = parasite['taxonomic_rank']['order']
-                family = parasite['taxonomic_rank']['family']
-                genus = parasite['taxonomic_rank']['genus']
+                phylum = parasite['taxonomic_rank']['phylum'] or ''
+                _class = parasite['taxonomic_rank']['class'] or ''
+                order = parasite['taxonomic_rank']['order'] or ''
+                family = parasite['taxonomic_rank']['family'] or ''
+                genus = parasite['taxonomic_rank']['genus'] or ''
             %>
             <tr>
-                <td>${phylum.capitalize() if phylum else "unknown"}</td>
-                <td>${_class.capitalize() if _class else "unknown"}</td>
-                <td>${order.capitalize() if order else "unknown"}</td>
-                <td>${family.capitalize() if family else "unknown"}</td>
-                <td>${genus.capitalize() if genus else "unknown"}</td>
+                <td>${phylum.capitalize() or "unknown"}</td>
+                <td>${_class.capitalize() or 'unknown'}</td>
+                <td>${order.capitalize() or 'unknown'}</td>
+                <td>${family.capitalize() or 'unknown'}</td>
+                <td>${genus.capitalize() or "unknown"}</td>
                 <td><i><a href="${h.url(h.url_for('parasite_show', id=parasite['_id']))}">${parasite['_id'].capitalize()}</a></i></td>
             </tr>
         % endfor

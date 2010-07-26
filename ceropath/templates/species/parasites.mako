@@ -52,11 +52,41 @@ $('document').ready(function(){
                     genus = parasite['taxonomic_rank']['genus']
                 %>
                 <tr>
-                    <td>${phylum.capitalize() if phylum else "unknown"}</td>
-                    <td>${_class.capitalize() if _class else "unknown"}</td>
-                    <td>${order.capitalize() if order else "unknown"}</td>
-                    <td>${family.capitalize() if family else "unknown"}</td>
-                    <td>${genus.capitalize() if genus else "unknown"}</td>
+                    <td>
+                        % if phylum:
+                            ${phylum.capitalize()}
+                        % else:
+                            unknown
+                        % endif
+                    </td>
+                    <td>
+                        % if _class:
+                            ${_class.capitalize()}
+                        % else:
+                            unknown
+                        % endif
+                    </td>
+                    <td>
+                        % if order:
+                            ${order.capitalize()}
+                        % else:
+                            unknown
+                        % endif
+                    </td>
+                    <td>
+                        % if family:
+                            ${family.capitalize()}
+                        % else:
+                            unknown
+                        % endif
+                    </td>
+                    <td>
+                        % if genus:
+                            ${genus.capitalize()}
+                        % else:
+                            unknown
+                        % endif
+                    </td>
                     <td><i><a href="${h.url(h.url_for('parasite_show', id=rhp['parasite']['$id'], species=_id))}">${rhp['parasite']['$id'].capitalize()}</a></i></td>
                     <td><a href="${h.url(h.url_for('publication_show', id=pubref['_id']))}">${h.author_date_from_citation(pubref['reference'])}</a></td>
                     <td>${rhp['country']}</td>

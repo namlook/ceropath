@@ -1,5 +1,8 @@
 <%inherit file="/root.mako" />
 
+<h1> BLAAAAAAAAAAAAAAAAAAAAA</h1>
+
+## XXX a supprimer
 
 <div class="span-30" style="padding-bottom:10px;padding-top:10px;">
     <a href="${h.url(h.url_for('species_index'))}">Home</a> » <a href="${h.url(h.url_for('species_show', id=species))}">${species.capitalize()}</a> » individuals
@@ -12,10 +15,22 @@
             <tr>
                 <td><a href="${h.url(h.url_for('individual_show', id=individual['_id']))}">${individual['_id'].upper()}</a></td>
                 <td>${(individual['sex'] or '').upper()}</td>
-                <td>${site['country'] if site is not None else ''}</td>
-                <td>${site['province'] if site is not None else ''}</td>
+                <td>
+                    % if site['country']:
+                        ${site['country']}
+                    % endif
+                </td>
+                <td>
+                    % if site['province']:
+                        ${site['province']}
+                    % endif
+                </td>
                 <td>${individual['identification']['type']}</td>
-                <td>${individual['identification']['date'].date() if individual['identification']['date'] else ''}</td>
+                <td>
+                    % if individual['identification']['date']:
+                        ${individual['identification']['date'].date()}
+                    % endif
+                </td>
                 <td>${individual['identification']['method']}</td>
             </tr>
         % endfor

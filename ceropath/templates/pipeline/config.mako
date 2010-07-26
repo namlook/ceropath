@@ -50,7 +50,12 @@ label {
                 </p>
                 <p>
                     <label>use stdin</label>
-                    <input type="checkbox" name="${no}-use_stdin" ${'checked="checked"' if program['use_stdin'] else ''} />
+                    <%
+                        checked = ''
+                        if program['use_stdin']:
+                            checked = 'checked="checked"'
+                    %>
+                    <input type="checkbox" name="${no}-use_stdin" ${checked} />
                 </p>
             </div>
         </fieldset>
