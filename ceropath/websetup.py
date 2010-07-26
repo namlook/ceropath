@@ -113,54 +113,54 @@ def setup_app(command, conf, vars):
     con.drop_database(db_name)
     db = con[db_name]
 
-#    pipeline_config = db.pipeline.Pipeline()
-#    pipeline_config['_id'] = u'Assigment in CERoPath reference tree'
-#    pipeline_config['programs'] = [
-#        {
-#            'name': u'Musle',
-#            "cmd": u"muscle -in {{input}} -out {{output}}",
-#            'output_ext': u'afa',
-#            'use_stdin': False,
-#        },
-#        {
-#            'name': u'Musle 2',
-#            "cmd": u"muscle -profile -in1 coi_cbgp.afa -in2 {{input}} -phyiout {{output}} -maxiters 1 -diags",
-#            'output_ext': u'phy',
-#            'use_stdin': False,
-#        },
-#        {
-#            'name': u'Dnadist options',
-#            "cmd": u'echo "{{input}}\\nF\\n{{output}}\\nD\\nY\\n"',
-#            'output_ext': u'mat',
-#            'use_stdin': False,
-#        },
-#        {
-#            'name': u'Dnadist',
-#            "cmd": u'/usr/lib/phylip/bin/dnadist >> /tmp/log',
-#            'output_ext': None,
-#            "use_stdin": True,
-#        },
-#        {
-#            'name': u'BioNJ',
-#            "cmd": u'/home/namlook/Documents/projets/ceropath/bin/BIONJ_linux {{input}} {{output}} >> /tmp/log',
-#            'output_ext': u'nwk',
-#            'use_stdin': False,
-#        },
-#        {
-#            'name': u'nwk2svg',
-#            "cmd": u'/home/namlook/Documents/projets/ceropath/bin/nwk2svg.r {{input}} >> /tmp/log',
-#            'output_ext': u'svg',
-#            'use_stdin': False,
-#        },
-#        {
-#            'name': u'Return result',
-#            "cmd": u"cat {{input}}",
-#            'use_stdin': False,
-#            'output_ext': None,
-#        }
-#    ]
-#    pipeline_config.save()
-#    open(os.path.join('data', 'pipeline', 'outfile'), 'w').write(' ')
+    bin_path = os.path.join(os.environ['PWD'], 'bin')
+    pipeline_config = db.pipeline.Pipeline()
+    pipeline_config['_id'] = u'Assigment in CERoPath reference tree'
+    pipeline_config['programs'] = [
+        {
+            'name': u'Musle',
+            "cmd": u"%s/muscle3.8.31_i86linux32 -in {{input}} -out {{output}}" % bin_path,
+            'output_ext': u'afa',
+            'use_stdin': False,
+        },
+        {
+            'name': u'Musle 2',
+            "cmd": u"%s/muscle3.8.31_i86linux32 -profile -in1 coi_cbgp.afa -in2 {{input}} -phyiout {{output}} -maxiters 1 -diags" % bin_path,
+            'output_ext': u'phy',
+            'use_stdin': False,
+        },
+        {
+            'name': u'Dnadist options',
+            "cmd": u'echo "{{input}}\\nF\\n{{output}}\\nD\\nY\\n"',
+            'output_ext': u'mat',
+            'use_stdin': False,
+        },
+        {
+            'name': u'Dnadist',
+            "cmd": u'%s/dnadist >> /tmp/log' % bin_path,
+            'output_ext': None,
+            "use_stdin": True,
+        },
+        {
+            'name': u'BioNJ',
+            "cmd": u'%s/BIONJ_linux {{input}} {{output}} >> /tmp/log' % bin_path,
+            'output_ext': u'nwk',
+            'use_stdin': False,
+        },
+        {
+            'name': u'nwk2svg',
+            "cmd": u'%s/nwk2svg.r {{input}} >> /tmp/log' % bin_path,
+            'output_ext': u'svg',
+            'use_stdin': False,
+        },
+        {
+            'name': u'Return result',
+            "cmd": u"cat {{input}}",
+            'use_stdin': False,
+            'output_ext': None,
+        }
+    ]
+    pipeline_config.save()
     
 #    print "Convert csv to json. Please wait..."
 #    csv_path = os.path.join('data', 'csv')
