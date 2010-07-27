@@ -1,0 +1,30 @@
+Responsible_name:
+    dbrsea: _id
+    lower: false
+
+Responsible_password:
+    dbrsea: password
+    lower: false
+
+Responsible_email:
+    dbrsea: email
+
+responsible_office:
+    dbrsea: office
+
+Responsible_office_phone_number:
+    dbrsea: office_phone
+
+Responsible_mobile_phone_number:
+    dbrsea: mobile_phone
+
+Responsible_fax:
+    dbrsea: fax
+
+Id_institute:
+   dbrsea: affiliation 
+   dbref: institute
+   lower: false
+
+remark:
+    dbrsea: remark

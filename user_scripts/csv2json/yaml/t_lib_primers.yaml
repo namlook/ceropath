@@ -1,0 +1,17 @@
+Id_primer:
+    dbrsea: _id
+
+sequence:
+    dbrsea: sequence
+    lower: false
+
+id_gene:
+    dbrsea: gene
+    dbref: gene
+    
+
+id_article:
+    dbrsea: pubref
+    dbref: publication
+    list: true
+    

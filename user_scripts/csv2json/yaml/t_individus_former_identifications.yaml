@@ -1,0 +1,22 @@
+id_individu:
+    dbrsea: individual
+    dbref: individual
+
+Identification:
+    dbrsea: organism_classification
+    dbref: organism_classification
+
+Identification_type:
+    dbrsea: type
+
+identification_operator:
+    dbrsea: operator
+    lower: false
+
+date:
+    dbrsea: date
+    filter: date_converter
+
+Identification_remark:
+    dbrsea: remark
+    lower: false

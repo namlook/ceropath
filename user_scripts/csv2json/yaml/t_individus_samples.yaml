@@ -1,0 +1,13 @@
+
+"Id_individu":
+    dbrsea: _id
+    last: true
+
+_dynamic:
+    dbrsea: institute
+    field_name_target: name
+    list: true
+    embed: samples
+    lower: false
+    dbref: institute
+    filter: sample_no_converter

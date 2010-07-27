@@ -1,0 +1,6 @@
+id_gene:
+    dbrsea: _id
+
+gene_description:
+    dbrsea: remark
+    lower: false

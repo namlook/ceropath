@@ -1,0 +1,16 @@
+id_article:
+    dbrsea: _id
+
+Article_reference:
+    dbrsea: reference
+    lower: false
+
+source:
+    dbrsea: source
+    lower: false
+
+remark:
+    dbrsea: remark
+    lower: false
+
+

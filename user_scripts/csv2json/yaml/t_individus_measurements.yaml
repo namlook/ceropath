@@ -1,0 +1,13 @@
+ID_individu:
+    dbrsea: _id
+    #dbref: individu
+
+remark:
+    dbrsea: remark
+    last: true
+
+_dynamic:
+    dbrsea: value
+    field_name_target: trait
+    list: true
+    embed: measures
