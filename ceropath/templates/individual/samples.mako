@@ -5,6 +5,7 @@ tr:nth-child(even) {background: #FFF}
 tr:nth-child(odd) {background: #FFDDB2}
 </style>
 
+<div class="span-30">
 % for sample in samples:
     <fieldset><legend><h3>${sample['name']}</h3></legend>
     <table class="span-29">
@@ -38,3 +39,4 @@ tr:nth-child(odd) {background: #FFDDB2}
     </table>
     </fieldset>
 % endfor 
+</div>
