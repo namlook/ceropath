@@ -37,7 +37,7 @@ def author_date_from_citation(citation):
 try:
     from xml.etree import ElementTree
 except: #python 2.4
-    import elementtree
+    from elementtree import ElementTree
 
 def clickify_svg(svg, db=None):
     root = ElementTree.fromstring(svg)
