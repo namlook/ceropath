@@ -54,5 +54,7 @@ ul.css-tabs a.current {
 	/*background-color:#ddd;	*/
 }
 
-
+.current {
+    border-bottom:2px solid #FFF;
+}
 
