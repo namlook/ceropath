@@ -30,7 +30,6 @@ class PipelineController(BaseController):
 
     def create(self):
         pipeline = self.db.pipeline.Pipeline()
-        pprint(request.POST)
         _id = request.POST.pop('name')
         if not _id:
             h.failure_flash("name is required")
@@ -120,7 +119,8 @@ class PipelineController(BaseController):
             redirect(h.url('pipeline_index'))
         if pypit.last_output_ext == 'svg':
             svg_path = os.path.join('ceropath', 'public', 'usrdata', file_name+".afa.phy.mat.nwk.svg")
-            open(svg_path, 'w').write(h.clickify_svg(tree, self.db))
+            users_individuals = [line.strip()[1:].strip() for line in open(file_path).readlines() if line.strip().startswith('>')]
+            open(svg_path, 'w').write(h.clickify_svg(tree, self.db, users_individuals))
         #tree = phylogelib.removeBootStraps(tree)
         #graph = phylogelib.getGraph(tree)
         #taxa_list = phylogelib.getTaxa(tree)

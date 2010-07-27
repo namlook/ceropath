@@ -39,7 +39,7 @@ try:
 except: #python 2.4
     from elementtree import ElementTree
 
-def clickify_svg(svg, db=None):
+def clickify_svg(svg, db, users_individuals):
     root = ElementTree.fromstring(svg)
     root.attrib['xmlns:xlink'] = "http://www.w3.org/1999/xlink"
     individuals_list = [child.text.split()[0].lower() for child in root if child.tag == '{http://www.w3.org/2000/svg}text']
@@ -50,16 +50,20 @@ def clickify_svg(svg, db=None):
     for child in root:
         if child.tag == '{http://www.w3.org/2000/svg}text':
             individual_id = child.text.split()[0].lower()
+            fill_color = ""
+            if individual_id in users_individuals:
+                fill_color = "#FF0000"
+            print fill_color or '#1139E5', individual_id
             if species.get(individual_id):
                 if species[individual_id]['voucher_barcoding']:
-                    individual_link = root.makeelement('ns0:a', {'target':'_blank', 'fill': '#1139E5', 'xlink:href':"/individual/%s" % individual_id })
+                    individual_link = root.makeelement('ns0:a', {'target':'_blank', 'fill': fill_color or '#1139E5', 'xlink:href':"/individual/%s" % individual_id })
                     individual_link.text = individual_id.upper()
                     child.append(individual_link)
                     child.text = ""
                 else:
                     child.text = individual_id.upper()
-                species_link = root.makeelement('ns0:a', {'target':'_blank', 'fill': "#FFB010", 'xlink:href':"/species/%s" % species[individual_id]['species_id']})
+                species_link = root.makeelement('ns0:a', {'target':'_blank', 'fill': fill_color or "#FFB010", 'xlink:href':"/species/%s" % species[individual_id]['species_id']})
                 species_link.text =  " (%s)" % species[individual_id]['species_id'].capitalize()
                 child.append(species_link)
-                child.attrib['fill'] = "#FFFFF"
+            child.attrib['fill'] = fill_color or "#FFFFF"
     return ElementTree.tostring(root)
