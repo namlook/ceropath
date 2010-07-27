@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.1.css" type="text/css" media="screen" />
 
 <div class="span-30 alt">
-    <h2> Species measurements in literature</h2>
+    <h2>CERoPath species measurements compare with literature data</h2>
 </div>
 
 <div class="span-23">
