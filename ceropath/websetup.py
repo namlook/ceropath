@@ -172,6 +172,9 @@ def setup_app(command, conf, vars):
     if 'iucn' not in os.listdir(os.path.join('ceropath', 'public')):
         os.mkdir(os.path.join('ceropath', 'public', 'iucn'))
 
+    if 'usrdata' not in os.listdir(os.path.join('ceropath', 'public')):
+        os.mkdir(os.path.join('ceropath', 'public', 'usrdata'))
+
     if 'data' not in os.listdir(os.path.join('ceropath', 'public')):
         os.mkdir(os.path.join('ceropath', 'public', 'data'))
     if 'static' not in os.listdir(os.path.join('ceropath', 'public', 'data')):
