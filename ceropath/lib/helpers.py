@@ -53,7 +53,6 @@ def clickify_svg(svg, db, users_individuals):
             fill_color = ""
             if individual_id in users_individuals:
                 fill_color = "#FF0000"
-            print fill_color or '#1139E5', individual_id
             if species.get(individual_id):
                 if species[individual_id]['voucher_barcoding']:
                     individual_link = root.makeelement('ns0:a', {'target':'_blank', 'fill': fill_color or '#1139E5', 'xlink:href':"/individual/%s" % individual_id })
