@@ -126,9 +126,12 @@ class PipelineController(BaseController):
         #taxa_list = phylogelib.getTaxa(tree)
         return render('pipeline/phyloexplorer.mako', extra_vars = {
           'tree':'',#graph,
-          'svg_path': os.path.join('/', 'usrdata', file_name+".afa.phy.mat.nwk.svg"),
           'source':tree,
+          'svg_path': file_name+".afa.phy.mat.nwk.svg",
           'taxa_list':'',#taxa_list,
           'last_output_ext': pypit.last_output_ext,
         })
 
+    def servesvg(self, name):
+        response.headers['Content-type'] = "image/svg+xml"
+        return open(os.path.join('ceropath', 'public', 'usrdata', name)).read()

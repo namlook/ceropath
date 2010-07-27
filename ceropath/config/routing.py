@@ -38,6 +38,7 @@ def make_map(config):
     map.connect('pipeline_list', '/pipeline/config/list', controller='pipeline', action='list')
     map.connect('pipeline_delete', '/pipeline/config/delete/{id}', controller='pipeline', action='delete')
     map.connect('pipeline_edit', '/pipeline/config/edit/{id}', controller='pipeline', action='edit')
+    map.connect('pipeline_servesvg', '/pipeline/servesvg/{name}', controller='pipeline', action='servesvg')
 
     # query
     map.connect('query_new', '/query', controller='query', action='new')

@@ -12,9 +12,9 @@
 
 <div class="span-30">
 % if last_output_ext == 'svg':
-    <object type="image/svg+xml" data="${svg_path}" class="span-30" style="height:600px;">
-        Your browser don't support svg. Please use a compatible browser like Firefox or Google Chrome.
-    </object>
+    <iframe src ="${h.url(h.url_for('pipeline_servesvg', name=svg_path))}" width="100%" height="80%">
+        <p>Your browser does not support iframes.</p>
+    </iframe>
 % else:
     <pre>${source}</pre>
 % endif
