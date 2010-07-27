@@ -89,7 +89,7 @@ $(document).ready(function(){
     $('#example').hide();
     $('.pipeline-infos').click(function(){
         var pipeline_name = $(this).parent().parent().find('.pipeline-selection :selected').text();
-        $(this).attr('href', '/data/pipeline/'+pipeline_name+'.html');
+        $(this).attr('href', '/pipeline/infos/'+pipeline_name+'.txt');
     });
     $('#show-example').click(function(){
         $('#sequence').text($('#example').text());

@@ -131,7 +131,7 @@ def setup_app(command, conf, vars):
         },
         {
             'name': u'Dnadist options',
-            "cmd": u'echo "{{input}}\\nF\\n{{output}}\\nD\\nY\\n"',
+            "cmd": u'echo -e "{{input}}\\nF\\n{{output}}\\nD\\nY\\n"',
             'output_ext': u'mat',
             'use_stdin': False,
         },
@@ -172,11 +172,14 @@ def setup_app(command, conf, vars):
     if 'iucn' not in os.listdir(os.path.join('ceropath', 'public')):
         os.mkdir(os.path.join('ceropath', 'public', 'iucn'))
 
+
     if 'usrdata' not in os.listdir(os.path.join('ceropath', 'public')):
         os.mkdir(os.path.join('ceropath', 'public', 'usrdata'))
 
     if 'data' not in os.listdir(os.path.join('ceropath', 'public')):
         os.mkdir(os.path.join('ceropath', 'public', 'data'))
+    if 'pipeline' not in os.listdir(os.path.join('ceropath', 'public', 'data')):
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'pipeline'))
     if 'static' not in os.listdir(os.path.join('ceropath', 'public', 'data')):
         os.mkdir(os.path.join('ceropath', 'public', 'data', 'static'))
     if 'alive animals' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):

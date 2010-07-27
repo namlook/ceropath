@@ -132,6 +132,15 @@ class PipelineController(BaseController):
           'last_output_ext': pypit.last_output_ext,
         })
 
+    def infos(self, name):
+        if name in os.listdir(os.path.join('ceropath', 'public', 'data', 'pipeline')):
+            content = open(os.path.join('ceropath', 'public', 'data', 'pipeline', name)).read()
+        else:
+            content = "Not informations about this pipeline was found... sorry."
+        return render('pipeline/infos.mako', extra_vars = {
+            'content': content,
+        })
+
     def servesvg(self, name):
         response.headers['Content-type'] = "image/svg+xml"
         return open(os.path.join('ceropath', 'public', 'usrdata', name)).read()
