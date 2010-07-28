@@ -157,7 +157,11 @@ class IndividualController(BaseController):
                 if (pubref, origin) not in measures_infos[trait]:
                     measures_infos[trait][(pubref, origin)] = {}
                 measures_infos[trait][(pubref, origin)] = measure['measures'][trait]
+        tail_value = float(measures_infos["Tail (mm)"][(None,id)])
+        headnbody_value = float(measures_infos["Head & Body (mm)"][(None,id)])
+        measures_infos["Tail / Head & Body (%)"][(None, id)] = int(tail_value/headnbody_value*100)
         traits = dict((int(i['_id']), i) for i in self.db.trait.find())
+        ######## end measures #########
         try:
             sequences = dict((i['gene']['$id'], i) for i in self.db.sequence.find({'individual.$id':id}))
         except:
