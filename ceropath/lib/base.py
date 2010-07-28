@@ -7,6 +7,7 @@ from pylons.templating import render_mako as render
 from pylons import config, session, request
 from pylons.controllers.util import abort, redirect
 from routes import url_for
+from pylons import tmpl_context
 
 class BaseController(WSGIController):
 
@@ -20,6 +21,7 @@ class BaseController(WSGIController):
     admin_requires_auth_actions = []
 
     def __before__(self, action):
+        tmpl_context.action = config['routes.map'].routematch(request.path)[0]['action']
         if self.__class__.__name__ not in ['LoginController', 'ErrorController']:
             session['path_before_login'] = request.path_info
             session.save()
