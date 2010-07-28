@@ -60,7 +60,7 @@ def _precalculate_ceropath_measurements(db, species_id):
             results["Tail / Head & Body (%)"]['min'] = min(headnbody_on_tails)*100
             results["Tail / Head & Body (%)"]['max'] = max(headnbody_on_tails)*100
         else:
-            print species_id
+            print """Error : Can't generate "Tail/Head & Body" for %s : "Head & body" values != "Tail" values""" % species_id
     return results
 
 def _generate_species_measurements(db, species_id):
