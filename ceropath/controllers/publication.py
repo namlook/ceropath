@@ -11,45 +11,38 @@ class PublicationController(BaseController):
 
     def show(self, id):
         publication = self.db.publication.get_from_id(id)
-        rel_host_parasites = self.db.rel_host_parasite.find({'pubref.$id':id})
-        hosts_related = set([])
-        parasites_related = set([])
-        # parasite synonyms related
-        parasite_synonyms_related = {}
-        for parasite in self.db.organism_classification.find({'synonyms.pubref.$id':id, 'internet_display':True, 'type':'parasite'}):
-            for synonym in parasite['synonyms']:
-                try:
-                    is_ok = synonym['pubref']['$id'] == id # XXX why $id ?
-                except:
-                    is_ok = synonym['pubref'].id == id
-                if is_ok:
-                    if synonym['name'] != parasite['_id']:
-                        if parasite['_id'] not in parasite_synonyms_related:
-                            parasite_synonyms_related[parasite['_id']] = []
-                        parasite_synonyms_related[parasite['_id']].append(synonym['name'])
-        # host synonyms related
-        host_synonyms_related = {}
-        for species in self.db.organism_classification.find({'synonyms.pubref.$id':id, 'internet_display':True, 'type':'mammal'}):
-            for synonym in species['synonyms']:
+        if not publication:
+            abort(404)
+        # host related
+        hosts_related = {}
+        for species in self.db.organism_classification.find({'citations.pubref.$id':id, 'internet_display':True, 'type':'mammal'}):
+            for citation in species['citations']:
                 is_ok = False
-                if synonym['pubref'].id == id:
-                    if synonym['name'] != species['_id']:
-                        if species['_id'] not in host_synonyms_related:
-                            host_synonyms_related[species['_id']] = []
-                        host_synonyms_related[species['_id']].append(synonym['name'])
-        for rhp in rel_host_parasites:
-            try:
-                hosts_related.add(rhp['host']['$id'])
-                parasites_related.add(rhp['parasite']['$id'])
-            except:
-                hosts_related.add(rhp['host'].id)
-                parasites_related.add(rhp['parasite'].id)
+                try:
+                    is_ok = citation['pubref']['$id'] == id # XXX why $id ?
+                except:
+                    is_ok = citation['pubref'].id == id
+                if is_ok:
+                    if species['_id'] not in hosts_related:
+                        hosts_related[species['_id']] = []
+                    if citation['name'] != species['_id']:
+                        hosts_related[species['_id']].append(citation['name'])
+        # parasite related
+        parasites_related = {}
+        for species in self.db.organism_classification.find({'citations.pubref.$id':id, 'internet_display':True, 'type':'parasite'}):
+            for citation in species['citations']:
+                is_ok = False
+                try:
+                    is_ok = citation['pubref']['$id'] == id # XXX why $id ?
+                except:
+                    is_ok = citation['pubref'].id == id
+                if is_ok:
+                    if species['_id'] not in parasites_related:
+                        parasites_related[species['_id']] = []
+                    if citation['name'] != species['_id']:
+                        parasites_related[species['_id']].append(citation['name'])
         return render('publication/show.mako', extra_vars={
-            '_id': publication['_id'],
-            'source': publication['source'],
             'reference': publication['reference'],
-            'parasites_related': sorted(parasites_related),
-            'hosts_related': sorted(hosts_related),
-            'host_synonyms_related': host_synonyms_related,
-            'parasite_synonyms_related': parasite_synonyms_related,
+            'hosts_related': hosts_related,
+            'parasites_related': parasites_related,
         })

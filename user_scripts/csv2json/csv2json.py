@@ -177,9 +177,9 @@ def process(csv_path, yaml_path, name, delimiter=';', quotechar='"'):
                         dynamic_row = True
         yield DotExpandedDict(doc)
     
-def csv2json(csv_path, yaml_path, json_path):
+def csv2json(csv_path, yaml_path, json_path, log_file):
     # Publication
-    print "generating publications..."
+    print "generating publications... "
     publications = dict((i['_id'],i) for i in process(csv_path, yaml_path, 't_literature_referens', delimiter=';'))
     open(os.path.join(json_path, 'publication.json'), 'w').write(genjson(publications.values()))
 
@@ -225,7 +225,7 @@ def csv2json(csv_path, yaml_path, json_path):
                     })
                     synonyms[(i['species_article_name'], i['id_article']['$id'])] = i['valid_name']
             else:
-                print "WARNING:", i['valid_name']
+                log_file.write("WARNING: %s is listed in t_species_synonyms as valid_name but was not found in t_species_systematic\n" % i['valid_name'])
         organism_classifications = []
         for name, org in organisms.iteritems():
             if org['_id'] is None: continue
@@ -239,8 +239,9 @@ def csv2json(csv_path, yaml_path, json_path):
                 if syn == name:
                     org['citations'].append({'name':syn, 'pubref':{'$db': 'dbrsea', '$id': '50999553', '$ref': 'publication'}})
                 else:
-                    org['synonyms'].append({'name':syn, 'pubref':{'$db': 'dbrsea', '$id': '50999553', '$ref': 'publication'}})
-                    synonyms[(syn, '50999553')] = name
+                    if org['id_msw3']:
+                        org['synonyms'].append({'name':syn, 'pubref':{'$db': 'dbrsea', '$id': '50999553', '$ref': 'publication'}})
+                        synonyms[(syn, '50999553')] = name
             del org['msw3']['synonyms']
             org['measures_stats'] = []
             organism_classifications.append(org)
@@ -265,7 +266,8 @@ def csv2json(csv_path, yaml_path, json_path):
             }
             species_measurements.append(measurement)
         else:
-            print "Error: can find %s in the following publication %s " % (measurement['species_article_name'], measurement['pubref']['$id'])
+            log_file.write("Error: %s was cited with %s in t_species_measurements but was not found in t_species_synonyms\n" % (
+              measurement['species_article_name'], measurement['pubref']['$id']))
     print "generating species measurements..."
     open(os.path.join(json_path, 'species_measurement.json'), 'w').write(genjson(species_measurements))
     #for i in species_measurements:
@@ -286,7 +288,7 @@ def csv2json(csv_path, yaml_path, json_path):
         if i['_id'] in individuals:
             individuals[i['_id']]['measures'] = i['measures']
         else:
-            print "Error:", i['_id'], "not found in t_individus but found in t_individus_measurements"
+            log_file.write("Error: %s not found in t_individus but found in t_individus_measurements\n" % i['_id'])
 #    pprint(individus['c0001'])
 
     # Individual microparasites
@@ -295,7 +297,7 @@ def csv2json(csv_path, yaml_path, json_path):
         if i['_id'] in individuals:
             individuals[i['_id']]['microparasites'] = i['microparasites']
         else:
-            print "Error:", i['_id'], "not found in t_individus but found in t_individus_microparasites"
+            log_file.write("Error: %s not found in t_individus but found in t_individus_microparasites\n" % i['_id'])
 #    pprint(individus['c0001'])
 
     # Individual macroparasites
@@ -306,7 +308,7 @@ def csv2json(csv_path, yaml_path, json_path):
                 individuals[_id]['macroparasites'] = []
             individuals[_id]['macroparasites'].append({'name':macroparasite['parasite'], 'quantity': macroparasite['quantity']})
         else:
-            print "Error:", i['_id'], "not found in t_individus but found in t_individus_macroparasites"
+            log_file.write("Error: %s not found in t_individus but found in t_individus_microparasites\n" % i['_id'])
 
     # Individual samples
     samples = dict((i['sample'], {'conservation_method': i['conservation method']}) for i in process(csv_path, yaml_path, 't_lib_samples'))
@@ -347,7 +349,7 @@ def csv2json(csv_path, yaml_path, json_path):
                     if s:
                         individuals[i['_id']]['samples'].append(s)
         else:
-            print "Error:", i['_id'], "not found in t_individus but found in t_individus_samples"
+            log_file.write("Error: %s not found in t_individus but found in t_individus_samples\n" % i['_id'])
 
     # Individual physiologic features
     for feature in process(csv_path, yaml_path, 't_individus_physiologic_features'):#physiologic_features:
@@ -356,7 +358,7 @@ def csv2json(csv_path, yaml_path, json_path):
             individuals[_id]['physiologic_features'] = []
             individuals[_id]['physiologic_features'] = feature['physiologic_features']
         else:
-            print "Error:", _id, "not found in t_indivivus but found in t_individus_physiologic_features"
+            log_file.write("Error: %s not found in t_indivivus but found in t_individus_physiologic_features\n" % _id)
 
     # Individual genotyping
     for genotyping in process(csv_path, yaml_path, 't_individus_genotyping'):
@@ -366,7 +368,7 @@ def csv2json(csv_path, yaml_path, json_path):
                 individuals[_id]['genotypes'] = {}
             individuals[_id]['genotypes'][genotyping['genotype']] = genotyping['value']
         else:
-            print "Error:", _id, "not found in t_indivivus but found in t_individus_genotyping"
+            log_file.write("Error: %s not found in t_indivivus but found in t_individus_genotyping\n" % _id)
 
     print "generating individuals..."
     open(os.path.join(json_path, 'individual.json'), 'w').write(genjson(individuals.values()))
@@ -406,27 +408,28 @@ def csv2json(csv_path, yaml_path, json_path):
     sites = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_sites'))
     open(os.path.join(json_path, 'site.json'), 'w').write(genjson(sites.values()))
 
-
+    synonyms_with_pub = dict(((i['species_article_name'], i['id_article']['$id']), i['valid_name']) for i in process(csv_path, yaml_path, 't_species_synonyms'))
+    synonyms = dict((i['species_article_name'], i['valid_name']) for i in process(csv_path, yaml_path, 't_species_synonyms'))
     # Macroparasite
     _macroparasites = process(csv_path, yaml_path, 't_species_hosts_parasites')
     macroparasites = []
     for macroparasite in _macroparasites:
         macroparasite['remark'] = None
         failed = False
-        if macroparasite['host']['$id'] not in organism_classifications:
-            _id = synonyms.get((macroparasite['host']['$id'],macroparasite['pubref']['$id'])) 
-            if _id:
-                macroparasite['host']['$id'] = _id
-            else:
-                print "host>",  macroparasite['host']['$id']
+        for _type in ['host', 'parasite']:
+            if macroparasite[_type] not in synonyms:
+                log_file.write("Error: %s is listed in t_species_hosts_parasites but was not found in t_species_synonyms\n" % macroparasite[_type])
                 failed = True
-        if macroparasite['parasite']['$id'] not in organism_classifications:
-            _id = synonyms.get((macroparasite['parasite']['$id'],macroparasite['pubref']['$id'])) 
-            if _id:
-                macroparasite['parasite']['$id'] = _id
-            else:
-                print "parasite>", macroparasite['parasite']['$id']
+            elif not synonyms_with_pub.get((macroparasite[_type], macroparasite['pubref']['$id'])):
+                log_file.write("Error: %s was cited with %s in t_species_hosts_parasites but was not found in t_species_synonyms\n" % (
+                  macroparasite[_type], macroparasite['pubref']['$id']))
                 failed = True
+            else:
+                _id = synonyms_with_pub.get((macroparasite[_type], macroparasite['pubref']['$id']))
+                if _id:
+                    macroparasite[_type] = {'$id':_id, '$ref': 'organism_classification', '$db': 'dbrsea'}
+                else:
+                    failed = True
         if not failed:
             macroparasites.append(macroparasite)
     print "generating rel host parasites..."
@@ -439,7 +442,9 @@ if __name__ == "__main__":
     yaml_path = os.path.join(abs_path, 'yaml')
     assert 'csv' in os.listdir(abs_path), 'csv directory not found'
     assert 'yaml' in os.listdir(abs_path), 'yaml directory not found'
-    csv2json(csv_path, yaml_path, json_path)
+    log_file = open('errors.log', 'w')
+    csv2json(csv_path, yaml_path, json_path, log_file)
+    log_file.close()
     myzip = ZipFile('json.zip', 'w')
     for filename in os.listdir(json_path):
         if '.json' in filename:

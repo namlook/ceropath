@@ -8,82 +8,53 @@
     <hr />
 </div>
 
-<div class="span-20">
+<%def name="display_related(related, type)">
+    <ul>
+    % for species, synonyms in sorted(related.items()):
+        <li>
+        % if type == "mammal":
+            <a href="${h.url(h.url_for('species_show', id=species))}">${species.capitalize()}</a>
+        % elif type == "parasite":
+            <a href="${h.url(h.url_for('parasite_show', id=species))}">${species.capitalize()}</a>
+        % endif
+        % if synonyms:
+            <button class="synonyms-more">names in reference</button>
+            <ul class="synonyms">
+            % for syn in synonyms:
+                <% name = syn.split() %>
+                % if len(name) > 1:
+                    <li>${" ".join(name).capitalize()}</li>
+                % else:
+                    <li>${name[0]}</li>
+                % endif
+            % endfor
+            </ul>
+        % endif
+        </li>
+    % endfor
+    </ul>
+</%def>
+
+<div class="span-30">
     ${reference}
     <br />
     <br />
-    <div class="span-9 colborder">
+    <div class="span-13 colborder">
+    <h3>Host related interesting Ceropath project</h3>
     % if hosts_related:
-        <h3>Host related interesting Ceropath project</h3>
-        <ul>
-        % for species in hosts_related:
-            <li><a href="${h.url(h.url_for('species_show', id=species))}">${species.capitalize()}</a></li>
-        % endfor
-        </ul>
-        </fieldset>
+        ${display_related(hosts_related, type="mammal")}
+    % else:
+        not found
     % endif
     </div>
-    <div class="span-9 last">
-    % if parasites_related:
+    <div class="span-14 last">
     <h3>Parasites related interesting Ceropath project</h3>
-        <ul>
-        % for parasite in parasites_related:
-            <li><a href="${h.url(h.url_for('parasite_show', id=parasite))}">${parasite.capitalize()}</a></li>
-        % endfor
-        </ul>
-    </fieldset>
+    % if parasites_related:
+        ${display_related(parasites_related, type="parasite")}
+    % else:
+        not found
     % endif
     </div>
-</div>
-
-<div class="span-10 last">
-    <fieldset><legend>Informations</legend>
-    <table>
-        <tr> <th>ceropath id</th><td>${_id}</td> </tr>
-        <tr> <th>source</th><td>${source}</td> </tr>
-    </table>
-    </fieldset>
-    % if host_synonyms_related:
-        <fieldset><legend>Host synonyms in this publication</legend>
-        <ul>
-        % for species, synonyms in sorted(host_synonyms_related.items()):
-            <li><a href="${h.url(h.url_for('species_show', id=species))}">${species.capitalize()}</a> <button class="synonyms-more">names in reference</button>
-            <ul class="synonyms">
-            % for syn in synonyms:
-                <% name = syn.split() %>
-                % if len(name) > 1:
-                    <li>${" ".join(name).capitalize()}</li>
-                % else:
-                    <li>${name[0]}</li>
-                % endif
-            % endfor
-            </ul>
-            </li>
-        % endfor
-        </ul>
-        </fieldset>
-    % endif
-    % if parasite_synonyms_related:
-        <fieldset><legend>Parasites synonyms in this publication</legend>
-        <ul>
-        % for parasite, synonyms in sorted(parasite_synonyms_related.items()):
-            <li><a href="${h.url(h.url_for('parasite_show', id=parasite))}">${parasite.capitalize()}</a> <button class="synonyms-more">names in reference</button>
-            <ul class="synonyms">
-            % for syn in synonyms:
-                <% name = syn.split() %>
-                % if len(name) > 1:
-                    <li>${" ".join(name).capitalize()}</li>
-                % else:
-                    <li>${name[0]}</li>
-                % endif
-            % endfor
-            </ul>
-            </li>
-        % endfor
-        </ul>
-        </fieldset>
-    % endif
-
 </div>
 
 <script>
