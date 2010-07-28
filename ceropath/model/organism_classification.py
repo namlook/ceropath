@@ -85,6 +85,7 @@ class OrganismClassification(Core):
             'pubref': Publication,
             'origin': unicode,
             'measures':dict,# (mean +/- sd (nb_individu)) / (min - max)
+            'species_article_name': unicode,
         }],
     }
     use_autorefs = True

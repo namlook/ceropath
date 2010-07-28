@@ -10,13 +10,13 @@
 <div class="span-23">
     <table class="measurements">
         <tr><th></th>
-        % for pub, origin in publications_list:
+        % for pub, origin, species_article_name in publications_list:
             % if pub is not None:
                 <th style="width:250px;">
                     Measurements in <a href="${h.url(h.url_for('publication_show', id=pub['_id']))}" title="${pub['reference']}">
                     ${h.author_date_from_citation(pub['reference'])}
                     </a>
-                    for ${_id.capitalize()} in ${origin} <small>(a)</small>
+                    for ${species_article_name.capitalize()} in ${origin} <small>(a)</small>
                  </th>
             % else:
                 <th style="width:250px;">

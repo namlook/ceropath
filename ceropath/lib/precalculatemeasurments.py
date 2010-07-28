@@ -70,9 +70,9 @@ def _generate_species_measurements(db, species_id):
     results = {}
     for species_measurement in species_measurements:
         try:
-            key = (species_measurement['pubref']['$id'], species_measurement['origin'])
+            key = (species_measurement['pubref']['$id'], species_measurement['origin'], species_measurement['species_article_name'])
         except:
-            key = (species_measurement['pubref'].id, species_measurement['origin'])
+            key = (species_measurement['pubref'].id, species_measurement['origin'], species_measurement['species_article_name'])
         if key not in results:
             results[key] = {}
         for measure in species_measurement['measures']:
@@ -102,18 +102,20 @@ def pre_calculate_measurements(db):
         measures_stats = {
                 'pubref': None,
                 'origin': None,
-                'measures':{}
+                'measures':{},
+                'species_article_name': None,
         }
         for trait in res:
             measures_stats['measures'][trait] = res[trait]
         if res:
             species['measures_stats'].append(measures_stats)
         res = _generate_species_measurements(db, species['_id'])
-        for (pubref, origin), values in res.iteritems():
+        for (pubref, origin, species_article_name), values in res.iteritems():
             species['measures_stats'].append({
                 'pubref': db.publication.Publication.get_from_id(pubref),
                 'origin': origin,
                 'measures': values,
+                'species_article_name': species_article_name,
             })
         species.save()
     print "...done"

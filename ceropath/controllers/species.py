@@ -206,13 +206,14 @@ class SpeciesController(BaseController):
         for measure in species['measures_stats']:
             pubref = measure['pubref']
             origin = measure['origin']
-            publications_list.append((pubref, origin))
+            species_article_name = measure['species_article_name']
+            publications_list.append((pubref, origin, species_article_name))
             for trait in measure['measures']:
                 if trait not in measures_infos:
                     measures_infos[trait] = {}
-                if (pubref, origin) not in measures_infos[trait]:
-                    measures_infos[trait][(pubref, origin)] = {}
-                measures_infos[trait][(pubref, origin)] = measure['measures'][trait]
+                if (pubref, origin, species_article_name) not in measures_infos[trait]:
+                    measures_infos[trait][(pubref, origin, species_article_name)] = {}
+                measures_infos[trait][(pubref, origin, species_article_name)] = measure['measures'][trait]
         traits = dict((int(i['_id']), i) for i in self.db.trait.find())
         ## image
         path = os.path.join('data','static', 'measurements')

@@ -13,6 +13,7 @@ class SpeciesMeasurement(Core):
         }],
         'remark': unicode, #t_species_measurements/remark
         'pubref': Publication, # XXX a enlever, c'est dans le core
+        'species_article_name': unicode,
     }
     indexes = [
         {'fields':[

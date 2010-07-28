@@ -263,10 +263,9 @@ def csv2json(csv_path, yaml_path, json_path):
               '$id': species_synonyms[(measurement['pubref']['$id'], measurement['species_article_name'])]['valid_name'],
               '$ref': 'organism_classification'
             }
-            del measurement['species_article_name']
             species_measurements.append(measurement)
         else:
-            print "++++===", (measurement['pubref']['$id'], measurement['species_article_name'])
+            print "Error: can find %s in the following publication %s " % (measurement['species_article_name'], measurement['pubref']['$id'])
     print "generating species measurements..."
     open(os.path.join(json_path, 'species_measurement.json'), 'w').write(genjson(species_measurements))
     #for i in species_measurements:
