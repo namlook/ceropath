@@ -37,6 +37,16 @@
 
 <div class="span-30">
     ${reference}
+    % if link or pdfpath:
+        <br />
+        <div style="text-align:right">
+            % if pdfpath:
+                <a href="${pdfpath}"><img src="/img/pdficon_small.gif"> download publication</img></a>
+            % elif link:
+                <a target="_blank" href=${link}>go to full issue</a>
+            % endif
+        </div>
+    % endif
     <br />
     <br />
     <div class="span-13 colborder">

@@ -7,6 +7,8 @@ from ceropath.lib.base import BaseController, render
 
 log = logging.getLogger(__name__)
 
+import os
+
 class PublicationController(BaseController):
 
     def show(self, id):
@@ -41,8 +43,13 @@ class PublicationController(BaseController):
                         parasites_related[species['_id']] = []
                     if citation['name'] != species['_id']:
                         parasites_related[species['_id']].append(citation['name'])
+        pdfpath = ""
+        if "%s.pdf" % publication['_id'] in os.listdir(os.path.join('ceropath', 'public', 'data', 'static', 'pdf')):
+            pdfpath = os.path.join('/', 'data', 'static', 'pdf', "%s.pdf" % publication['_id'])
         return render('publication/show.mako', extra_vars={
             'reference': publication['reference'],
             'hosts_related': hosts_related,
             'parasites_related': parasites_related,
+            'link': publication['link'],
+            'pdfpath': pdfpath,
         })

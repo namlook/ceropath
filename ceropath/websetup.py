@@ -178,8 +178,10 @@ def setup_app(command, conf, vars):
 
     if 'data' not in os.listdir(os.path.join('ceropath', 'public')):
         os.mkdir(os.path.join('ceropath', 'public', 'data'))
+
     if 'pipeline' not in os.listdir(os.path.join('ceropath', 'public', 'data')):
         os.mkdir(os.path.join('ceropath', 'public', 'data', 'pipeline'))
+
     if 'static' not in os.listdir(os.path.join('ceropath', 'public', 'data')):
         os.mkdir(os.path.join('ceropath', 'public', 'data', 'static'))
     if 'alive animals' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):
@@ -194,6 +196,8 @@ def setup_app(command, conf, vars):
         os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'trap lines pictures'))
     if 'vouchers skull pictures with measurements' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):
         os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'vouchers skull pictures with measurements'))
+    if 'pdf' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'pdf'))
 
     if 'dynamic' not in os.listdir(os.path.join('ceropath', 'public', 'data')):
         os.mkdir(os.path.join('ceropath', 'public', 'data', 'dynamic'))
