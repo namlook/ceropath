@@ -113,23 +113,52 @@ class PipelineController(BaseController):
         file_name = 'sequence-%s.fas' % uid
         file_path = os.path.join('data', 'pipeline', file_name)
         open(file_path, 'w').write(user_input)
-        tree = pypit.run(file_name='sequence-%s.fas' % uid, cwd=os.path.join('data', 'pipeline'))
-        if not tree:
+        result = pypit.run(file_name='sequence-%s.fas' % uid, cwd=os.path.join('data', 'pipeline'))
+        errors = ""
+        output_format = pypit.last_output_ext
+        if not result:
             h.failure_flash('Something wrong appened. Please, check your data')
-            redirect(h.url('pipeline_index'))
-        if pypit.last_output_ext == 'svg':
+            errors = pypit.errors.read()
+        elif output_format == 'nwk':
+            from Bio import Nexus, Phylo
+            t = Nexus.Trees.Tree(open(os.path.join('data', 'pipeline', '%s.afa.phy.mat.nwk' % file_name)).read())
+            t.root_with_outgroup('R5241_Cann')
+            from StringIO import StringIO
+            n = Phylo.read(StringIO(t.to_string().split('=')[1].strip()), 'newick')
+            f = StringIO()
+            individuals = []
+            for clade in n.find_clades():
+                if clade.name:
+                    clade_name = clade.name.split('_')[0].lower()
+                    individual = self.db.individual.get_from_id(clade_name)
+                    if individual:
+                        individuals.append(individual)
+                    clade.name = clade_name.upper()
+            Phylo.draw_ascii(n, file=f, column_width=150)
+            f.seek(0)
+            result = f.read().replace(' ', '&nbsp;').replace('\n', '<br />').replace('...', ' ')
+            for individual in individuals:
+                species_id = individual['organism_classification']['$id']
+                individual_id = individual['_id']
+                if individual['voucher_barcoding']:
+                    result = result.replace(individual_id.upper(),
+                      '<a class="individual" href="/individuals/%s">%s</a>' % (
+                        individual_id, individual_id.upper()) + ' <a class="species" href="/species/%s">(<i>%s</i>)</a>' % (
+                          species_id.replace(' ', '%20'), species_id.capitalize()))
+                else:
+                    result = result.replace(individual_id.upper(),
+                      individual_id.upper() + ' <a class="species" href="/species/%s">(<i>%s</i>)</a>' % (
+                        species_id.replace(' ', '%20'), species_id.capitalize()))
+        elif output_format == 'svg':
             svg_path = os.path.join('ceropath', 'public', 'usrdata', file_name+".afa.phy.mat.nwk.svg")
             users_individuals = [line.strip()[1:].strip() for line in open(file_path).readlines() if line.strip().startswith('>')]
-            open(svg_path, 'w').write(h.clickify_svg(tree, self.db, users_individuals))
-        #tree = phylogelib.removeBootStraps(tree)
-        #graph = phylogelib.getGraph(tree)
-        #taxa_list = phylogelib.getTaxa(tree)
+            open(svg_path, 'w').write(h.clickify_svg(result, self.db, users_individuals))
+            result = file_name+".afa.phy.mat.nwk.svg"
         return render('pipeline/phyloexplorer.mako', extra_vars = {
-          'tree':'',#graph,
-          'source':tree,
-          'svg_path': file_name+".afa.phy.mat.nwk.svg",
-          'taxa_list':'',#taxa_list,
-          'last_output_ext': pypit.last_output_ext,
+          'errors': errors,
+          'result':result,
+          #'svg_path': file_name+".afa.phy.mat.nwk.svg",
+          'output_format': output_format,
         })
 
     def infos(self, name):
