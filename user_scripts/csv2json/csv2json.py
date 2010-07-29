@@ -225,7 +225,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
                     })
                     synonyms[(i['species_article_name'], i['id_article']['$id'])] = i['valid_name']
             else:
-                log_file.write("WARNING: %s is listed in t_species_synonyms as valid_name but was not found in t_species_systematic\n" % i['valid_name'])
+                log_file.write("ERROR: %s is listed in t_species_synonyms as valid_name but was not found in t_species_systematic\n" % i['valid_name'])
         organism_classifications = []
         for name, org in organisms.iteritems():
             if org['_id'] is None: continue
@@ -266,7 +266,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
             }
             species_measurements.append(measurement)
         else:
-            log_file.write("Error: %s was cited with %s in t_species_measurements but was not found in t_species_synonyms\n" % (
+            log_file.write("ERROR: %s was cited with %s in t_species_measurements but was not found in t_species_synonyms\n" % (
               measurement['species_article_name'], measurement['pubref']['$id']))
     print "generating species measurements..."
     open(os.path.join(json_path, 'species_measurement.json'), 'w').write(genjson(species_measurements))
@@ -288,7 +288,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
         if i['_id'] in individuals:
             individuals[i['_id']]['measures'] = i['measures']
         else:
-            log_file.write("Error: %s not found in t_individus but found in t_individus_measurements\n" % i['_id'])
+            log_file.write("ERROR: %s not found in t_individus but found in t_individus_measurements\n" % i['_id'])
 #    pprint(individus['c0001'])
 
     # Individual microparasites
@@ -297,7 +297,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
         if i['_id'] in individuals:
             individuals[i['_id']]['microparasites'] = i['microparasites']
         else:
-            log_file.write("Error: %s not found in t_individus but found in t_individus_microparasites\n" % i['_id'])
+            log_file.write("ERROR: %s not found in t_individus but found in t_individus_microparasites\n" % i['_id'])
 #    pprint(individus['c0001'])
 
     # Individual macroparasites
@@ -308,7 +308,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
                 individuals[_id]['macroparasites'] = []
             individuals[_id]['macroparasites'].append({'name':macroparasite['parasite'], 'quantity': macroparasite['quantity']})
         else:
-            log_file.write("Error: %s not found in t_individus but found in t_individus_microparasites\n" % i['_id'])
+            log_file.write("ERROR: %s not found in t_individus but found in t_individus_microparasites\n" % i['_id'])
 
     # Individual samples
     samples = dict((i['sample'], {'conservation_method': i['conservation method']}) for i in process(csv_path, yaml_path, 't_lib_samples'))
@@ -349,7 +349,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
                     if s:
                         individuals[i['_id']]['samples'].append(s)
         else:
-            log_file.write("Error: %s not found in t_individus but found in t_individus_samples\n" % i['_id'])
+            log_file.write("ERROR: %s not found in t_individus but found in t_individus_samples\n" % i['_id'])
 
     # Individual physiologic features
     for feature in process(csv_path, yaml_path, 't_individus_physiologic_features'):#physiologic_features:
@@ -358,7 +358,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
             individuals[_id]['physiologic_features'] = []
             individuals[_id]['physiologic_features'] = feature['physiologic_features']
         else:
-            log_file.write("Error: %s not found in t_indivivus but found in t_individus_physiologic_features\n" % _id)
+            log_file.write("ERROR: %s not found in t_indivivus but found in t_individus_physiologic_features\n" % _id)
 
     # Individual genotyping
     for genotyping in process(csv_path, yaml_path, 't_individus_genotyping'):
@@ -368,7 +368,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
                 individuals[_id]['genotypes'] = {}
             individuals[_id]['genotypes'][genotyping['genotype']] = genotyping['value']
         else:
-            log_file.write("Error: %s not found in t_indivivus but found in t_individus_genotyping\n" % _id)
+            log_file.write("ERROR: %s not found in t_indivivus but found in t_individus_genotyping\n" % _id)
 
     print "generating individuals..."
     open(os.path.join(json_path, 'individual.json'), 'w').write(genjson(individuals.values()))
@@ -418,10 +418,10 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
         failed = False
         for _type in ['host', 'parasite']:
             if macroparasite[_type] not in synonyms:
-                log_file.write("Error: %s is listed in t_species_hosts_parasites but was not found in t_species_synonyms\n" % macroparasite[_type])
+                log_file.write("ERROR: %s is listed in t_species_hosts_parasites but was not found in t_species_synonyms\n" % macroparasite[_type])
                 failed = True
             elif not synonyms_with_pub.get((macroparasite[_type], macroparasite['pubref']['$id'])):
-                log_file.write("Error: %s was cited with %s in t_species_hosts_parasites but was not found in t_species_synonyms\n" % (
+                log_file.write("ERROR: %s was cited with %s in t_species_hosts_parasites but was not found in t_species_synonyms\n" % (
                   macroparasite[_type], macroparasite['pubref']['$id']))
                 failed = True
             else:
