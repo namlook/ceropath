@@ -25,7 +25,7 @@ class PipelineController(BaseController):
         })
 
     def new(self):
-        # use jquery tools forms validation
+        # TODO use jquery tools forms validation
         return render('pipeline/new.mako')
 
     def create(self):
@@ -134,7 +134,7 @@ class PipelineController(BaseController):
                     if individual:
                         individuals.append(individual)
                     clade.name = clade_name.upper()
-            Phylo.draw_ascii(n, file=f, column_width=150)
+            Phylo.draw_ascii(n, file=f, column_width=110)
             f.seek(0)
             result = f.read().replace(' ', '&nbsp;').replace('\n', '<br />').replace('...', ' ')
             for individual in individuals:
@@ -145,7 +145,7 @@ class PipelineController(BaseController):
                 individual_id = individual['_id']
                 if individual['voucher_barcoding']:
                     result = result.replace(individual_id.upper(),
-                      '<a class="individual" href="/individuals/%s">%s</a>' % (
+                      '<a class="individual" href="/individual/%s">%s</a>' % (
                         individual_id, individual_id.upper()) + ' <a class="species" href="/species/%s">(<i>%s</i>)</a>' % (
                           species_id.replace(' ', '%20'), species_id.capitalize()))
                 else:
@@ -160,7 +160,6 @@ class PipelineController(BaseController):
         return render('pipeline/result.mako', extra_vars = {
           'errors': errors,
           'result':result,
-          #'svg_path': file_name+".afa.phy.mat.nwk.svg",
           'output_format': output_format,
         })
 
