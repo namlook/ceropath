@@ -99,7 +99,7 @@ class PipelineController(BaseController):
         self.db.pipeline.remove({'_id': id})
         redirect(h.url_for('pipeline_list'))
 
-    def phyloexplorer(self):
+    def result(self):
         if 'file' in request.POST:
             user_input = request.POST['file'].file.read()
         elif 'paste' in request.POST:
@@ -157,7 +157,7 @@ class PipelineController(BaseController):
             users_individuals = [line.strip()[1:].strip() for line in open(file_path).readlines() if line.strip().startswith('>')]
             open(svg_path, 'w').write(h.clickify_svg(result, self.db, users_individuals))
             result = file_name+".afa.phy.mat.nwk.svg"
-        return render('pipeline/phyloexplorer.mako', extra_vars = {
+        return render('pipeline/result.mako', extra_vars = {
           'errors': errors,
           'result':result,
           #'svg_path': file_name+".afa.phy.mat.nwk.svg",

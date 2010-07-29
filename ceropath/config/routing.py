@@ -31,7 +31,7 @@ def make_map(config):
 
     # pipeline
     map.connect('pipeline_index', '/pipeline', controller='pipeline', action='index')
-    map.connect('pipeline_phyloexplorer', '/pipeline/phyloexplorer', controller='pipeline', action='phyloexplorer')
+    map.connect('pipeline_result', '/pipeline/result', controller='pipeline', action='result')
     map.connect('pipeline_new', '/pipeline/config/new', controller='pipeline', action='new')
     map.connect('pipeline_create', '/pipeline/config/create', controller='pipeline', action='create')
     map.connect('pipeline_update', '/pipeline/config/update/{id}', controller='pipeline', action='update')

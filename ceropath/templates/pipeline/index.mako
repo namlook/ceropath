@@ -21,7 +21,7 @@
     <div class="input" style="float:left;">
     <fieldset>
         <legend>Choose the file containing a sequence (fasta format)...</legend>
-        <form action="${h.url(h.url_for('pipeline_phyloexplorer'))}" method="post" enctype="multipart/form-data">
+        <form action="${h.url(h.url_for('pipeline_result'))}" method="post" enctype="multipart/form-data">
             <div><b>Filename:</b> <input type="file" name="file" class="button" /></div>
             <div>
                 select a pipeline : 
@@ -43,7 +43,7 @@
     <fieldset>
         <legend>... OR paste your sequence...</legend>
             <a href="#" id="show-example">paste an example</a>
-            <form action="${h.url(h.url_for('pipeline_phyloexplorer'))}" method="post" enctype="multipart/form-data">
+            <form action="${h.url(h.url_for('pipeline_result'))}" method="post" enctype="multipart/form-data">
             <div id="example">>user1
 CAAATCTACAATGTAATTGTCACAGCCCATGCATTCGTAATAATTTTCTTTATAGTTATGCCAATAATGATTGGTGGTTTCGGAAACTGATTAGTCCCCTTAATAATTGGAGCCCCTGATATAGCATTTCCACGAATAAATAATATAAGCTTTTGACTCCTTCCACCATCATTCCTTCTTCTGTTAGCATCTTCTATGGTAGAAGCCGGAGCAGGAACAGGATGAACAGTATACCCACCATTAGCTGGAAATTTAGCCCACGCTGGAGCATCAGTAGACCTAACCATTTTCTCCCTCCACCTGGCTGGGGTATCCTCTATTTTAGGGGCTATTAACTTTATTACTACTATTATTAATATGAAACCACCCGCTATAACTCTATGG
 >user2
