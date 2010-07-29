@@ -138,7 +138,10 @@ class PipelineController(BaseController):
             f.seek(0)
             result = f.read().replace(' ', '&nbsp;').replace('\n', '<br />').replace('...', ' ')
             for individual in individuals:
-                species_id = individual['organism_classification']['$id']
+                try:
+                    species_id = individual['organism_classification']['$id']
+                except: # XXX Why the hell ?
+                    species_id = individual['organism_classification'].id
                 individual_id = individual['_id']
                 if individual['voucher_barcoding']:
                     result = result.replace(individual_id.upper(),
