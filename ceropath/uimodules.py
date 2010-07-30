@@ -51,6 +51,7 @@ class Module(UIModule):
         elif file_names['genus']:
             list_file_names = file_names['genus']
         for (base_file_name, ext) in list_file_names:
+            file_name = "".join([base_file_name, ext])
             if ext.lower() in ['.jpg', '.jpeg', '.png']:
                 files_list[file_name] = base_file_name
                 if '%s.txt' % base_file_name in os.listdir(os.path.join(module_path, name)):
