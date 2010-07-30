@@ -84,12 +84,6 @@
         text-align:left;
     }
     
-    #panes h3 {
-        margin:0 0 -5px 0;
-        font-size:22px;
-        font-weight:normal;
-    }
-    
     .overlay {
         display:none;
         width:500px;
