@@ -42,7 +42,7 @@ class Module(UIModule):
         for file_name in os.listdir(os.path.join(module_path, name)):
             if id in file_name.lower():
                 file_names['species'].append(os.path.splitext(file_name))
-            elif id.split()[0].lower() in file_name.lower():
+            elif '%s sp.' % id.split()[0].lower() in file_name.lower():
                 file_names['genus'].append(os.path.splitext(file_name))
                 #base_file_name, ext = os.path.splitext(file_name)
         list_file_names = []
@@ -60,20 +60,20 @@ class Module(UIModule):
                     legend_file = None
                 if legend_file:
                     legends[file_name] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
-            if 'bibliography' in file_name.lower():
-                bibliography = codecs.open(os.path.join(module_path, name, file_name), encoding='utf-8', errors='ignore').read()
+#            if 'bibliography' in file_name.lower():
+#                bibliography = codecs.open(os.path.join(module_path, name, file_name), encoding='utf-8', errors='ignore').read()
         if '%s.txt' % id.capitalize() in os.listdir(os.path.join(module_path, name)):
             legend_file = os.path.join(module_path, name, '%s.txt' % id.capitalize())
             legends[id] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
-        if not bibliography:
-            if 'bibliography.txt' in os.listdir(os.path.join(module_path, name)):
-                bibliography = codecs.open(os.path.join(module_path, name, 'bibliography.txt'), encoding='utf-8', errors='ignore').read()
+#        if not bibliography:
+#            if 'bibliography.txt' in os.listdir(os.path.join(module_path, name)):
+#                bibliography = codecs.open(os.path.join(module_path, name, 'bibliography.txt'), encoding='utf-8', errors='ignore').read()
         return render('/uimodules/module.mako', extra_vars={
             '_id': id,
             'files_list': files_list,
             'width': width,
             'legends': legends,
-            'bibliography': bibliography,
+#            'bibliography': bibliography,
             'data_path': os.path.join('/', 'data', 'dynamic', name),
         })
 Module = Module()

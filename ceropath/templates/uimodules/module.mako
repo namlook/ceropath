@@ -131,10 +131,10 @@
             % if legend:
                 ${h.literal(h.markdownize(legend))}
             % endif
-            % if bibliography:
-                <h2>Bibliography</h2>
-                ${h.literal(h.markdownize(bibliography))}
-            % endif
+##            % if bibliography:
+##                <h2>Bibliography</h2>
+##                ${h.literal(h.markdownize(bibliography))}
+##            % endif
         </p>
     </div> 
     % endfor
