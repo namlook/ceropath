@@ -26,13 +26,13 @@ a img{
     % endif
     </div>
 
-    <div class="span-7 colborder" style="padding-top:20px;">
+    <div class="span-5 colborder" style="padding-top:20px;">
         <fieldset><legend><h3>Scientific fields</h3></legend>
             ${h.ui.ModulesList(_id, root="species")}
         </fieldset>
     </div>
 
-        <div class="span-4 last" style="text-align:right;">
+        <div class="span-6 last" style="text-align:right;">
         <h3>Common names:</h3>
             % for language, name in sorted(common_names.items()):
                 % if name:
