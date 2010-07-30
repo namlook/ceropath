@@ -134,7 +134,7 @@ class SpeciesController(BaseController):
 
     def show(self, id):
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
-        if not species:
+        if not species or species['type'] != 'mammal':
             abort(404)
         path = os.path.join('data','static', 'alive animals')
         file_path =  os.path.join('ceropath', 'public', path)
@@ -193,11 +193,12 @@ class SpeciesController(BaseController):
             'citations': citations,
             'internet_display': species['internet_display'],
             'iucn_web_path': iucn_web_path, 
+            'has_individuals': self.db.individual.find({'organism_classification.$id':species['_id']}).count(),
         })
 
     def measurements(self, id):
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
-        if not species:
+        if not species or species['type'] != 'mammal':
             abort(404)
         if not species['internet_display']:
             abort(404)
