@@ -8,12 +8,13 @@ REGEXP_NUMBER = re.compile('^[\d\.,]+$')
 
 from statlib import stats
 
-def _precalculate_ceropath_measurements(db, species_id):
+def _precalculate_ceropath_measurements(db, species_id, use_moleculare_identification):
     query = {
         'organism_classification.$id': species_id,
         'adult':'adult',
-        'identification.type':{'$in':[REGX_COI, REGX_CYTB, REGX_PRIMER, REGX_16S]}
     }
+    if use_moleculare_identification:
+        query['identification.type'] = {'$in':[REGX_COI, REGX_CYTB, REGX_PRIMER, REGX_16S]}
     individuals = db.individual.find(query)
     traits = {}
     for individual in individuals:
@@ -98,7 +99,7 @@ def pre_calculate_measurements(db):
         pass
 
     for species in db.organism_classification.OrganismClassification.find({'type':'mammal', 'internet_display':True}):
-        res = _precalculate_ceropath_measurements(db, species['_id'])
+        res = _precalculate_ceropath_measurements(db, species['_id'], species['display_only_mol_identif'])
         measures_stats = {
                 'pubref': None,
                 'origin': None,
