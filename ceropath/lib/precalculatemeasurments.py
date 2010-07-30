@@ -17,13 +17,16 @@ def _precalculate_ceropath_measurements(db, species_id, use_moleculare_identific
         query['identification.type'] = {'$in':[REGX_COI, REGX_CYTB, REGX_PRIMER, REGX_16S]}
     individuals = db.individual.find(query)
     traits = {}
+    individual_traits = {}
     for individual in individuals:
         for measure in individual['measures']:
             trait = measure['trait']
             if trait not in traits:
                 traits[trait] = []
+                individual_traits[trait] = {}
             if measure['value']:
                 traits[trait].append(measure['value'])
+                individual_traits[trait][individual['_id']] = measure['value']
     results = {}
     for trait in traits:
         values_list = [float(i.replace(',','.')) for i in traits[trait] if REGEXP_NUMBER.search(i)]
@@ -46,22 +49,19 @@ def _precalculate_ceropath_measurements(db, species_id, use_moleculare_identific
             results[trait]['max'] = None
     results["Tail / Head & Body (%)"] = {'mean':0, 'n':0, 'sd':0, 'min':0, 'max':0}
     if traits:
-        headnbody_values = [float(i.replace(',','.')) for i in traits["Head & Body (mm)"] if REGEXP_NUMBER.search(i)]
-        tail_values = [float(i.replace(',','.')) for i in traits["Tail (mm)"] if REGEXP_NUMBER.search(i)]
-        if len(headnbody_values) == len(tail_values):
-            headnbody_on_tail = 0
-            headnbody_on_tails = []
-            for index, val in enumerate(headnbody_values):
-                value = float(tail_values[index]) / float(headnbody_values[index])
-                headnbody_on_tails.append(value)
-                headnbody_on_tail += value
-            results["Tail / Head & Body (%)"]['mean'] = int((headnbody_on_tail/len(headnbody_values))*100)
+        tail_on_head = []
+        for individual_id, head_val in individual_traits['Head & Body (mm)'].iteritems():
+            if individual_id in individual_traits['Tail (mm)']:
+                head_val = head_val.replace(',', '.')
+                tail_val = individual_traits['Tail (mm)'][individual_id].replace(',', '.')
+                if REGEXP_NUMBER.search(head_val) and REGEXP_NUMBER.search(tail_val):
+                    tail_on_head.append(float(tail_val)/float(head_val)*100)
+        if tail_on_head:
+            results["Tail / Head & Body (%)"]['mean'] = stats.mean(tail_on_head)
+            results["Tail / Head & Body (%)"]['min'] = min(tail_on_head)
+            results["Tail / Head & Body (%)"]['max'] = max(tail_on_head)
+            results["Tail / Head & Body (%)"]['n'] = len(tail_on_head)
             results["Tail / Head & Body (%)"]['sd'] = 0
-            results["Tail / Head & Body (%)"]['n'] = len(headnbody_values)
-            results["Tail / Head & Body (%)"]['min'] = min(headnbody_on_tails)*100
-            results["Tail / Head & Body (%)"]['max'] = max(headnbody_on_tails)*100
-        else:
-            print """Error : Can't generate "Tail/Head & Body" for %s : "Head & body" values != "Tail" values""" % species_id
     return results
 
 def _generate_species_measurements(db, species_id):
