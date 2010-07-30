@@ -1,5 +1,9 @@
 import csv
-import anyjson
+#import anyjson
+import json
+from StringIO import StringIO
+from pymongo import json_util
+from pymongo.dbref import DBRef
 import sys, os
 import yaml
 from pprint import pprint
@@ -60,7 +64,11 @@ class DotExpandedDict(dict):
                 current = {last_bit: v}
 
 def genjson(dict_list):
-    return "\n".join(anyjson.serialize(i) for i in dict_list)
+    results = []
+    for i in dict_list:
+        f = StringIO()
+        results.append(json.dumps(i, f, default=json_util.default))
+    return "\n".join(results)
 
 def map_legend(legend, row):
     legend_map = {}
@@ -144,7 +152,7 @@ def process(csv_path, yaml_path, name, delimiter=';', quotechar='"'):
                         value = eval(config[field_name]['filter'])(value)
                     if 'dbref' in config[field_name]:
                         if value is not None:
-                            value = {'$id':value, '$ref':config[field_name]['dbref'], '$db':'dbrsea'}
+                            value = DBRef(collection=config[field_name]['dbref'], id=value, database='dbrsea')
                     if isinstance(value, str):
                         value = value.decode('utf-8', 'replace')
                 if dynamic_row:# and 'field_name_target' in config[field_name]:
@@ -223,7 +231,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
                      'pubref': i['id_article'],
                       'name': i['species_article_name']
                     })
-                    synonyms[(i['species_article_name'], i['id_article']['$id'])] = i['valid_name']
+                    synonyms[(i['species_article_name'], i['id_article'].id)] = i['valid_name']
             else:
                 log_file.write("ERROR: %s is listed in t_species_synonyms as valid_name but was not found in t_species_systematic\n" % i['valid_name'])
         organism_classifications = []
@@ -237,10 +245,10 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
                 org['type'] = u'mammal'
             for syn in org['msw3']['synonyms']:
                 if syn == name:
-                    org['citations'].append({'name':syn, 'pubref':{'$db': 'dbrsea', '$id': '50999553', '$ref': 'publication'}})
+                    org['citations'].append({'name':syn, 'pubref':DBRef(collection='publication', id='50999553', database='dbrsea')})
                 else:
                     if org['id_msw3']:
-                        org['synonyms'].append({'name':syn, 'pubref':{'$db': 'dbrsea', '$id': '50999553', '$ref': 'publication'}})
+                        org['synonyms'].append({'name':syn, 'pubref':DBRef(collection='publication', id='50999553', database='dbrsea')})
                         synonyms[(syn, '50999553')] = name
             del org['msw3']['synonyms']
             org['measures_stats'] = []
@@ -253,25 +261,25 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
 #    pprint(organisms['bandicota indica'])
 
     # SpeciesMeasurement
-    species_synonyms = dict(((i['id_article']['$id'], i['species_article_name']), i) for i in process(csv_path, yaml_path, 't_species_synonyms'))
+    species_synonyms = dict(((i['id_article'].id, i['species_article_name']), i) for i in process(csv_path, yaml_path, 't_species_synonyms'))
     #species_measurements = list(process(csv_path, yaml_path, 't_species_measurements'))
     species_measurements = []
     #pprint(list(process(csv_path, yaml_path, 't_species_measurements')))
     for measurement in process(csv_path, yaml_path, 't_species_measurements'):
-        if species_synonyms.get((measurement['pubref']['$id'], measurement['species_article_name'])):
-            measurement['organism_classification'] = {
-              '$db': 'dbrsea',
-              '$id': species_synonyms[(measurement['pubref']['$id'], measurement['species_article_name'])]['valid_name'],
-              '$ref': 'organism_classification'
-            }
+        if species_synonyms.get((measurement['pubref'].id, measurement['species_article_name'])):
+            measurement['organism_classification'] = DBRef(
+              collection='organism_classification',
+              id=species_synonyms[(measurement['pubref'].id, measurement['species_article_name'])]['valid_name'],
+              database='dbrsea',
+            )
             species_measurements.append(measurement)
         else:
             log_file.write("ERROR: %s was cited with %s in t_species_measurements but was not found in t_species_synonyms\n" % (
-              measurement['species_article_name'], measurement['pubref']['$id']))
+              measurement['species_article_name'], measurement['pubref'].id))
     print "generating species measurements..."
     open(os.path.join(json_path, 'species_measurement.json'), 'w').write(genjson(species_measurements))
     #for i in species_measurements:
-        #if 'bandicota indica' in i['organism_classification']['$id']:
+        #if 'bandicota indica' in i['organism_classification'].id:
             #pprint(i)
 
     # Individuals
@@ -317,7 +325,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
         if sample['sample_name'] in samples:
             sample_name = sample['sample_name']
             if sample['institute']:
-                sample_institute = sample['institute']['$id']
+                sample_institute = sample['institute'].id
                 if not sample_institute in samples[sample_name]:
                     samples[sample_name][sample_institute] = {}
                 samples[sample_name][sample_institute]['name'] = sample_name
@@ -345,7 +353,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
             individuals[i['_id']]['samples'] = []
             for sample in i['samples']:
                 if sample['institute']:
-                    s = samples[sample['name']].get(sample['institute']['$id'])
+                    s = samples[sample['name']].get(sample['institute'].id)
                     if s:
                         individuals[i['_id']]['samples'].append(s)
         else:
@@ -379,7 +387,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
 
     # Microparasite
 #    for i in process('t_individus_macroparasites'):
-#        if i['host']['$id'] == 'r4499':
+#        if i['host'].id == 'r4499':
 #            pprint(i)
 
 
@@ -393,7 +401,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
     sequences = list(process(csv_path, yaml_path, 't_individus_sequences'))
     open(os.path.join(json_path, 'sequence.json'), 'w').write(genjson(sequences))
     #for i in sequences:
-    #    if i['individu']['$id'] == 'c0001':
+    #    if i['individu'].id == 'c0001':
     #        pprint(i)
 
     # Primer
@@ -408,7 +416,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
     sites = dict((i['_id'], i) for i in process(csv_path, yaml_path, 't_sites'))
     open(os.path.join(json_path, 'site.json'), 'w').write(genjson(sites.values()))
 
-    synonyms_with_pub = dict(((i['species_article_name'], i['id_article']['$id']), i['valid_name']) for i in process(csv_path, yaml_path, 't_species_synonyms'))
+    synonyms_with_pub = dict(((i['species_article_name'], i['id_article'].id), i['valid_name']) for i in process(csv_path, yaml_path, 't_species_synonyms'))
     synonyms = dict((i['species_article_name'], i['valid_name']) for i in process(csv_path, yaml_path, 't_species_synonyms'))
     # Macroparasite
     _macroparasites = process(csv_path, yaml_path, 't_species_hosts_parasites')
@@ -420,14 +428,14 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
             if macroparasite[_type] not in synonyms:
                 log_file.write("ERROR: %s is listed in t_species_hosts_parasites but was not found in t_species_synonyms\n" % macroparasite[_type])
                 failed = True
-            elif not synonyms_with_pub.get((macroparasite[_type], macroparasite['pubref']['$id'])):
+            elif not synonyms_with_pub.get((macroparasite[_type], macroparasite['pubref'].id)):
                 log_file.write("ERROR: %s was cited with %s in t_species_hosts_parasites but was not found in t_species_synonyms\n" % (
-                  macroparasite[_type], macroparasite['pubref']['$id']))
+                  macroparasite[_type], macroparasite['pubref'].id))
                 failed = True
             else:
-                _id = synonyms_with_pub.get((macroparasite[_type], macroparasite['pubref']['$id']))
+                _id = synonyms_with_pub.get((macroparasite[_type], macroparasite['pubref'].id))
                 if _id:
-                    macroparasite[_type] = {'$id':_id, '$ref': 'organism_classification', '$db': 'dbrsea'}
+                    macroparasite[_type] = DBRef(collection='organism_classification', id=_id,  database='dbrsea')
                 else:
                     failed = True
         if not failed:
