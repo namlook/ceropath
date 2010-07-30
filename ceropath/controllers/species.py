@@ -19,101 +19,12 @@ import anyjson
 import codecs
 
 import re
-import math
-REGX_COI = re.compile('coi')
-REGX_CYTB = re.compile('cytb')
-REGX_PRIMER = re.compile('primer')
-REGX_16S = re.compile('16s')
 
 
 class SpeciesController(BaseController):
 
     # actions which require a login are listed below
     requires_auth_actions = ['individuals']
-
-#    def _get_measurements(self, species_id):
-#        species_measurements = list(self.db.species_measurement.SpeciesMeasurement.find(
-#          {'organism_classification.$id': species_id}
-#        ))
-#        measures_infos = {}
-#        publications_list = {}
-#        # species
-#        for measure in species_measurements:
-#            for pub in measure['pubref']:
-#                publications_list[pub['_id']] = pub
-#            for m in measure['measures']:
-#                trait, value = m['trait'], m['value']
-#                if trait not in measures_infos:
-#                    measures_infos[trait] = {}
-#                for publication in measure['pubref']:
-#                    if publication['_id'] not in measures_infos[trait]:
-#                        measures_infos[trait][publication['_id']] = {}
-#                    measures_infos[trait][publication['_id']][measure['type']] = value
-#        # ceropath measurements for species
-#        species_measurements = {}
-#        query = {
-#            'organism_classification.$id': species_id,
-#            'adult':'adult',
-#            'identification.type':{'$in':[REGX_COI, REGX_CYTB, REGX_PRIMER, REGX_16S]}
-#        }
-#        individuals = self.db.individual.find(query)
-#        traits_list = []
-#        for individual in individuals:
-#            for measure in individual['measures']:
-#                trait  = measure['trait']
-#                if trait not in measures_infos:
-#                    measures_infos[trait] = {}
-#                if species_id not in measures_infos[trait]:
-#                    measures_infos[trait][species_id] = {}
-#                if trait not in traits_list:
-#                    traits_list.append(trait)
-#                if trait not in species_measurements:
-#                    species_measurements[trait] = {'value':0.0, 'max':0, 'min':999999999}
-#                try:
-#                    value = float(measure['value'].replace(',', '.'))
-#                except:
-#                    continue
-#                species_measurements[trait]['value'] += value
-#                species_measurements[trait]['max'] = max(species_measurements[trait]['max'], value)
-#                species_measurements[trait]['min'] = min(species_measurements[trait]['min'], value)
-#        REGEXP_NUMBER = re.compile('^[\d\.,]+$')
-#        nb_individuals = {}
-#        for individual in individuals.rewind():
-#            for measure in individual['measures']:
-#                trait = measure['trait']
-#                if not 'variance' in species_measurements[trait]:
-#                    species_measurements[trait]['variance'] = 0
-#                query['measures'] = {'$elemMatch':{'trait': trait, 'value': REGEXP_NUMBER}}
-#                if not trait in nb_individuals.get(individual['_id'], []): 
-#                    if individual['_id'] not in nb_individuals:
-#                        nb_individuals[individual['_id']] = {}
-#                    nb_individuals[individual['_id']][trait] = self.db.individual.find(query).count()
-#                nb_individual = nb_individuals[individual['_id']][trait]
-#                if nb_individual:
-#                    species_measurements[trait]['mean'] = species_measurements[trait]['value']/nb_individual
-#                    try:
-#                        value = float(measure['value'].replace(',', '.'))
-#                    except:
-#                        continue
-#                    species_measurements[trait]['variance'] += math.pow(value - species_measurements[trait]['mean'], 2)
-#                    species_measurements[trait]['sd'] = math.sqrt((species_measurements[trait]['variance']/(nb_individual -1))/nb_individual)
-#        for trait in traits_list:
-#            if species_id not in measures_infos[trait]:
-#                measures_infos[trait][species_id] = {}
-#            if 'sd' in species_measurements[trait]:
-#                measures_infos[trait][species_id]['mean'] = round(species_measurements[trait]['mean'], 2)
-#                measures_infos[trait][species_id]['max'] = species_measurements[trait]['max']
-#                measures_infos[trait][species_id]['min'] = species_measurements[trait]['min']
-#                measures_infos[trait][species_id]['sd'] = round(species_measurements[trait]['sd'], 2)
-#                measures_infos[trait][species_id]['n'] = nb_individuals[individual['_id']][trait]
-#            else:
-#                measures_infos[trait][species_id]['mean'] = None
-#                measures_infos[trait][species_id]['max'] = None
-#                measures_infos[trait][species_id]['min'] = None
-#                measures_infos[trait][species_id]['sd'] = None
-#                measures_infos[trait][species_id]['n'] = None
-#        return measures_infos, publications_list
- 
 
     def index(self):
         query = {'internet_display': True, 'type': 'mammal'}
@@ -238,31 +149,10 @@ class SpeciesController(BaseController):
             abort(404)
         if not species['internet_display']:
             abort(404)
-#        module_path = os.path.join('ceropath', 'public', 'data')
-#        if name not in os.listdir(module_path):
-#            abort(404)
-#        # TODO good
-#        #if id not in os.listdir(os.path.join(module_path, name)):
-#        #    abort(404)
-#        # XXX a supprimer
-#        files_list = []
-#        legends = {}
-#        for file_name in os.listdir(os.path.join(module_path, name)):
-#            if id in file_name.lower():
-#                base_file_name, ext = os.path.splitext(file_name)
-#                if ext == '.txt':
-#                    legend_file = os.path.join(module_path, '%s.txt' % base_file_name)
-#                    if '%s.txt' % base_file_name in os.listdir(module_path):
-#                        legends[file_name] = open(legend_file).read()
-#                if ext == '.jpg':
-#                    files_list.append(file_name)
         return render('species/module.mako', extra_vars={
             '_id': species['_id'],
             'name': name,
             'author_date': species['reference']['biblio']['author_date'],
-#            'files_list': files_list,
-#            'legends': legends,
-#            'data_path': os.path.join('/', 'data', name),
         })
         
     def individuals(self, id):
@@ -276,10 +166,7 @@ class SpeciesController(BaseController):
         for individual in individuals_list:
             site_id = individual['trapping_informations']['site']
             if site_id:
-                try:
-                    site_id = site_id['$id'] # fix weirness (should be fixed with python 2.5)
-                except:
-                    site_id = site_id.id
+                site_id = site_id.id
             site = self.db.site.get_from_id(site_id)
             individuals[individual['_id']] = (individual, site)
         return render('species/individuals.mako', extra_vars={
@@ -299,10 +186,7 @@ class SpeciesController(BaseController):
         for individual in individuals_list:
             site_id = individual['trapping_informations']['site']
             if site_id:
-                try:
-                    site_id = site_id['$id']
-                except:
-                    site_id = site_id.id
+                site_id = site_id.id
             site = self.db.site.get_from_id(site_id)
             individuals[individual['_id']] = (individual, site)
         return render('species/vouchers.mako', extra_vars={
@@ -322,10 +206,7 @@ class SpeciesController(BaseController):
         for individual in individuals_list:
             site_id = individual['trapping_informations']['site']
             if site_id:
-                try:
-                    site_id = site_id['$id']
-                except:
-                    site_id = site_id.id
+                site_id = site_id.id
             site = self.db.site.get_from_id(site_id)
             individuals[individual['_id']] = (individual, site )
         return render('species/sampling_map.mako', extra_vars={
@@ -344,10 +225,7 @@ class SpeciesController(BaseController):
         for rhp in rel_host_parasites_list:
             parasite_id = rhp['parasite']
             if parasite_id:
-                try:
-                    parasite_id = parasite_id['$id']
-                except:
-                    parasite_id = parasite_id.id
+                parasite_id = parasite_id.id
             parasite = self.db.organism_classification.get_from_id(parasite_id)
             kingdom = parasite['taxonomic_rank']['kingdom']
             _class = parasite['taxonomic_rank']['class']

@@ -27,10 +27,10 @@ class BaseController(WSGIController):
             session.save()
         if action in self.admin_requires_auth_actions:
             if 'user' not in session or session['user'] != 'admin':
-                return redirect(url_for('login_show'))
+                abort(401)
         if action in self.requires_auth_actions:
             if 'user' not in session:
-                return redirect(url_for('login_show'))
+                abort(401)
 
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
