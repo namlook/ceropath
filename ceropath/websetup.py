@@ -179,29 +179,15 @@ def setup_app(command, conf, vars):
     if 'data' not in os.listdir(os.path.join('ceropath', 'public')):
         os.mkdir(os.path.join('ceropath', 'public', 'data'))
 
-    if 'pipeline' not in os.listdir(os.path.join('ceropath', 'public', 'data')):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'pipeline'))
+    for name in ['pipeline', 'static', 'dynamic']:
+        os.mkdir(os.path.join('ceropath', 'public', 'data', name))
 
-    if 'static' not in os.listdir(os.path.join('ceropath', 'public', 'data')):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static'))
-    if 'alive animals' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'alive animals'))
-    if 'chromatogram' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'chromatogram'))
-    if 'measurements' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'measurements'))
-    if 'primers' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'primers'))
-    if 'trap lines pictures' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'trap lines pictures'))
-    if 'vouchers skull pictures with measurements' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'vouchers skull pictures with measurements'))
-    if 'pdf' not in os.listdir(os.path.join('ceropath', 'public', 'data', 'static')):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'pdf'))
+    for name in ['alive animals', 'measurements', 'primers', 'trap lines pictures', 'vouchers skull pictures with measurements', 'pdf', 'chromatogram']:
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', name))
 
-    if 'dynamic' not in os.listdir(os.path.join('ceropath', 'public', 'data')):
-        os.mkdir(os.path.join('ceropath', 'public', 'data', 'dynamic'))
-        
+    for name in ['b-fibrinogene', 'coi', 'cytb', 'dloop', 'ghr', 'integrine', 'irbp']:
+        os.mkdir(os.path.join('ceropath', 'public', 'data', 'static', 'chromatogram', name))
+
     if not 'json' in os.listdir('data'):
         os.mkdir(os.path.join('data', 'json'))
     for file_name in os.listdir(json_path):
