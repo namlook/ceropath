@@ -291,6 +291,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
         individuals[_id]['microparasites'] = []
         individuals[_id]['macroparasites'] = []
         individuals[_id]['samples'] = []
+        individuals[_id]['genotypes'] = {}
 
     # Individual measurements
     for i in process(csv_path, yaml_path, 't_individus_measurements'):
@@ -372,8 +373,6 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
     for genotyping in process(csv_path, yaml_path, 't_individus_genotyping'):
         _id = genotyping['individual_id']
         if _id in individuals:
-            if not 'genotyping' in individuals[_id]:
-                individuals[_id]['genotypes'] = {}
             individuals[_id]['genotypes'][genotyping['genotype']] = genotyping['value']
         else:
             log_file.write("ERROR: %s not found in t_indivivus but found in t_individus_genotyping\n" % _id)
