@@ -39,6 +39,7 @@ class ParasiteController(BaseController):
         return render('parasite/index.mako', extra_vars={
             'parasites': parasites,
             'enable_back': enable_back,
+            'title': 'parasites',
         })
 
 
@@ -78,15 +79,15 @@ class ParasiteController(BaseController):
             '_id': parasite['_id'],
             'taxonomic_rank': parasite['taxonomic_rank'],
             'common_names': parasite['name']['common'],
-            #'image_path': image_path,
             'author': parasite['reference']['biblio']['author'],
             'date': parasite['reference']['biblio']['date'],
-            'synonyms': parasite['synonyms'],#set(i['name'] for i in parasite['synonyms'] if i['name'] != parasite['_id']),
+            'synonyms': parasite['synonyms'],
             'citations': citations,
             'species': species,
             'individual': individual,
             'author_date': parasite['reference']['biblio']['author_date'],
-            'rel_host_parasites': rel_host_parasites
+            'rel_host_parasites': rel_host_parasites,
+            'title': '%s' % id.capitalize(),
         })
 
     def filter(self):

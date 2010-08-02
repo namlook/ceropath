@@ -188,6 +188,7 @@ class IndividualController(BaseController):
             'traits': traits,
             'physiologic_features': individual['physiologic_features'],
             'genotypes': individual['genotypes'],
+            'title': "%s informations" % id.upper(),
         })
 
     def sequence(self, id, gene):
@@ -254,6 +255,7 @@ class IndividualController(BaseController):
             'eco_typology': individual['trapping_informations']['eco_typology'],
             'image_paths': image_paths,
             'api_key': google_map_api_key,
+            'title': "%s trapping site informations" % id.upper(),
         })
 
     def module(self, id, name):
@@ -266,27 +268,28 @@ class IndividualController(BaseController):
             '_id': id,
             'species': individual['organism_classification']['_id'],
             'name': name,
+            'title': "%s - %s" % (id.upper(), name),
         })
 
-    def parasites(self, id):
-        # XXX false
-        individual = self.db.individual.Individual.get_from_id(id)
-        if not individual:
-            abort(404)
-        if not individual['internet_display']:
-            abort(404)
-        rel_host_parasites_list = self.db.rel_host_parasite.find({'host.$id':individual['organism_classification']['_id']})
-        rel_host_parasites = {}
-        for rhp in rel_host_parasites_list:
-            try:
-                rel_host_parasites[rhp['_id']] = (rhp, self.db.publication.get_from_id(rhp['pubref']['$id']))
-            except:
-                rel_host_parasites[rhp['_id']] = (rhp, self.db.publication.get_from_id(rhp['pubref'].id))
-        return render('individual/parasites.mako', extra_vars={
-            'rel_host_parasites':rel_host_parasites,
-            '_id': id,
-        })
- 
+#    def parasites(self, id):
+#        # XXX false
+#        individual = self.db.individual.Individual.get_from_id(id)
+#        if not individual:
+#            abort(404)
+#        if not individual['internet_display']:
+#            abort(404)
+#        rel_host_parasites_list = self.db.rel_host_parasite.find({'host.$id':individual['organism_classification']['_id']})
+#        rel_host_parasites = {}
+#        for rhp in rel_host_parasites_list:
+#            try:
+#                rel_host_parasites[rhp['_id']] = (rhp, self.db.publication.get_from_id(rhp['pubref']['$id']))
+#            except:
+#                rel_host_parasites[rhp['_id']] = (rhp, self.db.publication.get_from_id(rhp['pubref'].id))
+#        return render('individual/parasites.mako', extra_vars={
+#            'rel_host_parasites':rel_host_parasites,
+#            '_id': id,
+#        })
+#
     def samples(self, id):
         individual = self.db.individual.Individual.get_from_id(id)
         if not individual:
@@ -298,5 +301,6 @@ class IndividualController(BaseController):
             'species': individual['organism_classification']['_id'],
             'samples': individual['samples'],
             'samples_owner': individual['samples_owner'],
+            'title': "%s's samples" % id.upper(),
         })
 

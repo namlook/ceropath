@@ -41,6 +41,7 @@ class SpeciesController(BaseController):
         return render('species/index.mako', extra_vars={
             'species_list':species_list,
             'enable_back': enable_back,
+            'title': 'species',
         })
 
     def show(self, id):
@@ -105,6 +106,7 @@ class SpeciesController(BaseController):
             'internet_display': species['internet_display'],
             'iucn_web_path': iucn_web_path, 
             'has_individuals': self.db.individual.find({'organism_classification.$id':species['_id']}).count(),
+            'title': '%s informations' % id.capitalize(),
         })
 
     def measurements(self, id):
@@ -141,6 +143,7 @@ class SpeciesController(BaseController):
             'publications_list': publications_list,
             'traits': traits,
             'image_paths': image_paths,
+            'title': "%s's measurements" % id.capitalize(),
         })
         
     def module(self, id, name):
@@ -153,6 +156,7 @@ class SpeciesController(BaseController):
             '_id': species['_id'],
             'name': name,
             'author_date': species['reference']['biblio']['author_date'],
+            'title': "%s's %s" % (id.capitalize(), name),
         })
         
     def individuals(self, id):
@@ -173,6 +177,7 @@ class SpeciesController(BaseController):
             '_id': id,
             'author_date': species['reference']['biblio']['author_date'],
             'individuals':individuals,
+            'title': "%s's individuals" % id.capitalize(),
         })
 
     def vouchers(self, id):
@@ -193,6 +198,7 @@ class SpeciesController(BaseController):
             '_id': id,
             'author_date': species['reference']['biblio']['author_date'],
             'individuals':individuals,
+            'title': "%s's vouchers" % id.capitalize(),
         })
 
     def sampling_map(self, id):
@@ -214,6 +220,7 @@ class SpeciesController(BaseController):
             'author_date': species['reference']['biblio']['author_date'],
             'individuals': individuals,
             'api_key': google_map_api_key,
+            'title': "%s's sampling map" % id.capitalize(),
         })
  
     def parasites(self, id):
@@ -241,6 +248,7 @@ class SpeciesController(BaseController):
             '_id': id,
             'author_date': species['reference']['biblio']['author_date'],
             'rel_host_parasites':rel_host_parasites,
+            'title': "%s's parasites" % id.capitalize(),
         })
 
     def filter(self):

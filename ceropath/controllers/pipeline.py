@@ -22,6 +22,7 @@ class PipelineController(BaseController):
         pipelines = list(self.db.pipeline.find(fields=['_id']))
         return render('pipeline/index.mako', extra_vars={
             'pipelines': pipelines, 
+            'title': 'DNA Sequence Identification',
         })
 
     def new(self):
@@ -161,6 +162,7 @@ class PipelineController(BaseController):
           'errors': errors,
           'result':result,
           'output_format': output_format,
+          'title': 'DNA Sequence Identification Results',
         })
 
     def infos(self, name):
@@ -170,6 +172,7 @@ class PipelineController(BaseController):
             content = "Not informations about this pipeline was found... sorry."
         return render('pipeline/infos.mako', extra_vars = {
             'content': content,
+            'title': '%s informations' % name,
         })
 
     def servesvg(self, name):

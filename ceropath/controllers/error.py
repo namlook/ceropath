@@ -24,9 +24,9 @@ class ErrorController(BaseController):
         """Render the error document"""
         resp = request.environ.get('pylons.original_response')
         if resp.status_int == 401:
-            return render('login/show.mako')
+            return render('login/show.mako', extra_vars={'title':'login'})
         if resp.status_int == 404:
-            return render('error/404.mako')
+            return render('error/404.mako', extra_vars={'title': 'Page not found'})
         content = literal(resp.body) or cgi.escape(request.GET.get('message', ''))
         page = error_document_template % \
             dict(prefix=request.environ.get('SCRIPT_NAME', ''),

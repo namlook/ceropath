@@ -52,4 +52,5 @@ class PublicationController(BaseController):
             'parasites_related': parasites_related,
             'link': publication['link'],
             'pdfpath': pdfpath,
+            'title': publication['reference'],
         })

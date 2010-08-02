@@ -21,7 +21,9 @@ class DatabaseController(BaseController):
     admin_requires_auth_actions = ['index', 'load', 'status']
 
     def index(self):
-        return render('database/index.mako')
+        return render('database/index.mako', extra_vars={
+            'title': 'Update database',
+        })
 
     def load(self):
         pprint( request.POST)
@@ -53,4 +55,5 @@ class DatabaseController(BaseController):
         return render('database/status.mako', extra_vars={
             'db_stats': db_stats,
             'server_status': server_status,
+            'title': 'database status',
         })

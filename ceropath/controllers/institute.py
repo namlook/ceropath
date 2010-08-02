@@ -15,4 +15,5 @@ class InstituteController(BaseController):
             abort(404)
         return render('institute/show.mako', extra_vars={
             'institute': institute,
+            'title': "%s institute" % id,
         })

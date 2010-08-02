@@ -1,14 +1,10 @@
 <html>
 <head>
-    ##<link rel="stylesheet" type="text/css" href="/css/tabs.css" /> 
+    <title>${title} | CERoPath - Barcoding Rodent South East Asia</title>
     <link rel="stylesheet" type="text/css" href="/css/tabs-no-images.css" /> 
-    ##<link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection">
     <link rel="stylesheet" href="/css/blueprint.1200.compressed.css" type="text/css" media="screen, projection">
-    ##<link rel="stylesheet" href="/css/elastic.css" />
-    ##<script src="http://flowplayer.org/tools/download/combine/1.3.2/jquery.tools.min.js?select=full&debug=true"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script src="http://cdn.jquerytools.org/1.2.3/jquery.tools.min.js"></script>
-    ##<script type="text/javascript" src="/js/elastic.js" charset="utf-8"></script> 
     <link rel="stylesheet" href="/css/demo_table.css" />
     <style> 
         /* tab pane styling */
