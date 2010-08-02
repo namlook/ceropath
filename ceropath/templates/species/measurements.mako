@@ -56,7 +56,7 @@
                                     % if trait['measurement_accuracy']:
                                         ${round(float(m['mean']), trait['measurement_accuracy'])}
                                     % else:
-                                        ${int(m['mean'])}
+                                        ${int(round(float(m['mean']), trait['measurement_accuracy']))}
                                     % endif
                                 % else:
                                     ø
@@ -66,7 +66,7 @@
                                     % if trait['measurement_accuracy']:
                                         ${round(float(m['sd']), trait['measurement_accuracy'])}
                                     % else:
-                                        ${int(m['sd'])}
+                                        ${int(round(float(m['sd']), trait['measurement_accuracy']))}
                                     % endif
                                 % else:
                                     ø
@@ -77,7 +77,7 @@
                                     % if trait['measurement_accuracy']:
                                         ${round(float(m['min']), trait['measurement_accuracy'])}
                                     % else:
-                                        ${int(m['min'])}
+                                        ${int(round(float(m['min']), trait['measurement_accuracy']))}
                                     % endif
                                 % else:
                                     ø
@@ -87,7 +87,7 @@
                                     % if trait['measurement_accuracy']:
                                         ${round(float(m['max']), trait['measurement_accuracy'])}
                                     % else:
-                                        ${int(m['max'])}
+                                        ${int(round(float(m['max']), trait['measurement_accuracy']))}
                                     % endif
                                 % else:
                                     ø
