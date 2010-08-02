@@ -10,7 +10,7 @@
 <div class="span-23">
     <table class="measurements">
         <tr><th></th>
-        % for pub, origin, species_article_name in publications_list:
+        % for pub, origin, species_article_name in sorted(publications_list):
             % if pub is not None:
                 <th style="width:250px;">
                     Measurements in <a href="${h.url(h.url_for('publication_show', id=pub['_id']))}" title="${pub['reference']}">
@@ -38,7 +38,7 @@
                     continue
             %>
             <tr><th>${trait['name']}</th>
-                % for key in publications_list:
+                % for key in sorted(publications_list):
                     <%
                         m = measure.get(key)
                         if isinstance(m, dict):
