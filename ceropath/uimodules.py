@@ -98,8 +98,14 @@ ModulesList = ModulesList()
 class ChromatogramList(UIModule):
     def render(self, individual_id, gene):
         chromatograms = []
-        path = os.path.join('ceropath', 'public', 'data', 'static', 'chromatogram', gene.lower())
-        web_path = os.path.join('/', 'data', 'static', 'chromatogram', gene.lower())
+        good_directory = None
+        for directory in os.path.join('ceropath', 'public', 'data', 'static', 'chromatogram'):
+            if gene.lower() in directory.lower():
+                good_directory = directory
+        if not good_directory:
+            return ""
+        path = os.path.join('ceropath', 'public', 'data', 'static', 'chromatogram', good_directory)
+        web_path = os.path.join('/', 'data', 'static', 'chromatogram', good_directory)
         for file_name in os.listdir(path):
             try:
                 if individual_id in file_name.lower():
