@@ -8,7 +8,6 @@ class TestSpeciesController(TestController):
 
     def test_index(self):
         response = self.app.get(url(controller='species', action='index'))
-        # Test response...
         for species in self.db.organism_classification.find({'internet_display': True, 'type':'mammal'}, fields=['_id']):
             assert species['_id'].capitalize() in response, "%s not in response" % species['_id'].capitalize()
         for species in self.db.organism_classification.find({'internet_display': False, 'type':'mammal'}, fields=['_id']):
