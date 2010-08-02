@@ -63,11 +63,7 @@
                                 % endif
                                 +/-
                                 % if m.get('sd'):
-                                    % if trait['measurement_accuracy']:
-                                        ${round(float(m['sd']), trait['measurement_accuracy'])}
-                                    % else:
-                                        ${int(round(float(m['sd']), trait['measurement_accuracy']))}
-                                    % endif
+                                    ${round(float(m['sd']), 2)}
                                 % else:
                                     ø
                                 % endif
