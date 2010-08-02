@@ -15,103 +15,9 @@ import math
 import os
 import re
 
-REGX_COI = re.compile('coi')
-REGX_CYTB = re.compile('cytb')
-REGX_PRIMER = re.compile('primer')
-REGX_16S = re.compile('16s')
+REGEXP_NUMBER = re.compile('^[\d\.,]+$')
 
 class IndividualController(BaseController):
-
-#    NB_INDIVIDUAL_TRAIT = {}
-#    def _get_measurements(self, individual_id, species_id):
-#        species_measurements = list(self.db.species_measurement.SpeciesMeasurement.find(
-#          {'organism_classification.$id': species_id}
-#        ))
-#        measures_infos = {}
-#        publications_list = {}
-#        # species
-#        for measure in species_measurements:
-#            for pub in measure['pubref']:
-#                publications_list[pub['_id']] = pub
-#            for m in measure['measures']:
-#                trait, value = m['trait'], m['value']
-#                if trait not in measures_infos:
-#                    measures_infos[trait] = {}
-#                for publication in measure['pubref']:
-#                    if publication['_id'] not in measures_infos[trait]:
-#                        measures_infos[trait][publication['_id']] = {}
-#                    measures_infos[trait][publication['_id']][measure['type']] = value
-#        individual = self.db.individual.get_from_id(individual_id)
-#        # one individual
-#        for measure in individual['measures']:
-#            if measure['trait'] not in measures_infos:
-#                measures_infos[measure['trait']] = {}
-#            measures_infos[measure['trait']][individual_id] = measure['value']
-#        #publications_list[individual_id] = None
-#        # ceropath measurements for species
-#        species_measurements = {}
-#        query = {
-#            'organism_classification.$id': species_id,
-#            'adult':'adult',
-#            'identification.type':{'$in':[REGX_COI, REGX_CYTB, REGX_PRIMER, REGX_16S]}
-#        }
-#        individuals = self.db.individual.find(query)
-#        traits_list = []
-#        for individual in individuals:
-#            for measure in individual['measures']:
-#                trait  = measure['trait']
-#                if trait not in measures_infos:
-#                    measures_infos[trait] = {}
-#                if species_id not in measures_infos[trait]:
-#                    measures_infos[trait][species_id] = {}
-#                if trait not in traits_list:
-#                    traits_list.append(trait)
-#                if trait not in species_measurements:
-#                    species_measurements[trait] = {'value':0.0, 'max':0, 'min':999999999}
-#                try:
-#                    value = float(measure['value'].replace(',', '.'))
-#                except:
-#                    continue
-#                species_measurements[trait]['value'] += value
-#                species_measurements[trait]['max'] = max(species_measurements[trait]['max'], value)
-#                species_measurements[trait]['min'] = min(species_measurements[trait]['min'], value)
-#        #publications_list[species_id] = None
-#        REGEXP_NUMBER = re.compile('^[\d\.,]+$')
-#        for individual in individuals.rewind():
-#            for measure in individual['measures']:
-#                trait = measure['trait']
-#                if not 'variance' in species_measurements[trait]:
-#                    species_measurements[trait]['variance'] = 0
-#                query['measures'] = {'$elemMatch':{'trait': trait, 'value': REGEXP_NUMBER}}
-#                if not trait in self.NB_INDIVIDUAL_TRAIT.get(individual['_id'], []): 
-#                    if individual['_id'] not in self.NB_INDIVIDUAL_TRAIT:
-#                        self.NB_INDIVIDUAL_TRAIT[individual['_id']] = {}
-#                    self.NB_INDIVIDUAL_TRAIT[individual['_id']][trait] = self.db.individual.find(query).count()
-#                nb_individual = self.NB_INDIVIDUAL_TRAIT[individual['_id']][trait]
-#                if nb_individual:
-#                    species_measurements[trait]['mean'] = species_measurements[trait]['value']/nb_individual
-#                    try:
-#                        value = float(measure['value'].replace(',', '.'))
-#                    except:
-#                        continue
-#                    species_measurements[trait]['variance'] += math.pow(value - species_measurements[trait]['mean'], 2)
-#                    species_measurements[trait]['sd'] = math.sqrt((species_measurements[trait]['variance']/(nb_individual -1))/nb_individual)
-#        for trait in traits_list:
-#            if species_id not in measures_infos[trait]:
-#                measures_infos[trait][species_id] = {}
-#            if 'sd' in species_measurements[trait]:
-#                measures_infos[trait][species_id]['mean'] = round(species_measurements[trait]['mean'], 2)
-#                measures_infos[trait][species_id]['max'] = species_measurements[trait]['max']
-#                measures_infos[trait][species_id]['min'] = species_measurements[trait]['min']
-#                measures_infos[trait][species_id]['sd'] = round(species_measurements[trait]['sd'], 2)
-#                measures_infos[trait][species_id]['n'] = self.NB_INDIVIDUAL_TRAIT[individual['_id']][trait]
-#            else:
-#                measures_infos[trait][species_id]['mean'] = None
-#                measures_infos[trait][species_id]['max'] = None
-#                measures_infos[trait][species_id]['min'] = None
-#                measures_infos[trait][species_id]['sd'] = None
-#                measures_infos[trait][species_id]['n'] = None
-#        return measures_infos, publications_list
  
     def show(self, id):
         individual = self.db.individual.Individual.get_from_id(id)
@@ -138,6 +44,8 @@ class IndividualController(BaseController):
         else:
             sex = 'unknown'
         species = individual['organism_classification']
+        if not species:
+            abort(404)
         ###### measures #######
         measures_infos = {}
         publications_list = []
@@ -157,22 +65,33 @@ class IndividualController(BaseController):
                 if (pubref, origin) not in measures_infos[trait]:
                     measures_infos[trait][(pubref, origin)] = {}
                 measures_infos[trait][(pubref, origin)] = measure['measures'][trait]
-        tail_value = float(measures_infos["Tail (mm)"][(None,id)])
-        headnbody_value = float(measures_infos["Head & Body (mm)"][(None,id)])
-        measures_infos["Tail / Head & Body (%)"][(None, id)] = int(tail_value/headnbody_value*100)
+        if individual['measures']:
+            tail_value = measures_infos["Tail (mm)"].get((None,id))
+            if tail_value is not None and REGEXP_NUMBER.search(tail_value):
+                tail_value = float(tail_value.replace(',', '.'))
+            headnbody_value = measures_infos["Head & Body (mm)"].get((None,id))
+            if headnbody_value is not None and REGEXP_NUMBER.search(headnbody_value):
+                headnbody_value = float(headnbody_value.replace(',', '.'))
+            if isinstance(tail_value, float) and isinstance(headnbody_value, float):
+                if not "Tail / Head & Body (%)" in measures_infos:
+                    measures_infos["Tail / Head & Body (%)"] = {}
+                measures_infos["Tail / Head & Body (%)"][(None, id)] = int(tail_value/headnbody_value*100)
         traits = dict((int(i['_id']), i) for i in self.db.trait.find())
         ######## end measures #########
         try:
             sequences = dict((i['gene']['$id'], i) for i in self.db.sequence.find({'individual.$id':id}))
         except:
             sequences = dict((i['gene'].id, i) for i in self.db.sequence.find({'individual.$id':id}))
+        dissection_date = ''
+        if individual['dissection_date']:
+            dissection_date = str(individual['dissection_date'].date())
         return render('individual/infos.mako', extra_vars={
             '_id': individual['_id'],
             'species': individual['organism_classification']['_id'],
             'image_path':image_path,
             'sex': sex,
             'age': individual['adult'],
-            'dissection_date': str(individual['dissection_date'].date()),
+            'dissection_date': dissection_date,
             'measures_infos': measures_infos,
             'publications_list': publications_list,
             'country': individual['trapping_informations']['site']['country'],
