@@ -96,6 +96,12 @@ table.measurements td{
                                 ø
                             % endif
                         % elif m:
+                            <%
+                            try:
+                                m = float(m.replace(',', '.'))
+                            except:
+                                m = "ø"
+                            %>
                             ${m}
                         % else:
                             ø
