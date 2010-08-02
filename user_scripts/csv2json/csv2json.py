@@ -290,6 +290,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
         individuals[_id]['measures'] = []
         individuals[_id]['microparasites'] = []
         individuals[_id]['macroparasites'] = []
+        individuals[_id]['samples'] = []
 
     # Individual measurements
     for i in process(csv_path, yaml_path, 't_individus_measurements'):
@@ -350,7 +351,6 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
             print "----", sample
     for i in process(csv_path, yaml_path, 't_individus_samples'):
         if i['_id'] in individuals:
-            individuals[i['_id']]['samples'] = []
             for sample in i['samples']:
                 if sample['institute']:
                     s = samples[sample['name']].get(sample['institute'].id)
