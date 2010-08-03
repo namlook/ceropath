@@ -13,6 +13,7 @@
         position: relative;
         bottom: -20px;
         right: -100px;
+        padding-bottom:20px;
     }
     textarea{
         height: 350px;
@@ -69,12 +70,6 @@ GGACAGCCAGGCGCACTACTAGGAGATGACCAAATTTATAATGTTATTGTTACCGCCCATGCATTTGTTATAATCTTTTT
             <input type="reset" />
             <input type="submit" />
             ##class="button" blockui="wait_progress" value="Upload & explore" />
-            <span style="text-align:center;color:#FF9934;" >© CBGP 2010
-                <% date = datetime.date.today().year %>
-                % if date != 2010:
-                    - ${date}
-                % endif
-            </span>
             </div>
         </form>
         </fieldset>
