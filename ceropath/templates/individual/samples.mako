@@ -2,7 +2,7 @@
 
 <style>
 tr:nth-child(even) {background: #FFF}
-tr:nth-child(odd) {background: #FFDDB2}
+tr:nth-child(odd) {background: #F6FFDE}
 </style>
 
 <div class="span-30">

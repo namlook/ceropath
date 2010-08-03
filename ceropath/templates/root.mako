@@ -17,14 +17,41 @@
             background-color:#fff;
         }
         table th{
-            background-color: #FD9834;
+            background-color: #D8EAA8;
+        }
+        img {
+           border: none;
+        }
+        /*------------------------------------------*/
+        /*                   PIED PAGE              */
+        /*------------------------------------------*/
+        #footer-text{
+            position: relative;
+            top: -44px;
+            left:300px;
+            color: #fff;
+        }
+        #footer-text p {
+            font-family:Verdana, Arial, Helvetica, sans-serif;
+            padding-top:15px;
+            font-weight:bold;
+            background:none;
+            color: #fff;
+        }
+        #footer-text a {
+            text-decoration:none;
+            color:#fff;
+        }
+        #footer-text a:hover {
+            text-decoration:underline;
         }
     </style> 
 </head>
 <body>
     <div class="container">
-        <div class="span-30">
-            <a href="${h.url(h.url_for('species_index'))}"><img src="/img/header.jpg" width="1200" alt="Home" /></a>
+        <div class="span-30" style="text-align:right;">
+            <a href="${h.url(h.url_for('species_index'))}"><img  src="/img/header-final.jpg" width="100%" alt="Home" /></a>
+            <img src="/img/border-top.jpg" />
         </div>
         <div class="flash-message">
             <%
@@ -39,6 +66,11 @@
             % endif
         </div>
         ${next.body()}
+        <div id="baspage"> 
+            <img src="/img/bg_piedPage.png" />
+             <p id="footer-text">© Cirad 2010 - All rights reserved - <a href="/disclaimer_stating" target="_self">Disclaimer stating</a> -<a href="/disclaimer_stating/contact_us" target="_self"> Contact</a></p> 
+        </div> 
+
     </div>
 </body>
 </html>
