@@ -111,8 +111,6 @@
 <!-- tab panes --> 
 <div id="panes"> 
     % for file_name in sorted(files_list):
-        <% print file_name %>
- 
     <div>
         <hr />
         <p style="text-align:center;">
