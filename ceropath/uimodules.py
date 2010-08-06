@@ -54,7 +54,7 @@ class Module(UIModule):
         file_names = {'species':[], 'genus': []}
         list_file_names = []
         for file_name in os.listdir(os.path.join(module_path, name)):
-            if id in file_name.lower() or '%s sp.' % id.split()[0].lower() in file_name.lower()
+            if id in file_name.lower() or '%s sp.' % id.split()[0].lower() in file_name.lower():
                 list_file_names.append(os.path.splitext(file_name))
         for (base_file_name, ext) in list_file_names:
             file_name = "".join([base_file_name, ext])
