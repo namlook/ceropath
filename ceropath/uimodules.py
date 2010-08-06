@@ -112,7 +112,7 @@ class ChromatogramList(UIModule):
     def render(self, individual_id, gene):
         chromatograms = []
         good_directory = None
-        for directory in os.path.join('ceropath', 'public', 'data', 'static', 'chromatogram'):
+        for directory in os.listdir(os.path.join('ceropath', 'public', 'data', 'static', 'chromatogram')):
             if gene.lower() in directory.lower():
                 good_directory = directory
         if not good_directory:
