@@ -4,3 +4,4 @@
     ${h.ui.Module(_id, name)}
 </div>
 
+<%def name="footer()"></%def>
