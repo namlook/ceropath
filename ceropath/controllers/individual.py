@@ -46,38 +46,7 @@ class IndividualController(BaseController):
         species = individual['organism_classification']
         if not species:
             abort(404)
-        ###### measures #######
-        measures_infos = {}
-        publications_list = []
-        # one individual
-        for measure in individual['measures']:
-            if measure['trait'] not in measures_infos:
-                measures_infos[measure['trait']] = {}
-            measures_infos[measure['trait']][(None, individual['_id'])] = measure['value']
-        publications_list.append((None, individual['_id']))
-        for measure in species['measures_stats']:
-            pubref = measure['pubref']
-            origin = measure['origin']
-            publications_list.append((pubref, origin))
-            for trait in measure['measures']:
-                if trait not in measures_infos:
-                    measures_infos[trait] = {}
-                if (pubref, origin) not in measures_infos[trait]:
-                    measures_infos[trait][(pubref, origin)] = {}
-                measures_infos[trait][(pubref, origin)] = measure['measures'][trait]
-        if individual['measures']:
-            tail_value = measures_infos["Tail (mm)"].get((None,id))
-            if tail_value is not None and REGEXP_NUMBER.search(tail_value):
-                tail_value = float(tail_value.replace(',', '.'))
-            headnbody_value = measures_infos["Head & Body (mm)"].get((None,id))
-            if headnbody_value is not None and REGEXP_NUMBER.search(headnbody_value):
-                headnbody_value = float(headnbody_value.replace(',', '.'))
-            if isinstance(tail_value, float) and isinstance(headnbody_value, float):
-                if not "Tail / Head & Body (%)" in measures_infos:
-                    measures_infos["Tail / Head & Body (%)"] = {}
-                measures_infos["Tail / Head & Body (%)"][(None, id)] = int(tail_value/headnbody_value*100)
-        traits = dict((int(i['_id']), i) for i in self.db.trait.find())
-        ######## end measures #########
+        measures_infos, publications_list, traits = self._measurements(individual, species)
         try:
             sequences = dict((i['gene']['$id'], i) for i in self.db.sequence.find({'individual.$id':id}))
         except:
@@ -109,6 +78,65 @@ class IndividualController(BaseController):
             'genotypes': individual['genotypes'],
             'title': "%s informations" % id.upper(),
         })
+
+    def measurements(self, id):
+        individual = self.db.individual.Individual.get_from_id(id)
+        if not individual:
+            abort(404)
+        if not individual['internet_display']:
+            abort(404)
+        if not individual['voucher_barcoding'] and 'user' not in session:
+            abort(401)
+        species = individual['organism_classification']
+        if not species:
+            abort(404)
+        measures_infos, publications_list, traits = self._measurements(individual, species)
+        return render('individual/measurements.mako', extra_vars={
+            '_id': individual['_id'],
+            'species': individual['organism_classification']['_id'],
+            'measures_infos': measures_infos,
+            'publications_list': publications_list,
+            'traits': traits,
+            'title': "%s's measurements" % individual['_id'],
+        })
+
+
+    def _measurements(self, individual, species):
+        ###### measures #######
+        measures_infos = {}
+        publications_list = []
+        # one individual
+        for measure in individual['measures']:
+            if measure['trait'] not in measures_infos:
+                measures_infos[measure['trait']] = {}
+            measures_infos[measure['trait']][(None, individual['_id'], None)] = measure['value']
+        publications_list.append((None, individual['_id'], None))
+        for measure in species['measures_stats']:
+            pubref = measure['pubref']
+            origin = measure['origin']
+            species_article_name = measure['species_article_name']
+            publications_list.append((pubref, origin, species_article_name))
+            for trait in measure['measures']:
+                if trait not in measures_infos:
+                    measures_infos[trait] = {}
+                if (pubref, origin, species_article_name) not in measures_infos[trait]:
+                    measures_infos[trait][(pubref, origin, species_article_name)] = {}
+                measures_infos[trait][(pubref, origin, species_article_name)] = measure['measures'][trait]
+        if individual['measures']:
+            tail_value = measures_infos["Tail (mm)"].get((None,id, None))
+            if tail_value is not None and REGEXP_NUMBER.search(tail_value):
+                tail_value = float(tail_value.replace(',', '.'))
+            headnbody_value = measures_infos["Head & Body (mm)"].get((None,id, None))
+            if headnbody_value is not None and REGEXP_NUMBER.search(headnbody_value):
+                headnbody_value = float(headnbody_value.replace(',', '.'))
+            if isinstance(tail_value, float) and isinstance(headnbody_value, float):
+                if not "Tail / Head & Body (%)" in measures_infos:
+                    measures_infos["Tail / Head & Body (%)"] = {}
+                measures_infos["Tail / Head & Body (%)"][(None, id, None)] = int(tail_value/headnbody_value*100)
+        traits = dict((int(i['_id']), i) for i in self.db.trait.find())
+        ######## end measures #########
+        return (measures_infos, publications_list, traits)
+
 
     def sequence(self, id, gene):
         individual = self.db.individual.Individual.get_from_id(id)

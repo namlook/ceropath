@@ -3,6 +3,19 @@ from pylons.controllers.util import abort
 import os
 import codecs
 
+class Measurements(UIModule):
+    def render(self, id, publications_list, measures_infos, traits, full=False, species=None):
+        return render('/uimodules/measurements.mako', extra_vars={
+          '_id': id,
+          'publications_list': publications_list,
+          'measures_infos': measures_infos,
+          'traits': traits,
+          'species': species,
+          'full': full,
+        })
+Measurements = Measurements()
+
+
 class SpeciesMenu(UIModule):
     def render(self, id):
         modules = os.listdir(os.path.join('ceropath', 'public', 'data'))
@@ -117,5 +130,3 @@ class ChromatogramList(UIModule):
             'chromatograms': chromatograms,
         })
 ChromatogramList = ChromatogramList()
-            
-        

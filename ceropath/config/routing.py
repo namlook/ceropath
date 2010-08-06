@@ -61,6 +61,7 @@ def make_map(config):
 
     # individuals
     map.connect('individual_show', '/individual/{id}', controller='individual', action='show')
+    map.connect('individual_measurements', '/individual/{id}/measurements', controller='individual', action='measurements')
     map.connect('individual_trapping', '/individual/{id}/trapping', controller='individual', action='trapping')
     map.connect('individual_sequence', '/individual/{id}/sequence/{gene}', controller='individual', action='sequence')
     map.connect('individual_parasites', '/individual/{id}/parasites', controller='individual', action='parasites')
