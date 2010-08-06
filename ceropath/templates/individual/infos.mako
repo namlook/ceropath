@@ -10,13 +10,13 @@ table.measurements td{
 <div class="span-20">
     <table class="measurements">
         <tr><th></th>
-        % for pub, origin in sorted(publications_list):
+        % for pub, origin in publications_list:
             % if pub is not None:
                 <th>
                     Measurements in <a href="${h.url(h.url_for('publication_show', id=pub['_id']))}" title="${pub['reference']}">
                     ${h.author_date_from_citation(pub['reference'])}
                     </a>
-                    for ${species.capitalize()} <small>(a)</small>
+                    for ${species.capitalize()} in ${origin} <small>(a)</small>
                  </th>
             % elif origin is None:
                 <th>Ceropath measurements for ${species.capitalize()} <small>(a)</small></th>
@@ -38,7 +38,7 @@ table.measurements td{
                     continue
             %>
             <tr><th>${trait['name']}</th>
-                % for key in sorted(publications_list):
+                % for key in publications_list:
                     <%
                         m = measure.get(key)
                         if isinstance(m, dict):
