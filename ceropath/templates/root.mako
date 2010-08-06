@@ -1,4 +1,3 @@
-<% import datetime %>
 <html>
 <head>
     <title>${title} | CERoPath - Barcoding Rodent South East Asia</title>
@@ -67,16 +66,19 @@
             % endif
         </div>
         ${next.body()}
-        <div id="baspage"> 
-            <img src="/img/bg_piedPage.png" />
-             <p id="footer-text">© CBGP/ISEM 2010
-                <% date = datetime.date.today().year %>
-                % if date != 2010:
-                    - ${date}
-                % endif
-             - All rights reserved - <a href="/disclaimer_stating" target="_self">Disclaimer stating</a> -<a href="/disclaimer_stating/contact_us" target="_self"> Contact</a></p> 
-        </div> 
-
+        ${self.footer()}
     </div>
 </body>
 </html>
+<%def name="footer()">
+    <div id="baspage">
+        <img src="/img/bg_piedPage.png" />
+         <p id="footer-text">© CBGP/ISEM 2010
+            <% import datetime %>
+            <% date = datetime.date.today().year %>
+            % if date != 2010:
+                - ${date}
+            % endif
+         - All rights reserved - <a href="/disclaimer_stating" target="_self">Disclaimer stating</a> -<a href="/disclaimer_stating/contact_us" target="_self"> Contact</a></p>
+    </div>
+</%def>
