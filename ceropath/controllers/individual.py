@@ -61,6 +61,7 @@ class IndividualController(BaseController):
             'sex': sex,
             'age': individual['adult'],
             'dissection_date': dissection_date,
+            'measurements': individual['measures'],
             'measures_infos': measures_infos,
             'publications_list': publications_list,
             'country': individual['trapping_informations']['site']['country'],

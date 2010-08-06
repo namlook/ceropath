@@ -1,4 +1,4 @@
-    % if not full:
+    % if not full and len(publications_list) > 4:
         <div style="text-align:right;color:red;">
         ${len(publications_list) - 4} column left. <a href="${h.url(h.url_for('individual_measurements', id=_id))}">See full table</a>
         </div>

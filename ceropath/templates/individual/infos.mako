@@ -8,7 +8,11 @@ table.measurements td{
 </style>
 
 <div class="span-20">
-    ${h.ui.Measurements(_id, publications_list, measures_infos, traits, full=False, species=species)}
+    %if measurements:
+        ${h.ui.Measurements(_id, publications_list, measures_infos, traits, full=False, species=species)}
+    %else:
+        no measurements found
+    % endif
 </div>
 
 
