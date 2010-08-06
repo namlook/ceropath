@@ -44,6 +44,7 @@ class ParasiteController(BaseController):
 
 
     def show(self, id):
+        id = id.lower()
         species = request.params.get('species')
         individual = request.params.get('individual')
         parasite = self.db.organism_classification.OrganismClassification.get_from_id(id)

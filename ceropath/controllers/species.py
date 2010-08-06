@@ -45,6 +45,7 @@ class SpeciesController(BaseController):
         })
 
     def show(self, id):
+        id = id.lower()
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species or species['type'] != 'mammal':
             abort(404)
@@ -110,6 +111,7 @@ class SpeciesController(BaseController):
         })
 
     def measurements(self, id):
+        id = id.lower()
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species or species['type'] != 'mammal':
             abort(404)
@@ -147,6 +149,7 @@ class SpeciesController(BaseController):
         })
         
     def module(self, id, name):
+        id = id.lower()
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
             abort(404)
@@ -160,6 +163,7 @@ class SpeciesController(BaseController):
         })
         
     def individuals(self, id):
+        id = id.lower()
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
             abort(404)
@@ -181,6 +185,7 @@ class SpeciesController(BaseController):
         })
 
     def vouchers(self, id):
+        id = id.lower()
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
             abort(404)
@@ -202,6 +207,7 @@ class SpeciesController(BaseController):
         })
 
     def sampling_map(self, id):
+        id = id.lower()
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
             abort(404)
@@ -224,6 +230,7 @@ class SpeciesController(BaseController):
         })
  
     def parasites(self, id):
+        id = id.lower()
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
             abort(404)

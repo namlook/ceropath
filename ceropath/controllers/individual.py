@@ -20,6 +20,7 @@ REGEXP_NUMBER = re.compile('^[\d\.,]+$')
 class IndividualController(BaseController):
  
     def show(self, id):
+        id = id.lower()
         individual = self.db.individual.Individual.get_from_id(id)
         if not individual:
             abort(404)
@@ -78,6 +79,7 @@ class IndividualController(BaseController):
         })
 
     def measurements(self, id):
+        id = id.lower()
         individual = self.db.individual.Individual.get_from_id(id)
         if not individual:
             abort(404)
@@ -97,7 +99,6 @@ class IndividualController(BaseController):
             'traits': traits,
             'title': "%s's measurements" % individual['_id'],
         })
-
 
     def _measurements(self, individual, species):
         ###### measures #######
@@ -121,22 +122,23 @@ class IndividualController(BaseController):
                     measures_infos[trait][(pubref, origin, species_article_name)] = {}
                 measures_infos[trait][(pubref, origin, species_article_name)] = measure['measures'][trait]
         if individual['measures']:
-            tail_value = measures_infos["Tail (mm)"].get((None,id, None))
+            tail_value = measures_infos["Tail (mm)"].get((None,individual['_id'], None))
             if tail_value is not None and REGEXP_NUMBER.search(tail_value):
                 tail_value = float(tail_value.replace(',', '.'))
-            headnbody_value = measures_infos["Head & Body (mm)"].get((None,id, None))
+            headnbody_value = measures_infos["Head & Body (mm)"].get((None,individual['_id'], None))
             if headnbody_value is not None and REGEXP_NUMBER.search(headnbody_value):
                 headnbody_value = float(headnbody_value.replace(',', '.'))
             if isinstance(tail_value, float) and isinstance(headnbody_value, float):
                 if not "Tail / Head & Body (%)" in measures_infos:
                     measures_infos["Tail / Head & Body (%)"] = {}
-                measures_infos["Tail / Head & Body (%)"][(None, id, None)] = int(tail_value/headnbody_value*100)
+                measures_infos["Tail / Head & Body (%)"][(None, individual['_id'], None)] = int(tail_value/headnbody_value*100)
         traits = dict((int(i['_id']), i) for i in self.db.trait.find())
         ######## end measures #########
         return (measures_infos, publications_list, traits)
 
 
     def sequence(self, id, gene):
+        id = id.lower()
         individual = self.db.individual.Individual.get_from_id(id)
         if not individual:
             abort(404)
@@ -153,6 +155,7 @@ class IndividualController(BaseController):
         return ">%s\n%s\n" % (fasta_name.encode('utf-8'), sequence['sequence'].encode('utf-8'))
 
     def trapping(self, id):
+        id = id.lower()
         individual = self.db.individual.Individual.get_from_id(id)
         if not individual:
             abort(404)
@@ -204,6 +207,7 @@ class IndividualController(BaseController):
         })
 
     def module(self, id, name):
+        id = id.lower()
         individual = self.db.individual.Individual.get_from_id(id)
         if not individual:
             abort(404)
@@ -236,6 +240,7 @@ class IndividualController(BaseController):
 #        })
 #
     def samples(self, id):
+        id = id.lower()
         individual = self.db.individual.Individual.get_from_id(id)
         if not individual:
             abort(404)
