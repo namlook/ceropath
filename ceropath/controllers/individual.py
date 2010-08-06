@@ -47,10 +47,7 @@ class IndividualController(BaseController):
         if not species:
             abort(404)
         measures_infos, publications_list, traits = self._measurements(individual, species)
-        try:
-            sequences = dict((i['gene']['$id'], i) for i in self.db.sequence.find({'individual.$id':id}))
-        except:
-            sequences = dict((i['gene'].id, i) for i in self.db.sequence.find({'individual.$id':id}))
+        sequences = dict((i['gene'].id, i) for i in self.db.sequence.find({'individual.$id':id}))
         dissection_date = ''
         if individual['dissection_date']:
             dissection_date = str(individual['dissection_date'].date())

@@ -70,10 +70,7 @@ def _generate_species_measurements(db, species_id):
     )
     results = {}
     for species_measurement in species_measurements:
-        try:
-            key = (species_measurement['pubref']['$id'], species_measurement['origin'], species_measurement['species_article_name'])
-        except:
-            key = (species_measurement['pubref'].id, species_measurement['origin'], species_measurement['species_article_name'])
+        key = (species_measurement['pubref'].id, species_measurement['origin'], species_measurement['species_article_name'])
         if key not in results:
             results[key] = {}
         for measure in species_measurement['measures']:
@@ -88,16 +85,6 @@ def _generate_species_measurements(db, species_id):
 
 def pre_calculate_measurements(db):
     print "pre-calculating measurements..."
-    # XXX to remove
-    try:
-        db.organism_classification.OrganismClassification.find_one({'type':'mammal', 'internet_display':True})
-    except:
-        pass
-    try:
-        db.organism_classification.OrganismClassification.find_one({'type':'mammal', 'internet_display':True})
-    except:
-        pass
-
     for species in db.organism_classification.OrganismClassification.find({'type':'mammal', 'internet_display':True}):
         res = _precalculate_ceropath_measurements(db, species['_id'], species['display_only_mol_identif'])
         measures_stats = {
