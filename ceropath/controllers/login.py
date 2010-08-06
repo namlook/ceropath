@@ -15,7 +15,7 @@ class LoginController(BaseController):
         """
         Show login form. Submits to /login/submit
         """
-        return render('login/show.mako')
+        return render('login/show.mako', extra_vars={'title':'login'})
 
     def submit(self):
         """
@@ -29,16 +29,16 @@ class LoginController(BaseController):
         # the usename and password are describes in config.py
         if username != 'admin' and username != config.username:
            h.failure_flash('wrong username or password')
-           return render('login/show.mako')
+           return redirect(h.url_for('login_show'))
 
         # We don't care much about security here so no need to salt password
         if username == 'admin':
             if password != config.admin_password:
                h.failure_flash('wrong username or password')
-               return render('login/show.mako')
+               return redirect(h.url_for('login_show'))
         elif password != config.password:
            h.failure_flash('wrong username or password')
-           return render('login/show.mako')
+           return redirect(h.url_for('login_show'))
 
         # Mark user as logged in
         session['user'] = username
