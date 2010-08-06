@@ -1,5 +1,7 @@
     % if not full:
+        <div style="text-align:right;color:red;">
         ${len(publications_list) - 4} column left. <a href="${h.url(h.url_for('individual_measurements', id=_id))}">See full table</a>
+        </div>
     % endif
     <table class="measurements">
         <tr><th></th>
