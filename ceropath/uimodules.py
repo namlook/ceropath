@@ -52,17 +52,10 @@ class Module(UIModule):
         legends = {}
         bibliography = ""
         file_names = {'species':[], 'genus': []}
-        for file_name in os.listdir(os.path.join(module_path, name)):
-            if id in file_name.lower():
-                file_names['species'].append(os.path.splitext(file_name))
-            elif '%s sp.' % id.split()[0].lower() in file_name.lower():
-                file_names['genus'].append(os.path.splitext(file_name))
-                #base_file_name, ext = os.path.splitext(file_name)
         list_file_names = []
-        if file_names['species']:
-             list_file_names = file_names['species']
-        elif file_names['genus']:
-            list_file_names = file_names['genus']
+        for file_name in os.listdir(os.path.join(module_path, name)):
+            if id in file_name.lower() or '%s sp.' % id.split()[0].lower() in file_name.lower()
+                list_file_names.append(os.path.splitext(file_name))
         for (base_file_name, ext) in list_file_names:
             file_name = "".join([base_file_name, ext])
             if ext.lower() in ['.jpg', '.jpeg', '.png']:
