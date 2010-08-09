@@ -45,51 +45,49 @@
                     <%
                         m = measure.get(key)
                         if isinstance(m, dict):
-                            if isinstance(m['n'], basestring):
-                                if m['n']:
+                            if m.get('n'):
+                                if isinstance(m['n'], basestring):
                                     m['n'] = int(float(m['n'].replace(',', '.')))
-                                else:
-                                    m['n'] = 0
                     %>
                     <td>
                         <center>
                         % if m and isinstance(m, dict):
+                            % if m.get('mean'):
+                                % if trait['measurement_accuracy']:
+                                    ${round(float(m['mean']), trait['measurement_accuracy'])}
+                                % else:
+                                    ${int(round(float(m['mean']), trait['measurement_accuracy']))}
+                                % endif
+                            % else:
+                                ø
+                            % endif
+                            +/-
+                            % if m.get('sd'):
+                                ${round(float(m['sd']), 2)}
+                            % else:
+                                ø
+                            % endif
                             % if m.get('n'):
-                                % if m['mean']:
-                                    % if trait['measurement_accuracy']:
-                                        ${round(float(m['mean']), trait['measurement_accuracy'])}
-                                    % else:
-                                        ${int(round(float(m['mean']), trait['measurement_accuracy']))}
-                                    % endif
-                                % else:
-                                    ø
-                                % endif
-                                +/-
-                                % if m.get('sd'):
-                                    ${round(float(m['sd']), 2)}
-                                % else:
-                                    ø
-                                % endif
                                 (${int(m['n'])})
-                               <br />
-                                % if m.get('min'):
-                                    % if trait['measurement_accuracy']:
-                                        ${round(float(m['min']), trait['measurement_accuracy'])}
-                                    % else:
-                                        ${int(round(float(m['min']), trait['measurement_accuracy']))}
-                                    % endif
+                            % else:
+                                (ø)
+                            % endif
+                           <br />
+                            % if m.get('min'):
+                                % if trait['measurement_accuracy']:
+                                    ${round(float(m['min']), trait['measurement_accuracy'])}
                                 % else:
-                                    ø
+                                    ${int(round(float(m['min']), trait['measurement_accuracy']))}
                                 % endif
-                                -
-                                % if m.get('max'):
-                                    % if trait['measurement_accuracy']:
-                                        ${round(float(m['max']), trait['measurement_accuracy'])}
-                                    % else:
-                                        ${int(round(float(m['max']), trait['measurement_accuracy']))}
-                                    % endif
+                            % else:
+                                ø
+                            % endif
+                            -
+                            % if m.get('max'):
+                                % if trait['measurement_accuracy']:
+                                    ${round(float(m['max']), trait['measurement_accuracy'])}
                                 % else:
-                                    ø
+                                    ${int(round(float(m['max']), trait['measurement_accuracy']))}
                                 % endif
                             % else:
                                 ø
