@@ -58,13 +58,11 @@ class Module(UIModule):
                 list_file_names.append(os.path.splitext(file_name))
         for (base_file_name, ext) in list_file_names:
             file_name = "".join([base_file_name, ext])
+            legend_file = None
             if ext.lower() in ['.jpg', '.jpeg', '.png']:
                 files_list[file_name] = base_file_name
                 if '%s.txt' % base_file_name in os.listdir(os.path.join(module_path, name)):
                     legend_file = os.path.join(module_path, name, '%s.txt' % base_file_name)
-                else:
-                    legend_file = None
-                if legend_file:
                     legends[file_name] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
             elif ext.lower() == '.txt' and legend_file is None:
                 if id.lower() in base_file_name.lower():
