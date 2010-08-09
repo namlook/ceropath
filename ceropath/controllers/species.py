@@ -241,6 +241,8 @@ class SpeciesController(BaseController):
             if parasite_id:
                 parasite_id = parasite_id.id
             parasite = self.db.organism_classification.get_from_id(parasite_id)
+            if parasite is None:
+                continue
             kingdom = parasite['taxonomic_rank']['kingdom']
             _class = parasite['taxonomic_rank']['class']
             if kingdom not in rel_host_parasites:
