@@ -16,7 +16,7 @@
 </div>
 
     <div class="span-21">
-        ${h.ui.Module(_id, 'parasites', width=830)}
+        ${h.ui.Module(_id, 'Parasites', width=830)}
     </div>
 
 
@@ -97,3 +97,4 @@
 
     </div>
 
+<%def name="footer()"></%def>
