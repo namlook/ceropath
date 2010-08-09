@@ -66,6 +66,10 @@ class Module(UIModule):
                     legend_file = None
                 if legend_file:
                     legends[file_name] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
+            elif ext.lower() == '.txt' and legend_file is None:
+                if id.lower() in base_file_name.lower():
+                    legend_file = os.path.join(module_path, name, file_name)
+                    legends[id.lower()] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
 #            if 'bibliography' in file_name.lower():
 #                bibliography = codecs.open(os.path.join(module_path, name, file_name), encoding='utf-8', errors='ignore').read()
         if '%s.txt' % id.capitalize() in os.listdir(os.path.join(module_path, name)):
