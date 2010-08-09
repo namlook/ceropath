@@ -115,7 +115,7 @@
         <hr />
         <p style="text-align:center;">
         <a href="${data_path}/${file_name}" target="_blank">
-            <img src="${data_path}/${file_name}" style="max-width:1150px;" />        
+            <img src="${data_path}/${file_name}" style="max-width:${width-5}px;" />
         </a>
         </p>
         
