@@ -44,7 +44,7 @@ a img{
         <div class="span-20">
         <br />
         % if not internet_display or not has_individuals:
-            <p style="color:red;">This species wasn't sampling by Ceropath project </p>
+            <p style="color:red;">This species wasn't sampled by Ceropath project </p>
         % else:
             ${h.literal(h.markdownize(description))}
         % endif
