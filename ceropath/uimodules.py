@@ -4,13 +4,14 @@ import os
 import codecs
 
 class Measurements(UIModule):
-    def render(self, id, publications_list, measures_infos, traits, full=False, species=None):
+    def render(self, id, publications_list, measures_infos, traits, full=False, species=None, age=None):
         return render('/uimodules/measurements.mako', extra_vars={
           '_id': id,
           'publications_list': publications_list,
           'measures_infos': measures_infos,
           'traits': traits,
           'species': species,
+          'age': age,
           'full': full,
         })
 Measurements = Measurements()

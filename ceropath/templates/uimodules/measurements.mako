@@ -22,7 +22,11 @@
                     for ${species_article_name.capitalize()} in ${origin} <small>(a)</small>
                  </th>
             % elif origin == _id or species is None:
-                <th> Ceropath Measurements for ${_id.capitalize()} <small>(a)</small> </th>
+                <th> Ceropath Measurements for ${_id.capitalize()}
+                % if age:
+                    (${age})
+                % endif
+                <small>(a)</small> </th>
             % else:
                 <th> Ceropath Measurements for ${species.capitalize()} <small>(a)</small></th>
             % endif

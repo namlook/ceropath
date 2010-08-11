@@ -9,7 +9,7 @@ table.measurements td{
 
 <div class="span-20">
     %if measurements:
-        ${h.ui.Measurements(_id, publications_list, measures_infos, traits, full=False, species=species)}
+        ${h.ui.Measurements(_id, publications_list, measures_infos, traits, full=False, species=species, age=age)}
     %else:
         no measurements found
     % endif
@@ -139,8 +139,8 @@ function initialize() {
 }
 
 $('document').ready(function(){
-    initialize();
     $('.download-list').hide();
+    initialize();
 });
 $(window).unload(function() {
     GUnload();
