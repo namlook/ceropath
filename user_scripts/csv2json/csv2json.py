@@ -67,7 +67,9 @@ def genjson(dict_list):
     results = []
     for i in dict_list:
         f = StringIO()
-        results.append(json.dumps(i, f, default=json_util.default))
+        json.dump(i, f, default=json_util.default)
+        f.seek(0)
+        results.append(f.read())
     return "\n".join(results)
 
 def map_legend(legend, row):
