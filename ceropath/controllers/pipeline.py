@@ -65,12 +65,14 @@ class PipelineController(BaseController):
         pipelines = list(i['_id'] for i in self.db.pipeline.find(fields=['_id']))
         return render('pipeline/list.mako', extra_vars = {
           'pipelines': pipelines,
+          'title': "Pipeline list",
         })
     
     def edit(self, id):
         pipeline = self.db.pipeline.get_from_id(id)
         return render('pipeline/config.mako', extra_vars = {
           'programs':pipeline['programs'],
+          'title': 'Edit pipeline %s' % id,
           '_id': id,
         })
     
