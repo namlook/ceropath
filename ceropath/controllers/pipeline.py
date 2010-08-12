@@ -27,7 +27,9 @@ class PipelineController(BaseController):
 
     def new(self):
         # TODO use jquery tools forms validation
-        return render('pipeline/new.mako')
+        return render('pipeline/new.mako', extra_vars={
+            'title': 'New pipeline',
+        })
 
     def create(self):
         pipeline = self.db.pipeline.Pipeline()
@@ -130,21 +132,23 @@ class PipelineController(BaseController):
             n = Phylo.read(StringIO(t.to_string().split('=')[1].strip()), 'newick')
             f = StringIO()
             individuals = []
+            users_individuals = []
             for clade in n.find_clades():
                 if clade.name:
                     clade_name = clade.name.split('_')[0].lower()
                     individual = self.db.individual.get_from_id(clade_name)
                     if individual:
                         individuals.append(individual)
+                    else:
+                        users_individuals.append(clade_name)
                     clade.name = clade_name.upper()
             Phylo.draw_ascii(n, file=f, column_width=110)
             f.seek(0)
             result = f.read().replace(' ', '&nbsp;').replace('\n', '<br />').replace('...', ' ')
+            for individual_id in users_individuals:
+                result = result.replace(individual_id.upper(),'<span style="color:red;">%s</span>' % individual_id.upper())
             for individual in individuals:
-                try:
-                    species_id = individual['organism_classification']['$id']
-                except: # XXX Why the hell ?
-                    species_id = individual['organism_classification'].id
+                species_id = individual['organism_classification'].id
                 individual_id = individual['_id']
                 if individual['voucher_barcoding']:
                     result = result.replace(individual_id.upper(),
@@ -154,10 +158,9 @@ class PipelineController(BaseController):
                 else:
                     result = result.replace(individual_id.upper(),
                       individual_id.upper() + ' <a class="species" href="/species/%s">(<i>%s</i>)</a>' % (
-                        species_id.replace(' ', '%20'), species_id.capitalize()))
         elif output_format == 'svg':
             svg_path = os.path.join('ceropath', 'public', 'usrdata', file_name+".afa.phy.mat.nwk.svg")
-            users_individuals = [line.strip()[1:].strip() for line in open(file_path).readlines() if line.strip().startswith('>')]
+            users_individuals = [line.strip()[1:].strip().lower() for line in open(file_path).readlines() if line.strip().startswith('>')]
             open(svg_path, 'w').write(h.clickify_svg(result, self.db, users_individuals))
             result = file_name+".afa.phy.mat.nwk.svg"
         return render('pipeline/result.mako', extra_vars = {

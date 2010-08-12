@@ -51,7 +51,7 @@ def clickify_svg(svg, db, users_individuals):
         if child.tag == '{http://www.w3.org/2000/svg}text':
             individual_id = child.text.split()[0].lower()
             fill_color = ""
-            if individual_id in users_individuals:
+            if individual_id.lower() in users_individuals:
                 fill_color = "#FF0000"
             if species.get(individual_id):
                 if species[individual_id]['voucher_barcoding']:
