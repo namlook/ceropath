@@ -49,7 +49,7 @@ a img{
             ${h.literal(h.markdownize(description))}
         % endif
 
-        More information about ${_id.capitalize()} on the
+        More information about <i>${_id.capitalize()}</i> on the
         <a href="http://www.bucknell.edu/msw3/browse.asp?s=y&id=${id_msw3}" target='_blank'>
         Mammal Species of the World</a> or 
         <a href="http://www.iucnredlist.org/apps/redlist/details/${iucn_id}" target="_blank">IUCN</a>
