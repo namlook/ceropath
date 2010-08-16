@@ -50,28 +50,28 @@ table.measurements td{
         <table style="width:360px">
             <tr><th>Name</th><th>Accession number</th><th>Download</th></tr>
             % for gene, seq in sequences.iteritems():
-                % if seq['sequence']:
-                    <tr><td>${gene.upper()}</td>
-                        <td>
-                        % if seq['accession_number']:
-                            ${seq['accession_number'].upper()}
-                        % else:
-                            not registered
-                        % endif
-                        </td>
-                        <td>
-                        % if seq['internet_display']:
-                            <button onclick="javascript:$(this).parent().find('.download-list').toggle();">download</button>
-                            <ul class="download-list">
+                <tr><td>${gene.upper()}</td>
+                    <td>
+                    % if seq['accession_number']:
+                        ${seq['accession_number'].upper()}
+                    % else:
+                        not registered
+                    % endif
+                    </td>
+                    <td>
+                    % if seq['internet_display']:
+                        <button onclick="javascript:$(this).parent().find('.download-list').toggle();">download</button>
+                        <ul class="download-list">
+                            % if seq['sequence']:
                                 <li> <a href="${h.url(h.url_for('individual_sequence', id=_id, gene=gene))}">consensus sequence</a></li>
-                                ${h.ui.ChromatogramList(individual_id=_id, gene=gene.lower())}
-                            </ul>
-                        % else:
-                            private
-                        % endif
-                        </td>
-                    </tr>
-                % endif
+                            % endif
+                            ${h.ui.ChromatogramList(individual_id=_id, gene=gene.lower())}
+                        </ul>
+                    % else:
+                        private
+                    % endif
+                    </td>
+                </tr>
             % endfor
         </table>
     </fieldset>
