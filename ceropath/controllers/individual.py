@@ -18,8 +18,16 @@ import re
 REGEXP_NUMBER = re.compile('^[\d\.,]+$')
 
 class IndividualController(BaseController):
+    """
+    This controller perform action about an Individual. If an individual has
+    not its field `internet_display` set to True, the user must be authorized
+    to perform the action.
+    """
  
     def show(self, id):
+        """
+        Display informations about an individual.
+        """
         id = id.lower()
         individual = self.db.individual.Individual.get_from_id(id)
         if not individual:
@@ -78,29 +86,32 @@ class IndividualController(BaseController):
             'title': "%s informations" % id.upper(),
         })
 
-    def measurements(self, id):
-        id = id.lower()
-        individual = self.db.individual.Individual.get_from_id(id)
-        if not individual:
-            abort(404)
-        if not individual['internet_display']:
-            abort(404)
-        if not individual['voucher_barcoding'] and 'user' not in session:
-            abort(401)
-        species = individual['organism_classification']
-        if not species:
-            abort(404)
-        measures_infos, publications_list, traits = self._measurements(individual, species)
-        return render('individual/measurements.mako', extra_vars={
-            '_id': individual['_id'],
-            'species': individual['organism_classification']['_id'],
-            'measures_infos': measures_infos,
-            'publications_list': publications_list,
-            'traits': traits,
-            'title': "%s's measurements" % individual['_id'],
-        })
-
+#    def measurements(self, id):
+#        id = id.lower()
+#        individual = self.db.individual.Individual.get_from_id(id)
+#        if not individual:
+#            abort(404)
+#        if not individual['internet_display']:
+#            abort(404)
+#        if not individual['voucher_barcoding'] and 'user' not in session:
+#            abort(401)
+#        species = individual['organism_classification']
+#        if not species:
+#            abort(404)
+#        measures_infos, publications_list, traits = self._measurements(individual, species)
+#        return render('individual/measurements.mako', extra_vars={
+#            '_id': individual['_id'],
+#            'species': individual['organism_classification']['_id'],
+#            'measures_infos': measures_infos,
+#            'publications_list': publications_list,
+#            'traits': traits,
+#            'title': "%s's measurements" % individual['_id'],
+#        })
+#
     def _measurements(self, individual, species):
+        """
+        Generate a data structure which contains all measurements of individual
+        """
         ###### measures #######
         measures_infos = {}
         publications_list = []
@@ -138,6 +149,9 @@ class IndividualController(BaseController):
 
 
     def sequence(self, id, gene):
+        """
+        Download a sequence of gene for the individual.
+        """
         id = id.lower()
         individual = self.db.individual.Individual.get_from_id(id)
         if not individual:
@@ -155,6 +169,9 @@ class IndividualController(BaseController):
         return ">%s\n%s\n" % (fasta_name.encode('utf-8'), sequence['sequence'].encode('utf-8'))
 
     def trapping(self, id):
+        """
+        Show trapping information about the individual
+        """
         id = id.lower()
         individual = self.db.individual.Individual.get_from_id(id)
         if not individual:
@@ -207,6 +224,11 @@ class IndividualController(BaseController):
         })
 
     def module(self, id, name):
+        """
+        Display a module for the individual.A Module is a way to
+        display photos and texts which are present into the
+        `public/data/dynamic` directory
+        """
         id = id.lower()
         individual = self.db.individual.Individual.get_from_id(id)
         if not individual:
@@ -240,6 +262,9 @@ class IndividualController(BaseController):
 #        })
 #
     def samples(self, id):
+        """
+        Show where individual's samples are and who is the responsible
+        """
         id = id.lower()
         individual = self.db.individual.Individual.get_from_id(id)
         if not individual:

@@ -23,11 +23,23 @@ import re
 
 
 class SpeciesController(BaseController):
+    """
+    This controller handle actions for objects from the
+    collection`organism_classification`.  While an OrganismClassification can
+    be either a mammal or a parasite, this controller only look at the mammal
+    ones. Please take a look to the `ParasiteController` for parasites actions.
+
+    In general Controller's actions only treat objects which have their
+    `internetr_display` as True.
+    """
 
     # actions which require a login are listed below
     requires_auth_actions = ['individuals']
 
     def index(self):
+        """
+        Show the list of mammal proceed by the CERoPath project.
+        """
         query = {'internet_display': True, 'type': 'mammal'}
         filter = request.params.get('as_values_filter')
         enable_back = False
@@ -46,6 +58,9 @@ class SpeciesController(BaseController):
         })
 
     def show(self, id):
+        """
+        Show informations about the mammal.
+        """
         id = id.lower()
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species or species['type'] != 'mammal':
@@ -83,7 +98,7 @@ class SpeciesController(BaseController):
                         genus_citations['citations'].remove(cit)
             citations.extend(genus_citations['citations'])
         citations = sorted([(h.author_date_from_citation(cit['pubref']['reference']), cit) for cit in citations])
-        # iucn
+        # iucn map
         iucn_map_path = os.path.join('ceropath', 'public', 'iucn')
         iucn_web_path = os.path.join('/', 'iucn')
         iucn_id = species['iucn']['id']
@@ -113,6 +128,9 @@ class SpeciesController(BaseController):
         })
 
     def measurements(self, id):
+        """
+        Show the mammal measurements tab
+        """
         id = id.lower()
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species or species['type'] != 'mammal':
@@ -151,6 +169,11 @@ class SpeciesController(BaseController):
         })
         
     def module(self, id, name):
+        """
+        This action take a mammal id an a module name. A Module is a way to
+        display photos and texts which are present into the
+        `public/data/dynamic` directory
+        """
         id = id.lower()
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
@@ -165,6 +188,10 @@ class SpeciesController(BaseController):
         })
         
     def individuals(self, id):
+        """
+        Show all mamal's individual which have their `internet_display` field
+        to True. Not that user must be authorized to display perform this action.
+        """
         id = id.lower()
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
@@ -187,6 +214,9 @@ class SpeciesController(BaseController):
         })
 
     def vouchers(self, id):
+        """
+        Show all the mammal's vouchers.
+        """
         id = id.lower()
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
@@ -209,6 +239,10 @@ class SpeciesController(BaseController):
         })
 
     def sampling_map(self, id):
+        """
+        Show the sampling map of all mammal's individual which have their
+        `internet_display` field set to True.
+        """
         id = id.lower()
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
@@ -232,6 +266,9 @@ class SpeciesController(BaseController):
         })
  
     def parasites(self, id):
+        """
+        Show all the mammal's parasites
+        """
         id = id.lower()
         species = self.db.organism_classification.OrganismClassification.get_from_id(id)
         if not species:
@@ -263,6 +300,9 @@ class SpeciesController(BaseController):
         })
 
     def filter(self):
+        """
+        autocompletion action. Used by the action `index`
+        """
         q = request.params.get('q')
         search_pattern = re.compile(q.lower())
         results = []

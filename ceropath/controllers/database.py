@@ -21,12 +21,20 @@ class DatabaseController(BaseController):
     admin_requires_auth_actions = ['index', 'load', 'status']
 
     def index(self):
+        """
+        Show the page where the admin can update the database. The file must be
+        a zip file which contains json files in its root.
+        """
         return render('database/index.mako', extra_vars={
             'title': 'Update database',
         })
 
     def load(self):
-        pprint( request.POST)
+        """
+        after the index action:
+
+        load the zip file, extract it and import all json files to the database
+        """
         not_allowed_files = []
         if not 'jsonzip' in request.POST:
             h.failure_flash("You must provide a jsons zip archive")
@@ -50,6 +58,9 @@ class DatabaseController(BaseController):
         redirect(url_for('database_index'))
 
     def status(self):
+        """
+        return database information status
+        """
         db_stats = pformat(self.db.command('dbstats'))
         server_status = pformat(self.db.command('serverStatus'))
         return render('database/status.mako', extra_vars={

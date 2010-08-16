@@ -19,6 +19,9 @@ import os.path, os
 class PipelineController(BaseController):
 
     def index(self):
+        """
+        Show the pipeline entry
+        """
         pipelines = list(self.db.pipeline.find(fields=['_id']))
         return render('pipeline/index.mako', extra_vars={
             'pipelines': pipelines, 
@@ -26,12 +29,18 @@ class PipelineController(BaseController):
         })
 
     def new(self):
+        """
+        Add a new pipeline
+        """
         # TODO use jquery tools forms validation
         return render('pipeline/new.mako', extra_vars={
             'title': 'New pipeline',
         })
 
     def create(self):
+        """
+        perform new pipeline creation
+        """
         pipeline = self.db.pipeline.Pipeline()
         _id = request.POST.pop('name')
         if not _id:
@@ -64,6 +73,9 @@ class PipelineController(BaseController):
         redirect(h.url_for('pipeline_list'))
  
     def list(self):
+        """
+        Show the list of all pipeline created
+        """
         pipelines = list(i['_id'] for i in self.db.pipeline.find(fields=['_id']))
         return render('pipeline/list.mako', extra_vars = {
           'pipelines': pipelines,
@@ -71,6 +83,9 @@ class PipelineController(BaseController):
         })
     
     def edit(self, id):
+        """
+        Edit a pipeline
+        """
         pipeline = self.db.pipeline.get_from_id(id)
         return render('pipeline/config.mako', extra_vars = {
           'programs':pipeline['programs'],
@@ -79,6 +94,9 @@ class PipelineController(BaseController):
         })
     
     def update(self, id):
+        """
+        perform a pipeline edition
+        """
         order = []
         field_names = ['name', 'cmd', 'output_ext', 'use_stdin']
         for i in request.POST:
@@ -101,10 +119,19 @@ class PipelineController(BaseController):
         redirect(h.url_for('pipeline_index'))
 
     def delete(self, id):
+        """
+        delete a pipeline
+        """
         self.db.pipeline.remove({'_id': id})
         redirect(h.url_for('pipeline_list'))
 
     def result(self):
+        """
+        Show pipeline result.
+        If the result is newick, a raw text phylogenic tree will be display
+        If the resutl is a svg, an svg graphic will be display
+        Else, raw text information will be return
+        """
         if 'file' in request.POST:
             user_input = request.POST['file'].file.read()
         elif 'paste' in request.POST:
@@ -175,6 +202,10 @@ class PipelineController(BaseController):
         })
 
     def infos(self, name):
+        """
+        Show information about the pipeline. The text shoud be in found into the
+        `ceropath/public/data/pipeline` directory as markdown format.
+        """
         if name in os.listdir(os.path.join('ceropath', 'public', 'data', 'pipeline')):
             content = open(os.path.join('ceropath', 'public', 'data', 'pipeline', name)).read()
         else:
@@ -185,5 +216,8 @@ class PipelineController(BaseController):
         })
 
     def servesvg(self, name):
+        """
+        serve the svg file
+        """
         response.headers['Content-type'] = "image/svg+xml"
         return open(os.path.join('ceropath', 'public', 'usrdata', name)).read()
