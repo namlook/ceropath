@@ -67,7 +67,7 @@ a img{
                         <a href="${h.url(h.url_for('publication_show', id=cit['pubref']['_id']))}">
                             ${author_ref}
                         </td>
-                        <td>as ${name.capitalize()}</td>
+                        <td>as ${cit['name'].capitalize()}</td>
                     </tr>
                 % endfor
                 </table>
