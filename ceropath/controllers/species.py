@@ -8,6 +8,7 @@ from pylons.decorators.cache import beaker_cache
 from config import google_map_api_key
 
 from ceropath.lib.base import BaseController, render
+from ceropath.lib import helpers as h
 import os.path
 import os
 import urllib2
@@ -81,6 +82,7 @@ class SpeciesController(BaseController):
                     if genus in _d_citations.get(cit['pubref']['_id'], ''):
                         genus_citations['citations'].remove(cit)
             citations.extend(genus_citations['citations'])
+        citations = sorted([(h.author_date_from_citation(cit['pubref']['reference']), cit) for cit in citations])
         # iucn
         iucn_map_path = os.path.join('ceropath', 'public', 'iucn')
         iucn_web_path = os.path.join('/', 'iucn')

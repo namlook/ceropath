@@ -61,13 +61,13 @@ a img{
            <div class="span-20">
             <fieldset class="span-10"><legend>Recorded in</legend>
                 <table>
-                % for cit in citations:
+                % for author_ref, cit in citations:
                     <tr>
                         <td>
                         <a href="${h.url(h.url_for('publication_show', id=cit['pubref']['_id']))}">
-                            ${h.author_date_from_citation(cit['pubref']['reference'])}</a>
+                            ${author_ref}
                         </td>
-                        <td>as ${cit['name'].capitalize()}</td>
+                        <td>as ${name.capitalize()}</td>
                     </tr>
                 % endfor
                 </table>
