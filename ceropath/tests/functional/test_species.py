@@ -19,12 +19,14 @@ class TestSpeciesController(TestController):
             assert species['_id'].capitalize() in response
             assert "Taxonomic ranks" in response
             assert "General Informations" in response
-            assert "This species wasn't sampling by Ceropath project" not in response
+            if not self.db.individual.find({'organism_classification.$id':species['_id']}).count():
+                assert "This species wasn't sampling by Ceropath project" not in response, species
 
     def test_show_internet_display_false(self):
         for species in self.db.organism_classification.find({'internet_display': False, 'type':'mammal'}, fields=['_id']):
             response = self.app.get(url(controller='species', action='show', id=species['_id']), status=200)
-            assert "This species wasn't sampling by Ceropath project" in response
+            #if not self.db.individual.find({'organism_classification.$id':species['_id']}).count():
+            assert "This species wasn't sampled by Ceropath project" in response, species
 
     def test_measurements_200(self):
         for species in self.db.organism_classification.find({'internet_display': True, 'type':'mammal'}, fields=['_id']):
@@ -64,9 +66,13 @@ class TestSpeciesController(TestController):
         for species in self.db.organism_classification.find({'internet_display': True, 'type':'mammal'}, fields=['_id']):
             response = self.app.get(url(controller='species', action='sampling_map', id=species['_id']), status=200)
             assert species['_id'].capitalize() in response
-            for individual in self.db.individual.find({'organism_classification.$id': species['_id']}, fields=['_id', 'internet_display']):
+            for individual in self.db.individual.find({'organism_classification.$id': species['_id']}, fields=['_id', 'internet_display', 'trapping_informations.site.$id']):
                 if individual['internet_display']:
-                    assert individual['_id'].upper() in response, (species['_id'], individual['_id'])
+                    if individual['_id'].upper() not in response:
+                        site = self.db.site.get_from_id(individual['trapping_informations']['site']['$id'])
+                        assert not site['coord_wgs']['dll_lat'] or not site['coord_wgs']['dll_long'], (species['_id'], individual['_id'])
+                    else:
+                        assert individual['_id'].upper() in response, (species['_id'], individual['_id'])
                 else:
                     assert individual['_id'].upper() not in response, (species['_id'], individual['_id'])
 
@@ -88,11 +94,10 @@ class TestSpeciesController(TestController):
 #                print "============", species['_id']
 #                continue
             response = self.app.get(url(controller='species', action='parasites', id=species['_id']), status=200)
-            assert species['_id'].capitalize() in response
+            assert species['_id'].capitalize() in response, species
             rhps = self.db.rel_host_parasite.find({'host.$id':species['_id']}, fields=['parasite.$id'])
             if not rhps.count():
                 assert "<table" not in response
             else:
                 for rhp in rhps:
-                    print rhp
-                    assert rhp['parasite']['$id'].capitalize() in response
+                    assert rhp['parasite']['$id'].capitalize() in response, (rhp, species['_id'])
