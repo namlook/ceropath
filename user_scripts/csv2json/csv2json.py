@@ -320,7 +320,7 @@ def csv2json(csv_path, yaml_path, json_path, log_file):
                 individuals[_id]['macroparasites'] = []
             individuals[_id]['macroparasites'].append({'name':macroparasite['parasite'], 'quantity': macroparasite['quantity']})
         else:
-            log_file.write("ERROR: %s not found in t_individus but found in t_individus_microparasites\n" % i['_id'])
+            log_file.write("ERROR: %s not found in t_individus but found in t_individus_macroparasites\n" % _id)
 
     # Individual samples
     samples = dict((i['sample'], {'conservation_method': i['conservation method']}) for i in process(csv_path, yaml_path, 't_lib_samples'))
