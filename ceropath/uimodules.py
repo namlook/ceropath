@@ -62,18 +62,24 @@ class Module(UIModule):
             legend_file = None
             if ext.lower() in ['.jpg', '.jpeg', '.png']:
                 files_list[file_name] = base_file_name
-                #if '%s.txt' % base_file_name in os.listdir(os.path.join(module_path, name)):
-                #    legend_file = os.path.join(module_path, name, '%s.txt' % base_file_name)
-                #    legends[file_name] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
-            elif ext.lower() == '.txt' and legend_file is None:
-                if id.lower() in base_file_name.lower() or '%s sp.' % id.split()[0].lower() in base_file_name.lower():
-                    legend_file = os.path.join(module_path, name, file_name)
-                    legends[id.lower()] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
+                if '%s.txt' % base_file_name in os.listdir(os.path.join(module_path, name)):
+                    legend_file = os.path.join(module_path, name, '%s.txt' % base_file_name)
+                    legends[file_name] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
+                elif '%s.txt' % id.lower() in os.listdir(os.path.join(module_path, name)):
+                    legend_file = os.path.join(module_path, name, '%s.txt' % id.lower())
+                    legends[file_name] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
+                elif '%s sp..txt' % id.split()[0].lower() in os.listdir(os.path.join(module_path, name)):
+                    legend_file = os.path.join(module_path, name, '%s.txt' % id.lower())
+                    legends[file_name] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
+#            elif ext.lower() == '.txt' and legend_file is None:
+#                if id.lower() in base_file_name.lower() or '%s sp.' % id.split()[0].lower() in base_file_name.lower():
+#                    legend_file = os.path.join(module_path, name, file_name)
+#                    legends[id.lower()] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
 #            if 'bibliography' in file_name.lower():
 #                bibliography = codecs.open(os.path.join(module_path, name, file_name), encoding='utf-8', errors='ignore').read()
-        if '%s.txt' % id.capitalize() in os.listdir(os.path.join(module_path, name)):
-            legend_file = os.path.join(module_path, name, '%s.txt' % id.capitalize())
-            legends[id] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
+#        if '%s.txt' % id.capitalize() in os.listdir(os.path.join(module_path, name)):
+#            legend_file = os.path.join(module_path, name, '%s.txt' % id.capitalize())
+#            legends[id] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
 #        if not bibliography:
 #            if 'bibliography.txt' in os.listdir(os.path.join(module_path, name)):
 #                bibliography = codecs.open(os.path.join(module_path, name, 'bibliography.txt'), encoding='utf-8', errors='ignore').read()
