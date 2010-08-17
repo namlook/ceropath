@@ -55,13 +55,13 @@ def clickify_svg(svg, db, users_individuals):
                 fill_color = "#FF0000"
             if species.get(individual_id):
                 if species[individual_id]['voucher_barcoding']:
-                    individual_link = root.makeelement('ns0:a', {'target':'_blank', 'fill': fill_color or '#1139E5', 'xlink:href':"/individual/%s" % individual_id })
+                    individual_link = root.makeelement('ns0:a', {'target':'_blank', 'fill': fill_color or '#1139E5', 'xlink:href':"/dbrsea/individual/%s" % individual_id })
                     individual_link.text = individual_id.upper()
                     child.append(individual_link)
                     child.text = ""
                 else:
                     child.text = individual_id.upper()
-                species_link = root.makeelement('ns0:a', {'target':'_blank', 'fill': fill_color or "#FFB010", 'xlink:href':"/species/%s" % species[individual_id]['species_id']})
+                species_link = root.makeelement('ns0:a', {'target':'_blank', 'fill': fill_color or "#FFB010", 'xlink:href':"/dbrsea/species/%s" % species[individual_id]['species_id']})
                 species_link.text =  " (%s)" % species[individual_id]['species_id'].capitalize()
                 child.append(species_link)
             child.attrib['fill'] = fill_color or "#FFFFF"

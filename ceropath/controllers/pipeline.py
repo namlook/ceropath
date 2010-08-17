@@ -182,12 +182,12 @@ class PipelineController(BaseController):
                 individual_id = individual['_id']
                 if individual['voucher_barcoding']:
                     result = result.replace(individual_id.upper(),
-                      '<a class="individual" href="/individual/%s">%s</a>' % (
-                        individual_id, individual_id.upper()) + ' <a class="species" href="/species/%s">(<i>%s</i>)</a>' % (
+                      '<a class="individual" href="/rdbsea/individual/%s">%s</a>' % (
+                        individual_id, individual_id.upper()) + ' <a class="species" href="/rdbsea/species/%s">(<i>%s</i>)</a>' % (
                           species_id.replace(' ', '%20'), species_id.capitalize()))
                 else:
                     result = result.replace(individual_id.upper(),
-                      individual_id.upper() + ' <a class="species" href="/species/%s">(<i>%s</i>)</a>' % (
+                      individual_id.upper() + ' <a class="species" href="/rdbsea/species/%s">(<i>%s</i>)</a>' % (
                         species_id.replace(' ', '%20'), species_id.capitalize()))
         elif output_format == 'svg':
             svg_path = os.path.join('ceropath', 'public', 'usrdata', file_name+".afa.phy.mat.nwk.svg")
