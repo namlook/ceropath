@@ -1,7 +1,7 @@
 <%inherit file="/species/show.mako" />
 
-<script type="text/javascript" src="/fancybox/jquery.fancybox-1.3.1.pack.js"></script>
-<link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.1.css" type="text/css" media="screen" />
+<script type="text/javascript" src="/rdbsea/fancybox/jquery.fancybox-1.3.1.pack.js"></script>
+<link rel="stylesheet" href="/rdbsea/fancybox/jquery.fancybox-1.3.1.css" type="text/css" media="screen" />
 
 <style>
 a img{

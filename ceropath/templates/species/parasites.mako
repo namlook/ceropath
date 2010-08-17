@@ -11,7 +11,7 @@ fieldset{
 }
 </style>
 
-<script type="text/javascript" language="javascript" src="/js/jquery.dataTables.js"></script> 
+<script type="text/javascript" language="javascript" src="/rdbsea/js/jquery.dataTables.js"></script> 
 
 <script>
 $('document').ready(function(){

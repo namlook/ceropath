@@ -20,9 +20,9 @@ def make_map(config):
     # CUSTOM ROUTES HERE
 
     # login
-    map.connect('login_show', '/login', controller='login', action='show')
-    map.connect('login_submit', '/login/submit', controller='login', action='submit')
-    map.connect('login_logout', '/logout', controller='login', action='logout')
+    map.connect('login_show', '/rdbsea/login', controller='login', action='show')
+    map.connect('login_submit', '/rdbsea/login/submit', controller='login', action='submit')
+    map.connect('login_logout', '/rdbsea/logout', controller='login', action='logout')
 
     # database
     map.connect('database_index', '/db', controller='database', action='index')
@@ -30,51 +30,51 @@ def make_map(config):
     map.connect('database_status', '/db/status', controller='database', action='status')
 
     # pipeline
-    map.connect('pipeline_index', '/pipeline', controller='pipeline', action='index')
-    map.connect('pipeline_result', '/pipeline/result', controller='pipeline', action='result')
+    map.connect('pipeline_index', '/rdbsea/pipeline', controller='pipeline', action='index')
+    map.connect('pipeline_result', '/rdbsea/pipeline/result', controller='pipeline', action='result')
+    map.connect('pipeline_infos', '/rdbsea/pipeline/infos/{name}', controller='pipeline', action='infos')
+    map.connect('pipeline_servesvg', '/rdbsea/pipeline/servesvg/{name}', controller='pipeline', action='servesvg')
     map.connect('pipeline_new', '/pipeline/config/new', controller='pipeline', action='new')
     map.connect('pipeline_create', '/pipeline/config/create', controller='pipeline', action='create')
     map.connect('pipeline_update', '/pipeline/config/update/{id}', controller='pipeline', action='update')
     map.connect('pipeline_list', '/pipeline/config/list', controller='pipeline', action='list')
     map.connect('pipeline_delete', '/pipeline/config/delete/{id}', controller='pipeline', action='delete')
     map.connect('pipeline_edit', '/pipeline/config/edit/{id}', controller='pipeline', action='edit')
-    map.connect('pipeline_infos', '/pipeline/infos/{name}', controller='pipeline', action='infos')
-    map.connect('pipeline_servesvg', '/pipeline/servesvg/{name}', controller='pipeline', action='servesvg')
 
     # query
-    map.connect('query_new', '/query', controller='query', action='new')
-    map.connect('query_completion', '/query/field_completion', controller='query', action='field_completion')
+    map.connect('query_new', '/rdbsea/query', controller='query', action='new')
+    map.connect('query_completion', '/rdbsea/query/field_completion', controller='query', action='field_completion')
 
     # institute
-    map.connect('institute_show', '/institute/{id}', controller='institute', action='show')
+    map.connect('institute_show', '/rdbsea/institute/{id}', controller='institute', action='show')
 
     # species
-    map.connect('species_index', '/species', controller='species', action='index')
-    map.connect('species_filter', '/species/filter', controller='species', action='filter')
-    map.connect('species_show', '/species/{id}', controller='species', action='show')
-    map.connect('species_measurements', '/species/{id}/measurements', controller='species', action='measurements')
-    map.connect('species_sampling_map', '/species/{id}/sampling_map', controller='species', action='sampling_map')
-    map.connect('species_vouchers', '/species/{id}/vouchers', controller='species', action='vouchers')
-    map.connect('species_individuals', '/species/{id}/individuals', controller='species', action='individuals')
-    map.connect('species_parasites', '/species/{id}/parasites', controller='species', action='parasites')
-    map.connect('species_module', '/species/{id}/{name}', controller='species', action='module')
+    map.connect('species_index', '/rdbsea/species', controller='species', action='index')
+    map.connect('species_filter', '/rdbsea/species/filter', controller='species', action='filter')
+    map.connect('species_show', '/rdbsea/species/{id}', controller='species', action='show')
+    map.connect('species_measurements', '/rdbsea/species/{id}/measurements', controller='species', action='measurements')
+    map.connect('species_sampling_map', '/rdbsea/species/{id}/sampling_map', controller='species', action='sampling_map')
+    map.connect('species_vouchers', '/rdbsea/species/{id}/vouchers', controller='species', action='vouchers')
+    map.connect('species_individuals', '/rdbsea/species/{id}/individuals', controller='species', action='individuals')
+    map.connect('species_parasites', '/rdbsea/species/{id}/parasites', controller='species', action='parasites')
+    map.connect('species_module', '/rdbsea/species/{id}/{name}', controller='species', action='module')
 
     # individuals
-    map.connect('individual_show', '/individual/{id}', controller='individual', action='show')
-    map.connect('individual_measurements', '/individual/{id}/measurements', controller='individual', action='measurements')
-    map.connect('individual_trapping', '/individual/{id}/trapping', controller='individual', action='trapping')
-    map.connect('individual_sequence', '/individual/{id}/sequence/{gene}', controller='individual', action='sequence')
-    map.connect('individual_parasites', '/individual/{id}/parasites', controller='individual', action='parasites')
-    map.connect('individual_samples', '/individual/{id}/samples', controller='individual', action='samples')
-    map.connect('individual_module', '/individual/{id}/{name}', controller='individual', action='module')
+    map.connect('individual_show', '/rdbsea/individual/{id}', controller='individual', action='show')
+    map.connect('individual_measurements', '/rdbsea/individual/{id}/measurements', controller='individual', action='measurements')
+    map.connect('individual_trapping', '/rdbsea/individual/{id}/trapping', controller='individual', action='trapping')
+    map.connect('individual_sequence', '/rdbsea/individual/{id}/sequence/{gene}', controller='individual', action='sequence')
+    map.connect('individual_parasites', '/rdbsea/individual/{id}/parasites', controller='individual', action='parasites')
+    map.connect('individual_samples', '/rdbsea/individual/{id}/samples', controller='individual', action='samples')
+    map.connect('individual_module', '/rdbsea/individual/{id}/{name}', controller='individual', action='module')
 
     # parasite
-    map.connect('parasite_index', '/parasites', controller='parasite', action='index')
-    map.connect('parasite_filter', '/parasite/filter', controller='parasite', action='filter')
-    map.connect('parasite_show', '/parasite/{id}', controller='parasite', action='show')
+    map.connect('parasite_index', '/rdbsea/parasites', controller='parasite', action='index')
+    map.connect('parasite_filter', '/rdbsea/parasite/filter', controller='parasite', action='filter')
+    map.connect('parasite_show', '/rdbsea/parasite/{id}', controller='parasite', action='show')
 
     # publications
-    map.connect('publication_show', '/publication/{id}', controller='publication', action='show')
+    map.connect('publication_show', '/rdbsea/publication/{id}', controller='publication', action='show')
 
 
     map.connect('/{controller}/{action}')

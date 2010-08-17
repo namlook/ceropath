@@ -6,9 +6,9 @@
     }
 </style>
 
-<script type="text/javascript" src="/js/jquery.autoSuggest.packed.js"></script>
-<link rel="stylesheet" href="/css/autoSuggest.css"> 
-<script type="text/javascript" language="javascript" src="/js/jquery.dataTables.js"></script> 
+<script type="text/javascript" src="/rdbsea/js/jquery.autoSuggest.packed.js"></script>
+<link rel="stylesheet" href="/rdbsea/css/autoSuggest.css"> 
+<script type="text/javascript" language="javascript" src="/rdbsea/js/jquery.dataTables.js"></script> 
 
 <script>
 $('document').ready(function(){

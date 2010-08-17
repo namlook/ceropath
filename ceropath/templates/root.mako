@@ -1,11 +1,11 @@
 <html>
 <head>
     <title>${title} | CERoPath - Barcoding Rodent South East Asia</title>
-    <link rel="stylesheet" type="text/css" href="/css/tabs-no-images.css" /> 
-    <link rel="stylesheet" href="/css/blueprint.1200.compressed.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" type="text/css" href="/rdbsea/css/tabs-no-images.css" /> 
+    <link rel="stylesheet" href="/rdbsea/css/blueprint.1200.compressed.css" type="text/css" media="screen, projection">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script src="http://cdn.jquerytools.org/1.2.3/jquery.tools.min.js"></script>
-    <link rel="stylesheet" href="/css/demo_table.css" />
+    <link rel="stylesheet" href="/rdbsea/css/demo_table.css" />
     <style> 
         /* tab pane styling */
         .panes div {
