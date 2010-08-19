@@ -86,28 +86,28 @@ class IndividualController(BaseController):
             'title': "%s informations" % id.upper(),
         })
 
-#    def measurements(self, id):
-#        id = id.lower()
-#        individual = self.db.individual.Individual.get_from_id(id)
-#        if not individual:
-#            abort(404)
-#        if not individual['internet_display']:
-#            abort(404)
-#        if not individual['voucher_barcoding'] and 'user' not in session:
-#            abort(401)
-#        species = individual['organism_classification']
-#        if not species:
-#            abort(404)
-#        measures_infos, publications_list, traits = self._measurements(individual, species)
-#        return render('individual/measurements.mako', extra_vars={
-#            '_id': individual['_id'],
-#            'species': individual['organism_classification']['_id'],
-#            'measures_infos': measures_infos,
-#            'publications_list': publications_list,
-#            'traits': traits,
-#            'title': "%s's measurements" % individual['_id'],
-#        })
-#
+    def measurements(self, id):
+        id = id.lower()
+        individual = self.db.individual.Individual.get_from_id(id)
+        if not individual:
+            abort(404)
+        if not individual['internet_display']:
+            abort(404)
+        if not individual['voucher_barcoding'] and 'user' not in session:
+            abort(401)
+        species = individual['organism_classification']
+        if not species:
+            abort(404)
+        measures_infos, publications_list, traits = self._measurements(individual, species)
+        return render('individual/measurements.mako', extra_vars={
+            '_id': individual['_id'],
+            'species': individual['organism_classification']['_id'],
+            'measures_infos': measures_infos,
+            'publications_list': publications_list,
+            'traits': traits,
+            'title': "%s's measurements" % individual['_id'],
+        })
+
     def _measurements(self, individual, species):
         """
         Generate a data structure which contains all measurements of individual
