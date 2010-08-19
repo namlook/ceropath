@@ -5,9 +5,11 @@
         /*border-bottom:1px solid #CCCCCC;*/
         height:156px;   
         width:${width}px;
+	background:#fff;
     }
     
     #nav ul {   
+	background:#fff;
         overflow-x:hidden;
         overflow-y:scroll;
         height:170px;
@@ -16,6 +18,7 @@
     }
     
     #nav li {   
+	background:#fff;
         border-right:1px solid #ddd;
         float:left;
         padding-left:1px;
@@ -27,6 +30,7 @@
     
     #nav a {
         color:#333333;
+	background:#fff;
         display:block;
         padding:17px;
         position:relative;
@@ -59,6 +63,9 @@
         height:255px;
         margin-bottom:-20px;
         padding-bottom:20px;
+	background:#fff;
+	padding-left:20px;
+	padding-right:20px;
         
         /* must be relative so the individual panes can be absolutely positioned */
         position:relative;
@@ -66,25 +73,36 @@
     
     /* crossfading effect needs absolute positioning from the elements */
     #panes div {
+	background:#fff;
+	padding-left:30px;
+	padding-right:30px;
+	padding-bottom:20px;
         display:none;       
-        position:absolute;
+        position:relative;
         top:20px;
-        left:20px;
+        left:-30px;
         font-size:13px;
         color:#444; 
-        width:${width-50}px;
+        width:${width}px;
     }
     
     #panes img {
+	background:#fff;
         margin-right:20px;      
     }
     
     #panes p {
+	background:#fff;
+	padding-left:20px;
+	padding-right:20px;
         font-size:13px;
         text-align:left;
     }
     
     .overlay {
+	background:#fff;
+	padding-left:20px;
+	padding-right:20px;
         display:none;
         width:500px;
         padding:20px;
