@@ -7,6 +7,27 @@
     <script src="http://cdn.jquerytools.org/1.2.3/jquery.tools.min.js"></script>
     <link rel="stylesheet" href="/rdbsea/css/demo_table.css" />
     <style> 
+        #body{
+            padding-left:10px;
+            padding-right:10px;
+            background-color:#fff;
+        }
+        body {
+            font-family:"Lucida Sans","Lucida Grande","Lucida Sans Unicode",Arial,sans-serif;
+            background:#947b5b;
+        }
+        #header-img{
+            position: relative;
+            left:-5px;
+        }
+        #border-top{
+            position: relative;
+            left:15px;
+        }
+        .baspage{
+            position: relative;
+            left: -10px;
+        }
         /* tab pane styling */
         .panes div {
             display:none;       
@@ -48,10 +69,10 @@
     </style> 
 </head>
 <body>
-    <div class="container">
-        <div class="span-30" style="text-align:right;">
-            <a href="${h.url(h.url_for('species_index'))}"><img  src="/img/header-final.jpg" width="100%" alt="Home" /></a>
-            <img src="/img/border-top.jpg" />
+    <div class="container" id="body">
+        <div class="span-30" id="header-img" style="text-align:right;">
+            <a href="${h.url(h.url_for('species_index'))}"><img id="header-img" src="/img/header-final.jpg" width="100%" alt="Home" /></a>
+            <img id="border-top" src="/img/border-top.jpg" />
         </div>
         <div class="flash-message">
             <%

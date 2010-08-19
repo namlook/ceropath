@@ -96,7 +96,7 @@ a img{
         </fieldset>
     % endif
     </%doc>
-            <fieldset class="span-10"><legend>Taxonomic ranks</legend>
+            <fieldset class="span-9"><legend>Taxonomic ranks</legend>
             <table>
                 <%ranks = ['kingdom', 'phylum', 'class', 'order', 'superfamily', 'family', 'subfamily', 'tribe', 'division', 'genus', 'subgenus']%>
                 % for rank in ranks:
@@ -113,15 +113,15 @@ a img{
 
 
     % if iucn_web_path and iucn_id:
-        <fieldset class="span-10"><legend>IUCN range map</legend>
+        <fieldset class="span-9"><legend>IUCN range map</legend>
            <a href="${iucn_web_path}/${iucn_id}.png" target="_blank">
-            <img src="${iucn_web_path}/${iucn_id}.png" width="385px" />
+            <img src="${iucn_web_path}/${iucn_id}.png" width="350px" />
            </a>
         </fieldset>
     % endif
 
         % if synonyms:
-            <fieldset class="span-10"><legend>Synonyms</legend>
+            <fieldset class="span-9"><legend>Synonyms</legend>
                 <table>
                 % for syn in synonyms:
                     <tr>
