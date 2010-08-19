@@ -84,7 +84,7 @@ $(document).ready(function(){
     $('#example').hide();
     $('.pipeline-infos').click(function(){
         var pipeline_name = $(this).parent().parent().find('.pipeline-selection :selected').text();
-        $(this).attr('href', '/pipeline/infos/'+pipeline_name+'.txt');
+        $(this).attr('href', '/rdbsea/pipeline/infos/'+pipeline_name+'.txt');
     });
     $('#show-example').click(function(){
         $('#sequence').text($('#example').text());
