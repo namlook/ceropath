@@ -3,15 +3,16 @@ from core import Core
 from publication import Publication # XXX a enlever, c'est dans le core
 
 class SpeciesMeasurement(Core):
+    collection_name = "species_measurement"
     structure = {
-        'organism_classification': OrganismClassification, # OrganismClassification id ##il faut traiter les synonimies
-        'origin': unicode, #t_species_measurements/origin
-        'type': unicode, #t_species_measurements/type
+        'organism_classification': OrganismClassification,
+        'origin': unicode,
+        'type': unicode,
 		'measures':[{
             'trait': unicode, 
-            'value': unicode, #t_species_measurements/valeurs des variables de la table
+            'value': unicode,
         }],
-        'remark': unicode, #t_species_measurements/remark
+        'remark': unicode,
         'pubref': Publication, # XXX a enlever, c'est dans le core
         'species_article_name': unicode,
     }

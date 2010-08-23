@@ -4,18 +4,19 @@ from gene import Gene
 from primer import Primer
 
 class Sequence(Core):
+    collection_name = "sequence"
     structure = {
-        'individual': Individual,# t_individus_sequences/ID_individu
-        'gene': Gene,# t_individus_sequences/gene
-        'sequence': unicode,# t_individus_sequences/sequence
-        'operator': unicode,# t_individus_sequences/operator
+        'individual': Individual,
+        'gene': Gene,
+        'sequence': unicode,
+        'operator': unicode,
         'primer':{
-            'forward': Primer,# t_individus_sequences/forward
-            'reverse': Primer,# t_individus_sequences/reverse
+            'forward': Primer,
+            'reverse': Primer,
         },
-        'chromatogram_link': unicode,# t_individus_sequences/chromatogram_link
-        'length': int,# t_individus_sequences/lengh
-        'accession_number': unicode, # id gen_bank # t_individus_sequences/Accession number
+        'chromatogram_link': unicode,
+        'length': int,
+        'accession_number': unicode,
         'internet_display': bool,
     }
     use_autorefs = True

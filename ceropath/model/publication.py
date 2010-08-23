@@ -1,10 +1,11 @@
 from mongokit import Document
 
 class Publication(Document):
+    collection_name = 'publication'
     structure = {
         '_id': unicode,
-        'reference': unicode, #t_literature_referens/Article_reference
-        'source': unicode, # mamal species of the word #t_literature_referens/source
-        'remark': unicode, #t_literature_referens/remark
+        'reference': unicode,
+        'source': unicode,
+        'remark': unicode,
         'link': unicode,
     }

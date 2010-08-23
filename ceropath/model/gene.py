@@ -1,6 +1,7 @@
 from core import Core
 
 class Gene(Core):
+    collection_name = "gene"
     structure = {
-        '_id':unicode, #t_lib_genes/gene_Name
+        '_id':unicode,
     }
