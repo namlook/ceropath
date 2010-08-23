@@ -48,7 +48,7 @@ class SpeciesController(BaseController):
             pattern, field = filter.strip(',').split('|')
             search_pattern = re.compile(pattern)
             query['taxonomic_rank.%s' % field] = search_pattern
-        species_list = self.db.organism_classification.OrganismClassification.find(
+        species_list = self.db.organism_classification.find(
             query
         ).sort('_id', 1)
         return render('species/index.mako', extra_vars={
