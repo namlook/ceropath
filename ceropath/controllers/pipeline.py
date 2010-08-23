@@ -175,10 +175,10 @@ class PipelineController(BaseController):
             for individual_id in users_individuals:
                 result = result.replace(individual_id.upper(),'<span style="color:red;">%s</span>' % individual_id.upper())
             for individual in individuals:
-                try:
-                    species_id = individual['organism_classification']['$id']
-                except: # XXX Why the hell ?
-                    species_id = individual['organism_classification'].id
+                #try:
+                #    species_id = individual['organism_classification']['$id']
+                #except: # XXX Why the hell ?
+                species_id = individual['organism_classification'].id
                 individual_id = individual['_id']
                 if individual['voucher_barcoding']:
                     result = result.replace(individual_id.upper(),
@@ -194,6 +194,10 @@ class PipelineController(BaseController):
             users_individuals = [line.strip()[1:].strip().lower() for line in open(file_path).readlines() if line.strip().startswith('>')]
             open(svg_path, 'w').write(h.clickify_svg(result, self.db, users_individuals))
             result = file_name+".afa.phy.mat.nwk.svg"
+        os.remove(os.path.join('data', 'pipeline', '%s.afa' % file_name))
+        os.remove(os.path.join('data', 'pipeline', '%s.afa.phy' % file_name))
+        os.remove(os.path.join('data', 'pipeline', '%s.afa.phy.mat' % file_name))
+        os.remove(os.path.join('data', 'pipeline', '%s.afa.phy.mat.nwk' % file_name))
         return render('pipeline/result.mako', extra_vars = {
           'errors': errors,
           'result':result,
