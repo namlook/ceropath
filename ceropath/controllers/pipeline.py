@@ -191,11 +191,14 @@ class PipelineController(BaseController):
             users_individuals = [line.strip()[1:].strip().lower() for line in open(file_path).readlines() if line.strip().startswith('>')]
             open(svg_path, 'w').write(h.clickify_svg(result, self.db, users_individuals))
             result = file_name+".afa.phy.mat.nwk.svg"
-        os.remove(os.path.join('data', 'pipeline', '%s' % file_name))
-        os.remove(os.path.join('data', 'pipeline', '%s.afa' % file_name))
-        os.remove(os.path.join('data', 'pipeline', '%s.afa.phy' % file_name))
-        os.remove(os.path.join('data', 'pipeline', '%s.afa.phy.mat' % file_name))
-        os.remove(os.path.join('data', 'pipeline', '%s.afa.phy.mat.nwk' % file_name))
+        try:
+            os.remove(os.path.join('data', 'pipeline', '%s' % file_name))
+            os.remove(os.path.join('data', 'pipeline', '%s.afa' % file_name))
+            os.remove(os.path.join('data', 'pipeline', '%s.afa.phy' % file_name))
+            os.remove(os.path.join('data', 'pipeline', '%s.afa.phy.mat' % file_name))
+            os.remove(os.path.join('data', 'pipeline', '%s.afa.phy.mat.nwk' % file_name))
+        except:
+            pass
         return render('pipeline/result.mako', extra_vars = {
           'errors': errors,
           'result':result,
