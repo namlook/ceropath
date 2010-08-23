@@ -7,12 +7,14 @@
         left:-200px;
     }
     .image img{
+        position: relative;
+        right:-200px;
         width:70%;
     }
     .input{
         position: relative;
         bottom: -20px;
-        right: -100px;
+        right: -200px;
         padding-bottom:20px;
     }
     textarea{

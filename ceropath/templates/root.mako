@@ -100,6 +100,6 @@
             % if date != 2010:
                 - ${date}
             % endif
-         - All rights reserved - <a href="/disclaimer_stating" target="_self">Disclaimer stating</a> -<a href="/disclaimer_stating/contact_us" target="_self"> Contact</a></p>
+         - All rights reserved - <a href="/data/pipeline/disclaimer_stating.txt">Disclaimer stating</a> -<a href="mailto:chaval@supagro.inra.fr"> Contact</a></p>
     </div>
 </%def>
