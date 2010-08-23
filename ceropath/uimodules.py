@@ -73,10 +73,11 @@ class Module(UIModule):
                 elif '%s sp..txt' % id.split()[0].lower() in files:
                     legend_file = os.path.join(module_path, name, files['%s sp..txt' % id.split()[0].lower()])
                     legends[file_name] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
-                elif len(id)==5 and id[0].lower() in string.lowercase and not [1 for i in id[1:] if i not in string.digits]:
-                    if id.lower() in base_file_name.lower() and ext.lower() == '.txt':
+            elif ext.lower() == '.txt' and len(id)==5 and id[0].lower() in string.lowercase and not [1 for i in id[1:] if i not in string.digits]:
+                if id.lower() in base_file_name.lower():# and ext.lower() == '.txt':
+                    if file_name not in legends:
                         legend_file = os.path.join(module_path, name, files['%s.txt' % base_file_name.lower()])
-                        legends[file_name] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
+                        legends[id.lower()] = codecs.open(legend_file, encoding='utf-8', errors='ignore').read()
         return render('/uimodules/module.mako', extra_vars={
             '_id': id,
             'files_list': files_list,
