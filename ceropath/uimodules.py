@@ -2,6 +2,7 @@ from ceropath.lib.uimodules import *
 from pylons.controllers.util import abort
 import os
 import codecs
+import string
 
 class Measurements(UIModule):
     def render(self, id, publications_list, measures_infos, traits, full=False, species=None, age=None):
