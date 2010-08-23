@@ -11,6 +11,8 @@ log = logging.getLogger(__name__)
 
 class QueryController(BaseController):
 
+    requires_auth_actions = ['index', 'run']
+
     family_genus = {}
     genus_species = {}
     country_province = {}
@@ -27,7 +29,8 @@ class QueryController(BaseController):
     genes = []
     mission_numbers = []
 
-    def __before__(self):
+    def __before__(self, action):
+        super(QueryController, self).__before__(action)
         if not QueryController.family_genus or not QueryController.genus_species:
             for item in self.db.organism_classification.find({'type':'mammal', 'internet_display':True}, 
               fields=['taxonomic_rank.family', 'taxonomic_rank.genus', 'taxonomic_rank.species']):
