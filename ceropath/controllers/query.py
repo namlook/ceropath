@@ -123,62 +123,100 @@ class QueryController(BaseController):
         return anyjson.serialize(list(sorted(results)))
 
     def run(self):
-        query = {'internet_display': True}
-        organism_classification_query = {}
-        site_query = {}
-        filters = {'individual':[]}
-        for k, v in request.GET.iteritems():
-            if k.startswith('filter::'):
-                name = k.split('filter::')[1]
-                if name not in filters:
-                    filters[name] = []
-                filters[name].append(v)
-                continue
-            if v:
-                v = v.strip(u'\xa0')
-                if k == 'individual_id':
-                    query = {'_id':v}
-                elif k in ['family', 'genus', 'species']:
-                    _k = 'taxonomic_rank.%s' % k
-                    if _k not in organism_classification_query:
-                        organism_classification_query[_k] = {'$in':[]}
-                    organism_classification_query[_k]['$in'].append(v)
-                elif k in ['country', 'province', 'place']:
-                    if k == 'place':
-                        k = '_id'
-                    if k not in site_query:
-                        site_query[k] = {'$in':[]}
-                    site_query[k]['$in'].append(v)
-                elif k in ['low', 'medium']:
-                    query['trapping_informations.eco_typology.%s' % k] = v
-                elif k in ['dissection_date', 'dissection_date_start', 'dissection_date_end']:
-                    v = datetime.strptime(v, '%m/%d/%y')
-                    if k == 'dissection_date':
-                        query['dissection_date'] = v
-                    if k == 'dissection_date_start':
-                        if 'dissection_date' not in query:
-                            query['dissection_date'] = {}
-                        if isinstance(query['dissection_date'], dict):
-                            query['dissection_date']['$gt'] = v
-                    if k == 'dissection_date_end':
-                        if 'dissection_date' not in query:
-                            query['dissection_date'] = {}
-                        if isinstance(query['dissection_date'], dict):
-                            query['dissection_date']['$lt'] = v
-        if organism_classification_query:
-            query['organism_classification.$id'] = {
-              '$in':[i['_id'] for i in self.db.organism_classification.find(organism_classification_query, fields=['_id'])]
-            }
-        if site_query:
-            query['trapping_informations.site.$id'] = {
-              '$in':[i['_id'] for i in self.db.site.find(site_query, fields=['_id'])]
-            }
-        results = self.db.individual.find(query)
+        target = request.GET.pop('target', 'html')
+        query = request.GET.pop('query', {})
+        filters = request.GET.pop('filters', {})
+        if not query or not filters:
+            query = {'internet_display': True}
+            organism_classification_query = {}
+            site_query = {}
+            for k, v in request.GET.iteritems():
+                if k.startswith('filter::'):
+                    name = k.split('filter::')[1]
+                    if name not in filters:
+                        filters[name] = []
+                    filters[name].append(v)
+                    continue
+                if v:
+                    v = v.strip(u'\xa0')
+                    if k == 'individual_id':
+                        query = {'_id':v}
+                    elif k in ['family', 'genus', 'species']:
+                        _k = 'taxonomic_rank.%s' % k
+                        if _k not in organism_classification_query:
+                            organism_classification_query[_k] = {'$in':[]}
+                        organism_classification_query[_k]['$in'].append(v)
+                    elif k in ['country', 'province', 'place']:
+                        if k == 'place':
+                            k = '_id'
+                        if k not in site_query:
+                            site_query[k] = {'$in':[]}
+                        site_query[k]['$in'].append(v)
+                    elif k in ['low', 'medium']:
+                        query['trapping_informations.eco_typology.%s' % k] = v
+                    elif k in ['dissection_date', 'dissection_date_start', 'dissection_date_end']:
+                        v = datetime.strptime(v, '%m/%d/%y')
+                        if k == 'dissection_date':
+                            query['dissection_date'] = v
+                        if k == 'dissection_date_start':
+                            if 'dissection_date' not in query:
+                                query['dissection_date'] = {}
+                            if isinstance(query['dissection_date'], dict):
+                                query['dissection_date']['$gt'] = v
+                        if k == 'dissection_date_end':
+                            if 'dissection_date' not in query:
+                                query['dissection_date'] = {}
+                            if isinstance(query['dissection_date'], dict):
+                                query['dissection_date']['$lt'] = v
+            if organism_classification_query:
+                query['organism_classification.$id'] = {
+                  '$in':[i['_id'] for i in self.db.organism_classification.find(organism_classification_query, fields=['_id'])]
+                }
+            if site_query:
+                query['trapping_informations.site.$id'] = {
+                  '$in':[i['_id'] for i in self.db.site.find(site_query, fields=['_id'])]
+                }
+        else:
+            filters = eval(filters)
+            query = eval(query)
+        if filters.get('former_identification'):
+            _results = self.db.individual.find(query, fields=['_id'])
+            results = self.db.former_identification.find({'individual.$id':{'$in':[i['_id'] for i in _results]}}).sort('individual.$id')
+            if target == 'csv':
+                res = render('query/results_former_csv.mako', extra_vars={
+                    'title': 'results for your query',
+                    'query': query,
+                    'results': results,
+                    'filters': filters,
+                    'db':self.db,
+                })
+                response.headers['Content-type'] = 'text/csv; charset=utf-8'
+                response.headers['Content-disposition'] = 'attachment; filename=results.csv'
+                return ''.join([i for i in res.split('\n') if i.strip()]).replace(';|||', '\n').strip()
+            return render('query/results_former.mako', extra_vars={
+                'title': 'results for your query',
+                'query': query,
+                'results': results,
+                'filters': filters,
+                'db':self.db,
+            })
+        results = self.db.individual.find(query).sort('_id')
+        if target == 'csv':
+            res = render('query/results_csv.mako', extra_vars={
+                'title': 'results for your query',
+                'query': query,
+                'results': results,
+                'filters': filters,
+                'db':self.db,
+            })
+            response.headers['Content-type'] = 'text/csv; charset=utf-8'
+            response.headers['Content-disposition'] = 'attachment; filename=results.csv'
+            return ''.join([i for i in res.split('\n') if i.strip()]).replace(';:::', '\n').strip()
         return render('query/results.mako', extra_vars={
-            'title': 'results for your query',
-            'query': query,
-            'results': results,
-            'filters': filters,
-            'db':self.db,
-        })
+                'title': 'results for your query',
+                'query': query,
+                'results': results,
+                'filters': filters,
+                'db':self.db,
+            })
 
