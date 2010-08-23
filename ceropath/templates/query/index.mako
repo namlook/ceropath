@@ -47,52 +47,54 @@ $(document).ready(function(){
 <h1>South East Asian Rodents Data Base queries generator</h1>
 
 <form action="${h.url(h.url_for('query_run'))}" method="get">
-<fieldset><legend>Query by individual id</legend>
+<fieldset><legend><h2>Query by individual id...</h2></legend>
     <input type="text" name="individual_id" />
 </fieldset>
 
-<fieldset><legend>Or by</legend>
-<h3>taxonomy</h3>
-    <table>
-        <tr><th>family</th><th>genus</th><th>species</th></tr>
-        <tr><td>
-        <select id="family" name="family" t="genus" multiple="multiple">
-            % for family in family_genus:
-                <option value="${family}">${family}&nbsp;</option>
-            % endfor
-        </select>
-        </td><td>
-        <select id="genus" name="genus" t="species" multiple="multiple">
-        </select>
-        </td><td>
-        <select id="species" name="species" multiple="multiple">
-        </select>
-        </td></tr>
-    </table>
-##</fieldset>
+<fieldset><legend><h2>... or by</h2></legend>
+<div class="span-29">
+    <div class="span-9">
+        <h3>taxonomy</h3>
+        <table>
+            <tr><th>family</th><th>genus</th><th>species</th></tr>
+            <tr><td>
+            <select id="family" name="family" t="genus" multiple="multiple">
+                % for family in family_genus:
+                    <option value="${family}">${family}&nbsp;</option>
+                % endfor
+            </select>
+            </td><td>
+            <select id="genus" name="genus" t="species" multiple="multiple">
+            </select>
+            </td><td>
+            <select id="species" name="species" multiple="multiple">
+            </select>
+            </td></tr>
+        </table>
+    </div>
 
-##<fieldset><legend>by administrative division</legend>
-<h3>administrative division</h3>
-    <table>
-        <tr><th>country</th><th>province</th><th>place</th></tr>
-        <tr><td>
-        <select id="country" name="country" t="province" multiple="multiple">
-            % for country in country_province:
-                <option value="${country}">${country}&nbsp;</option>
-            % endfor
-        </select>
-        </td><td>
-        <select id="province" name="province" t="place" multiple="multiple">
-        </select>
-        </td><td>
-        <select id="place" name="place" multiple="multiple">
-        </select>
-        </td></tr>
-    </table>
-##</fieldset>
+    <div class="span-9">
+    <h3>administrative division</h3>
+        <table>
+            <tr><th>country</th><th>province</th><th>place</th></tr>
+            <tr><td>
+            <select id="country" name="country" t="province" multiple="multiple">
+                % for country in country_province:
+                    <option value="${country}">${country}&nbsp;</option>
+                % endfor
+            </select>
+            </td><td>
+            <select id="province" name="province" t="place" multiple="multiple">
+            </select>
+            </td><td>
+            <select id="place" name="place" multiple="multiple">
+            </select>
+            </td></tr>
+        </table>
+    </div>
 
-##<fieldset><legend>and / or by topology</legend>
-<h3>topology</h3>
+    <div class="span-9 last">
+    <h3>topology</h3>
     <table>
         <tr><th>low</th><th>medium</th></tr>
         <tr><td>
@@ -106,17 +108,16 @@ $(document).ready(function(){
         </select>
         </td></tr>
     </table>
-
-<h3>dissection date</h3>
-<div><label>choose a date :</label> <input type="date" name="dissection_date" /></div>
-<div><label>or beetween </label> <input type="date" name="dissection_date_start" />
-<label> and </label> <input type="date" name="dissection_date_end" /></div>
+    </div>
+</div>
 
 
 
-<h3>other</h3>
-  <table>
-        <tr><th>sex</th><th>mission number</th><th>dissection date</th></tr>
+<div class="span-29">
+    <div class="span-9">
+    <h3>other</h3>
+      <table>
+        <tr><th>sex</th><th>mission number</th></tr>
         <tr><td>
         <select id="sex" name="sex" multiple="multiple">
             <option value="f">f&nbsp;</option>
@@ -130,12 +131,20 @@ $(document).ready(function(){
         </select>
         </td></tr>
     </table>
+    </div>
 
+    <div class="span-18">
+        <h3>dissection date</h3>
+        <div><label>choose a date :</label> <input type="date" name="dissection_date" /></div>
+        <div><label>or beetween </label> <input type="date" name="dissection_date_start" />
+        <label> and </label> <input type="date" name="dissection_date_end" /></div>
+    </div>
+</div>
 </fieldset>
 
-<hr />
+<h1>Display informations</h1>
 
-<h2> Choose the informations you want to display </h2>
+<fieldset><legend><h2> Choose the informations you want to display... </h2></legend>
 
 <p>check the boxes to select/unselect all</p>
 
@@ -143,9 +152,7 @@ $(document).ready(function(){
     <tr>
         <th>individual informations <input type="checkbox" class="select-all" id="filter::individual" /></th>
         <th>measures <input type="checkbox" class="select-all" id="filter::measures" /></th>
-        <th>former identification <input type="checkbox" class="select-all" id="filter::former_identification" /></th>
         <th>physiologic features <input type="checkbox" class="select-all" id="filter::physiologic_features" /></th>
-        <th>samples <input type="checkbox" class="select-all" id="filter::samples" /></th>
     </tr>
     <tr>
         <td><select name="filter::individual" multiple="multiple">
@@ -158,19 +165,9 @@ $(document).ready(function(){
                 <option name=${measure}>${measure}</option>
             % endfor
         </select></td>
-        <td><select name="filter::former_identification" multiple="multiple">
-            % for identification in former_identification:
-                <option name=${identification}>${identification}</option>
-            % endfor
-        </select></td>
         <td><select name="filter::physiologic_features" multiple="multiple">
             % for feature in physiologic_features:
                 <option name=${feature}>${feature}</option>
-            % endfor
-        </select></td>
-        <td><select name="filter::samples" multiple="multiple">
-            % for sample in samples:
-                <option name=${sample}>${sample}</option>
             % endfor
         </select></td>
     </tr>
@@ -181,6 +178,7 @@ $(document).ready(function(){
         <th>microparasites <input type="checkbox" class="select-all" id="filter::microparasites" /></th>
         <th>macroparasites <input type="checkbox" class="select-all" id="filter::macroparasites" /></th>
         <th>sequences <input type="checkbox" class="select-all" id="filter::sequences" /></th>
+        <th>samples <input type="checkbox" class="select-all" id="filter::samples" /></th>
     </tr>
     <tr>
          <td><select name="filter::microparasites" multiple="multiple">
@@ -198,8 +196,25 @@ $(document).ready(function(){
                 <option name=${gene}>${gene}</option>
             % endfor
         </select></td>
+        <td><select name="filter::samples" multiple="multiple">
+            % for sample in samples:
+                <option name=${sample}>${sample}</option>
+            % endfor
+        </select></td>
     </tr>
 </table>
+</fieldset>
+
+<fieldset><legend><h2>... or display only former identifications</h2></legend>
+<table>
+    <tr><th>former identification <input type="checkbox" class="select-all" id="filter::former_identification" /></th></tr>
+    <tr><td><select name="filter::former_identification" multiple="multiple">
+        % for identification in former_identification:
+            <option name=${identification}>${identification}</option>
+        % endfor
+    </select></td></tr>
+</table>
+</fieldset>
 
 <input type="submit" />
 

@@ -42,7 +42,9 @@ def make_map(config):
     map.connect('pipeline_edit', '/pipeline/config/edit/{id}', controller='pipeline', action='edit')
 
     # query
-    map.connect('query_new', '/rdbsea/query', controller='query', action='new')
+    map.connect('query_index', '/rdbsea/query', controller='query', action='index')
+    map.connect('query_run', '/rdbsea/query/run', controller='query', action='run')
+    map.connect('query_expand', '/rdbsea/query/expand', controller='query', action='expand')
     map.connect('query_completion', '/rdbsea/query/field_completion', controller='query', action='field_completion')
 
     # institute

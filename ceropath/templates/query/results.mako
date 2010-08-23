@@ -1,5 +1,6 @@
 <% from mongokit import DotCollapsedDict, DBRef %>
 
+<a href="${h.url(h.url_for('query_run', query=query, filters=filters, target='csv'))}">Download data in csv format</a>
 
 <style>
 tr:nth-child(even) {background: #F6FFDE}
