@@ -5,6 +5,9 @@ table.measurements td{
     border:1px solid #E6E6E6;
     padding:10px;
 }
+fieldset {
+    background:#fff;
+}
 </style>
 
 <div class="span-20">
