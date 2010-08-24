@@ -142,15 +142,15 @@ $(document).ready(function(){
 </div>
 </fieldset>
 
-<h1>Display informations</h1>
+<h1>Display information</h1>
 
-<fieldset><legend><h2> Choose the informations you want to display... </h2></legend>
+<fieldset><legend><h2> Choose the information you want to display... </h2></legend>
 
 <p>check the boxes to select/unselect all</p>
 
 <table>
     <tr>
-        <th>individual informations <input type="checkbox" class="select-all" id="filter::individual" /></th>
+        <th>individual information <input type="checkbox" class="select-all" id="filter::individual" /></th>
         <th>measures <input type="checkbox" class="select-all" id="filter::measures" /></th>
         <th>physiologic features <input type="checkbox" class="select-all" id="filter::physiologic_features" /></th>
     </tr>

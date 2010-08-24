@@ -26,7 +26,7 @@ fieldset {
         <p style="text-align:center;margin:0px;padding:0px;"><small>Click on the image to see skull measurments</small></p>
         </fieldset>
     % endif
-    <fieldset><legend>General Informations</legend>
+    <fieldset><legend>General Information</legend>
         <table style="width:360px">
             <tr><th>species</th><td><a href="${h.url(h.url_for('species_show', id=species))}">${species.capitalize()}</a></td></tr>
             <tr><th>sex</th><td>${sex}</td></tr>
@@ -37,7 +37,7 @@ fieldset {
     <fieldset style="width:360px;"><legend>Scientific fields</legend>
         ${h.ui.ModulesList(_id, root="individual")}
     </fieldset>
-    <fieldset><legend>Trapping Informations</legend>
+    <fieldset><legend>Trapping Information</legend>
         <table>
             <tr><th>region</th><td>${region}</td></tr>
             <tr><th>country</th><td>${country}</td></tr>

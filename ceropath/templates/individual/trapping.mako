@@ -145,7 +145,7 @@ $(window).unload(function() {
 </div>
 
 <div class="span-8">
-    <fieldset><legend>Trapping Informations</legend>
+    <fieldset><legend>Trapping Information</legend>
         <table style="width:360px;">
             <tr><th>site id</th><td>${site.upper()}</td></tr>
             <tr><th>region</th><td>${region}</td></tr>
