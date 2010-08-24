@@ -60,7 +60,7 @@ $(document).ready(function(){
             <tr><td>
             <select id="family" name="family" t="genus" multiple="multiple">
                 % for family in family_genus:
-                    <option value="${family}">${family}&nbsp;</option>
+                    <option value="${family.capitalize()}">${family.capitalize()}&nbsp;</option>
                 % endfor
             </select>
             </td><td>

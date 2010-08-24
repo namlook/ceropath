@@ -34,12 +34,12 @@ class QueryController(BaseController):
         if not QueryController.family_genus or not QueryController.genus_species:
             for item in self.db.organism_classification.find({'type':'mammal', 'internet_display':True}, 
               fields=['taxonomic_rank.family', 'taxonomic_rank.genus', 'taxonomic_rank.species']):
-                if item['taxonomic_rank']['family'] not in QueryController.family_genus:
+                if item['taxonomic_rank']['family'] and item['taxonomic_rank']['family'] not in QueryController.family_genus:
                         QueryController.family_genus[item['taxonomic_rank']['family']] = set([])
-                QueryController.family_genus[item['taxonomic_rank']['family']].add(item['taxonomic_rank']['genus'])
-                if item['taxonomic_rank']['genus'] not in QueryController.genus_species:
+                QueryController.family_genus[item['taxonomic_rank']['family']].add(item['taxonomic_rank']['genus'].capitalize())
+                if item['taxonomic_rank']['genus'] and item['taxonomic_rank']['genus'] not in QueryController.genus_species:
                         QueryController.genus_species[item['taxonomic_rank']['genus']] = set([])
-                QueryController.genus_species[item['taxonomic_rank']['genus']].add(item['taxonomic_rank']['species'])
+                QueryController.genus_species[item['taxonomic_rank']['genus']].add(item['taxonomic_rank']['species'].capitalize())
         if not QueryController.country_province or not QueryController.province_place :
             for item in self.db.site.find(fields=['province', 'country']):
                 if not item['country'] in QueryController.country_province:
@@ -119,7 +119,7 @@ class QueryController(BaseController):
             'low': self.typo_low_medium,
         }
         for item in values:
-            l = mapping[name][item]
+            l = mapping[name][item.lower()]
             results.extend(list(l))
         response.headers['Content-type'] = 'application/json'
         import anyjson
@@ -148,7 +148,7 @@ class QueryController(BaseController):
                         _k = 'taxonomic_rank.%s' % k
                         if _k not in organism_classification_query:
                             organism_classification_query[_k] = {'$in':[]}
-                        organism_classification_query[_k]['$in'].append(v)
+                        organism_classification_query[_k]['$in'].append(v.lower())
                     elif k in ['country', 'province', 'place']:
                         if k == 'place':
                             k = '_id'
