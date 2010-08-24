@@ -28,6 +28,7 @@ class QueryController(BaseController):
     individual = []
     genes = []
     mission_numbers = []
+    sites = []
 
     def __before__(self, action):
         super(QueryController, self).__before__(action)
@@ -77,7 +78,7 @@ class QueryController(BaseController):
             [res.extend([j['name'] for j in i['samples']]) for i in self.db.individual.find(fields=['samples'])]
             QueryController.samples = list(sorted(set(res)))
         if not QueryController.individual:
-            QueryController.individual = list(sorted([u' >> '.join(k.split('.')) for k in DotCollapsedDict(self.db.individual.find_one())]))
+            QueryController.individual = list(sorted(u' >> '.join(k.split('.')) for k in DotCollapsedDict(self.db.individual.find_one())))
             for i in ['_id', 'internet_display', 'measures', 'physiologic_features', 'samples', 'microparasites', 'macroparasites']:
                 QueryController.individual.remove(i)
         if not QueryController.measures:
@@ -88,6 +89,10 @@ class QueryController(BaseController):
             QueryController.genes = list(sorted(set([i['_id'] for i in self.db.gene.find(fields=['_id'])])))
         if not QueryController.mission_numbers:
             QueryController.mission_numbers = list(sorted(set([i['mission']['remark'] for i in self.db.individual.find(fields=['mission.remark'])])))
+        if not QueryController.sites:
+            d = self.db.site.find_one()
+            del d['eco_typology']
+            QueryController.sites = list(sorted(u' >> '.join(k.split('.')) for k in DotCollapsedDict(d)))
 
     def index(self):
         return render('query/index.mako', extra_vars={
@@ -105,6 +110,7 @@ class QueryController(BaseController):
            'measures': self.measures,
            'genes': self.genes,
            'mission_numbers': self.mission_numbers,
+           'sites': self.sites,
         })
 
     def expand(self):
@@ -118,12 +124,13 @@ class QueryController(BaseController):
             'province': self.province_place,
             'low': self.typo_low_medium,
         }
-        for item in values:
-            l = mapping[name][item.lower()]
-            results.extend(list(l))
-        response.headers['Content-type'] = 'application/json'
-        import anyjson
-        return anyjson.serialize(list(sorted(results)))
+        if name in mapping:
+            for item in values:
+                l = mapping[name][item.lower()]
+                results.extend(list(l))
+            response.headers['Content-type'] = 'application/json'
+            import anyjson
+            return anyjson.serialize(list(sorted(results)))
 
     def run(self):
         target = request.GET.pop('target', 'html')

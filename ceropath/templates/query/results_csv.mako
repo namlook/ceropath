@@ -20,6 +20,8 @@ ${item['_id'].upper()};
                             field = field.replace(' >> ', '.')
                         if isinstance(item[field], DBRef):
                             item[field] = item[field].id
+                            if field == "organism_classification":
+                                item[field] = " ".join(i.capitalize() for i in item[field].split())
                     %>
 ${item[field]};
                 % elif filt=='measures':
@@ -50,6 +52,9 @@ ${responsible[0]};
                     % if seq:
 ${seq['sequence']};
                     % endif
+                % elif filt=='sites':
+                    <% site = db.site.get_from_id(item['trapping_informations.site'].id) %>
+${site[field]};
                 % endif
             % endfor
         % endfor

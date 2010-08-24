@@ -157,7 +157,11 @@ $(document).ready(function(){
     <tr>
         <td><select name="filter::individual" multiple="multiple">
             % for field in individual:
-                <option name=${field}>${field}</option>
+                % if field in ['organism_classification', 'sex', 'identification >> type', 'dissection_date']:
+                    <option selected="selected" name="${field}">${field}</option>
+                % else:
+                    <option name="${field}">${field}</option>
+                % endif
             % endfor
         </select></td>
         <td><select name="filter::measures" multiple="multiple">
@@ -179,6 +183,7 @@ $(document).ready(function(){
         <th>macroparasites <input type="checkbox" class="select-all" id="filter::macroparasites" /></th>
         <th>sequences <input type="checkbox" class="select-all" id="filter::sequences" /></th>
         <th>samples <input type="checkbox" class="select-all" id="filter::samples" /></th>
+        <th>sites<input type="checkbox" class="select-all" id="filter::sites" /></th>
     </tr>
     <tr>
          <td><select name="filter::microparasites" multiple="multiple">
@@ -199,6 +204,15 @@ $(document).ready(function(){
         <td><select name="filter::samples" multiple="multiple">
             % for sample in samples:
                 <option name=${sample}>${sample}</option>
+            % endfor
+        </select></td>
+        <td><select name="filter::sites" multiple="multiple">
+            % for site in sites:
+                % if site in ['country', 'province']:
+                    <option selected="selected" name=${site}>${site}</option>
+                % else:
+                    <option name=${site}>${site}</option>
+                % endif
             % endfor
         </select></td>
     </tr>

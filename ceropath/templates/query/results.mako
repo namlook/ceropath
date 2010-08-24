@@ -31,6 +31,8 @@ tr:nth-child(odd) {background: #FFF}
                             field = field.replace(' >> ', '.')
                         if isinstance(item[field], DBRef):
                             item[field] = item[field].id
+                            if field == "organism_classification":
+                                item[field] = " ".join(i.capitalize() for i in item[field].split())
                     %>
                     <pre>${item[field]}</pre>
                 % elif filt=='measures':
@@ -61,6 +63,9 @@ tr:nth-child(odd) {background: #FFF}
                     % if seq:
                         <pre>${seq['sequence']}</pre>
                     % endif
+                % elif filt=='sites':
+                    <% site = db.site.get_from_id(item['trapping_informations.site'].id) %>
+                    ${site[field]}
                 % endif
             </td>
             % endfor
