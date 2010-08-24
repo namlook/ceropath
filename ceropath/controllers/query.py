@@ -87,7 +87,7 @@ class QueryController(BaseController):
         if not QueryController.genes:
             QueryController.genes = list(sorted(set([i['_id'] for i in self.db.gene.find(fields=['_id'])])))
         if not QueryController.mission_numbers:
-            QueryController.mission_numbers = list(sorted(set([i['mission']['number'] for i in self.db.individual.find(fields=['mission.number'])])))
+            QueryController.mission_numbers = list(sorted(set([i['mission']['remark'] for i in self.db.individual.find(fields=['mission.remark'])])))
 
     def index(self):
         return render('query/index.mako', extra_vars={

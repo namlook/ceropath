@@ -117,7 +117,7 @@ $(document).ready(function(){
     <div class="span-9">
     <h3>other</h3>
       <table>
-        <tr><th>sex</th><th>mission number</th></tr>
+        <tr><th>sex</th><th>mission</th></tr>
         <tr><td>
         <select id="sex" name="sex" multiple="multiple">
             <option value="f">f&nbsp;</option>
