@@ -1,9 +1,37 @@
 <%inherit file="/root.mako" />
 
+<script type="text/javascript" language="javascript">
+<!--
+// Email obfuscator script 2.1 by Tim Williams, University of Arizona
+// Random encryption key feature by Andrew Moulden, Site Engineering Ltd
+// This code is freeware provided these four comment lines remain intact
+// A wizard to generate this code is at http://www.jottings.com/obfuscator/
+$(document).ready(function(){
+  coded = "PwS6rY@8g4P.3r8K-PwrTEX.0S"
+  key = "zKTISe157XfMEbndHm3Blwj9iFOqDsa4xWAG0vtUrYNPZ2hJpR8Qycug6okVLC"
+  shift=coded.length
+  link=""
+  for (i=0; i<coded.length; i++) {
+    if (key.indexOf(coded.charAt(i))==-1) {
+      ltr = coded.charAt(i)
+      link += (ltr)
+    }
+    else {     
+      ltr = (key.indexOf(coded.charAt(i))-shift+key.length) % key.length
+      link += (key.charAt(ltr))
+    }
+  }
+  $('#email-serge').attr('href', 'mailto:'+link);
+//document.write("<a href='mailto:"+link+"'>Serge Morand</a>")
+});
+
+//-->
+</script><noscript>Sorry, you need Javascript on to contact Serge Morand.</noscript>
+
 <center>
 <h1 style="color:red">RESTRICTED AREA</h1>
 <p>You are not allowed to perform this action. Please log in before continue.</p>
-<p>Please, contact <a href="mailto:morand@isem.univ-montp2.fr">morand@isem.univ-montp2.fr</a> for more information</p>
+<p>Please, contact <a id="email-serge" href="">Serge Morand</a> for more information</p>
 
 <form action="${h.url(h.url_for('login_submit'))}" method="post">
     <table>
