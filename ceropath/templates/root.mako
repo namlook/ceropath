@@ -66,6 +66,9 @@
         #footer-text a:hover {
             text-decoration:underline;
         }
+        fieldset{
+            background:#fff;
+        }
     </style> 
 </head>
 <body>
