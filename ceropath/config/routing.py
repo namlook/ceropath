@@ -45,7 +45,7 @@ def make_map(config):
     map.connect('query_index', '/rdbsea/query', controller='query', action='index')
     map.connect('query_run', '/rdbsea/query/run', controller='query', action='run')
     map.connect('query_expand', '/rdbsea/query/expand', controller='query', action='expand')
-    map.connect('query_completion', '/rdbsea/query/field_completion', controller='query', action='field_completion')
+    map.connect('query_infos', '/rdbsea/query/infos', controller='query', action='infos')
 
     # institute
     map.connect('institute_show', '/rdbsea/institute/{id}', controller='institute', action='show')

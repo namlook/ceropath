@@ -4,8 +4,10 @@ from pylons import request, response, session, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
 
 from ceropath.lib.base import BaseController, render
+from ceropath.lib.helpers import markdownize
 from mongokit import IS, DotCollapsedDict
 from datetime import datetime
+import os
 
 log = logging.getLogger(__name__)
 
@@ -229,4 +231,15 @@ class QueryController(BaseController):
                 'filters': filters,
                 'db':self.db,
             })
+
+    def infos(self):
+        path = os.path.join('ceropath', 'public', 'data', 'query')
+        if 'documentation.txt' in os.listdir(path):
+            content = open(os.path.join(path, 'documentation.txt')).read()
+        else:
+            content = "Not informations about this pipeline was found... sorry."
+        return render('query/infos.mako', extra_vars={
+            'title': 'Queries engine documentation',
+            'content': content,
+        })
 

@@ -47,7 +47,7 @@ $(document).ready(function(){
 <h1>South East Asian Rodents Data Base queries generator</h1>
 
 
-<p style="text-align:right;"><a href="/data/query/documentation.txt">more information</a></p>
+<p style="text-align:right;"><a href="${h.url(h.url_for('query_infos'))}">more information</a></p>
 
 <form action="${h.url(h.url_for('query_run'))}" method="get">
 <fieldset><legend><h2>Query by individual id...</h2></legend>
