@@ -127,7 +127,7 @@ $(document).ready(function(){
             <option value="m">m&nbsp;</option>
         </select>
         </td><td>
-        <select id="mission_id" name="mission_id" multiple="multiple">
+        <select id="mission" name="mission" multiple="multiple">
             % for mission_number in mission_numbers:
                 <option value="${mission_number}">${mission_number}&nbsp;</option>
             % endfor

@@ -1,4 +1,5 @@
 <% from mongokit import DotCollapsedDict, DBRef %>
+<% from datetime import datetime %>
 
 
 id;
@@ -22,6 +23,8 @@ ${item['_id'].upper()};
                             item[field] = item[field].id
                             if field == "organism_classification":
                                 item[field] = " ".join(i.capitalize() for i in item[field].split())
+                        elif isinstance(item[field], datetime):
+                            item[field] = item[field].date()
                     %>
 ${item[field]};
                 % elif filt=='measures':

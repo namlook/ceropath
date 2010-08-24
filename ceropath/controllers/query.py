@@ -42,7 +42,7 @@ class QueryController(BaseController):
                 QueryController.family_genus[item['taxonomic_rank']['family']].add(item['taxonomic_rank']['genus'].capitalize())
                 if item['taxonomic_rank']['genus'] and item['taxonomic_rank']['genus'] not in QueryController.genus_species:
                         QueryController.genus_species[item['taxonomic_rank']['genus']] = set([])
-                QueryController.genus_species[item['taxonomic_rank']['genus']].add(item['taxonomic_rank']['species'].capitalize())
+                QueryController.genus_species[item['taxonomic_rank']['genus']].add(item['taxonomic_rank']['species'])
         if not QueryController.country_province or not QueryController.province_place :
             for item in self.db.site.find(fields=['province', 'country']):
                 if not item['country'] in QueryController.country_province:
@@ -152,7 +152,15 @@ class QueryController(BaseController):
                 if v:
                     v = v.strip(u'\xa0')
                     if k == 'individual_id':
-                        query = {'_id':v.lower()}
+                        query['_id'] = v.lower()
+                    elif k == 'sex':
+                        if not 'sex' in query:
+                            query['sex'] = {'$in': []}
+                        query['sex']['$in'].append(v.lower())
+                    elif k == 'mission':
+                        if not 'mission.remark' in query:
+                            query['mission.remark'] = {'$in':[]}
+                        query['mission.remark']['$in'].append(v)
                     elif k in ['family', 'genus', 'species']:
                         _k = 'taxonomic_rank.%s' % k
                         if _k not in organism_classification_query:

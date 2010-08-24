@@ -1,4 +1,5 @@
 <% from mongokit import DotCollapsedDict, DBRef %>
+<% from datetime import datetime %>
 
 <a href="${h.url(h.url_for('query_run', query=query, filters=filters, target='csv'))}">Download data in csv format</a>
 
@@ -33,6 +34,8 @@ tr:nth-child(odd) {background: #FFF}
                             item[field] = item[field].id
                             if field == "organism_classification":
                                 item[field] = " ".join(i.capitalize() for i in item[field].split())
+                        elif isinstance(item[field], datetime):
+                            item[field] = item[field].date()
                     %>
                     <pre>${item[field]}</pre>
                 % elif filt=='measures':
