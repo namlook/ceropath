@@ -11,7 +11,7 @@ tr:nth-child(odd) {background: #FFF}
 
 <table>
 <tr>
-    <th>id</th>
+    <th>individual id</th>
 % for filt in sorted(filters):
     % for field in sorted(filters[filt]):
         <th style="padding:5px;">${field}</th>
@@ -21,7 +21,7 @@ tr:nth-child(odd) {background: #FFF}
 % for item in results:
     <% item = DotCollapsedDict(item) %>
     <tr>
-        <th style="padding:5px;">${item['_id']}</th>
+        <th style="padding:5px;">${item['_id'].upper()}</th>
         % for filt in sorted(filters):
             % for field in sorted(filters[filt]):
                 <td style="text-align:center;padding:5px;">

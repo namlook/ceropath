@@ -143,7 +143,7 @@ class QueryController(BaseController):
                 if v:
                     v = v.strip(u'\xa0')
                     if k == 'individual_id':
-                        query = {'_id':v}
+                        query = {'_id':v.lower()}
                     elif k in ['family', 'genus', 'species']:
                         _k = 'taxonomic_rank.%s' % k
                         if _k not in organism_classification_query:

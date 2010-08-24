@@ -10,7 +10,7 @@ ${th};
 % for item in results:
     % for field in fields:
         % if field == 'individual':
-${item[field].id};
+${item[field].id.upper()};
         % else:
             % if isinstance(item[field], DBRef):
 <% item[field] = item[field].id %>

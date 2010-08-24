@@ -11,7 +11,7 @@ ${h.literal(field)};
 
 % for item in results:
     <% item = DotCollapsedDict(item) %>
-${item['_id']};
+${item['_id'].upper()};
         % for filt in sorted(filters):
             % for field in sorted(filters[filt]):
                 % if filt == 'individual':

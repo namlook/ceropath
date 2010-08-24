@@ -21,7 +21,7 @@ tr:nth-child(odd) {background: #FFF}
     <tr>
         % for field in fields:
             % if field == 'individual':
-                <th style="padding:5px;">${item[field].id}</th>
+                <th style="padding:5px;">${item[field].id.upper()}</th>
             % else:
                 % if isinstance(item[field], DBRef):
                     <% item[field] = item[field].id %>
