@@ -7,8 +7,8 @@
 // This code is freeware provided these four comment lines remain intact
 // A wizard to generate this code is at http://www.jottings.com/obfuscator/
 $(document).ready(function(){
-  coded = "PwS6rY@8g4P.3r8K-PwrTEX.0S"
-  key = "zKTISe157XfMEbndHm3Blwj9iFOqDsa4xWAG0vtUrYNPZ2hJpR8Qycug6okVLC"
+  coded = "C7eu7.2werXK@UX8x-2wX6Vp.He"
+  key = "1kGCJD93WHUcvtpdohgbZemyqT8YRaS4nzP5FMsx6VKwfuNQ72OABIl0rELXji"
   shift=coded.length
   link=""
   for (i=0; i<coded.length; i++) {
