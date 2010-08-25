@@ -2,13 +2,9 @@
 <% import datetime %>
 
 <style>
-    .image{
-        position:relative;
-        left:-200px;
-    }
     .image img{
         position: relative;
-        right:-200px;
+        right:0px;
         width:70%;
     }
     .input{
