@@ -1,0 +1,19 @@
+{
+  "name": "Ceropath",
+  "version": "0.0.0",
+  "authors": [
+    "namlook <nicolas.clairon@elkorado.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "package.json"
+  ],
+  "dependencies": {
+    "eurekapp": "git://github.com/namlook/eurekapp.git"
+  }
+}

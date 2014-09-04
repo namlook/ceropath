@@ -1,9 +1,0 @@
-id_individu:
-    dbrsea: individual_id
-
-parasite_identification:
-    dbrsea: parasite
-    lower: false
-
-value:
-    dbrsea: quantity

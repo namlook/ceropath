@@ -1,0 +1,25 @@
+
+.eureka-banner-bottom {
+    background-image: url('/app/assets/images/header-final.jpg');
+    background-color: #ffffff;
+    height: 218px;
+    background-repeat: no-repeat;
+}
+
+html,
+.eureka-navbar,
+.eureka-navigation,
+.eureka-application {
+    background-color: #7A0329;
+}
+
+.eureka-navigation .nav-pills > li > a:hover,
+.eureka-navigation .nav-pills > li > a:focus {
+    background-color: #D8EAA8;
+}
+
+
+.eureka-navbar a,
+.eureka-navigation a {
+    color: #D8EAA8;
+}
