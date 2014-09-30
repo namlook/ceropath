@@ -1,3 +1,6 @@
+var editAction = {name: 'edit', icon: 'glyphicon glyphicon-pencil'};
+var deleteAction = {name: 'delete', icon: 'glyphicon glyphicon-trash'};
+
 module.exports = {
     Species: {
         label: {
@@ -55,16 +58,16 @@ module.exports = {
                 type: 'string',
                 description: 'the locality where the species has been described for the first time'
             },
-            citations: {
-                type: 'Citation',
-                multi: true,
-                description: 'publications where the species is described'
-            },
-            synonyms: {
-                type: 'Citation',
-                multi: true,
-                description: 'publications where the species was described in another name'
-            },
+            // citations: {
+            //     type: 'Citation',
+            //     multi: true,
+            //     description: 'publications where the species is described'
+            // },
+            // synonyms: {
+            //     type: 'Citation',
+            //     multi: true,
+            //     description: 'publications where the species was described in another name'
+            // },
             msw3ID: {
                 hidden: true,
                 type: 'string',
@@ -167,13 +170,30 @@ module.exports = {
         },
         views: {
             index: {
-                fields: ['title', 'commonNames', 'iucnRedListStatus', 'iucnTrend', 'iucnRedListCriteriaVersion'],
-                tableView: true
+                widgets: [
+                    [{
+                        type: 'timeSeries',
+                        field: 'discoveryYear',
+                        label: 'Number of species discovered',
+                        css: 'col-sm-9'
+                    }, {
+                        type: 'matchingQueryDonut',
+                        css: 'col-sm-3'
+                    }],
+                    [{
+                        type: 'tableView',
+                        fields: ['title', 'commonNames', 'iucnRedListStatus', 'iucnTrend', 'iucnRedListCriteriaVersion'],
+                    }]
+                ]
             },
             display: {
                 populate: 2
             }
         },
+        facets: [
+            'iucnTrend',
+            {label: 'Genus', field: 'taxonomicGenusRank'}
+        ],
         fieldsets : [
             {
                 label: 'Taxonomic ranks',
@@ -209,18 +229,11 @@ module.exports = {
         ],
     },
     Individual: {
-        limit: 10,
-        populate: {
-            display: 1, // TODO ['species', 'gender']
-            index: 1
-        },
-        // or
-        // populate: ['species', 'gender']
         facets: [
             'maturity',
             {label: 'gender', field: 'gender.label@en'},
             'voucherBarcoding',
-            {label: 'species', field:'species.title'}
+            {label: 'species', field:'species.title', limit: 10}
         ],
         fieldsets: [
             {
@@ -286,18 +299,61 @@ module.exports = {
         ],
         views: {
             index: {
-                limit: 15,
-                populate: 1,
-                tableView: true,
-                fields: ['title', 'species', 'gender', 'maturity', 'voucherBarcoding']
-            }
+                widgets: [
+                    [{
+                        type: 'timeSeries',
+                        field: 'dissectionDate',
+                        label: 'Number of dissections',
+                        aggregationType: '$year'
+                    }],
+                    [{
+                        type: 'tableView',
+                        fields: ['title', 'species', 'gender', 'maturity', 'voucherBarcoding'],
+                        populate: 1,
+                        limit: 15,
+                        sortBy: 'maturity'
+                    }],
+                    [
+                        {
+                            type: 'matchingQueryDonut'
+                        },
+                        {
+                            type: 'facetDonut',
+                            field: 'maturity',
+                            label: 'Maturity'
+                        },
+                        {
+                            type: 'facetDonut',
+                            field: 'gender.label',
+                            label: 'Gender'
+                        },
+                        {
+                            type: 'facetDonut',
+                            field: 'voucherBarcoding',
+                            label: 'Voucher barcoding'
+                        }
+                    ]
+                ]
+            },
+            // _display: {
+            //     widgets: [
+            //         [{
+            //             type: 'map'
+            //         }],
+            //         [{
+            //             type: 'modelDisplay'
+            //             //fieldsets: fieldsets,
+            //         }]
+            //     ]
+            // }
         },
         schema: {
             title: {
                 type: 'string'
             },
             species: {
-                type: 'Species'
+                type: 'Species',
+                inverse: 'individuals'
             },
             gender: { // from sex
                 type: 'Gender',
@@ -334,6 +390,7 @@ module.exports = {
             },
             trappingSite: {
                 type: 'Site',
+                inverse: 'trappingIndividuals',
                 description: 'the place where the individual has been trapped'
             },
             trappingLandscapeHightResolution: {
@@ -556,6 +613,22 @@ module.exports = {
         }
     },
     Site: {
+        views: {
+            index: {
+                widgets: [
+                    [{
+                        type: 'tableView',
+                        fields: ['title', 'country', 'village', 'isCeropathSite']
+                    }]
+                ]
+            }
+        },
+        facets: [
+            'isCeropathSite',
+            {label: 'High res. landscape', field: 'surroundingLandscapeHighResolution.label@en', limit: 10},
+            {label: 'Medium res. landscape', field: 'surroundingLandscapeMediumResolution.label@en'},
+            {label: 'Low res. landscape', field: 'surroundingLandscapeLowResolution.label@en'}
+        ],
         schema: {
             title: {
                 type: 'string'
@@ -575,6 +648,9 @@ module.exports = {
             },
             village: {
                 type: 'string'
+            },
+            soilType: {
+                type: 'SoilType'
             },
             isCeropathSite: {
                 type: 'boolean'
@@ -619,6 +695,13 @@ module.exports = {
             }
         }
     },
+    SoilType: {
+        schema: {
+            title: {
+                type: 'string'
+            }
+        }
+    },
     Citation: {
         hidden: true,
         populate: {
@@ -626,12 +709,18 @@ module.exports = {
             display: 1
         },
         schema: {
+            species: {
+                type: 'Species',
+                inverse: 'citations',
+                description: 'the species cited in the publication'
+            },
             name: {
                 type: 'string',
                 description: 'the name of the species cited in the publication'
             },
             publication: {
                 type: 'Publication',
+                inverse: 'citations',
                 description: 'the publication where the species has been described'
             }
         }
@@ -725,11 +814,14 @@ module.exports = {
         },
         views: {
             index: {
-                limit: 10,
-                populate: 1,
-                tableView: {
-                    fields: ['individual', 'gene', 'forwardPrimer', 'reversePrimer']
-                },
+                widgets: [
+                    [{
+                        type:'tableView',
+                        fields: ['individual', 'gene', 'forwardPrimer', 'reversePrimer'],
+                        limit: 15,
+                        populate: 1,
+                    }]
+                ],
                 search: {
                     field: 'individual.title',
                     placeholder: 'search a sequence on an individual'
@@ -737,6 +829,119 @@ module.exports = {
             },
             display: {
                 populate: 1
+            }
+        }
+    },
+    Fact: {
+        views: {
+            index: {
+                widgets: [
+                    [{
+                        type: 'timeline',
+                        contentField: 'title',
+                        startField: 'startDate',
+                        endField: 'endDate'
+                    }],
+                    [{
+                        type: 'tableView',
+                        populate: 1,
+                        fields: ['title', 'what', 'who', 'startDate', 'endDate', 'where', 'why']
+                    }]
+                ]
+            },
+            display: {
+                actions: [
+                    editAction,
+                    deleteAction
+                ]
+            }
+        },
+        aliases: {
+            description: 'note'
+        },
+        schema: {
+            title: {
+                type: 'string'
+            },
+            what: {
+                type: 'Topic',
+                multi: true
+            },
+            startDate: {
+                type: 'date'
+            },
+            endDate: {
+                type: 'date'
+            },
+            where: {
+                type: 'Site',
+                multi: true
+            },
+            who: {
+                type: 'SociologicalAgent'
+            },
+            sociologicalType: {
+                type: 'SociologicalType',
+                multi: true
+            },
+            why: {
+                type: 'Reason',
+                multi: true,
+                description: "raisons qui explique le fait"
+            },
+            how: {
+                type: 'Means',
+                multi: true,
+                description: "moyen (techniques, innovation sociale) mis en oeuvre"
+            },
+            note: {
+                type: 'string'
+            },
+        }
+    },
+    Reason: {
+        schema: {
+            title: {
+                type: 'string'
+            }
+        }
+    },
+    Means: {
+        label: {
+            en: {plural: 'Means'}
+        },
+        views: {
+            display: {
+                actions: [
+                    editAction,
+                    deleteAction
+                ]
+            }
+        },
+        schema: {
+            title: {
+                type: 'string'
+            }
+        }
+    },
+    SociologicalAgent: {
+        schema: {
+            title: {
+                type: 'string'
+            }
+        }
+    },
+    SociologicalType: {
+        schema: {
+            title: {
+                type: 'string'
+            }
+        }
+    },
+    Topic: {
+        schema: {
+            title: {
+                type: 'string'
             }
         }
     }
