@@ -370,7 +370,8 @@ module.exports = {
                 description: "True if the skull has been cleaned and added to the collection"
             },
             dissectionDate: { // from Date_of_dissection
-                type: 'date'
+                type: 'date',
+                dateFormat: 'll'
             },
             comment: {
                 type: 'string'
@@ -868,10 +869,12 @@ module.exports = {
                 multi: true
             },
             startDate: {
-                type: 'date'
+                type: 'date',
+                dateFormat: 'L'
             },
             endDate: {
-                type: 'date'
+                type: 'date',
+                dateFormat: 'L'
             },
             where: {
                 type: 'Site',
