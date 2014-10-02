@@ -618,6 +618,13 @@ module.exports = {
             index: {
                 widgets: [
                     [{
+                        type: 'map',
+                        latitudeField: 'geoWgsLat',
+                        longitudeField: 'geoWgsLong',
+                        limit: 500,
+                        groupMarkers: true
+                    }],
+                    [{
                         type: 'tableView',
                         fields: ['title', 'country', 'village', 'isCeropathSite']
                     }]
@@ -830,6 +837,76 @@ module.exports = {
             },
             display: {
                 populate: 1
+            }
+        }
+    },
+    GeoDatedFact: {
+        views: {
+            index: {
+                widgets: [
+                    [{
+                        type: 'timeline',
+                        startField: 'startDate',
+                        endField: 'endDate',
+                        populate: 1,
+                    }],
+                    [{
+                        type: 'tableView',
+                        populate: 1,
+                        fields: ['subject', 'predicate', 'object', 'startDate', 'endDate', 'location']
+                    }]
+                ]
+            },
+            display: {
+                actions: [
+                    editAction,
+                    deleteAction
+                ]
+            }
+        },
+        aliases: {
+            description: 'note'
+        },
+        schema: {
+            subject: {
+                type: 'Thing'
+            },
+            predicate: {
+                type: 'Predicate'
+            },
+            object: {
+                type: 'Thing'
+            },
+            startDate: {
+                type: 'date',
+                dateFormat: 'L'
+            },
+            endDate: {
+                type: 'date',
+                dateFormat: 'L'
+            },
+            location: {
+                type: 'Site'
+            },
+            value: {
+                type: 'string'
+            },
+            note: {
+                type: 'string'
+            }
+        }
+    },
+    Thing: {
+        schema: {
+            title: {
+                type: 'string'
+            }
+        }
+    },
+    Predicate: {
+        schema: {
+            title: {
+                type: 'string'
             }
         }
     },
