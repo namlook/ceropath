@@ -1,0 +1,24 @@
+web:
+    image: namlook/ceropath:latest
+    links:
+        - db
+    ports:
+        - "4000:4000"
+    environment:
+        NODE_ENV: production
+    restart: always
+    volumes:
+        - ./uploads:/app/uploads
+db:
+    image: namlook/virtuoso:7.1.0
+    environment:
+        VIRTUOSO_DBA_PASSWORD: dba
+    restart: always
+    volumes:
+        - ~/virtuosodb:/home/virtuoso/virtuoso/var/lib/virtuoso/db
+
+
+# docker build -t ceropath .
+
+
+# docker run -d --name db -v /usr/local/Cellar/virtuoso/7.1.0/var/lib/virtuoso/db:/home/virtuoso/virtuoso/var/lib/virtuoso/db namlook/virtuoso:7.1.0
