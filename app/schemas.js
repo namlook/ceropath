@@ -5,10 +5,12 @@ module.exports = {
     Species: {
         label: {
             en: {
-                plural: 'Species'
+                plural: 'Taxonomy',
+                single: 'Taxonomy'
             },
             fr: {
-                singular: 'Espèce'
+                singular: 'Taxonomie',
+                plural: 'Taxonomie'
             }
         },
         schema: {
@@ -172,6 +174,10 @@ module.exports = {
             index: {
                 widgets: [
                     [{
+                        type: 'tableView',
+                        fields: ['title', 'commonNames', 'iucnRedListStatus', 'iucnTrend', 'iucnRedListCriteriaVersion'],
+                    }],
+                    [{
                         type: 'timeSeries',
                         field: 'discoveryYear',
                         label: 'Number of species discovered',
@@ -179,10 +185,6 @@ module.exports = {
                     }, {
                         type: 'matchingQueryDonut',
                         css: 'col-sm-3'
-                    }],
-                    [{
-                        type: 'tableView',
-                        fields: ['title', 'commonNames', 'iucnRedListStatus', 'iucnTrend', 'iucnRedListCriteriaVersion'],
                     }]
                 ]
             },
@@ -301,17 +303,17 @@ module.exports = {
             index: {
                 widgets: [
                     [{
-                        type: 'timeSeries',
-                        field: 'dissectionDate',
-                        label: 'Number of dissections',
-                        aggregationType: '$year'
-                    }],
-                    [{
                         type: 'tableView',
                         fields: ['title', 'species', 'gender', 'maturity', 'voucherBarcoding'],
                         populate: 1,
                         limit: 15,
                         sortBy: 'maturity'
+                    }],
+                    [{
+                        type: 'timeSeries',
+                        field: 'dissectionDate',
+                        label: 'Number of dissections',
+                        aggregationType: '$year'
                     }],
                     [
                         {
@@ -341,8 +343,48 @@ module.exports = {
             //             type: 'map'
             //         }],
             //         [{
-            //             type: 'modelDisplay'
-            //             //fieldsets: fieldsets,
+            //             type: 'fieldsetsView',
+            //             fieldsets: [
+            //                 {
+            //                     label: ''
+            //                     fields: [
+            //                         {
+            //                             name: 'title',
+            //                             label: 'titre'
+            //                         },
+            //                         'species',
+            //                         'gender',
+            //                         'maturity'
+            //                     ]
+            //                 },
+            //                 {
+            //                     'label': 'Taxonomic ranks',
+            //                     fields: [
+            //                         //...
+            //                     ]
+            //                 }
+            //             ]
+            //         }]
+            //     ]
+            // },
+            // _new: {
+            //     widgets: [
+            //         [
+            //             [{
+            //                 type: 'fieldForm',
+            //                 name: 'title'
+            //             },{
+            //                 type: 'fieldForm',
+            //                 name: 'species'
+            //             }]
+            //         ],
+            //         [{
+            //             type: 'fieldsetForm',
+            //             label: 'More informations',
+            //             fields: ['gender', 'maturity']
+            //         }]
+            //         [{
+            //             type: 'submitForm'
             //         }]
             //     ]
             // }
@@ -456,46 +498,55 @@ module.exports = {
             headBodyMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'head & body (mm)',
                 description: 'Head & Body (mm) (measurement_accuracy: 0)'
             },
             tailMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'tail (mm)',
                 description: 'Tail (mm) (measurement_accuracy: 0)'
             },
             footMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'foot (mm)',
                 description: 'Foot (mm) (measurement_accuracy: 0)'
             },
             earMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'ear (mm)',
                 description: 'Ear (mm) (measurement_accuracy: 0)'
             },
             weighMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'weight (g)',
                 description: 'Weight (g) (measurement_accuracy: 0)'
             },
             headMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'head (mm)',
                 description: 'Head (mm) (measurement_accuracy: 0)'
             },
             breadthOfRostrumMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'breadth of rostrum (mm)',
                 description: 'Breadth of Rostrum  (mm) (M01) (measurement_accuracy: 2)'
             },
             lengthOfRostrumMeasurement: {
                 type: 'float',
                 precision: 4,
-                description: 'Length of rostrum (mm) (M02) (measurement_accuracy: 2)'
+                label: 'length of rostrum (mm)',
+                description: 'Length of Rostrum (mm) (M02) (measurement_accuracy: 2)'
             },
             occipitoNasalLengthMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'occipitoNasal length (mm)',
                 description: 'OccipitoNasal Length (mm) (M03) (measurement_accuracy: 2)'
             },
             interorbitalBreadthMeasurement: {
@@ -506,82 +557,98 @@ module.exports = {
             breathOfBrainCaseMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'breath of brainCase (mm)',
                 description: 'Breath of BrainCase (mm) (M05) (measurement_accuracy:)'
             },
             zygomaticBreadthMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'zygomatic breadth (mm)',
                 description: 'Zygomatic Breadth (mm) (M06) (measurement_accuracy: 2)'
             },
             breadthOfIncisiveForaminaMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'breadth of incisive foramina (mm)',
                 description: 'Breadth of Incisive Foramina (mm) (M07) (measurement_accuracy: 2)'
             },
             breadthOfFirstUpperMolarMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'breadth of first upper Molar (mm)',
                 description: 'Breadth of first upper Molar (mm) (M08) (measurement_accuracy: 2)'
             },
             lengthOfDiastemaMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'length of Diastema (mm)',
                 description: 'Length of Diastema (mm) (M09) (measurement_accuracy: 2)'
             },
             lenghtOfIncisiveForaminaMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'lenght of incisive foramina (mm)',
                 description: 'Lenght of Incisive Foramina (mm) (M10) (measurement_accuracy: 2)'
             },
             lenghtOfBonyPalateMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'lenght of bony palate (mm)',
                 description: 'Lenght of Bony Palate (mm) (M11) (measurement_accuracy: 2)'
             },
             postPalatalLengthMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'post-palatal length (mm)',
                 description: 'PostPalatal Length (mm) (M12) (measurement_accuracy: 2)'
             },
             lengthOfAuditoryBullaMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'length of auditory bulla (mm)',
                 description: 'Length of auditory Bulla (mm) (M13) (measurement_accuracy: 2)'
             },
             breadthOfMesopterygoidFossaMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'breadth of mesopterygoid fossa (mm)',
                 description: 'Breadth of Mesopterygoid Fossa (mm) (M14) (measurement_accuracy: 2)'
             },
             breadthOfBonyPalateAtfirstMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'breadth of bony palate at first (mm)',
                 description: 'Breadth of Bony Palate at first  (mm) (M15) (measurement_accuracy: 2)'
             },
             crownLengthOfMaxillaryMolarMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'crown length of maxillary molar (mm)',
                 description: 'Crown Length of Maxillary Molar  (mm) (M16) (measurement_accuracy: 2)'
             },
             breathOfZygomaticPlateMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'breath of zygomatic plate (mm)',
                 description: 'Breath of Zygomatic Plate (mm) (M17) (measurement_accuracy: 2)'
             },
             heightOfBraincaseMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'height of braincase (mm)',
                 description: 'Height of Braincase (mm) (M18) (measurement_accuracy: 2)'
             },
             spleenWeightMeasurement: {
                 type: 'float',
                 precision: 4,
+                label: 'spleen weight (mm)',
                 description: 'Spleen weight (mg) (measurement_accuracy: 0)'
             },
             agpdMeasurement: {
                 type: 'float',
                 precision: 4,
-                description: 'Agpd (mm) (measurement_accuracy: 0)'
+                label: 'AGPD (mm)',
+                description: 'AGPD (mm) (measurement_accuracy: 0)'
             },
             molecularIdentification: {
                 hidden: true,
@@ -657,9 +724,6 @@ module.exports = {
             village: {
                 type: 'string'
             },
-            soilType: {
-                type: 'SoilType'
-            },
             isCeropathSite: {
                 type: 'boolean'
             },
@@ -699,13 +763,6 @@ module.exports = {
                 type: 'LandscapeType'
             },
             comment: {
-                type: 'string'
-            }
-        }
-    },
-    SoilType: {
-        schema: {
-            title: {
                 type: 'string'
             }
         }
@@ -897,6 +954,7 @@ module.exports = {
         }
     },
     Thing: {
+        hidden: true,
         schema: {
             title: {
                 type: 'string'
@@ -904,26 +962,27 @@ module.exports = {
         }
     },
     Predicate: {
+        hidden: true,
         schema: {
             title: {
                 type: 'string'
             }
         }
     },
-    Fact: {
+    NewGeoDatedFact: {
         views: {
             index: {
                 widgets: [
                     [{
                         type: 'timeline',
-                        contentField: 'title',
                         startField: 'startDate',
-                        endField: 'endDate'
+                        endField: 'endDate',
+                        populate: 1,
                     }],
                     [{
                         type: 'tableView',
                         populate: 1,
-                        fields: ['title', 'what', 'who', 'startDate', 'endDate', 'where', 'why']
+                        fields: ['topic', 'value', 'startDate', 'endDate', 'location']
                     }]
                 ]
             },
@@ -941,10 +1000,14 @@ module.exports = {
             title: {
                 type: 'string'
             },
-            what: {
+            topic: {
                 type: 'Topic',
                 multi: true
             },
+            // actors: {
+            //     type: 'Actor',
+            //     multi: true
+            // },
             startDate: {
                 type: 'date',
                 dateFormat: 'L'
@@ -953,44 +1016,34 @@ module.exports = {
                 type: 'date',
                 dateFormat: 'L'
             },
-            where: {
-                type: 'Site',
-                multi: true
+            location: {
+                type: 'Site'
             },
-            who: {
-                type: 'SociologicalAgent'
-            },
-            sociologicalType: {
-                type: 'SociologicalType',
-                multi: true
-            },
-            why: {
-                type: 'Reason',
-                multi: true,
-                description: "raisons qui explique le fait"
-            },
-            how: {
-                type: 'Means',
-                multi: true,
-                description: "moyen (techniques, innovation sociale) mis en oeuvre"
-            },
-            note: {
+            value: {
                 type: 'string'
             },
-        }
-    },
-    Reason: {
-        schema: {
-            title: {
+            note: {
                 type: 'string'
             }
         }
     },
-    Means: {
-        label: {
-            en: {plural: 'Means'}
-        },
+    FGeoDatedFact: {
         views: {
+            index: {
+                widgets: [
+                    [{
+                        type: 'timeline',
+                        startField: 'startDate',
+                        endField: 'endDate',
+                        populate: 1,
+                    }],
+                    [{
+                        type: 'tableView',
+                        populate: 1,
+                        fields: ['title']
+                    }]
+                ]
+            },
             display: {
                 actions: [
                     editAction,
@@ -998,31 +1051,183 @@ module.exports = {
                 ]
             }
         },
+        aliases: {
+            description: 'note'
+        },
         schema: {
             title: {
                 type: 'string'
-            }
-        }
-    },
-    SociologicalAgent: {
-        schema: {
-            title: {
-                type: 'string'
-            }
-        }
-    },
-    SociologicalType: {
-        schema: {
-            title: {
+            },
+            topics: {
+                type: 'Topic',
+                multi: true
+            },
+            // actors: {
+            //     type: 'Actor',
+            //     multi: true
+            // },
+            startDate: {
+                type: 'date',
+                dateFormat: 'L'
+            },
+            endDate: {
+                type: 'date',
+                dateFormat: 'L'
+            },
+            location: {
+                type: 'Site'
+            },
+            // value: {
+            //     type: 'string'
+            // },
+            note: {
                 type: 'string'
             }
         }
     },
     Topic: {
+        hidden: true,
+        schema: {
+            title: {
+                type: 'string'
+            },
+            measurementUnit: {
+                type: 'string'
+            }
+        }
+    },
+    Actor: {
         schema: {
             title: {
                 type: 'string'
             }
         }
     }
+    // Fact: {
+    //     views: {
+    //         index: {
+    //             widgets: [
+    //                 // [{
+    //                 //     type: 'filters',
+    //                 //     filters: [
+    //                 //         {
+    //                 //             label: "2000's",
+    //                 //             query: {'startDate[$year]': 2000, 'endDate[$year]': 2010},
+    //                 //             icon: 'glyphicon glyphicon-ok'
+    //                 //         },
+    //                 //         {route: 'literal.truthy', label: 'Truthy', icon: 'glyphicon glyphicon-ok'},
+    //                 //         {route: 'literal.falsy', label: 'Falsy', icon: 'glyphicon glyphicon-remove'}
+    //                 //     ]
+    //                 // }],
+    //                 [{
+    //                     type: 'timeline',
+    //                     contentField: 'title',
+    //                     startField: 'startDate',
+    //                     endField: 'endDate'
+    //                 }],
+    //                 [{
+    //                     type: 'tableView',
+    //                     populate: 1,
+    //                     fields: ['title', 'what', 'who', 'startDate', 'endDate', 'where', 'why']
+    //                 }]
+    //             ]
+    //         },
+    //         display: {
+    //             actions: [
+    //                 editAction,
+    //                 deleteAction
+    //             ]
+    //         }
+    //     },
+    //     aliases: {
+    //         description: 'note'
+    //     },
+    //     schema: {
+    //         title: {
+    //             type: 'string'
+    //         },
+    //         what: {
+    //             type: 'Topic',
+    //             multi: true
+    //         },
+    //         startDate: {
+    //             type: 'date',
+    //             dateFormat: 'L'
+    //         },
+    //         endDate: {
+    //             type: 'date',
+    //             dateFormat: 'L'
+    //         },
+    //         where: {
+    //             type: 'Site',
+    //             multi: true
+    //         },
+    //         who: {
+    //             type: 'SociologicalAgent'
+    //         },
+    //         sociologicalType: {
+    //             type: 'SociologicalType',
+    //             multi: true
+    //         },
+    //         why: {
+    //             type: 'Reason',
+    //             multi: true,
+    //             description: "raisons qui explique le fait"
+    //         },
+    //         how: {
+    //             type: 'Means',
+    //             multi: true,
+    //             description: "moyen (techniques, innovation sociale) mis en oeuvre"
+    //         },
+    //         note: {
+    //             type: 'string'
+    //         },
+    //     }
+    // },
+    // Reason: {
+    //     schema: {
+    //         title: {
+    //             type: 'string'
+    //         }
+    //     }
+    // },
+    // Means: {
+    //     label: {
+    //         en: {plural: 'Means'}
+    //     },
+    //     views: {
+    //         display: {
+    //             actions: [
+    //                 editAction,
+    //                 deleteAction
+    //             ]
+    //         }
+    //     },
+    //     schema: {
+    //         title: {
+    //             type: 'string'
+    //         }
+    //     }
+    // },
+    // SociologicalAgent: {
+    //     schema: {
+    //         title: {
+    //             type: 'string'
+    //         }
+    //     }
+    // },
+    // SociologicalType: {
+    //     schema: {
+    //         title: {
+    //             type: 'string'
+    //         }
+    //     }
+    // },
+    // Topic: {
+    //     schema: {
+    //         title: {
+    //             type: 'string'
+    //         }
+    //     }
+    // }
 };

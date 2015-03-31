@@ -14,3 +14,13 @@ App.GeoDatedFactModel = App.Model.extend({
         return _title.join(' ');
     }.property('subject.title', 'predicate.title', 'object.title', 'location.title')
 });
+
+App.NewGeoDatedFactModel = App.Model.extend({
+    title: function() {
+        var _title = [this.get('title')];
+        if (this.get('location')) {
+            _title.push('(at '+this.get('location.title')+')');
+        }
+        return _title.join(' ');
+    }.property('title', 'location.title')
+});
