@@ -1,7 +1,7 @@
 {
   "name": "ceropath",
   "version": "0.0.0",
-  "description": "Small description for ceropath goes here",
+  "description": "",
   "private": true,
   "directories": {
     "doc": "doc",
@@ -33,27 +33,30 @@
     "ember-cli-qunit": "0.3.7",
     "ember-cli-uglify": "1.0.1",
     "ember-dynamic-component": "0.0.4",
-    "ember-eureka": "0.0.5",
+    "ember-eureka": "0.0.6",
     "ember-export-application-global": "^1.0.2",
     "ember-moment": "1.1.1",
     "ember-typeahead-input": "0.0.3",
-    "eureka-addon-file-attachment": "0.0.1",
+    "eureka-addon-file-attachment": "0.0.2",
     "eureka-mixin-actionable-widget": "0.0.1",
     "eureka-mixin-query-parametrable-widget": "0.0.1",
-    "eureka-widget-application-menu": "0.0.4",
-    "eureka-widget-application-navbar": "0.0.5",
-    "eureka-widget-collection-display": "0.0.1",
+    "eureka-widget-application-menu": "0.0.5",
+    "eureka-widget-application-navbar": "0.0.6",
+    "eureka-widget-collection-display": "0.0.2",
     "eureka-widget-collection-navbar": "0.0.1",
-    "eureka-widget-model-display": "0.0.2",
-    "eureka-widget-model-form": "0.0.1",
-    "eureka-widget-model-map": "file:../../../eureka/eureka-widget-model-map",
+    "eureka-widget-model-display": "0.0.3",
+    "eureka-widget-model-form": "0.0.2",
+    "eureka-widget-model-map": "0.0.1",
     "eureka-widget-model-navbar": "0.0.2",
-    "eureka-widget-model-relations-list": "0.0.1",
+    "eureka-widget-model-relations-list": "0.0.2",
     "eureka-widget-property-markdown": "0.0.2",
     "eurekajs": "0.0.3",
     "express": "^4.8.5",
     "glob": "^4.4.0",
     "underscore": "^1.8.2",
     "underscore.string": "^3.0.3"
+  },
+  "dependencies": {
+    "eurekajs": "0.0.4"
   }
 }
