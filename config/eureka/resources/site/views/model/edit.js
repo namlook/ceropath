@@ -33,7 +33,6 @@ var sitePhotos = {
     hideControlButtons: true,
     type: 'model-form',
     style: 'site-photos',
-    displayStyle: 'plain',
     fields: ['photos']
 };
 

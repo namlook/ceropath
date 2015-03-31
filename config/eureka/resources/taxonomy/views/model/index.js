@@ -2,7 +2,7 @@
 var description = {
     type: 'model-display',
     style: 'ceropath-taxonomy-description',
-    displayStyle: 'plain',
+    hideLabels: true,
     fields:['description']
 };
 

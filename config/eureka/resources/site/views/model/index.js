@@ -38,7 +38,7 @@ var sitePhotos = {
     type: 'model-display',
     label: 'Photos of the land',
     style: 'site-photos',
-    displayStyle: 'plain',
+    hideLabels: true,
     fields: ['photos']
 };
 
