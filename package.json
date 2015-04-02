@@ -50,13 +50,13 @@
     "eureka-widget-model-navbar": "0.0.2",
     "eureka-widget-model-relations-list": "0.0.2",
     "eureka-widget-property-markdown": "0.0.2",
-    "eurekajs": "0.0.3",
     "express": "^4.8.5",
     "glob": "^4.4.0",
+    "rimraf": "2.2.8",
     "underscore": "^1.8.2",
     "underscore.string": "^3.0.3"
   },
   "dependencies": {
-    "eurekajs": "0.0.4"
+    "eurekajs": "0.0.5"
   }
 }
