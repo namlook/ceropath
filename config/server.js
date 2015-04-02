@@ -1,7 +1,10 @@
 /* jshint node: true */
 
 var pkg = require('../package.json');
-var resources = require('ember-eureka/config/structure').resources;
+
+var eurekaStructureBuilder = require('eurekajs/structure-builder');
+var eurekaConfigPath = require('path').resolve('.') + '/config/eureka';
+var resources = eurekaStructureBuilder(eurekaConfigPath).resources;
 
 module.exports = {
     name: pkg.name,

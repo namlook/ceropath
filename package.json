@@ -57,6 +57,6 @@
     "underscore.string": "^3.0.3"
   },
   "dependencies": {
-    "eurekajs": "0.0.5"
+    "eurekajs": "0.0.6"
   }
 }
