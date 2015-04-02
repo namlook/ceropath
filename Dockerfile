@@ -1,34 +1,31 @@
-# before building this, do:
-#
-#   $ npm shrinkwrap
-#   $ ./node_modules/ember-cli/bin/ember build --env=production
-#   $ node backend
-#
-# and check that everything is ok
 FROM node:0.10.35
 
 MAINTAINER Namlook <n.namlook@gmail.com>
 
-ADD ./Brocfile.js /app/Brocfile.js
-ADD ./app /app/app
-ADD ./backend /app/backend
-ADD ./bin /app/bin
+ADD ./package.json /app/package.json
 ADD ./bower.json /app/bower.json
 ADD ./bower_components /app/bower_components
+ADD ./Brocfile.js /app/Brocfile.js
+
+ADD ./app /app/app
+ADD ./backend /app/backend
 ADD ./config /app/config
 ADD ./dist /app/dist
-ADD ./package.json /app/package.json
 ADD ./public /app/public
 ADD ./vendor /app/vendor
 
-ADD ./npm-shrinkwrap.json /app/npm-shrinkwrap.json
+# add more files here if you need it
+ADD ./bin /app/bin
+
 
 WORKDIR /app
 
 RUN npm install
 
-EXPOSE 4000
-
 ENV NODE_ENV production
+
+RUN ./node_modules/ember-cli/bin/ember build --env=production
+
+EXPOSE 80
 
 CMD node backend

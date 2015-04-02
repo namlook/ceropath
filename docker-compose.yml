@@ -1,24 +1,26 @@
+# development web server
 web:
-    image: namlook/ceropath:latest
+    image: namlook/ceropath:2.1.0 # the build image from `eureka dockerize`
     links:
         - db
     ports:
-        - "4000:4000"
+        - "80:80"
     environment:
         NODE_ENV: production
     restart: always
+    privileged: true
     volumes:
-        - ./uploads:/app/uploads
+        # - /<path/to/upload/data:/app/uploads
+        - ../ceropath_data:/app/uploads
 db:
-    image: namlook/virtuoso:7.1.0
+    image: tenforce/virtuoso:virtuoso-v7.2.0
+    ports:
+        - "8890:8890"
+        - "1111:1111"
     environment:
-        VIRTUOSO_DBA_PASSWORD: dba
+        DBA_PASSWORD: dba
     restart: always
+    privileged: true
     volumes:
-        - ~/virtuosodb:/home/virtuoso/virtuoso/var/lib/virtuoso/db
-
-
-# docker build -t ceropath .
-
-
-# docker run -d --name db -v /usr/local/Cellar/virtuoso/7.1.0/var/lib/virtuoso/db:/home/virtuoso/virtuoso/var/lib/virtuoso/db namlook/virtuoso:7.1.0
+        # - /path/to/virtuoso/db:/var/lib/virtuoso/db
+        - ~/virtuosodb:/var/lib/virtuoso/db
