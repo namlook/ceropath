@@ -1,17 +1,18 @@
-*.gem
-*.swp
-*.pyc
-*#*
-build
-dist
-setuptools-*
-.svn/*
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
+/tmp
+
+# dependencies
+/node_modules
+/bower_components
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage/*
+/libpeerconnection.log
+npm-debug.log
+testem.log
 .DS_Store
-*.so
-node_modules
-distribute-0.6.8-py2.6.egg
-distribute-0.6.8.tar.gz
-pypit.egg-info
-nohup.out
-.coverage
-data/templates
