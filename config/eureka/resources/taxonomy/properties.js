@@ -53,7 +53,6 @@ export default {
     },
     discoveryYear: {
         type: 'integer',
-        label: 'description year',
         description: 'the year when the species was described for the first time'
     },
     discoveryName: {
