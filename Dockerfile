@@ -3,7 +3,6 @@
 #
 #    ember build --env=production
 #
-
 FROM node:0.12.2
 
 MAINTAINER Namlook <n.namlook@gmail.com>
@@ -28,6 +27,8 @@ WORKDIR /app
 
 ENV NODE_ENV production
 
+
+RUN npm install -g ember-cli@`grep '"ember-cli"' package.json |cut -d '"' -f 4 |tr -d '^'`
 RUN ember install
 
 EXPOSE 80
