@@ -1,8 +1,41 @@
 export default {
     widgets: [
         {
+            // columns: 8,
             type: 'collection-display',
-            filter: true
-        }
+            sort: {
+                by: 'title',
+                allowedProperties: '*'//['title', 'maturity', 'gender']
+            }
+        },
+        // {
+        //     columns: 4,
+        //     type: 'container',
+        //     widgets: [
+        //         {
+        //             type: 'collection-groupby',
+        //             property: 'gender',
+        //             label: 'Gender dispatch',
+        //             chart: {
+        //                 type: 'pie'
+        //             }
+        //         },
+        //         {
+        //             type: 'collection-groupby',
+        //             property: 'maturity',
+        //             // considerUnfilled: true,
+        //             chart: {
+        //                 type: 'column'
+        //             }
+        //         },
+        //         {
+        //             type: 'collection-groupby',
+        //             property: 'taxonomy',
+        //             chart: {
+        //                 type: 'bar'
+        //             }
+        //         }
+        //     ]
+        // }
     ]
 };
