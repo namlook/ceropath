@@ -8,6 +8,7 @@ FROM node:0.12.2
 MAINTAINER Namlook <n.namlook@gmail.com>
 
 RUN apt-get update -y && apt-get upgrade -y && apt-get install graphicsmagick -y && apt-get clean
+RUN npm install -g bower
 
 ADD ./package.json /app/package.json
 ADD ./bower.json /app/bower.json
@@ -27,9 +28,10 @@ WORKDIR /app
 
 ENV NODE_ENV production
 
-
-RUN npm install -g ember-cli@`grep '"ember-cli"' package.json |cut -d '"' -f 4 |tr -d '^'`
-RUN ember install
+# RUN npm install -g ember-cli@`grep '"ember-cli"' package.json |cut -d '"' -f 4 |tr -d '^'`
+# RUN ember install
+RUN npm install
+RUN bower --allow-root install
 
 EXPOSE 80
 
