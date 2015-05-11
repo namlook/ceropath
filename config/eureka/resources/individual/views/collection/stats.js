@@ -30,7 +30,6 @@ export default {
             columns: 6,
             type: 'collection-groupby',
             property: 'trappingSite.country',
-            // label: 'Gender dispatch',
             chart: {
                 type: 'column'
             }

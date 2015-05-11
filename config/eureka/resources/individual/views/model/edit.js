@@ -97,6 +97,13 @@ var cancelSaveButtons = {
     fields: []
 };
 
+var trappingMap = {
+    type: 'model-map',
+    label: 'Trapping informations',
+    latitudeProperty: 'trappingSite.geoWgsLat',
+    longitudeProperty: 'trappingSite.geoWgsLong'
+};
+
 export default {
     widgets: [
         {
