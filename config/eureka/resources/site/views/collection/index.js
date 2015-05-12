@@ -1,6 +1,12 @@
 export default {
     widgets: [
         {
+            type: 'collection-map',
+            latitudeProperty: 'geoWgsLat',
+            longitudeProperty: 'geoWgsLong',
+            // mapProvider: 'Esri.WorldImagery'
+        },
+        {
             columns: 8,
             type: 'collection-display',
             filter: true
