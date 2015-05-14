@@ -4,6 +4,7 @@ export default {
         {
             type: 'collection-navbar',
             actions: [
+                {label: 'map', icon: 'glyphicon glyphicon-globe', route: 'eureka.site.collection.map'},
                 {label: 'create', icon: 'glyphicon glyphicon-plus', route: 'eureka.site.new'}
             ]
         },
