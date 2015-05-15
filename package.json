@@ -61,6 +61,6 @@
     "underscore.string": "^3.0.3"
   },
   "dependencies": {
-    "eurekajs": "git://github.com/namlook/eurekajs.git#v0.0.12"
+    "eurekajs": "git://github.com/namlook/eurekajs.git#v0.0.13"
   }
 }
