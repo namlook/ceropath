@@ -7,6 +7,6 @@ export default {
             longitudeProperty: 'geoWgsLong',
             // mapProvider: 'Esri.WorldImagery',
             height: 500
-        },
+        }
     ]
 };

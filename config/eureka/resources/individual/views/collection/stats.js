@@ -43,5 +43,15 @@ export default {
                 type: 'column'
             }
         },
+        {
+            type: 'collection-map',
+            latitudeProperty: 'trappingSite.geoWgsLat',
+            longitudeProperty: 'trappingSite.geoWgsLong',
+            query: {_fields: 'title,trappingSite', _populate: 1},
+            markerTitle: '<a href="/individual/{_id}" target="_blank">{title}</a> on <a href="/site/{trappingSite._id}" target="_blank">{trappingSite.title}</a>',
+            // mapProvider: 'Esri.WorldImagery',
+            maxZoom: 17,
+            height: 500
+        }
     ]
 };
