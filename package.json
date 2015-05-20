@@ -43,7 +43,7 @@
     "eureka-mixin-query-parametrable-widget": "git://github.com/namlook/eureka-mixin-query-parametrable-widget.git#v0.0.1",
     "eureka-widget-application-menu": "git://github.com/namlook/eureka-widget-application-menu.git#v0.0.5",
     "eureka-widget-application-navbar": "git://github.com/namlook/eureka-widget-application-navbar.git#v0.0.6",
-    "eureka-widget-collection-display": "git://github.com/namlook/eureka-widget-collection-display.git#v0.0.5",
+    "eureka-widget-collection-display": "git://github.com/namlook/eureka-widget-collection-display.git#v0.0.6",
     "eureka-widget-collection-groupby": "git://github.com/namlook/eureka-widget-collection-groupby.git#v0.0.1",
     "eureka-widget-collection-map": "git://github.com/namlook/eureka-widget-collection-map.git#v0.0.5",
     "eureka-widget-collection-navbar": "git://github.com/namlook/eureka-widget-collection-navbar.git#v0.0.1",
