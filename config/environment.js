@@ -1,7 +1,7 @@
 /* jshint node: true */
 
 var eurekaStructureBuilder = require('eurekajs/structure-builder');
-var eurekaConfigPath = require('path').resolve('.') + '/config/eureka';
+var eurekaConfigPath = require('path').resolve('.', 'config', 'eureka');
 var eurekaStructure = eurekaStructureBuilder(eurekaConfigPath);
 
 var serverConfig = require('./server');
