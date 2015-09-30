@@ -19,9 +19,10 @@
   "author": "namlook",
   "license": "MIT",
   "devDependencies": {
+    "JSONStream": "^0.10.0",
     "broccoli-asset-rev": "^2.0.2",
     "ember-bootstrap-hurry": "0.0.1",
-    "ember-cli": "0.2.5",
+    "ember-cli": "0.2.6",
     "ember-cli-app-version": "0.3.3",
     "ember-cli-babel": "^5.0.0",
     "ember-cli-content-security-policy": "0.4.0",
@@ -52,7 +53,6 @@
     "eureka-widget-property-markdown": "git://github.com/namlook/eureka-widget-property-markdown.git#v0.0.4",
     "express": "^4.8.5",
     "glob": "^4.4.0",
-    "JSONStream": "^0.10.0",
     "rimraf": "2.2.8",
     "underscore": "^1.8.2",
     "underscore.string": "^3.0.3"
@@ -61,7 +61,7 @@
     "eurekajs": "git://github.com/namlook/eurekajs.git#v0.0.14",
     "ember-cli-qunit": "0.3.13",
     "ember-cli-uglify": "^1.0.1",
-    "ember-disable-proxy-controllers": "^0.7.0",
+    "ember-disable-proxy-controllers": "^1.0.0",
     "ember-export-application-global": "^1.0.2"
   }
 }
