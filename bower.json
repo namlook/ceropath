@@ -19,6 +19,10 @@
     "showdown": "~0.4.0",
     "select2": "4.0.0",
     "leaflet.markercluster": "~0.4.0",
-    "leaflet-providers": "~1.0.29"
+    "leaflet-providers": "~1.0.29",
+    "moment": ">= 2.8.0",
+    "moment-timezone": ">= 0.1.0",
+    "selectize": "0.12.1",
+    "ember-data": "2.0.1"
   }
 }
