@@ -6,7 +6,10 @@ export default {
             latitudeProperty: 'geoWgsLat',
             longitudeProperty: 'geoWgsLong',
             // mapProvider: 'Esri.WorldImagery',
-            height: 500
+            markerTitle: '<a href="/site/{_id}" target="_blank">{title}</a> <br /> <ul><li>{surroundingLandscapeLowResolution}</li><li>{surroundingLandscapeMediumResolution}</li><li>{surroundingLandscapeHighResolution}</li></ul>',
+
+            maxZoom: 17,
+            height: 800
         }
     ]
 };

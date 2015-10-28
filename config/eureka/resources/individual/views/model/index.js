@@ -64,9 +64,9 @@ var trappingInformations = {
         'isTrappedAlive',
         'trappingAccuracy',
         'trappingSite',
-        'trappingLandscapeHightResolution',
-        'trappingLandscapeMediumResolution',
-        'trappingLandscapeLowResolution'
+        // 'trappingLandscapeHightResolution',
+        // 'trappingLandscapeMediumResolution',
+        // 'trappingLandscapeLowResolution'
     ]
 };
 
