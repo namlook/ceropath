@@ -19,7 +19,6 @@
   "author": "namlook",
   "license": "MIT",
   "devDependencies": {
-    "JSONStream": "^0.10.0",
     "broccoli-asset-rev": "^2.1.2",
     "ember-bootstrap-hurry": "0.0.1",
     "ember-cli": "1.13.8",
@@ -37,7 +36,7 @@
     "ember-cli-sri": "^1.0.3",
     "ember-cli-uglify": "^1.2.0",
     "ember-disable-proxy-controllers": "^1.0.0",
-    "ember-eureka": "git://github.com/namlook/ember-eureka.git#v0.0.27",
+    "ember-eureka": "git://github.com/namlook/ember-eureka.git#v0.0.28",
     "ember-export-application-global": "^1.0.3",
     "ember-highcharts": "0.2.0",
     "ember-leaflet-hurry": "git://github.com/namlook/ember-leaflet-hurry.git#v0.0.1",
@@ -68,7 +67,7 @@
     "underscore.string": "^3.0.3"
   },
   "dependencies": {
-    "eurekajs": "git://github.com/namlook/eurekajs.git#v0.0.17",
+    "eurekajs": "git://github.com/namlook/eurekajs.git#v0.0.20",
     "require-dir": "^0.3.0"
   }
 }
