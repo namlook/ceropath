@@ -75,7 +75,11 @@ export default Widget.extend({
             });
         }).catch((err) => {
             this.set('isLoading', false);
-            this.set('error', err.responseJSON.errors[0].detail);
+            if (err.readyState === 0) {
+                this.set('error', 'cannot connect to server');
+            } else {
+                this.set('error', err.responseJSON.errors[0].detail);
+            }
         });
     },
 
