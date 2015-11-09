@@ -9,6 +9,7 @@ export default {
             columns: 2,
             type: 'application-menu',
             items: [
+                {label: 'Pipeline', route: 'eureka.index'},
                 {label: 'Taxonomy', route: 'eureka.taxonomy.collection.index'},
                 {label: 'Individual', route: 'eureka.individual.collection.index'},
                 {label: 'Site', route: 'eureka.site.collection.index'},

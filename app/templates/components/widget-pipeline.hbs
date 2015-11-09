@@ -1,0 +1,64 @@
+<form>
+    <fieldset>
+        <legend>Choose the file containing a sequence (fasta format)...</legend>
+            <div class="form-group">
+                <label for="pipeline-file">Filename:</label>
+                {{input
+                    id="pipeline-file"
+                    type="file"
+                    value=file
+                    name="file"
+                    onChange="fileChanged"}}
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default" {{action 'fileReset'}}>
+                    reset
+                </button>
+                <button
+                    type="button"
+                    disabled="{{unless file 'disabled'}}"
+                    class="btn btn-primary"
+                    {{action 'fileSubmit'}}>
+                        submit
+                </button>
+            </div>
+    </fieldset>
+    <br />
+    <fieldset>
+        <legend>... OR paste your sequence...</legend>
+            <div class="form-group">
+                <a href="#" {{action 'example'}}>paste an example</a>
+                {{textarea class="form-control" value=sequence cols="80" rows="10"}}
+            </div>
+
+            <div>
+                <button type="button" class="btn btn-default" {{action 'sequenceReset'}}>
+                    reset
+                </button>
+                <button
+                    type="button"
+                    disabled="{{unless sequence 'disabled'}}"
+                    class="btn btn-primary"
+                    {{action 'sequenceSubmit'}}>
+                        submit
+                </button>
+            </div>
+    </fieldset>
+</form>
+
+<div class="pipeline-result">
+    {{#if isLoading}}
+        {{partial 'eureka-loading'}}
+    {{/if}}
+    {{#if error}}
+        <p> An error occured with the following message:</p>
+        <pre class="bg-danger">{{error}}</pre>
+        <p>Are you sure that your content is in fasta format ?</p>
+    {{/if}}
+    {{#if nwk}}
+        {{phylogenetic-tree
+            nwk=nwk
+            userIndividuals=userIndividualNames
+            voucherBarcodings=voucherBarcodings}}
+    {{/if}}
+</div>

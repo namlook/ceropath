@@ -1,6 +1,6 @@
 
 export default {
     widgets: [
-        // {type: <widget-name>}
+        {type: 'pipeline'}
     ]
 };

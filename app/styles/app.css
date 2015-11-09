@@ -176,3 +176,30 @@ td: {
     text-align: center;
 }
 
+
+/***** pipeline *****/
+.widget-pipeline {
+  min-height: 600px;
+}
+
+.pipeline-result {
+  margin-top: 20px;
+}
+
+.pipeline-result .bg-danger {
+  padding: 20px;
+}
+
+.phylogenetic-tree text:hover {
+  text-decoration: underline;
+}
+
+.phylogenetic-tree text {
+  cursor: pointer;
+  font-size: 15px !important;
+}
+
+.phylogenetic-tree polygon,
+.phylogenetic-tree circle[fill="lightgrey"] {
+  cursor: pointer;
+}

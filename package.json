@@ -42,6 +42,7 @@
     "ember-leaflet-hurry": "git://github.com/namlook/ember-leaflet-hurry.git#v0.0.1",
     "ember-lodash": "0.0.5",
     "ember-moment": "4.1.0",
+    "ember-tnt": "git://github.com/namlook/ember-tnt.git#v0.0.1",
     "emberek-selectize": "git://github.com/namlook/emberek-selectize.git#v0.0.3",
     "emberx-select": "2.0.1",
     "eureka-addon-file-attachment": "git://github.com/namlook/eureka-addon-file-attachment.git#v0.0.7",
@@ -67,7 +68,13 @@
     "underscore.string": "^3.0.3"
   },
   "dependencies": {
+    "biojs-io-newick": "^1.5.0",
     "eurekajs": "git://github.com/namlook/eurekajs.git#v0.0.20",
-    "require-dir": "^0.3.0"
+    "lodash": "^3.10.1",
+    "require-dir": "^0.3.0",
+    "rimraf": "^2.4.3",
+    "rjson-search": "0.0.6",
+    "traverse": "^0.6.6",
+    "uuid": "^2.0.1"
   }
 }
