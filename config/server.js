@@ -16,19 +16,21 @@ var requireDir = require('require-dir');
     // throw Error('EUREKA_SERVER_PORT not set');
 // }
 
+var secretInfos = require('../secret.json');
+
 module.exports = {
     name: pkg.name,
     host: '0.0.0.0',
     port: 8888, //process.env.EUREKA_SERVER_PORT || 80,
     app: {
-        secret: 'thisisthesecretthing',
-        email: 'contact@project.com',
-        clientRootUrl: 'http://www.project.com',
+        secret: secretInfos.secret,
+        email: secretInfos.email,
+        clientRootUrl: 'http://rdbsea.ceropath.org',
         apiRootPrefix: '/api/1'
     },
     // enableCORS: true,
     resources: requireDir('../backend/resources'),
-    // publicDirectory: 'dist',
+    publicDirectory: 'dist',
     fileUploads: {
         uploadDirectory: './uploads',
         maxBytes: 50 // 50 MB

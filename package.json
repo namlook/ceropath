@@ -36,7 +36,7 @@
     "ember-cli-sri": "^1.0.3",
     "ember-cli-uglify": "^1.2.0",
     "ember-disable-proxy-controllers": "^1.0.0",
-    "ember-eureka": "git://github.com/namlook/ember-eureka.git#v0.0.28",
+    "ember-eureka": "git://github.com/namlook/ember-eureka.git#v0.0.29",
     "ember-export-application-global": "^1.0.3",
     "ember-highcharts": "0.2.0",
     "ember-leaflet-hurry": "git://github.com/namlook/ember-leaflet-hurry.git#v0.0.1",
@@ -50,7 +50,7 @@
     "eureka-mixin-query-parametrable-widget": "git://github.com/namlook/eureka-mixin-query-parametrable-widget.git#v0.0.1",
     "eureka-widget-application-menu": "git://github.com/namlook/eureka-widget-application-menu.git#v0.0.7",
     "eureka-widget-application-navbar": "git://github.com/namlook/eureka-widget-application-navbar.git#v0.0.6",
-    "eureka-widget-collection-display": "git://github.com/namlook/eureka-widget-collection-display.git#v0.0.8",
+    "eureka-widget-collection-display": "git://github.com/namlook/eureka-widget-collection-display.git#v0.0.9",
     "eureka-widget-collection-groupby": "git://github.com/namlook/eureka-widget-collection-groupby.git#v0.0.3",
     "eureka-widget-collection-map": "git://github.com/namlook/eureka-widget-collection-map.git#v0.0.6",
     "eureka-widget-collection-navbar": "git://github.com/namlook/eureka-widget-collection-navbar.git#v0.0.2",
@@ -69,12 +69,12 @@
   },
   "dependencies": {
     "biojs-io-newick": "^1.5.0",
-    "eurekajs": "git://github.com/namlook/eurekajs.git#v0.0.20",
+    "eurekajs": "git://github.com/namlook/eurekajs.git#v0.0.21",
+    "joi": "^6.10.0",
     "lodash": "^3.10.1",
+    "mime-types": "^2.1.7",
     "require-dir": "^0.3.0",
     "rimraf": "^2.4.3",
-    "rjson-search": "0.0.6",
-    "traverse": "^0.6.6",
     "uuid": "^2.0.1"
   }
 }
