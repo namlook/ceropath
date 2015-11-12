@@ -2,7 +2,7 @@
 var fs = require('fs');
 var path = require('path');
 var os = require('os');
-var child_process = require('child_process');
+var childProcess = require('child_process');
 var uuid = require('uuid');
 var rimraf = require('rimraf');
 var _ = require('lodash');
@@ -19,7 +19,7 @@ var processNewickTree = function(tree) {
 };
 
 
-module.exports = function(options) {
+module.exports = function() {
 
     var PIPELINE_TMP_DIR = os.tmpDir();
     /** create the upload directory if needed **/
@@ -63,9 +63,9 @@ module.exports = function(options) {
 
                     if (sequence) {
 
-                        var userIndividuals = _.compact(sequence.split('>').map((function(item) {
+                        var userIndividuals = _.compact(sequence.split('>').map(function(item) {
                             return item.split('\n')[0].trim();
-                        })));
+                        }));
 
 
                         var dirUID = uuid.v4();
@@ -88,7 +88,7 @@ module.exports = function(options) {
 
                         var cmdPath = path.resolve('./bin/pipeline.sh');
                         fs.writeFile(filepath, sequence, function() {
-                            child_process.exec('sh '+cmdPath+' sequence.fas', options, function(err, stdout, stderr) {
+                            childProcess.exec('sh ' + cmdPath + ' sequence.fas', options, function(err, stdout, stderr) {
                                 if (err) {
                                     return reply.badRequest(stderr);
                                 }
@@ -101,7 +101,6 @@ module.exports = function(options) {
 
                                     var nwk = buffer.toString();
 
-                                    var start = Date.now();
                                     var jsontree = biojs.parse_newick(nwk);
                                     processNewickTree(jsontree);
                                     nwk = biojs.parse_json(jsontree);
@@ -112,9 +111,9 @@ module.exports = function(options) {
                                     });
 
                                     rep.once('finish', function() {
-                                        rimraf(dirpath, function(err) {
-                                            if (err) {
-                                                console.error(err);
+                                        rimraf(dirpath, function(repErr) {
+                                            if (repErr) {
+                                                console.error(repErr);
                                             }
                                         });
                                     });
@@ -126,4 +125,4 @@ module.exports = function(options) {
             }
         }
     };
-}
+};

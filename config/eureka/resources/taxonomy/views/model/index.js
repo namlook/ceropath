@@ -3,7 +3,7 @@ var description = {
     type: 'model-display',
     style: 'ceropath-taxonomy-description',
     hideLabels: true,
-    fields:['description']
+    fields: ['description']
 };
 
 var generalInformations = {
@@ -41,7 +41,7 @@ var iucnInformations = {
         'iucnRedListStatus',
         'iucnRedListCriteriaVersion',
         'iucnYearAssessed',
-        'iucnTrend',
+        'iucnTrend'
     ]
 };
 
@@ -50,7 +50,7 @@ var relatedPublications = {
     resource: 'Publication',
     widget: {
         type: 'collection-display',
-        label: "Referenced in:"
+        label: 'Referenced in:'
     },
     query: '{"references.taxonomy._id": "${_id}"}',
     queryOptions: {

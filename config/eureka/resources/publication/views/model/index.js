@@ -6,7 +6,7 @@ export default {
             resource: 'Taxonomy',
             widget: {
                 type: 'collection-display',
-                label: "Referenced hosts",
+                label: 'Referenced hosts',
                 emptyPlaceholder: 'no host referenced in this publication'
             },
             query: '{"references.publication._id": "${_id}"}',

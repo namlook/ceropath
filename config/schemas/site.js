@@ -1,7 +1,7 @@
 
 module.exports = {
     meta: {
-        instanceRdfPrefix: 'http://ceropath.org/instances/site',
+        instanceRdfPrefix: 'http://ceropath.org/instances/site'
     },
     properties: {
         title: {
@@ -40,19 +40,19 @@ module.exports = {
             type: 'number',
             validate: [{precision: 12}],
             label: 'latitude',
-            description: "wgs84 latitude (DLL projection)"
+            description: 'wgs84 latitude (DLL projection)'
         },
         geoWgsLong: {
             type: 'number',
             validate: [{precision: 12}],
             label: 'longitude',
-            description: "wgs84 longitude (DLL projection)"
+            description: 'wgs84 longitude (DLL projection)'
         },
         geoWgsAlt: { // can be calculated from lat and long
             type: 'number',
             validate: [{precision: 12}],
             label: 'elevation',
-            description: "wgs84 altitude (DLL projection)"
+            description: 'wgs84 altitude (DLL projection)'
         },
         surroundingLandscapeHighResolution: {
             type: 'string' // 'LandscapeType'

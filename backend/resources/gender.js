@@ -5,4 +5,4 @@ module.exports = function(options) {
     return {
         routes: genericRoutes(options)
     };
-}
+};

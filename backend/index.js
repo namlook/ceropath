@@ -90,14 +90,13 @@ eurekaServer.start().then(function(server) {
 
                     request.payload.file.on('error', function(err) {
                         // console.error('***', err);
-                        reject(err)
+                        reject(err);
                     });
-
                 });
 
                 promise.then(function() {
                     reply.jsonApi({data: {sucess: true}});
-                }).catch((function(err) {
+                }).catch(function(err) {
                     if (err.message === 'Bad value') {
                         var lineNumber = parseFloat(err.line.count) + 1;
                         return reply.badRequest('error at line ' + lineNumber, err);
@@ -105,7 +104,7 @@ eurekaServer.start().then(function(server) {
                         return reply.badRequest(err.message, err);
                     }
 
-                }));
+                });
 
             }).catch(function(err) {
                 reply.badImplementation(err);
@@ -115,7 +114,7 @@ eurekaServer.start().then(function(server) {
     });
 
 
-    server.log('info', 'Server running at: http://'+server.info.address+':'+server.info.port);
+    server.log('info', 'Server running at: http://' + server.info.address + ':' + server.info.port);
 }).catch(function(error) {
     console.log(error);
     console.log(error.stack);

@@ -4,7 +4,7 @@ var description = {
     hideControlButtons: true,
     style: 'ceropath-taxonomy-description',
     displayStyle: 'plain',
-    fields:['description']
+    fields: ['description']
 };
 
 var generalInformations = {
@@ -42,7 +42,7 @@ var iucnInformations = {
         'iucnRedListStatus',
         'iucnRedListCriteriaVersion',
         'iucnYearAssessed',
-        'iucnTrend',
+        'iucnTrend'
     ]
 };
 
@@ -68,7 +68,7 @@ export default {
                 cancelSaveButtons,
                 generalInformations,
                 taxonomicRanks,
-                iucnInformations,
+                iucnInformations
             ]
         }
     ]

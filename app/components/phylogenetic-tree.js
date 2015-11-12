@@ -20,12 +20,12 @@ export default Ember.Component.extend({
         let nwk = this.get('nwk');
 
         if (nwk) {
-            let tree_vis = tnt.tree().data(tnt.tree.parse_newick(nwk));
+            let treeVis = tnt.tree().data(tnt.tree.parse_newick(nwk));
             let userIndividuals = this.get('userIndividuals');
 
             let voucherBarcodings = this.get('voucherBarcodings');
 
-            let root = tree_vis.root();
+            let root = treeVis.root();
 
             root.apply(function(node) {
                 var hasUser = node.present(function(item) {
@@ -50,12 +50,12 @@ export default Ember.Component.extend({
                 }
             });
 
-            var expanded_node = tnt.tree.node_display.circle()
+            var expandedNode = tnt.tree.node_display.circle()
                 .size(6)
-                .fill('lightgrey')
-            var collapsed_node = tnt.tree.node_display.triangle()
+                .fill('lightgrey');
+            var collapsedNode = tnt.tree.node_display.triangle()
                 .size(6)
-                .fill('lightgrey')
+                .fill('lightgrey');
             let userNode = tnt.tree.node_display.circle()
                 .size(6)
                 .fill('red');
@@ -101,8 +101,8 @@ export default Ember.Component.extend({
                 .add_label(speciesLabel);
 
 
-            tree_vis
-                .node_display(tree_vis.node_display()
+            treeVis
+                .node_display(treeVis.node_display()
                     .size(4)
                     .display(function (node) {
                         if (userIndividuals.indexOf(node.node_name()) > -1) {
@@ -110,9 +110,9 @@ export default Ember.Component.extend({
                         } else if (voucherBarcodings[node.node_name()]) {
                             voucherNode.display().call(this, node);
                         } else if (node.is_collapsed()) {
-                            collapsed_node.display().call(this, node);
+                            collapsedNode.display().call(this, node);
                         } else {
-                            expanded_node.display().call(this, node);
+                            expandedNode.display().call(this, node);
                         }
                     })
                 )
@@ -122,16 +122,15 @@ export default Ember.Component.extend({
                     .scale(false)
                 );
 
-            let that = this;
-            tree_vis.on("click", function(node){
+            treeVis.on('click', function(node){
                 if ((node.is_leaf() && node.is_collapsed() || !node.is_collapsed())) {
                     node.toggle();
                 }
 
-                tree_vis.update();
+                treeVis.update();
             });
 
-            tree_vis(this.$()[0]);
+            treeVis(this.$()[0]);
         }
     }
 });

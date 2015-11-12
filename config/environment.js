@@ -32,15 +32,15 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
 
-    ENV.APP.backendUrl = 'http://'+serverConfig.host+':'+serverConfig.port;
-    ENV.APP.apiEndpoint = ENV.APP.backendUrl+serverConfig.app.apiRootPrefix;
+    ENV.APP.backendUrl = 'http://' + serverConfig.host + ':' + serverConfig.port;
+    ENV.APP.apiEndpoint = ENV.APP.backendUrl + serverConfig.app.apiRootPrefix;
 
     ENV.contentSecurityPolicy = {
       'default-src': "'none'",
       'script-src': "'self'",
       'font-src': "'self'",
-      'connect-src': "'self' "+ENV.APP.backendUrl,
-      'img-src': "'self' data: http://*.mqcdn.com http://server.arcgisonline.com "+ENV.APP.backendUrl,
+      'connect-src': "'self' " + ENV.APP.backendUrl,
+      'img-src': "'self' data: http://*.mqcdn.com http://server.arcgisonline.com " + ENV.APP.backendUrl,
       'style-src': "'self' 'unsafe-inline'",
       'media-src': "'self'"
     };
@@ -61,13 +61,13 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     ENV.APP.backendUrl = 'TODO';
-    ENV.APP.apiEndpoint = ENV.APP.backendUrl+serverConfig.app.apiRootPrefix;
+    ENV.APP.apiEndpoint = ENV.APP.backendUrl + serverConfig.app.apiRootPrefix;
 
      ENV.contentSecurityPolicy = {
       'default-src': "'none'",
       'script-src': "'self'",
       'font-src': "'self'",
-      'connect-src': "'self' "+ENV.APP.backendUrl,
+      'connect-src': "'self' " + ENV.APP.backendUrl,
       'img-src': "'self' data: http://*.mqcdn.com",
       'style-src': "'self' 'unsafe-inline'",
       'media-src': "'self'"

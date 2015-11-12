@@ -18,7 +18,7 @@ export default {
         },
         {
             columns: 10,
-            style: "main-content",
+            style: 'main-content',
             type: 'outlet'
         }
     ]

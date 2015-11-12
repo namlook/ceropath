@@ -3,7 +3,7 @@ export default {
         {
             type: 'model-navbar',
             actions: [
-                {label: 'edit', icon: 'glyphicon glyphicon-pencil', route: 'eureka.file.model.edit'},
+                {label: 'edit', icon: 'glyphicon glyphicon-pencil', route: 'eureka.file.model.edit'}
             ]
         }
     ]

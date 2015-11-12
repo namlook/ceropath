@@ -48,7 +48,7 @@ export default {
             type: 'container',
             columns: 8,
             widgets: [
-                generalInformations,
+                generalInformations
             ]
         },
         {
@@ -60,7 +60,5 @@ export default {
                 sitePhotos
             ]
         }
-
-
     ]
 };

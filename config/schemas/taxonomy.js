@@ -1,7 +1,7 @@
 
 module.exports = {
     meta: {
-        instanceRdfPrefix: 'http://ceropath.org/instances/taxonomy',
+        instanceRdfPrefix: 'http://ceropath.org/instances/taxonomy'
     },
     properties: {
         title: {
@@ -213,7 +213,7 @@ module.exports = {
         msw3ID: {
             type: 'string',
             label: 'MSW3 reference',
-            description: "reference id of Mammals Species of the World 3",
+            description: 'reference id of Mammals Species of the World 3',
             meta: {
                 eureka: {
                     hidden: true

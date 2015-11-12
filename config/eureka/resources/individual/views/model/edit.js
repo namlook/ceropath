@@ -65,7 +65,7 @@ var trappingInformations = {
         'trappingMethod',
         'isTrappedAlive',
         'trappingAccuracy',
-        'trappingSite',
+        'trappingSite'
         // 'trappingLandscapeHightResolution',
         // 'trappingLandscapeMediumResolution',
         // 'trappingLandscapeLowResolution'

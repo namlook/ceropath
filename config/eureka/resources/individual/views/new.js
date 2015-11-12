@@ -51,12 +51,12 @@ var measurements = {
 };
 
 
-var trappingMap = {
-    type: 'model-map',
-    label: 'Trapping informations',
-    latitudeProperty: 'trappingSite.geoWgsLat',
-    longitudeProperty: 'trappingSite.geoWgsLong'
-};
+// var trappingMap = {
+//     type: 'model-map',
+//     label: 'Trapping informations',
+//     latitudeProperty: 'trappingSite.geoWgsLat',
+//     longitudeProperty: 'trappingSite.geoWgsLong'
+// };
 
 var trappingInformations = {
     type: 'model-form',
@@ -66,7 +66,7 @@ var trappingInformations = {
         'trappingMethod',
         'isTrappedAlive',
         'trappingAccuracy',
-        'trappingSite',
+        'trappingSite'
         // 'trappingLandscapeHightResolution',
         // 'trappingLandscapeMediumResolution',
         // 'trappingLandscapeLowResolution'

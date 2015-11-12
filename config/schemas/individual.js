@@ -1,7 +1,7 @@
 
 module.exports = {
     meta: {
-        instanceRdfPrefix: 'http://ceropath.org/instances/individual',
+        instanceRdfPrefix: 'http://ceropath.org/instances/individual'
     },
     properties: {
         title: {
@@ -18,14 +18,14 @@ module.exports = {
         },
         isVoucherBarcoding: {
             type: 'boolean',
-            description: "True if the individual is used as reference in the indentification tool"
+            description: 'True if the individual is used as reference in the indentification tool'
         },
         inSkullCollection: { // from skull_collection
             type: 'boolean',
-            description: "True if the skull has been cleaned and added to the collection"
+            description: 'True if the skull has been cleaned and added to the collection'
         },
         dissectionDate: { // from Date_of_dissection
-            type: 'date',
+            type: 'date'
             // dateFormat: 'll'
         },
         comment: {
@@ -48,7 +48,7 @@ module.exports = {
         trappingAccuracy: {
             type: 'number',
             validate: ['integer'],
-            description: "Trapping accuracy: 1=10m, 2=100m and 3=1km"
+            description: 'Trapping accuracy: 1=10m, 2=100m and 3=1km'
         },
         // trappingLandscapeHightResolution: {
         //     type: 'LandscapeType',
@@ -72,30 +72,30 @@ module.exports = {
         // physiological features
         vagina: {
             type: 'string',
-            description: "is the vagina open or closed ?"
+            description: 'is the vagina open or closed ?'
         },
         teats: {
             type: 'string',
-            description: "how visible are the teats ?"
+            description: 'how visible are the teats ?'
         },
         mammaeDistribution: {
             type: 'string'
         },
         leftSideEmbryosNumber: {
-            label: "# of left-side embryos",
+            label: '# of left-side embryos',
             type: 'number',
             validate: ['integer'],
-            description: "number of embryos in the left side"
+            description: 'number of embryos in the left side'
         },
         rightSideEmbryosNumber: {
-            label: "# of right-side embryos",
+            label: '# of right-side embryos',
             type: 'number',
             validate: ['integer'],
-            description: "number of embryos in the right side"
+            description: 'number of embryos in the right side'
         },
         testesOutput: {
             type: 'string',
-            description: "are the testes inside or outside"
+            description: 'are the testes inside or outside'
         },
         testesLength: {
             type: 'number',
@@ -103,11 +103,11 @@ module.exports = {
         },
         seminalVesicule: {
             type: 'string',
-            description: "how is developped the seminal vesicule"
+            description: 'how is developped the seminal vesicule'
         },
         sexualMaturity: {
             type: 'boolean',
-            description: "is the individual sexualy mature ?"
+            description: 'is the individual sexualy mature ?'
         },
         m3Development: {
             type: 'string'

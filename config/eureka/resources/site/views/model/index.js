@@ -48,7 +48,7 @@ var trappedInvidividuals = {
     resource: 'Individual',
     widget: {
         type: 'collection-display',
-        label: "Trapped individuals",
+        label: 'Trapped individuals',
         emptyPlaceholder: 'no individual trapped in this site'
     },
     query: '{"trappingSite._id": "${_id}"}',

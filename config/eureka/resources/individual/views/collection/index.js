@@ -8,7 +8,7 @@ export default {
                 allowedProperties: '*'//['title', 'maturity', 'gender']
             },
             export: true
-        },
+        }
         // {
         //     columns: 4,
         //     type: 'container',

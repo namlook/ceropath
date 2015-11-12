@@ -1,7 +1,7 @@
 
 module.exports = {
     meta: {
-        instanceRdfPrefix: 'http://ceropath.org/instances/publication',
+        instanceRdfPrefix: 'http://ceropath.org/instances/publication'
     },
     properties: {
         title: {

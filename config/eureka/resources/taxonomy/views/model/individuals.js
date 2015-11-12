@@ -6,7 +6,7 @@ export default {
             resource: 'Individual',
             widget: {
                 type: 'collection-display',
-                label: "Related individuals"
+                label: 'Related individuals'
             },
             query: '{"taxonomy._id": "${_id}"}'
         }
