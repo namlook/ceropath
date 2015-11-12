@@ -3,7 +3,11 @@ export default {
         {
             columns: 8,
             type: 'collection-display',
-            filter: true
+            sort: {
+                by: 'title',
+                allowedProperties: '*'
+            },
+            export: true
         },
         {
             columns: 4,

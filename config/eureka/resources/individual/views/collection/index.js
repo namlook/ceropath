@@ -6,7 +6,8 @@ export default {
             sort: {
                 by: 'title',
                 allowedProperties: '*'//['title', 'maturity', 'gender']
-            }
+            },
+            export: true
         },
         // {
         //     columns: 4,
