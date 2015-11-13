@@ -1,20 +1,19 @@
 
-
 BASENAME=$1
-BIN_PATH=/Users/namlook/Documents/projets/ceropath/bin
 
 # programs
 
 ## darwin
+# BIN_PATH=/Users/namlook/Documents/projets/ceropath/bin
 # MUSCLE=$BIN_PATH/darwin/muscle3.8.31_i86darwin64
 # BIONJ=$BIN_PATH/darwin/BIONJ_MacOS
 # DNADIST=dnadist # installed via brew
 
 ## linux
+BIN_PATH=/app/bin
 MUSCLE=$BIN_PATH/muscle3.8.31_i86linux32
 BIONJ=$BIN_PATH/BIONJ_linux
-DNADIST=$BIN_PATH/dnadist
-
+DNADIST=/usr/lib/phylip/bin/dnadist
 DNADIST_CONFIG=$BIN_PATH/dnadist.cfg
 NWK2SVG=$BIN_PATH/nwk2svg.r
 

@@ -1,6 +1,6 @@
 # development web server
 web:
-    image: namlook/ceropath:2.1.10 # the build image from `eureka dockerize`
+    image: namlook/ceropath:2.1.11 # the build image from `eureka dockerize`
     links:
         - db
     ports:
@@ -10,8 +10,9 @@ web:
     restart: always
     privileged: true
     volumes:
+        - /Users/namlook/Documents/projets/ceropath_data:/app/uploads
         # - /<path/to/upload/data:/app/uploads
-        - ../ceropath_data:/app/uploads
+        #- ../ceropath_data:/app/uploads
 db:
     image: tenforce/virtuoso:virtuoso-v7.2.0
     ports:
@@ -19,6 +20,7 @@ db:
         - "1111:1111"
     environment:
         DBA_PASSWORD: dba
+        SPARQL_UPDATE: true
     restart: always
     privileged: true
     volumes:

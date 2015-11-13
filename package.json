@@ -60,7 +60,7 @@
     "eureka-widget-model-map": "git://github.com/namlook/eureka-widget-model-map.git#v0.0.6",
     "eureka-widget-model-navbar": "git://github.com/namlook/eureka-widget-model-navbar.git#v0.0.4",
     "eureka-widget-model-relations-list": "git://github.com/namlook/eureka-widget-model-relations-list.git#v0.0.4",
-    "eureka-widget-property-markdown": "git://github.com/namlook/eureka-widget-property-markdown.git#v0.0.4",
+    "eureka-widget-property-markdown": "git://github.com/namlook/eureka-widget-property-markdown.git#v0.0.5",
     "express": "^4.8.5",
     "glob": "^4.4.0",
     "rimraf": "2.2.8",
@@ -69,7 +69,7 @@
   },
   "dependencies": {
     "biojs-io-newick": "^1.5.0",
-    "eurekajs": "git://github.com/namlook/eurekajs.git#v0.0.22",
+    "eurekajs": "git://github.com/namlook/eurekajs.git#v0.0.23",
     "joi": "^6.10.0",
     "lodash": "^3.10.1",
     "mime-types": "^2.1.7",
