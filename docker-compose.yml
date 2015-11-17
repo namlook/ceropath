@@ -1,6 +1,6 @@
 # development web server
 web:
-    image: namlook/ceropath:2.1.11 # the build image from `eureka dockerize`
+    image: namlook/ceropath:2.1.13 # the build image from `eureka dockerize`
     links:
         - db
     ports:
