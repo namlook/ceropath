@@ -1,10 +1,10 @@
 export default {
     widgets: [
-        {
-            type: 'collection-navbar',
-            actions: [
-                {label: 'create', icon: 'glyphicon glyphicon-plus', route: 'eureka.reference.new'}
-            ]
-        }
+        // {
+        //     type: 'collection-navbar',
+        //     actions: [
+        //         {label: 'create', icon: 'glyphicon glyphicon-plus', route: 'eureka.reference.new'}
+        //     ]
+        // }
     ]
 };

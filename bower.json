@@ -23,6 +23,8 @@
     "moment-timezone": ">= 0.1.0",
     "selectize": "0.12.1",
     "dropzone": "~4.2.0",
-    "tnt.tree": "namlook/tnt.tree"
+    "tnt.tree": "namlook/tnt.tree",
+    "bootstrap-multiselect": "0.9.13",
+    "mimoza": "1.0.0"
   }
 }

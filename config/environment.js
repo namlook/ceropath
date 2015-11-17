@@ -21,18 +21,8 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
       eureka: eurekaStructure,
-      fileUploadEndpoint: '/attachment'
+      fileUploadEndpoint: '/_uploads'
     }
-  };
-
-  ENV.contentSecurityPolicy = {
-    'default-src': "'none'",
-    'script-src': "'self'",
-    'font-src': "'self'",
-    'connect-src': "'self' " + ENV.APP.backendUrl,
-    'img-src': "'self' data: http://*.mqcdn.com",
-    'style-src': "'self' 'unsafe-inline'",
-    'media-src': "'self'"
   };
 
   if (environment === 'development') {
@@ -61,6 +51,17 @@ module.exports = function(environment) {
     // ENV.APP.backendUrl = 'TODO';
     ENV.APP.apiEndpoint = serverConfig.app.apiRootPrefix;
   }
+
+  ENV.contentSecurityPolicy = {
+    'default-src': "'none'",
+    'script-src': "'self'",
+    'font-src': "'self'",
+    'connect-src': "'self' " + ENV.APP.backendUrl,
+    'img-src': "'self' data: http://*.mqcdn.com " + ENV.APP.backendUrl,
+    'style-src': "'self' 'unsafe-inline'",
+    'media-src': "'self'"
+  };
+
 
   return ENV;
 };

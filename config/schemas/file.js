@@ -11,12 +11,13 @@ module.exports = {
             type: 'string'
         },
         path: {
-            type: 'string'
+            type: 'string',
+            meta: {
+                eureka: {
+                    widget: 'file'
+                }
+            }
         },
-        // thumbPath: {
-        //     type: 'string',
-        //     propagateDeletion: true
-        // },
         mime: {
             type: 'string'
         },

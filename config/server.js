@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'production') {
     internals.uploadDirectory = '/app/uploads';
 }
 
-var secretInfos = require('../secret.json');
+var secretInfos = require('./secret.json');
 
 module.exports = {
     name: pkg.name,

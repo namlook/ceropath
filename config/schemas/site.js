@@ -72,6 +72,14 @@ module.exports = {
                 }
             }
         },
+        // photos: {
+        //     type: 'string',
+        //     meta: {
+        //         eureka: {
+        //             widget: 'file'
+        //         }
+        //     }
+        // },
         comment: {
             type: 'string'
         }
