@@ -46,15 +46,13 @@ var iucnInformations = {
 };
 
 var relatedPublications = {
-    type: 'model-relations-list',
-    resource: 'Publication',
+    type: 'model-embedded-collection-widget',
+    resource: 'publication',
+    query: {"references.taxonomy._id": "${_id}"},
+    queryOptions: {limit: 10},
     widget: {
         type: 'collection-display',
         label: 'Referenced in:'
-    },
-    query: '{"references.taxonomy._id": "${_id}"}',
-    queryOptions: {
-        limit: 10
     }
 };
 

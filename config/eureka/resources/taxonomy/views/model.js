@@ -3,6 +3,7 @@ export default {
         {
             type: 'model-navbar',
             actions: [
+                {label: 'measurements', icon: 'glyphicon glyphicon-stats', route: 'eureka.taxonomy.model.measurements'},
                 {label: 'vouchers', route: 'eureka.taxonomy.model.vouchers'},
                 {label: 'individuals', route: 'eureka.taxonomy.model.individuals'}
             ]

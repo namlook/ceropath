@@ -2,13 +2,13 @@
 export default {
     widgets: [
         {
-            type: 'model-relations-list',
-            resource: 'Individual',
+            type: 'model-embedded-collection-widget',
+            resource: 'individual',
+            query: {'taxonomy._id': '${_id}'},
             widget: {
                 type: 'collection-display',
                 label: 'Related individuals'
-            },
-            query: '{"taxonomy._id": "${_id}"}'
+            }
         }
     ]
 };

@@ -44,16 +44,14 @@ var sitePhotos = {
 
 
 var trappedInvidividuals = {
-    type: 'model-relations-list',
-    resource: 'Individual',
+    type: 'model-embedded-collection-widget',
+    resource: 'individual',
+    query: {'trappingSite._id': '${_id}'},
+    queryOptions: {limit: 10},
     widget: {
         type: 'collection-display',
         label: 'Trapped individuals',
         emptyPlaceholder: 'no individual trapped in this site'
-    },
-    query: '{"trappingSite._id": "${_id}"}',
-    queryOptions: {
-        limit: 10
     }
 };
 
