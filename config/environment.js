@@ -57,7 +57,7 @@ module.exports = function(environment) {
     'script-src': "'self'",
     'font-src': "'self'",
     'connect-src': "'self' " + ENV.APP.backendUrl,
-    'img-src': "'self' data: http://*.mqcdn.com " + ENV.APP.backendUrl,
+    'img-src': "'self' data: http://*.mqcdn.com http://server.arcgisonline.com " + ENV.APP.backendUrl,
     'style-src': "'self' 'unsafe-inline'",
     'media-src': "'self'"
   };
