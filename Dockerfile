@@ -21,18 +21,18 @@ RUN wget https://cran.r-project.org/src/contrib/ape_3.3.tar.gz \
  && R CMD INSTALL ape_3.3.tar.gz \
  && R CMD INSTALL RSvgDevice_0.6.4.4.tar.gz
 
-ADD ./package.json /app/package.json
-ADD ./bower.json /app/bower.json
-ADD ./ember-cli-build.js /app/ember-cli-build.js
-ADD ./app /app/app
-ADD ./dist /app/dist
-ADD ./backend /app/backend
-ADD ./config /app/config
-ADD ./public /app/public
+COPY ./package.json /app/package.json
+COPY ./bower.json /app/bower.json
+COPY ./ember-cli-build.js /app/ember-cli-build.js
+COPY ./app /app/app
+COPY ./dist /app/dist
+COPY ./backend /app/backend
+COPY ./config /app/config
+COPY ./public /app/public
 
 # add more files here if you need it
-ADD ./bin /app/bin
-ADD ./config/secret.json /app/config/secret.json
+COPY ./bin /app/bin
+COPY ./config/secret.json /app/config/secret.json
 
 WORKDIR /app
 
