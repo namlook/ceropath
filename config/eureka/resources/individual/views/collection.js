@@ -4,10 +4,12 @@ export default {
         {
             type: 'collection-navbar',
             actions: [
-                {label: 'measurements', icon: 'glyphicon glyphicon-stats', route: 'eureka.individual.collection.measurements'},
                 {label: 'statistics', icon: 'glyphicon glyphicon-stats', route: 'eureka.individual.collection.stats'},
                 {label: 'map', icon: 'glyphicon glyphicon-globe', route: 'eureka.individual.collection.map'}
                 // {label: 'create', icon: 'glyphicon glyphicon-plus', route: 'eureka.individual.new'}
+            ],
+            secondaryActions: [
+                {label: 'chart center', icon: 'glyphicon glyphicon-stats', route: 'eureka.individual.collection.visualization'}
             ]
         },
         {
