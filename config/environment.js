@@ -1,10 +1,11 @@
 /* jshint node: true */
 
-var eurekaStructure = require('ember-eureka/structure');
+var buildEurekaStructure = require('ember-eureka/structure');
 
 var serverConfig = require('./server');
 
 module.exports = function(environment) {
+  var eurekaStructure = buildEurekaStructure();
   var ENV = {
     modulePrefix: 'ceropath',
     environment: environment,
