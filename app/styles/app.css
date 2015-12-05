@@ -176,6 +176,28 @@ td: {
     text-align: center;
 }
 
+/*** widget-alive-animals ***/
+.alive-animal-photo .panel {
+  border: none;
+  margin-bottom: 0;
+}
+
+.alive-animal-photo .panel .panel-body {
+  padding: 0;
+}
+
+.alive-animal-photo .masonry-grid .item {
+  padding: 0;
+}
+
+/****** gallery *****/
+.masonry-grid {
+  margin: 0 auto;
+}
+
+.masonry-grid .item {
+  padding: 10px;
+}
 
 /***** pipeline *****/
 .widget-pipeline {

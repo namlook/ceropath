@@ -3,11 +3,16 @@ export default {
     widgets: [
         {
             type: 'collection-map',
-            latitudeProperty: 'geoWgsLat',
-            longitudeProperty: 'geoWgsLong',
+            latitudeProperty: 'latitude',
+            longitudeProperty: 'longitude',
             // mapProvider: 'Esri.WorldImagery',
-            markerTitle: '<a href="/site/{_id}" target="_blank">{title}</a> <br /> <ul><li>{surroundingLandscapeLowResolution}</li><li>{surroundingLandscapeMediumResolution}</li><li>{surroundingLandscapeHighResolution}</li></ul>',
-
+            aggregation: {
+                id: '_id',
+                title: 'title',
+                latitude: 'latitude', // !!required
+                longitude: 'longitude' //!!required
+            },
+            markerTitle: '<a href="/site/{id}" target="_blank">{title}</a>',
             maxZoom: 17,
             height: 800
         }

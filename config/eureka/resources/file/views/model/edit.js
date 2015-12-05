@@ -1,7 +1,7 @@
 export default {
     widgets: [
         {
-            type: 'model-file-edit',
+            type: 'model-form',
             actions: {
                 save: {
                     transitionTo: 'eureka.file.model.index'

@@ -3,9 +3,9 @@ export default {
     widgets: [
         {
             type: 'collection-navbar',
-            // actions: [
+            actions: [
                 // {label: 'create', icon: 'glyphicon glyphicon-plus', route: 'eureka.taxonomy.new'}
-            // ],
+            ],
             secondaryActions: [
                 {label: 'chart center', icon: 'glyphicon glyphicon-stats', route: 'eureka.taxonomy.collection.visualization'}
             ]

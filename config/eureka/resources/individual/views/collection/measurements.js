@@ -1,202 +1,410 @@
 
 export default {
     widgets: [
-        // {
-        //     type: 'collection-aggregation',
-        //     label: 'avg weight by genders',
-        //     aggregator: {
-        //         gender: 'gender.title',
-        //         avgWeight: {$avg: 'weighMeasurement'}
-        //     },
-        //     options: {sort: 'gender'},
-        //     display: {
-        //         as: 'pie',
-        //         x: {
-        //             as: 'gender'
-        //         },
-        //         y: {
-        //             as: 'avgWeight',
-        //             title: 'weight',
-        //             suffix: 'g'
-        //         }
-        //     }
-        // },
-        // {
-        //     type: 'collection-aggregation',
-        //     label: 'aggregated weight (g)',
-        //     aggregator: {
-        //         taxonomy: 'taxonomy.title',
-        //         avgWeight: {$avg: 'weighMeasurement'},
-        //         maxWeight: {$max: 'weighMeasurement'},
-        //         minWeight: {$min: 'weighMeasurement'}
-        //     },
-        //     options: {limit: 10, sort: '-avgWeight'},
-        //     display: {
-        //         as: 'bar',
-        //         x: {
-        //             title: 'weight',
-        //             suffix: 'g',
-        //             series: [{
-        //                 as: 'minWeight',
-        //                 name: 'min weight',
-        //             }, {
-        //                 as: 'avgWeight',
-        //                 name: 'average weight',
-        //             }, {
-        //                 as: 'maxWeight',
-        //                 name: 'max weight',
-        //             }]
-        //         },
-        //         y: {
-        //             as: 'taxonomy',
-        //             title: 'species name'
-        //         }
-        //     }
-        // },
-        // {
-        //     type: 'collection-aggregation',
-        //     label: 'aggregated weight (g)',
-        //     aggregator: {
-        //         taxonomy: 'taxonomy.title',
-        //         avgWeight: {$avg: 'weighMeasurement'},
-        //         maxWeight: {$max: 'weighMeasurement'},
-        //         minWeight: {$min: 'weighMeasurement'}
-        //     },
-        //     options: {limit: 10, sort: '-avgWeight'},
-        //     display: {
-        //         as: 'column',
-        //         x: {
-        //             as: 'taxonomy',
-        //             title: 'species name'
-        //         },
-        //         y: {
-        //             title: 'weight',
-        //             suffix: 'g',
-        //             series: [{
-        //                 as: 'minWeight',
-        //                 name: 'min weight',
-        //             }, {
-        //                 as: 'avgWeight',
-        //                 name: 'average weight',
-        //             }, {
-        //                 as: 'maxWeight',
-        //                 name: 'max weight',
-        //             }]
-        //         }
-        //     }
-        // },
-        // {
-        //     type: 'collection-aggregation',
-        //     label: 'aggregated weight (g)',
-        //     aggregator: {
-        //         taxonomy: 'taxonomy.title',
-        //         elevation: 'trappingSite.geoWgsAlt',
-        //         avgWeight: {$avg: 'weighMeasurement'},
-        //         maxWeight: {$max: 'weighMeasurement'},
-        //         minWeight: {$min: 'weighMeasurement'}
-        //     },
-        //     options: {sort: 'elevation', limit: 200},
-        //     display: {
-        //         as: 'line',
-        //         x: {
-        //             as: 'elevation',
-        //             title: 'elevation',
-        //             suffix: 'm'
-        //         },
-        //         y: {
-        //             title: 'weight',
-        //             suffix: 'g',
-        //             series: [{
-        //                 as: 'minWeight',
-        //                 name: 'min weight',
-        //             }, {
-        //                 as: 'avgWeight',
-        //                 name: 'average weight',
-        //             }, {
-        //                 as: 'maxWeight',
-        //                 name: 'max weight',
-        //             }]
-        //         }
-        //     }
-        // },
-        // {
-        //     type: 'collection-aggregation',
-        //     label: 'weight (g)',
-        //     aggregator: {
-        //         taxonomy: 'taxonomy.title',
-        //         avgWeight: {$avg: 'weighMeasurement'},
-        //     },
-        //     options: {sort: '-avgWeight'},
-        //     display: {
-        //         as: 'bar',
-        //         title: 'average weight by species',
-        //         x: {
-        //             as: 'avgWeight',
-        //             title: 'average weight',
-        //             suffix: 'g',
-        //         },
-        //         y: 'taxonomy'
-        //     }
-        // },
         {
-            type: 'collection-groupby',
-            property: 'taxonomy',
-            operator: 'avg',
-            target: 'weighMeasurement',
-            label: 'weight (g)',
-            chart: {
-                type: 'bar',
-                valueSuffix: 'g',
-                valueLegend: 'g'
-            }
+            columns: 12,
+            type: 'container',
+            label: 'Body weight',
+            widgets: [
+                {
+                    type: 'container',
+                    columns: 3,
+                    widgets: [
+                        {
+                            type: 'collection-aggregation',
+                            label: 'average (g)',
+                            aggregator: {
+                                x: {$avg: 'bodyWeight'}
+                            },
+                            display: {
+                                as: 'number',
+                                x: {
+                                    as: 'x',
+                                    title: 'weight',
+                                    suffix: 'g'
+                                }
+                            }
+                        },
+                        {
+                                type: 'collection-aggregation',
+                                label: 'min (g)',
+                                aggregator: {
+                                    x: {$min: 'bodyWeight'}
+                                },
+                                display: {
+                                    as: 'number',
+                                    x: {
+                                        as: 'x',
+                                        title: 'weight',
+                                        suffix: 'g'
+                                    }
+                                }
+                        },
+                        {
+                                type: 'collection-aggregation',
+                                label: 'max (g)',
+                                aggregator: {
+                                    x: {$max: 'bodyWeight'}
+                                },
+                                display: {
+                                    as: 'number',
+                                    x: {
+                                        as: 'x',
+                                        title: 'weight',
+                                        suffix: 'g'
+                                    }
+                                }
+                        }
+                    ]
+                },
+                {
+                    columns: 9,
+                    type: 'collection-aggregation',
+                    label: 'distribution across individuals',
+                    aggregator: {
+                        x: 'bodyWeight',
+                        y: {$count: true}
+                    },
+                    options: {sort: 'x', limit: 10000},
+                    display: {
+                        as: 'column',
+                        x: {
+                            as: 'x',
+                            title: 'body weight',
+                            suffix: 'g'
+                        },
+                        y: {
+                            as: 'y',
+                            title: 'number of individuals'
+                            // suffix: 'g'
+                        }
+                    }
+                }
+            ]
         },
         {
-            type: 'collection-groupby',
-            property: 'taxonomy',
-            operator: 'avg',
-            target: 'headMeasurement',
-            label: 'head (mm)',
-            chart: {
-                type: 'bar',
-                valueSuffix: 'mm',
-                valueLegend: 'mm'
-            }
+            columns: 12,
+            type: 'container',
+            label: 'Head+body size',
+            widgets: [
+                {
+                    type: 'container',
+                    columns: 3,
+                    widgets: [
+                        {
+                            type: 'collection-aggregation',
+                            label: 'average (mm)',
+                            aggregator: {
+                                x: {$avg: 'headBodyMeasurement'}
+                            },
+                            display: {
+                                as: 'number',
+                                x: {
+                                    as: 'x',
+                                    title: 'head+body size',
+                                    suffix: 'mm'
+                                }
+                            }
+                        },
+                        {
+                            type: 'collection-aggregation',
+                            label: 'min (mm)',
+                            aggregator: {
+                                x: {$min: 'headBodyMeasurement'}
+                            },
+                            display: {
+                                as: 'number',
+                                x: {
+                                    as: 'x',
+                                    title: 'head+body size',
+                                    suffix: 'mm'
+                                }
+                            }
+                        },
+                        {
+                            type: 'collection-aggregation',
+                            label: 'max (mm)',
+                            aggregator: {
+                                x: {$max: 'headBodyMeasurement'}
+                            },
+                            display: {
+                                as: 'number',
+                                x: {
+                                    as: 'x',
+                                    title: 'head+body size',
+                                    suffix: 'mm'
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    columns: 9,
+                    type: 'collection-aggregation',
+                    label: 'distribution across individuals',
+                    aggregator: {
+                        x: 'headBodyMeasurement',
+                        y: {$count: true}
+                    },
+                    options: {sort: 'x', limit: 10000},
+                    display: {
+                        as: 'column',
+                        x: {
+                            as: 'x',
+                            title: 'head+body',
+                            suffix: 'mm'
+                        },
+                        y: {
+                            as: 'y',
+                            title: 'number of individuals'
+                            // suffix: 'g'
+                        }
+                    }
+                }
+            ]
         },
         {
-            type: 'collection-groupby',
-            property: 'taxonomy',
-            operator: 'avg',
-            target: 'tailMeasurement',
-            label: 'tail (mm)',
-            chart: {
-                type: 'bar',
-                valueSuffix: 'mm',
-                valueLegend: 'mm'
-            }
+            columns: 12,
+            type: 'container',
+            label: 'Tail size',
+            widgets: [
+                {
+                    type: 'container',
+                    columns: 3,
+                    widgets: [
+                        {
+                            type: 'collection-aggregation',
+                            label: 'average (mm)',
+                            aggregator: {
+                                x: {$avg: 'tailMeasurement'}
+                            },
+                            display: {
+                                as: 'number',
+                                x: {
+                                    as: 'x',
+                                    title: 'tail size',
+                                    suffix: 'mm'
+                                }
+                            }
+                        },
+                        {
+                            type: 'collection-aggregation',
+                            label: 'min (mm)',
+                            aggregator: {
+                                x: {$min: 'tailMeasurement'}
+                            },
+                            display: {
+                                as: 'number',
+                                x: {
+                                    as: 'x',
+                                    title: 'tail size',
+                                    suffix: 'mm'
+                                }
+                            }
+                        },
+                        {
+                            type: 'collection-aggregation',
+                            label: 'max (mm)',
+                            aggregator: {
+                                x: {$max: 'tailMeasurement'}
+                            },
+                            display: {
+                                as: 'number',
+                                x: {
+                                    as: 'x',
+                                    title: 'tail size',
+                                    suffix: 'mm'
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    columns: 9,
+                    type: 'collection-aggregation',
+                    label: 'distribution across individuals',
+                    aggregator: {
+                        x: 'tailMeasurement',
+                        y: {$count: true}
+                    },
+                    options: {sort: 'x', limit: 10000},
+                    display: {
+                        as: 'column',
+                        x: {
+                            as: 'x',
+                            title: 'tail size',
+                            suffix: 'mm'
+                        },
+                        y: {
+                            as: 'y',
+                            title: 'number of individuals'
+                            // suffix: 'g'
+                        }
+                    }
+                },
+            ]
         },
         {
-            type: 'collection-groupby',
-            property: 'taxonomy',
-            operator: 'avg',
-            target: 'footMeasurement',
-            label: 'foot (mm)',
-            chart: {
-                type: 'bar',
-                valueSuffix: 'mm',
-                valueLegend: 'mm'
-            }
+            columns: 12,
+            type: 'container',
+            label: 'Head size',
+            widgets: [
+                {
+                    type: 'container',
+                    columns: 3,
+                    widgets: [
+                        {
+                            type: 'collection-aggregation',
+                            label: 'average (mm)',
+                            aggregator: {
+                                x: {$avg: 'headMeasurement'}
+                            },
+                            display: {
+                                as: 'number',
+                                x: {
+                                    as: 'x',
+                                    title: 'head size',
+                                    suffix: 'mm'
+                                }
+                            }
+                        },
+                        {
+                            type: 'collection-aggregation',
+                            label: 'min (mm)',
+                            aggregator: {
+                                x: {$min: 'headMeasurement'}
+                            },
+                            display: {
+                                as: 'number',
+                                x: {
+                                    as: 'x',
+                                    title: 'head size',
+                                    suffix: 'mm'
+                                }
+                            }
+                        },
+                        {
+                            type: 'collection-aggregation',
+                            label: 'max (mm)',
+                            aggregator: {
+                                x: {$max: 'headMeasurement'}
+                            },
+                            display: {
+                                as: 'number',
+                                x: {
+                                    as: 'x',
+                                    title: 'head size',
+                                    suffix: 'mm'
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    columns: 9,
+                    type: 'collection-aggregation',
+                    label: 'distribution across individuals',
+                    aggregator: {
+                        x: 'headMeasurement',
+                        y: {$count: true}
+                    },
+                    options: {sort: 'x', limit: 10000},
+                    display: {
+                        as: 'column',
+                        x: {
+                            as: 'x',
+                            title: 'head',
+                            suffix: 'mm'
+                        },
+                        y: {
+                            as: 'y',
+                            title: 'number of individuals'
+                            // suffix: 'g'
+                        }
+                    }
+                }
+            ]
         },
         {
-            type: 'collection-groupby',
-            property: 'taxonomy',
-            operator: 'avg',
-            target: 'earMeasurement',
-            label: 'ear (mm)',
-            chart: {
-                type: 'bar',
-                valueSuffix: 'mm',
-                valueLegend: 'mm'
-            }
-        }
+            columns: 12,
+            type: 'container',
+            label: 'Hindfoot size',
+            widgets: [
+                {
+                    type: 'container',
+                    columns: 3,
+                    widgets: [
+                        {
+                            type: 'collection-aggregation',
+                            label: 'average (mm)',
+                            aggregator: {
+                                x: {$avg: 'hindfootMeasurement'}
+                            },
+                            display: {
+                                as: 'number',
+                                x: {
+                                    as: 'x',
+                                    title: 'hindfoot size',
+                                    suffix: 'mm'
+                                }
+                            }
+                        },
+                        {
+                            type: 'collection-aggregation',
+                            label: 'min (mm)',
+                            aggregator: {
+                                x: {$min: 'hindfootMeasurement'}
+                            },
+                            display: {
+                                as: 'number',
+                                x: {
+                                    as: 'x',
+                                    title: 'hindfoot size',
+                                    suffix: 'mm'
+                                }
+                            }
+                        },
+                        {
+                            type: 'collection-aggregation',
+                            label: 'max (mm)',
+                            aggregator: {
+                                x: {$max: 'hindfootMeasurement'}
+                            },
+                            display: {
+                                as: 'number',
+                                x: {
+                                    as: 'x',
+                                    title: 'hindfoot size',
+                                    suffix: 'mm'
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    columns: 9,
+                    type: 'collection-aggregation',
+                    label: 'distribution across individuals',
+                    aggregator: {
+                        x: 'hindfootMeasurement',
+                        y: {$count: true}
+                    },
+                    options: {sort: 'x', limit: 10000},
+                    display: {
+                        as: 'column',
+                        x: {
+                            as: 'x',
+                            title: 'hindfoot',
+                            suffix: 'mm'
+                        },
+                        y: {
+                            as: 'y',
+                            title: 'number of individuals'
+                            // suffix: 'g'
+                        }
+                    }
+                }
+            ]
+        },
     ]
 };

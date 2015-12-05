@@ -20,12 +20,33 @@ eurekaServer.start().then(function(server) {
     var uploadSecretKey = config.app.secret;
 
     server.route({
+        path: '/_private/resources',
+        method: 'GET',
+        config: {
+            validate: {
+                query: {
+                    'persist': joi.string()
+                }
+            }
+        },
+        handler: function(request, reply) {
+            var persist = request.query.persist;
+            return reply.ok({
+                resources: Object.keys(request.db.registeredModels)
+            });
+        }
+    }),
+
+    server.route({
         path: '/_private/upload/{resource}',
         method: 'POST',
         config: {
             validate: {
                 query: {
-                    'persist': joi.string()
+                    persist: joi.string(),
+                    delimiter: joi.string().default(','),
+                    escapeChar: joi.string(),
+                    enclosedChar: joi.string()
                 }
             },
             payload: {
@@ -37,6 +58,11 @@ eurekaServer.start().then(function(server) {
         },
         handler: function(request, reply) {
             var persist = request.query.persist;
+            var csvOptions = {
+                delimiter: request.query.delimiter,
+                escapeChar: request.query.escapeChar,
+                enclosedChar: request.query.enclosedChar
+            };
             var resource = request.params.resource;
             var modelName = _.capitalize(_.camelCase(request.params.resource));
             var db = request.db;
@@ -69,8 +95,8 @@ eurekaServer.start().then(function(server) {
 
                 var promise = new Promise(function(resolve, reject) {
 
-                    var csvStream = db.csvStreamParse(modelName, file);
-                    var writableStream = db.writableStream(modelName, {dryRun: !persist});
+                    var csvStream = db.csvStreamParse(modelName, file, csvOptions);
+                    var writableStream = db.writableStream(modelName, {dryRun: !persist, stripUnknown: true});
                     csvStream.pipe(writableStream);
 
                     csvStream.on('error', function(err) {

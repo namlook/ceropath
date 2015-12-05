@@ -2,9 +2,12 @@
 
 var buildEurekaStructure = require('ember-eureka/structure');
 
-var serverConfig = require('./server');
 
 module.exports = function(environment) {
+  var serverConfig = require('./server');
+  delete require.cache[require.resolve('./server')];
+
+
   var eurekaStructure = buildEurekaStructure();
   var ENV = {
     modulePrefix: 'ceropath',

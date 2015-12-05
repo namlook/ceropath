@@ -4,7 +4,7 @@ export default {
         {
             type: 'model-embedded-collection-widget',
             resource: 'individual',
-            query: {'taxonomy._id': '${_id}', isVoucherBarcoding: true},
+            query: {taxonomyID: '${_id}', isVoucherBarcoding: true},
             widget: {
                 type: 'collection-display',
                 label: 'Related vouchers',

@@ -4,7 +4,7 @@ export default {
         {
             type: 'model-embedded-collection-widget',
             resource: 'individual',
-            query: {'taxonomy._id': '${_id}'},
+            query: {'taxonomyID': '${_id}'},
             widget: {
                 type: 'collection-display',
                 label: 'Related individuals'

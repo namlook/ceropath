@@ -2,16 +2,16 @@
 var siteMap = {
     type: 'model-map',
     style: 'site-map',
-    latitudeProperty: 'geoWgsLat',
-    longitudeProperty: 'geoWgsLong'
+    latitudeProperty: 'latitude',
+    longitudeProperty: 'longitude'
 };
 
 var gpsInformations = {
     type: 'model-display',
     fields: [
-        'geoWgsLat',
-        'geoWgsLong',
-        'geoWgsAlt'
+        'latitude',
+        'longitude',
+        'elevation'
     ]
 };
 
@@ -20,33 +20,45 @@ var generalInformations = {
     displayStyle: 'table',
     fields: [
         'title',
-        'region',
         'country',
-        'province',
-        'district',
-        'village',
-        'isCeropathSite',
-        'averageHousesNumber',
-        'averageHousesDistance',
-        'surroundingLandscapeHighResolution',
-        'surroundingLandscapeMediumResolution',
-        'surroundingLandscapeLowResolution'
+        'province'
     ]
 };
 
-var sitePhotos = {
-    type: 'model-display',
-    label: 'Photos of the land',
-    style: 'site-photos',
-    hideLabels: true,
-    fields: ['photos']
-};
+// var sitePhotos = {
+//     type: 'model-display',
+//     label: 'Photos of the land',
+//     style: 'site-photos',
+//     hideLabels: true,
+//     fields: ['photos']
+// };
+
+
+var gallery = {
+    type: 'model-embedded-collection-widget',
+    resource: 'site',
+    query: {id: '${_id}'},
+    widget: {
+        type: 'collection-gallery',
+        imageSrc: 'photos',
+        imageTitle: 'title',
+        label: 'trapping site gallery',
+        filePath: {
+            prefix: '/trapping_lines'
+        },
+        options: {distinct: true, limit: 20}
+    }
+    // aggregation: {
+        // photos: {$concat: photos}
+    // },
+    // options: {distinct: true}
+}
 
 
 var trappedInvidividuals = {
     type: 'model-embedded-collection-widget',
     resource: 'individual',
-    query: {'trappingSite._id': '${_id}'},
+    query: {'trappingSiteID._id': '${_id}'},
     queryOptions: {limit: 10},
     widget: {
         type: 'collection-display',
@@ -62,8 +74,7 @@ export default {
             type: 'container',
             columns: 8,
             widgets: [
-                generalInformations,
-                trappedInvidividuals
+                gallery
             ]
         },
         {
@@ -72,7 +83,8 @@ export default {
             widgets: [
                 siteMap,
                 gpsInformations,
-                sitePhotos
+                generalInformations,
+                trappedInvidividuals
             ]
         }
 

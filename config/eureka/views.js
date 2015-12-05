@@ -11,9 +11,11 @@ export default {
             items: [
                 {label: 'Pipeline', route: 'eureka.index'},
                 {label: 'Taxonomy', route: 'eureka.taxonomy.collection.index'},
-                {label: 'Individual', route: 'eureka.individual.collection.index'},
-                {label: 'Site', route: 'eureka.site.collection.index'},
-                {label: 'Publication', route: 'eureka.publication.collection.index'}
+                {label: 'Individuals', route: 'eureka.individual.collection.index'},
+                // {label: 'Sites', route: 'eureka.site.collection.index'},
+                // {label: 'Sequences', route: 'eureka.sequence.collection.index'},
+                // {label: 'Parasites', route: 'eureka.parasite.collection.index'},
+                // {label: 'Microparasites', route: 'eureka.microparasite.collection.index'}
             ]
         },
         {

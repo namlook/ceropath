@@ -4,13 +4,13 @@ var generalInformations = {
     label: 'General informations',
     fields: [
         'title',
-        'taxonomy',
-        'gender',
-        'maturity',
+        'taxonomyID',
+        'sex',
         'isVoucherBarcoding',
         'inSkullCollection',
-        'dissectionDate',
-        'comment'
+        'identificationType',
+        'identificationDate',
+        'identificationMethod'
     ]
 };
 
@@ -20,31 +20,12 @@ var measurements = {
     fields: [
         'headBodyMeasurement',
         'tailMeasurement',
-        'footMeasurement',
+        'hindfootMeasurement',
         'earMeasurement',
-        'weighMeasurement',
+        'bodyWeight',
         'headMeasurement',
-        'breadthOfRostrumMeasurement',
-        'lengthOfRostrumMeasurement',
-        'occipitoNasalLengthMeasurement',
-        'interorbitalBreadthMeasurement',
-        'breathOfBrainCaseMeasurement',
-        'zygomaticBreadthMeasurement',
-        'breadthOfIncisiveForaminaMeasurement',
-        'breadthOfFirstUpperMolarMeasurement',
-        'lengthOfDiastemaMeasurement',
-        'lenghtOfIncisiveForaminaMeasurement',
-        'lenghtOfBonyPalateMeasurement',
-        'postPalatalLengthMeasurement',
-        'lengthOfAuditoryBullaMeasurement',
-        'breadthOfMesopterygoidFossaMeasurement',
-        'breadthOfBonyPalateAtfirstMeasurement',
-        'crownLengthOfMaxillaryMolarMeasurement',
-        'breathOfZygomaticPlateMeasurement',
-        'heightOfBraincaseMeasurement',
-        'spleenWeightMeasurement',
-        'agpdMeasurement',
-        'molecularIdentification'
+        'spleenWeight',
+        'anusGenitalDistance'
     ]
 };
 
@@ -53,20 +34,21 @@ var trappingMap = {
     type: 'model-map',
     style: 'individual-trapping-map',
     label: 'Trapping informations',
-    latitudeProperty: 'trappingSite.geoWgsLat',
-    longitudeProperty: 'trappingSite.geoWgsLong'
+    latitudeProperty: 'trappingSiteID.latitude',
+    longitudeProperty: 'trappingSiteID.longitude'
 };
 
 var trappingInformations = {
     type: 'model-display',
     fields: [
+        'trappingSiteID',
+        'trappingDate',
         'trappingMethod',
-        'isTrappedAlive',
         'trappingAccuracy',
-        'trappingSite'
-        // 'trappingLandscapeHightResolution',
-        // 'trappingLandscapeMediumResolution',
-        // 'trappingLandscapeLowResolution'
+        'trappingLandscapeMediumRes',
+        'trappingLandscapeLowRes',
+        'isTrappedAlive',
+        'isDissected'
     ]
 };
 
@@ -77,29 +59,109 @@ var physiologicalFeatures = {
     fields: [
         'vagina',
         'teats',
-        'mammaeDistribution',
-        'leftSideEmbryosNumber',
-        'rightSideEmbryosNumber',
-        'testesOutput',
+        'mammae',
+        'embryoLeftSide',
+        'embryoRightSide',
+        'testes',
         'testesLength',
-        'seminalVesicule',
-        'sexualMaturity',
-        'm3Development'
+        'seminalVesicle'
     ]
 };
 
+var trappingGallery = {
+    type: 'model-embedded-collection-widget',
+    resource: 'individual',
+    query: {'id': '${_id}'},
+    widget: {
+        type: 'collection-gallery',
+        imageSrc: 'trappingSiteID.photos',
+        filePath: {
+            prefix: '/trapping_lines'
+        },
+        label: 'trapping site gallery',
+        options: {distinct: true, limit: 20}
+    }
+};
+
+var morphologyGallery = {
+    type: 'model-embedded-collection-widget',
+    resource: 'individual',
+    query: {'id': '${_id}'},
+    widget: {
+        type: 'collection-gallery',
+        imageSrc: 'morphologyPhotos.path',
+        label: 'Morphological views',
+        options: {distinct: true, limit: 10}
+    }
+};
+
+var skullGallery = {
+    type: 'model-embedded-collection-widget',
+    resource: 'individual',
+    query: {'id': '${_id}'},
+    widget: {
+        type: 'collection-gallery',
+        imageSrc: 'skullPhotos.path',
+        label: 'Skull measurements',
+        options: {distinct: true, limit: 10}
+    }
+};
+
+var parasites = {
+    type: 'model-embedded-collection-widget',
+    resource: 'parasite',
+    query: {'individualID': '${_id}'},
+    widget: {
+        type: 'collection-display',
+        label: 'Parasites found in this individual'
+    }
+};
+
+var microparasites = {
+    type: 'model-embedded-collection-widget',
+    resource: 'microparasite',
+    query: {'individualID': '${_id}'},
+    widget: {
+        type: 'collection-display',
+        label: 'Micro-parasites found in this individual'
+    }
+};
 
 export default {
     widgets: [
         {
             type: 'container',
-            columns: 8,
-            widgets: [generalInformations, measurements]
+            columns: 9,
+            widgets: [
+                generalInformations,
+                trappingMap,
+                trappingInformations,
+                {
+                    type: 'container',
+                    columns: 6,
+                    widgets: [measurements]
+                },
+                {
+                    type: 'container',
+                    columns: 6,
+                    widgets: [physiologicalFeatures]
+                },
+                {
+                    type: 'container',
+                    columns: 6,
+                    widgets: [parasites]
+                },
+                {
+                    type: 'container',
+                    columns: 6,
+                    widgets: [microparasites]
+                }
+            ]
         },
         {
             type: 'container',
-            columns: 4,
-            widgets: [trappingMap, trappingInformations, physiologicalFeatures]
+            columns: 3,
+            widgets: [trappingGallery, morphologyGallery, skullGallery]
         }
     ]
 };
