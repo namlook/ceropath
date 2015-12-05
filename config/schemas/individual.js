@@ -115,7 +115,7 @@ module.exports = {
         spleenWeight: {
             type: 'number',
             validate: [{precision: 0}],
-            label: 'spleen weight (mm)',
+            label: 'spleen weight (mg)',
             description: 'Spleen weight (mg) (measurement_accuracy: 0)'
         },
         anusGenitalDistance: {

@@ -5,9 +5,11 @@ module.exports = {
             type: 'string'
         },
         individualID: {
+            label: 'individual',
             type: 'Individual'
         },
         taxonomyID: {
+            label: 'taxonomy',
             type: 'Taxonomy'
         },
         detectionMethod: {
