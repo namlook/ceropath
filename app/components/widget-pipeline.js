@@ -47,7 +47,7 @@ export default Widget.extend({
         });
 
         let voucherBarcodingPromise = new Promise((resolve, reject) => {
-            let url = `${apiEndpoint}/individuals/i/stream/json?fields=title,taxonomy&filter[isVoucherBarcoding]=true`;
+            let url = `${apiEndpoint}/individuals/i/stream/json?fields=title,taxonomyID&filter[isVoucherBarcoding]=true&limit=10000`;
 
             Ember.$.ajax({
                 url: encodeURI(url),
@@ -56,7 +56,7 @@ export default Widget.extend({
                 success(data) {
                     let result = {};
                     data.data.forEach((item) => {
-                        result[item._id] = item.taxonomy._id;
+                        result[item._id] = item.taxonomyID._id;
                     });
                     resolve(result);
                 },
@@ -67,6 +67,7 @@ export default Widget.extend({
         });
 
         Promise.all([nwkPromise, voucherBarcodingPromise]).then((results) => {
+            console.log(results);
             this.set('isLoading', false);
             this.setProperties({
                 nwk: results[0].nwk,
