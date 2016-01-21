@@ -50,12 +50,12 @@ module.exports = {
         trappingLandscapeMediumRes: {
             type: 'string',
             label: 'trapping landscape medium resolution',
-            description: "Describe the type of landscape around the trap (medium resolution) "
+            description: 'Describe the type of landscape around the trap (medium resolution)'
         },
         trappingLandscapeLowRes: {
             type: 'string',
             label: 'trapping landscape low resolution',
-            description: "Describe the type of landscape around the trap (low resolution) "
+            description: 'Describe the type of landscape around the trap (low resolution)'
         },
         trappingSiteID: {
             type: 'Site',
@@ -176,6 +176,10 @@ module.exports = {
         morphologyPhotos: {
             type: 'array',
             items: 'File'
+        },
+
+        credit: {
+          type: 'string'
         }
         // sexualMaturity: {
         //     type: 'boolean',

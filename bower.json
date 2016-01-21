@@ -25,6 +25,8 @@
     "dropzone": "~4.2.0",
     "tnt.tree": "namlook/tnt.tree",
     "bootstrap-multiselect": "0.9.13",
-    "mimoza": "1.0.0"
+    "mimoza": "1.0.0",
+    "jquery-masonry": "~3.3.2",
+    "imagesloaded": "~3.2.0"
   }
 }

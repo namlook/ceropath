@@ -10,7 +10,7 @@ module.exports = {
         },
         taxonomyID: {
             label: 'taxonomy',
-            type: 'Taxonomy'
+            type: 'MicrobesTaxonomy'
         },
         detectionMethod: {
             type: 'string'
