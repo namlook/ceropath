@@ -8,7 +8,7 @@ module.exports = {
         },
         taxonomyID: {
             label: 'taxonomy',
-            type: 'Taxonomy'
+            type: 'RodentiaTaxonomy'
         },
         sex: {
             type: 'string'
