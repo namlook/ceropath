@@ -27,18 +27,18 @@ var internals = {
 };
 
 if (process.env.NODE_ENV === 'production') {
-    // var dbHost = process.env.DB_PORT_8890_TCP_ADDR; // docker uses this
-    // var dbPort = process.env.DB_PORT_8890_TCP_PORT;
+    var dbHost = process.env.DB_PORT_8890_TCP_ADDR; // docker uses this
+    var dbPort = process.env.DB_PORT_8890_TCP_PORT;
     // console.log(process.env);
     // var dbHost = process.env.DB_PORT_8080_TCP_ADDR; // docker uses this
     // var dbPort = process.env.DB_PORT_8080_TCP_PORT;
 
-    // if (!dbHost || !dbPort) {
-        // throw Error('host or port unknown');
-    // }
+    if (!dbHost || !dbPort) {
+        throw Error('host or port unknown');
+    }
 
-    // internals.endpoint = 'http://' + dbHost + ':' + dbPort + '/sparql';
-    internals.endpoint = 'db:8890/sparql';
+    internals.endpoint = 'http://' + dbHost + ':' + dbPort + '/sparql';
+    // internals.endpoint = 'db:8890/sparql';
     // internals.endpoint = 'http://' + dbHost + ':' + dbPort + '/bigdata/sparql';
     internals.port = 80;
     internals.uploadDirectory = '/app/uploads';
