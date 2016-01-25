@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN wget https://cran.r-project.org/src/contrib/ape_3.3.tar.gz \
+RUN wget https://cran.r-project.org/src/contrib/Archive/ape/ape_3.3.tar.gz \
  && wget https://cran.r-project.org/src/contrib/RSvgDevice_0.6.4.4.tar.gz \
  && R CMD INSTALL ape_3.3.tar.gz \
  && R CMD INSTALL RSvgDevice_0.6.4.4.tar.gz
