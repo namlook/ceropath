@@ -34,8 +34,8 @@ var queue = kue.createQueue({
     }
 });
 
-kue.app.listen(config.misc.kue.port);
-console.log('Running queue on http://0.0.0.0:'+config.misc.kue.port);
+// kue.app.listen(config.misc.kue.port);
+// console.log('Running queue on http://0.0.0.0:'+config.misc.kue.port);
 
 queue.on( 'error', function( err ) {
   console.log( 'Oops... ', err );
