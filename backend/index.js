@@ -137,6 +137,7 @@ eurekaServer.start().then(function(server) {
         path: '/_private/import/{resource}',
         method: 'POST',
         config: {
+            cors: true,
             validate: {
                 query: {
                     persist: joi.string(),
@@ -208,6 +209,7 @@ eurekaServer.start().then(function(server) {
         path: '/_private/upload/{resource}',
         method: 'POST',
         config: {
+            cors: true,
             validate: {
                 query: {
                     persist: joi.string(),
