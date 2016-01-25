@@ -5,7 +5,7 @@
 #
 FROM node:0.12.2
 
-MAINTAINER Namlook <n.namlook@gmail.com>
+MAINTAINER Namlook <nicolas.clairon@elkorado.com>
 
 RUN apt-get update && apt-get install -y \
         graphicsmagick \
