@@ -52,7 +52,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    // ENV.APP.backendUrl = 'TODO';
+    ENV.APP.backendUrl = 'http://data.ceropath.org';
     ENV.APP.apiEndpoint = serverConfig.app.apiRootPrefix;
   }
 

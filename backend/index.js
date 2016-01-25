@@ -5,6 +5,18 @@ var mimes = require('mime-types');
 
 var _ = require('lodash');
 var joi = require('joi');
+var kue = require('kue');
+var os = require('os');
+var path = require('path');
+var url = require('url');
+
+
+var pump = require('pump');
+var csv = require('csv-stream');
+var shell = require('shelljs');
+var archimedesUtils = require('archimedes/lib/adapters/rdf/utils');
+var fs = require('fs');
+
 
 var eurekaServer = eureka(config);
 
@@ -15,7 +27,89 @@ eurekaServer.beforeRegister = function(_server, next) {
     next(null);
 };
 
+var queue = kue.createQueue({
+    redis: {
+        port: config.misc.redis.port,
+        host: config.misc.redis.host
+    }
+});
+
+kue.app.listen(config.misc.kue.port);
+console.log('Running queue on http://0.0.0.0:'+config.misc.kue.port);
+
+queue.on( 'error', function( err ) {
+  console.log( 'Oops... ', err );
+});
+
 eurekaServer.start().then(function(server) {
+
+    queue.process('importCSV', 1, function(job, done) {
+        var infile = fs.createReadStream(job.data.filename);
+
+        var parsedFileName = path.parse(job.data.filename);
+        var outfileName = path.resolve(os.tmpDir(), parsedFileName.name+'.trig');
+
+        var outfile = fs.createWriteStream(outfileName);
+        var db = server.plugins.eureka.database;
+
+        // All of these arguments are optional.
+        var options = {
+          delimiter: ',', // default is ,
+          endLine: '\n', // default is \n,
+          //  columns : ['columnName1', 'columnName2'] // by default read the first line and use values found as columns
+          escapeChar: '"', // default is an empty string
+          enclosedChar: '"' // default is an empty string
+        };
+
+        var csvTransform = csv.createStream(options);
+        var instanceTransform = archimedesUtils.instanceStreamWriter(db, job.data.resource);
+        var rdfTransform = archimedesUtils.rdfStreamWriter(job.data.graphUri);
+
+        var output = shell.exec('wc -l '+job.data.filename, {silent: true}).output;
+        var total = parseFloat(_.trim(output).split(' ')[0]);
+
+        var progress = 0;
+        rdfTransform.on('data', function() {
+            progress++;
+            job.progress(progress, total);
+        });
+
+        rdfTransform.on('error', function(error) {
+            console.log('rdfTransform:error', error.stack);
+            done(error);
+        });
+
+        pump(infile, csvTransform, instanceTransform, rdfTransform, outfile, function(err) {
+            if (err) {
+                console.error('pump:error:', err.stack);
+                return done(err);
+            }
+
+            var graphUri = config.database.config.graphUri;
+
+            db.clearResource(job.data.resource).then(function() {
+                encodedGraphUri = encodeURIComponent(graphUri);
+                var url = 'db:8890/sparql-graph-crud-auth?graph-uri='+encodedGraphUri;
+                var dbPassword = config.misc.virtuoso.password;
+                shell.exec(
+                    'curl --digest --user dba:'+dbPassword+' --url "'+url+'" -X POST -T '+outfileName+' --fail --silent --show-error 1>/dev/null',
+                    // {silent: true},
+                    function(code, stdout, stderr) {
+                        if (code === 0) {
+                            done(null, 'done');
+                        } else {
+                            done(new Error(stdout));
+                        }
+                    }
+                );
+
+            }).catch(function(error) {
+                console.log('clearResource:error:', error);
+                console.log(error.stack);
+                done(error);
+            });
+        });
+    });
 
     var uploadSecretKey = config.app.secret;
 
@@ -25,17 +119,90 @@ eurekaServer.start().then(function(server) {
         config: {
             validate: {
                 query: {
-                    'persist': joi.string()
+                    persist: joi.string()
                 }
             }
         },
         handler: function(request, reply) {
-            var persist = request.query.persist;
+            if (request.query.persist !== uploadSecretKey) {
+                return reply.forbidden('not authorized');
+            }
             return reply.ok({
                 resources: Object.keys(request.db.registeredModels)
             });
         }
     }),
+
+    server.route({
+        path: '/_private/import/{resource}',
+        method: 'POST',
+        config: {
+            validate: {
+                query: {
+                    persist: joi.string(),
+                    delimiter: joi.string().default(','),
+                    escapeChar: joi.string(),
+                    enclosedChar: joi.string()
+                }
+            },
+            payload: {
+                output: 'stream',
+                parse: true,
+                maxBytes: 1000 * Math.pow( 1024, 2 ),
+                allow: 'multipart/form-data'
+            }
+        },
+        handler: function(request, reply) {
+            if (request.query.persist !== uploadSecretKey) {
+                return reply.forbidden('not authorized');
+            }
+
+            var csvOptions = {
+                delimiter: request.query.delimiter,
+                escapeChar: request.query.escapeChar,
+                enclosedChar: request.query.enclosedChar
+            };
+            var resource = request.params.resource;
+            var modelName = _.capitalize(_.camelCase(request.params.resource));
+            var db = request.db;
+            if (!db[modelName]) {
+                return reply.badRequest('unknown resource: "' + resource + '"');
+            }
+
+            var file = request.payload.file;
+            if (!file && file.hapi) {
+                return reply.badRequest('file not found');
+            }
+
+            var mimeType = mimes.lookup(file.hapi.filename);
+            if (mimeType !== 'text/csv') {
+                return reply.badRequest('the file should be in csv format');
+            }
+
+            var csvFileName = path.resolve(os.tmpDir(), file.hapi.filename);
+
+            var csvFile = fs.createWriteStream(csvFileName);
+
+            request.payload.file.pipe(csvFile);
+
+            request.payload.file.on('error', function(error) {
+                reply.badRequest(error);
+            });
+
+            request.payload.file.on('end', function() {
+                var job = queue.create('importCSV', {
+                    title: resource,
+                    filename: csvFileName,
+                    resource: modelName
+                }).save();
+
+                job.on('enqueue', function() {
+                    reply('ok');
+                });
+            });
+        }
+    });
+
 
     server.route({
         path: '/_private/upload/{resource}',
