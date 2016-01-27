@@ -92,7 +92,7 @@ export default Ember.Component.extend({
                 .on('click', function(node) {
                     let taxonomyId = voucherBarcodings[node.node_name()];
                     if (taxonomyId) {
-                        window.open(`/taxonomy/${taxonomyId}`);
+                        window.open(`/rodentia-taxonomy/${taxonomyId}`);
                     }
                 });
 

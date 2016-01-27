@@ -34,9 +34,6 @@ var queue = kue.createQueue({
     }
 });
 
-// kue.app.listen(config.misc.kue.port);
-// console.log('Running queue on http://0.0.0.0:'+config.misc.kue.port);
-
 queue.on( 'error', function( err ) {
   console.log( 'Oops... ', err );
 });
@@ -124,9 +121,9 @@ eurekaServer.start().then(function(server) {
             }
         },
         handler: function(request, reply) {
-            if (request.query.persist !== uploadSecretKey) {
-                return reply.forbidden('not authorized');
-            }
+            // if (request.query.persist !== uploadSecretKey) {
+                // return reply.forbidden('not authorized');
+            // }
             return reply.ok({
                 resources: Object.keys(request.db.registeredModels)
             });
@@ -137,7 +134,6 @@ eurekaServer.start().then(function(server) {
         path: '/_private/import/{resource}',
         method: 'POST',
         config: {
-            cors: true,
             validate: {
                 query: {
                     persist: joi.string(),
@@ -149,14 +145,14 @@ eurekaServer.start().then(function(server) {
             payload: {
                 output: 'stream',
                 parse: true,
-                maxBytes: 1000 * Math.pow( 1024, 2 ),
+                maxBytes: 100 * Math.pow( 1024, 2), // 100 Mo
                 allow: 'multipart/form-data'
             }
         },
         handler: function(request, reply) {
-            if (request.query.persist !== uploadSecretKey) {
-                return reply.forbidden('not authorized');
-            }
+            // if (request.query.persist !== uploadSecretKey) {
+                // return reply.forbidden('not authorized');
+            // }
 
             var csvOptions = {
                 delimiter: request.query.delimiter,
@@ -206,10 +202,9 @@ eurekaServer.start().then(function(server) {
 
 
     server.route({
-        path: '/_private/upload/{resource}',
+        path: '/_private/validate/{resource}',
         method: 'POST',
         config: {
-            cors: true,
             validate: {
                 query: {
                     persist: joi.string(),
@@ -221,12 +216,11 @@ eurekaServer.start().then(function(server) {
             payload: {
                 output: 'stream',
                 parse: true,
-                maxBytes: Math.pow(1024, 10),
+                maxBytes: 100 * Math.pow( 1024, 2), // 100 Mo
                 allow: 'multipart/form-data'
             }
         },
         handler: function(request, reply) {
-            var persist = request.query.persist;
             var csvOptions = {
                 delimiter: request.query.delimiter,
                 escapeChar: request.query.escapeChar,
@@ -238,16 +232,6 @@ eurekaServer.start().then(function(server) {
             if (!db[modelName]) {
                 return reply.badRequest('unknown resource: "' + resource + '"');
             }
-            var clearDb;
-            if (persist) {
-                if (persist !== uploadSecretKey) {
-                    return reply.forbidden('not authorized');
-                }
-                clearDb = db.clearResource(modelName);
-            } else {
-                clearDb = Promise.resolve();
-            }
-
             var file = request.payload.file;
 
             if (!file || !file.hapi) {
@@ -260,51 +244,44 @@ eurekaServer.start().then(function(server) {
                 return reply.badRequest('the file should be in csv format');
             }
 
-            clearDb.then(function() {
+            var promise = new Promise(function(resolve, reject) {
 
-                var promise = new Promise(function(resolve, reject) {
+                var csvStream = db.csvStreamParse(modelName, file, csvOptions);
+                var writableStream = db.writableStream(modelName, {dryRun: true, stripUnknown: true});
+                csvStream.pipe(writableStream);
 
-                    var csvStream = db.csvStreamParse(modelName, file, csvOptions);
-                    var writableStream = db.writableStream(modelName, {dryRun: !persist, stripUnknown: true});
-                    csvStream.pipe(writableStream);
-
-                    csvStream.on('error', function(err) {
-                        // console.error('xxx', err);
-                        reject(err);
-                    });
-
-                    writableStream.on('error', function(err) {
-                        // console.error('---', err);
-                        reject(err);
-                    });
-
-                    writableStream.on('end', function() {
-                        // console.log('finished');
-                        resolve();
-                    });
-
-                    request.payload.file.on('error', function(err) {
-                        // console.error('***', err);
-                        reject(err);
-                    });
+                csvStream.on('error', function(err) {
+                    // console.error('xxx', err);
+                    reject(err);
                 });
 
-                promise.then(function() {
-                    reply.jsonApi({data: {sucess: true}});
-                }).catch(function(err) {
-                    if (err.message === 'Bad value') {
-                        var lineNumber = parseFloat(err.line.count) + 1;
-                        return reply.badRequest('error at line ' + lineNumber, err);
-                    } else {
-                        return reply.badRequest(err.message, err);
-                    }
-
+                writableStream.on('error', function(err) {
+                    // console.error('---', err);
+                    reject(err);
                 });
 
-            }).catch(function(err) {
-                reply.badImplementation(err);
+                writableStream.on('end', function() {
+                    // console.log('finished');
+                    resolve();
+                });
+
+                request.payload.file.on('error', function(err) {
+                    // console.error('***', err);
+                    reject(err);
+                });
             });
 
+            promise.then(function() {
+                reply.jsonApi({data: {sucess: true}});
+            }).catch(function(err) {
+                if (err.message === 'Bad value') {
+                    var lineNumber = parseFloat(err.line.count) + 1;
+                    return reply.badRequest('error at line ' + lineNumber, err);
+                } else {
+                    return reply.badRequest(err.message, err);
+                }
+
+            });
         }
     });
 

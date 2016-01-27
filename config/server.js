@@ -21,8 +21,8 @@ var requireDir = require('require-dir');
 var internals = {
     port: 8888,
     uploadDirectory: './uploads',
-    endpoint: 'db:8890/sparql' // virtuoso
-    // endpoint: 'http://192.168.99.100:8890/sparql' // virtuoso
+    // endpoint: 'db:8890/sparql' // virtuoso
+    endpoint: 'http://192.168.99.100:8890/sparql' // virtuoso
     // endpoint: 'http://192.168.99.100:9999/bigdata/sparql' // blazegraph
 };
 

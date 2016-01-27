@@ -1,6 +1,6 @@
 
 export default {
     widgets: [
-        // {type: 'pipeline'}
+        {type: 'upload-csv'}
     ]
 };
