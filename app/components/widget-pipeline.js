@@ -27,6 +27,7 @@ export default Widget.extend({
     postSequence(formData) {
         let {Promise} = Ember.RSVP;
         let apiEndpoint = this.get('apiEndpoint');
+        this.$('.nav-tabs a[href=#tab-results]').tab('show');
         this.set('isLoading', true);
         this.set('imagePath', null);
         let nwkPromise = new Promise((resolve, reject) => {
