@@ -2,7 +2,7 @@ export default {
     widgets: [
         {
             type: 'model-navbar',
-            secondaryActions: [
+            actions: [
                 {label: 'measurements', icon: 'glyphicon glyphicon-stats', route: 'eureka.rodentia-taxonomy.model.measurements'},
                 {label: 'map', icon: 'glyphicon glyphicon-globe', route: 'eureka.rodentia-taxonomy.model.map'},
                 {label: 'vouchers', icon: 'glyphicon glyphicon-align-justify', route: 'eureka.rodentia-taxonomy.model.vouchers'},

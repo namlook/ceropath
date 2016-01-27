@@ -127,6 +127,16 @@ var microparasites = {
     }
 };
 
+var sequences = {
+    type: 'model-embedded-collection-widget',
+    resource: 'sequence',
+    query: {'individualID': '${_id}'},
+    widget: {
+        type: 'collection-display',
+        label: 'Sequences'
+    }
+};
+
 export default {
     widgets: [
         {
@@ -161,7 +171,7 @@ export default {
         {
             type: 'container',
             columns: 3,
-            widgets: [trappingGallery, morphologyGallery, skullGallery]
+            widgets: [trappingGallery, morphologyGallery, skullGallery, sequences]
         }
     ]
 };

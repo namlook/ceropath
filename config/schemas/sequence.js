@@ -15,10 +15,10 @@ module.exports = {
             type: 'string'
         },
         forwardPrimer: {
-            type: 'string'
+            type: 'Primer'
         },
         reversePrimer: {
-            type: 'string'
+            type: 'Primer'
         },
         sequence: {
             type: 'string'

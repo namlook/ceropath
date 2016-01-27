@@ -4,7 +4,7 @@ export default {
         {
             type: 'collection-navbar',
             actions: [
-                {label: 'map', icon: 'glyphicon glyphicon-globe', route: 'eureka.site.collection.map'}
+                // {label: 'map', icon: 'glyphicon glyphicon-globe', route: 'eureka.site.collection.map'}
                 // {label: 'create', icon: 'glyphicon glyphicon-plus', route: 'eureka.site.new'}
             ],
             secondaryActions: [
@@ -15,7 +15,6 @@ export default {
             type: 'collection-query',
             queryParam: 'query',
             label: 'advanced query'
-
         }
     ]
 };
