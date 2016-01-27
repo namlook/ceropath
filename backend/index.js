@@ -286,6 +286,71 @@ eurekaServer.start().then(function(server) {
     });
 
 
+    /* redirect from /rdbsea */
+    server.route({
+        path: '/rdbsea/pipeline',
+        method: 'GET',
+        handler: function(request, reply) {
+            return reply.redirect('/');
+        }
+    });
+
+    server.route({
+        path: '/rdbsea/species',
+        method: 'GET',
+        handler: function(request, reply) {
+            return reply.redirect('/rodentia-taxonomy');
+        }
+    });
+
+    server.route({
+        path: '/rdbsea/species/{speciesName}/{restpath*}',
+        method: 'GET',
+        handler: function(request, reply) {
+            var speciesName = request.params.speciesName;
+            speciesName = speciesName.split(' ').join('-').toLowerCase();
+            var redirectUrl = '/rodentia-taxonomy/'+speciesName;
+
+            var restpath = request.params.restpath;
+
+            if (restpath === 'sampling_map') {
+                restpath = 'map';
+            } else if (restpath === 'measurements') {
+                restpath = 'measurements';
+            } else if (restpath === 'vouchers') {
+                restpath = 'vouchers';
+            } else if (restpath === 'individuals') {
+                restpath = 'individuals';
+            } else {
+                restpath = null;
+            }
+            if (restpath) {
+                redirectUrl += '/'+restpath;
+            }
+
+            return reply.redirect(redirectUrl);
+        }
+    });
+
+    server.route({
+        path: '/rdbsea/individual',
+        method: 'GET',
+        handler: function(request, reply) {
+            return reply.redirect('/individual');
+        }
+    });
+
+    server.route({
+        path: '/rdbsea/individual/{individualID}/{restpath*}',
+        method: 'GET',
+        handler: function(request, reply) {
+            var individualID = request.params.individualID;
+            var redirectUrl = '/individual/'+individualID;
+
+            return reply.redirect(redirectUrl);
+        }
+    });
+
     server.log('info', 'Server running at: http://' + server.info.address + ':' + server.info.port);
 }).catch(function(error) {
     console.log(error);
