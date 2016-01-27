@@ -11,7 +11,7 @@ web:
     restart: always
     privileged: true
     volumes:
-        # - /<path/to/data/in/the/server:/app/uploads
+        - /<path/to/data/in/the/server:/app/uploads
 db:
     image: tenforce/virtuoso:virtuoso-v7.2.0
     ports:
@@ -24,4 +24,3 @@ db:
     privileged: true
     volumes:
         - /path/to/virtuoso/db/on/the/server:/var/lib/virtuoso/db
-
