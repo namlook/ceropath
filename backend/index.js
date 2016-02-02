@@ -351,6 +351,22 @@ eurekaServer.start().then(function(server) {
         }
     });
 
+    server.route({
+        path: '/rdbsea/parasites',
+        method: 'GET',
+        handler: function(request, reply) {
+            return reply.redirect('/helminths-taxonomy');
+        }
+    });
+
+    server.route({
+        path: '/rdbsea/parasites/{restpath*}',
+        method: 'GET',
+        handler: function(request, reply) {
+            return reply.redirect('/helminths-taxonomy');
+        }
+    });
+
     server.log('info', 'Server running at: http://' + server.info.address + ':' + server.info.port);
 }).catch(function(error) {
     console.log(error);
