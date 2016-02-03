@@ -4,7 +4,7 @@ import EurekaResolver from 'ember-eureka/resolver';
 import loadInitializers from 'ember/load-initializers';
 import config from './config/environment';
 
-var App;
+let App;
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
